@@ -56,26 +56,66 @@
       <p class="text1">客户第一、拥抱变化、团队合作、激情、诚信、敬业成长、共赢业成长</p>
       <p class="text2">地址：杭州市西湖区文一路公元里7幢6楼</p>
       <div class="line"></div>
+      
 
-      <div class="icon_list">
-        <div class="row">
-          <div class="col-md-4 col-xs-4"><i class="icon1"></i><span>500-5000人</span></div>
-          <div class="col-md-4 col-xs-4"><i class="icon2"></i><span>天使轮</span></div>
-          <div class="col-md-4 col-xs-4"><i class="icon3"></i><span>电子技术/半导体/集成电路</span></div>
-        </div>
-      </div>
+    <el-row class="icon_list">
+      <el-col :span="8"><div class="grid-content bg-purple">
+        <i class="icon1"></i><span>500-5000人</span>
+      </div></el-col>
+      <el-col :span="8"><div class="grid-content bg-purple-light">
+        <i class="icon2"></i><span>天使轮</span>
+      </div></el-col>
+      <el-col :span="8"><div class="grid-content bg-purple">
+        <i class="icon3"></i><span>电子技术/半导体/集成电路</span>
+      </div></el-col>
+    </el-row>
+
+
     </div>
 
     <!--招聘职位-->
-    <div name="1F" class="s_recruit">
+    <div class="s_recruit">
       <div class="container">
         <div class="title">
           <div class="text">招聘职位
             <span class="line"></span>
           </div>
         </div>
+        <el-row :gutter="20" class="list_content">
+            <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8"><div class="grid-content bg-purple">
+               <div class="content">
+                  <p class="des">产品类</p>
+                  <span class="text">在招职位</span>
+                  <span class="num">03</span>
+                </div>
+            </div></el-col>
+           <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8"><div class="grid-content bg-purple">
+              <div class="content">
+                  <p class="des">产品类</p>
+                  <span class="text">在招职位</span>
+                  <span class="num">03</span>
+                </div>
+            </div>
+            </el-col>
+             <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8"><div class="grid-content bg-purple">
+              <div class="content">
+                  <p class="des">产品类</p>
+                  <span class="text">在招职位</span>
+                  <span class="num">03</span>
+                </div>
+            </div>
+            </el-col>
+              <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8"><div class="grid-content bg-purple">
+              <div class="content">
+                  <p class="des">产品类</p>
+                  <span class="text">在招职位</span>
+                  <span class="num">03</span>
+                </div>
+            </div>
+            </el-col>
 
-        <div class="list_content">
+        </el-row>
+        <!-- <div class="list_content">
           <div class="row">
             <div class="col-md-4 col-xs-6  row_list">
               <div class="content">
@@ -120,7 +160,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="line"></div>
     </div>
@@ -284,104 +324,42 @@
       .icon_list {
         height: 66px;
         line-height 66px;
-        .row{
-          height: 66px;
-          line-height 66px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
           .icon1 {
             background url(../common/image/icon1.png) no-repeat center;
             display: inline-block;
             width: 15px;
             height: 15px;
-            margin-right: 27px
+            margin-right: 27px;
+            @media screen and (max-width:768px){
+              margin-right: 5px
+            }
           }
           .icon2 {
             background url(../common/image/icon2.png) no-repeat center;
             display: inline-block;
             width: 15px;
             height: 15px;
-            margin-right: 27px
+            margin-right: 27px;
+             @media screen and (max-width:768px){
+              margin-right: 5px
+            }
           }
           .icon3 {
             background url(../common/image/icon3.png) no-repeat center;
             display: inline-block;
             width: 15px;
             height: 15px;
-            margin-right: 27px
+            margin-right: 27px;
+             @media screen and (max-width:768px){
+              margin-right: 5px
+            }
           }
-        }
       }
     }
 
-
-    .s_recruit {
-      padding-top: 112px;
-      padding-bottom: 90px;
-      .line {
-        width: 100%;
-        height: 1px;
-        background: #e0e6ed;
-      }
-      .title {
-        color: #1F2D3D;
-        font-size: 20px;
-        text-align: center;
-        .text {
-          position: relative
-          width: 123px;
-          height: 30px;
-          display: inline-block;
-          margin: 0 auto;
-          font-size: 30px;
-          .line {
-            position: absolute;
-            bottom: -24px;
-            left: 50%;
-            display: block;
-            height: 2px;
-            width: 80px;
-            background: #5AA2E7;
-            margin-left: -40px;
-          }
-        }
-
-      }
-      .list_content {
-        margin-top: 101px;
-        .row_list {
-          width: 31%;
-          height: 158px;
-          margin-right: 30px;
-          margin-bottom: 30px;
-          border: 1px solid #5AA2E7;
-          display: flex;
-
-          .content {
-            line-height: 36px;
-            margin: auto;
-            text-align: center;
-            .des {
-              font-size: 18px;
-              color: #1F2D3D;
-            }
-            .text {
-              font-size: 14px;
-              color: #475669;
-              display: inline-block;
-              vertical-align: super;
-            }
-            .num {
-              font-size: 40px;
-              color: #5AA2E7;
-              display: inline-block;
-              margin-top: 8px;
-              margin-left: 6px;
-            }
-          }
-        }
-      }
-    }
-
-    @media screen and (max-width: 768px){
       .s_recruit {
         padding-top: 112px;
         padding-bottom: 90px;
@@ -412,21 +390,19 @@
               margin-left: -40px;
             }
           }
-
         }
         .list_content {
           margin-top: 101px;
-          .row_list {
-            width: 43%;
+          .grid-content {
+
+            width:100%;
             height: 158px;
-            margin-right: 30px;
             margin-bottom: 30px;
             border: 1px solid #5AA2E7;
             display: flex;
             &:nth-child(3n) {
               margin-right: 10
             }
-
             .content {
               line-height: 36px;
               margin: auto;
@@ -452,9 +428,6 @@
           }
         }
       }
-
-    }
-
 
     .intro_c {
       .title {
@@ -542,61 +515,7 @@
       }
 
     }
-    @media screen and (max-width: 768px){
-      .s_company {
-        width: 100%;
-        text-align: center;
-        background: #F7F7F7;
-        padding-top: 31px;
-        .c_img {
-          width: 180px;
-          height: 180px;
-          display: inline-block;
-          text-align: center;
-          background: url(../common/image/com_logo.png) no-repeat center;
-          position: relative;
-        }
-        .text {
-          margin-top: 22px;
-          font-size: 16px;
-          color: #1F2D3D;
-        }
-        .text1, .text2 {
-          color: #475669;
-          font-size: 14px;
-          margin-top: 30px;
-          margin-bottom: 36px;
-        }
-        .line {
-          width: 100%;
-          height: 1px;
-          background: #E0E6ED;
-        }
-        .icon_list {
-          height: 66px;
-          line-height 66px;
-          .icon1 {
-            background url(../common/image/icon1.png) no-repeat center;
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-          }
-          .icon2 {
-            background url(../common/image/icon2.png) no-repeat center;
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-          }
-          .icon3 {
-            background url(../common/image/icon3.png) no-repeat center;
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-          }
-        }
-      }
-
-    }
+  
 
   }
 </style>
