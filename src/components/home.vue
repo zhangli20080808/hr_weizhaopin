@@ -31,6 +31,7 @@
                 </div>
               </li>
             </ul>
+
           </div>
         </div>
       </nav>
@@ -49,6 +50,8 @@
         </div>
       </div>
     </div>
+
+    <a name="1F"></a>
     <!--公司简介-->
     <div class="s_company">
       <div class="c_img"></div>
@@ -56,19 +59,25 @@
       <p class="text1">客户第一、拥抱变化、团队合作、激情、诚信、敬业成长、共赢业成长</p>
       <p class="text2">地址：杭州市西湖区文一路公元里7幢6楼</p>
       <div class="line"></div>
-      
 
-    <el-row class="icon_list">
-      <el-col :span="8"><div class="grid-content bg-purple">
-        <i class="icon1"></i><span>500-5000人</span>
-      </div></el-col>
-      <el-col :span="8"><div class="grid-content bg-purple-light">
-        <i class="icon2"></i><span>天使轮</span>
-      </div></el-col>
-      <el-col :span="8"><div class="grid-content bg-purple">
-        <i class="icon3"></i><span>电子技术/半导体/集成电路</span>
-      </div></el-col>
-    </el-row>
+
+      <el-row class="icon_list">
+        <el-col :span="8">
+          <div class="grid-content bg-purple">
+            <i class="icon1"></i><span>500-5000人</span>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="grid-content bg-purple-light">
+            <i class="icon2"></i><span>天使轮</span>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="grid-content bg-purple">
+            <i class="icon3"></i><span>电子技术/半导体/集成电路</span>
+          </div>
+        </el-col>
+      </el-row>
 
 
     </div>
@@ -82,91 +91,52 @@
           </div>
         </div>
         <el-row :gutter="20" class="list_content">
-            <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8"><div class="grid-content bg-purple">
-               <div class="content">
-                  <p class="des">产品类</p>
-                  <span class="text">在招职位</span>
-                  <span class="num">03</span>
-                </div>
-            </div></el-col>
-           <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8"><div class="grid-content bg-purple">
+          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8">
+            <div class="grid-content bg-purple">
               <div class="content">
-                  <p class="des">产品类</p>
-                  <span class="text">在招职位</span>
-                  <span class="num">03</span>
-                </div>
+                <p class="des">产品类</p>
+                <span class="text">在招职位</span>
+                <span class="num">03</span>
+              </div>
             </div>
-            </el-col>
-             <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8"><div class="grid-content bg-purple">
+          </el-col>
+          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8">
+            <div class="grid-content bg-purple">
               <div class="content">
-                  <p class="des">产品类</p>
-                  <span class="text">在招职位</span>
-                  <span class="num">03</span>
-                </div>
+                <p class="des">产品类</p>
+                <span class="text">在招职位</span>
+                <span class="num">03</span>
+              </div>
             </div>
-            </el-col>
-              <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8"><div class="grid-content bg-purple">
+          </el-col>
+          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8">
+            <div class="grid-content bg-purple">
               <div class="content">
-                  <p class="des">产品类</p>
-                  <span class="text">在招职位</span>
-                  <span class="num">03</span>
-                </div>
+                <p class="des">产品类</p>
+                <span class="text">在招职位</span>
+                <span class="num">03</span>
+              </div>
             </div>
-            </el-col>
+          </el-col>
+          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8">
+            <div class="grid-content bg-purple">
+              <div class="content">
+                <p class="des">产品类</p>
+                <span class="text">在招职位</span>
+                <span class="num">03</span>
+              </div>
+            </div>
+          </el-col>
 
         </el-row>
-        <!-- <div class="list_content">
-          <div class="row">
-            <div class="col-md-4 col-xs-6  row_list">
-              <div class="content">
-                <p class="des">产品类</p>
-                <span class="text">在招职位</span>
-                <span class="num">03</span>
-              </div>
-            </div>
-            <div class="col-md-4 col-xs-6 row_list">
-              <div class="content">
-                <p class="des">产品类</p>
-                <span class="text">在招职位</span>
-                <span class="num">03</span>
-              </div>
-            </div>
-            <div class="col-md-4 col-xs-6 row_list">
-              <div class="content">
-                <p class="des">产品类</p>
-                <span class="text">在招职位</span>
-                <span class="num">03</span>
-              </div>
-            </div>
-            <div class="col-md-4 col-xs-6 row_list">
-              <div class="content">
-                <p class="des">产品类</p>
-                <span class="text">在招职位</span>
-                <span class="num">03</span>
-              </div>
-            </div>
-            <div class="col-md-4 col-xs-6 row_list">
-              <div class="content">
-                <p class="des">产品类</p>
-                <span class="text">在招职位</span>
-                <span class="num">03</span>
-              </div>
-            </div>
-            <div class="col-md-4 col-xs-6 row_list">
-              <div class="content">
-                <p class="des">产品类</p>
-                <span class="text">在招职位</span>
-                <span class="num">03</span>
-              </div>
-            </div>
-          </div>
-        </div> -->
+
+
       </div>
-      <div class="line"></div>
     </div>
 
     <!--公司介绍-->
-    <div name="2F" class="intro_c">
+    <a name="2F"></a>
+    <div  class="intro_c">
       <div class="title">
         <div class="text">公司介绍
           <span class="line"></span>
@@ -249,17 +219,18 @@
               top: 21px;
               width 40px;
               height 40px;
-              background: url(../common/image/search.png)no-repeat center;
+              background: url(../common/image/search.png) no-repeat center;
             }
           }
         }
       }
     }
+
     .main_ad {
       .carousel-inner1 {
         .item {
           background: url(../common/image/banner.png) no-repeat;
-          width:100%;
+          width: 100%;
           height 478px;
           background-position: center center;
           background-size: cover;
@@ -291,6 +262,7 @@
         }
       }
     }
+
 
     .s_company {
       width: 100%;
@@ -327,42 +299,321 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        .icon1 {
+          background url(../common/image/icon1.png) no-repeat center;
+          display: inline-block;
+          width: 15px;
+          height: 15px;
+          margin-right: 27px;
+          @media screen and (max-width: 768px) {
+            margin-right: 5px
+          }
+        }
+        .icon2 {
+          background url(../common/image/icon2.png) no-repeat center;
+          display: inline-block;
+          width: 15px;
+          height: 15px;
+          margin-right: 27px;
+          @media screen and (max-width: 768px) {
+            margin-right: 5px
+          }
+        }
+        .icon3 {
+          background url(../common/image/icon3.png) no-repeat center;
+          display: inline-block;
+          width: 15px;
+          height: 15px;
+          margin-right: 27px;
+          @media screen and (max-width: 768px) {
+            margin-right: 5px
+          }
+        }
+      }
+    }
+
+
+    .s_recruit {
+      padding-top: 112px;
+      padding-bottom: 90px;
+      .line {
+        width: 100%;
+        height: 1px;
+        background: #e0e6ed;
+      }
+      .title {
+        color: #1F2D3D;
+        font-size: 20px;
+        text-align: center;
+        .text {
+          position: relative
+          width: 123px;
+          height: 30px;
+          display: inline-block;
+          margin: 0 auto;
+          font-size: 30px;
+          .line {
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            display: block;
+            height: 2px;
+            width: 80px;
+            background: #5AA2E7;
+            margin-left: -40px;
+          }
+        }
+      }
+      .list_content {
+        margin-top: 101px;
+        .grid-content {
+
+          width: 100%;
+          height: 158px;
+          margin-bottom: 30px;
+          border: 1px solid #5AA2E7;
+          display :flex;
+          &:nth-child(3n) {
+            margin-right: 10px
+          }
+          .content {
+            line-height: 36px;
+            margin: auto;
+            text-align: center;
+            .des {
+              font-size: 18px;
+              color: #1F2D3D;
+            }
+            .text {
+              font-size: 14px;
+              color: #475669;
+              display: inline-block;
+              vertical-align: super;
+            }
+            .num {
+              font-size: 40px;
+              color: #5AA2E7;
+              display: inline-block;
+              margin-top: 8px;
+              margin-left: 6px;
+            }
+          }
+        }
+
+      }
+    }
+
+    .intro_c {
+      .title {
+        color: #1F2D3D;
+        font-size: 20px;
+        text-align: center;
+        .text {
+          position: relative
+          width: 123px;
+          height: 30px;
+          display: inline-block;
+          margin: 0 auto;
+          font-size: 30px;
+          .line {
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            display: block;
+            height: 2px;
+            width: 80px;
+            background: #5AA2E7;
+            margin-left: -40px;
+          }
+        }
+
+      }
+      .intro_c_con {
+        padding: 20px;
+        margin-top: 60px;
+        margin-bottom: 48px;
+        border: 1px solid #E0E6ED;
+        .intro {
+        }
+        .img {
+          width: 100%;
+          height: 424px;
+          background: url(../common/image/intro.png) no-repeat center;
+          background-size: cover
+        }
+        .intro_text {
+          font-size: 14px;
+          color: #475669;
+          p {
+            line-height: 2;
+          }
+          p:nth-child(1) {
+            text-indent: 30px;
+            margin-top: 29px;
+          }
+          p:nth-child(2) {
+            text-indent: 30px;
+          }
+        }
+      }
+
+    }
+
+
+    @media all and (max-width: 768px) {
+      .main_ad {
+        .carousel-inner1 {
+          .item {
+            background: url(../common/image/banner.png) no-repeat;
+            width: 100%;
+            height 138px;
+            background-position: center center;
+            background-size: cover;
+            position: relative;
+            img {
+              width: 100%;
+            }
+            .item_text {
+              position: absolute;
+              width: 100%;
+              top: 50%;
+              left: 50%;
+              margin-left: -50%;
+              color: #fff;
+              text-align: center;
+
+              .title {
+                font-size: 30px;
+                font-family: "SourceHanSansCN-Light";
+                margin-bottom: 22px;
+                margin-top: 30px;
+              }
+              .des {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+      }
+
+      .intro_c {
+        .title {
+          color: #1F2D3D;
+          font-size: 20px;
+          text-align: center;
+          .text {
+            position: relative
+            width: 123px;
+            height: 30px;
+            display: inline-block;
+            margin: 0 auto;
+            font-size: 30px;
+            .line {
+              position: absolute;
+              bottom: -24px;
+              left: 50%;
+              display: block;
+              height: 2px;
+              width: 80px;
+              background: #5AA2E7;
+              margin-left: -40px;
+            }
+          }
+
+        }
+        .intro_c_con {
+          padding: 20px;
+          margin-top: 30px;
+          margin-bottom: 24px;
+          border: 1px solid #E0E6ED;
+          .intro {
+          }
+          .img {
+            width: 100%;
+            height: 212px;
+            background: url(../common/image/intro.png) no-repeat center;
+            background-size: cover
+          }
+          .intro_text {
+            font-size: 14px;
+            color: #475669;
+            p {
+              line-height: 2;
+            }
+            p:nth-child(1) {
+              text-indent: 30px;
+              margin-top: 29px;
+            }
+            p:nth-child(2) {
+              text-indent: 30px;
+            }
+          }
+        }
+
+      }
+
+      .s_company {
+        width: 100%;
+        text-align: center;
+        background: #F7F7F7;
+        padding-top: 16px;
+        .c_img {
+          width: 90px;
+          height: 90px;
+          display: inline-block;
+          text-align: center;
+          background: url(../common/image/com_logo.png) no-repeat center;
+          background-size: cover;
+          position: relative;
+        }
+        .text {
+          margin-top: 11px;
+          font-size: 16px;
+          color: #1F2D3D;
+        }
+        .text1, .text2 {
+          color: #475669;
+          font-size: 14px;
+          margin-top: 15px;
+          margin-bottom: 18px;
+        }
+        .line {
+
+          display: none;
+        }
+        .icon_list {
+          height: 33px;
+          line-height 33px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
           .icon1 {
             background url(../common/image/icon1.png) no-repeat center;
             display: inline-block;
             width: 15px;
             height: 15px;
-            margin-right: 27px;
-            @media screen and (max-width:768px){
-              margin-right: 5px
-            }
+            margin-right: 5px;
           }
           .icon2 {
             background url(../common/image/icon2.png) no-repeat center;
             display: inline-block;
             width: 15px;
             height: 15px;
-            margin-right: 27px;
-             @media screen and (max-width:768px){
-              margin-right: 5px
-            }
+            margin-right: 5px;
           }
           .icon3 {
             background url(../common/image/icon3.png) no-repeat center;
             display: inline-block;
             width: 15px;
             height: 15px;
-            margin-right: 27px;
-             @media screen and (max-width:768px){
-              margin-right: 5px
-            }
+            margin-right: 5px;
           }
+        }
       }
-    }
 
       .s_recruit {
-        padding-top: 112px;
-        padding-bottom: 90px;
+        padding-top: 19px;
+        padding-bottom: 23px;
         .line {
           width: 100%;
           height: 1px;
@@ -392,14 +643,14 @@
           }
         }
         .list_content {
-          margin-top: 101px;
+          margin-top: 50px;
           .grid-content {
 
-            width:100%;
-            height: 158px;
-            margin-bottom: 30px;
+            width: 100%;
+            height: 89px;
+            margin-bottom: 15px;
             border: 1px solid #5AA2E7;
-            display: flex;
+            display :flex;
             &:nth-child(3n) {
               margin-right: 10
             }
@@ -429,93 +680,60 @@
         }
       }
 
-    .intro_c {
-      .title {
-        color: #1F2D3D;
-        font-size: 20px;
-        text-align: center;
-        .text {
-          position: relative
-          width: 123px;
-          height: 30px;
-          display: inline-block;
-          margin: 0 auto;
-          font-size: 30px;
-          .line {
-            position: absolute;
-            bottom: -24px;
-            left: 50%;
-            display: block;
-            height: 2px;
-            width: 80px;
-            background: #5AA2E7;
-            margin-left: -40px;
-          }
-        }
-
-      }
-    }
-    .intro_c_con {
-      padding: 20px;
-      margin-top: 60px;
-      margin-bottom :48px;
-      border: 1px solid #E0E6ED;
-      .intro {
-      }
-      .img {
-        width: 100%;
-        height: 424px;
-        background: url(../common/image/intro.png) no-repeat center;
-        background-size: cover
-      }
-      .intro_text {
-        p:nth-child(1){
-          text-indent :30px;
-          margin-top :29px;
-        }
-        p:nth-child(2){
-          text-indent :30px;
-        }
-      }
-    }
-    @media screen and (max-width: 768px){
-      .main_ad {
-        .carousel-inner1 {
-          .item {
-            background: url(../common/image/banner.png) no-repeat;
-            width:100%;
-            height 274px;
-            background-position: center center;
-            background-size: cover;
-            position: relative;
-            img {
-              width: 100%;
-            }
-            .item_text {
+      .intro_c {
+        .title {
+          color: #1F2D3D;
+          font-size: 20px;
+          text-align: center;
+          .text {
+            position: relative
+            width: 123px;
+            height: 30px;
+            display: inline-block;
+            margin: 0 auto;
+            font-size: 30px;
+            .line {
               position: absolute;
-              width: 100%;
-              top: 50%;
+              bottom: -24px;
               left: 50%;
-              margin-left: -50%;
-              color: #fff;
-              text-align: center;
-
-              .title {
-                font-size:30px;
-                font-family: "SourceHanSansCN-Light";
-                margin-bottom 44px;
-                margin-top :20px;
-              }
-              .des {
-                font-size: 20px;
-              }
+              display: block;
+              height: 2px;
+              width: 80px;
+              background: #5AA2E7;
+              margin-left: -40px;
             }
           }
+
         }
+        .intro_c_con {
+          padding: 20px;
+          margin-top: 45px;
+          margin-bottom: 24px;
+          border: 1px solid #E0E6ED;
+          .intro {
+          }
+          .img {
+            width: 100%;
+            height: 212px;
+            background: url(../common/image/intro.png) no-repeat center;
+            background-size: cover
+          }
+          .intro_text {
+            font-size: 14px;
+            color: #475669;
+            p {
+              line-height: 2;
+              text-indent: 30px;
+            }
+            p:nth-child(1) {
+              margin-top: 29px;
+            }
+
+          }
+        }
+
       }
 
     }
-  
-
   }
 </style>
