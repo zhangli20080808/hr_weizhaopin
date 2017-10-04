@@ -23,8 +23,8 @@
     </header>
 
     <div class="container">
-      <div class="detail_des">
-        <div class="tips hidden-xs">
+      <div class="detail_des hidden-xs">
+        <div class="tips ">
           <ul class="tips_nav">
             <li class="nav_item">招聘首页</li>
             <span class="icon">></span>
@@ -37,13 +37,41 @@
 
       <div class="detail_show">
        <div class="content">
-         <div class="title">商业数据分析部署工程师[电商方向]</div>
+         <div class="title">{{name}}</div>
          <div class="text">
-           <span class="des">杭州/全职</span><span class="price">8K-10K</span>
+           <span class="des">{{address}}</span><span class="price">{{salary}}</span>
          </div>
-         <div class="p_time">发布时间：2017.09.21</div>
+         <div class="p_time">发布时间：{{time}}</div>
+
+        <div class="post_share">
+          <el-button type="primary">申请职位</el-button>
+          <el-button>分享职位</el-button>
+        </div>
        </div>
       </div>
+      
+      <div class="detail_text">
+        <div class="detail_content">
+            职位描述：
+            1、负责内容管理、营销管理平台的规划、设计，围绕业务目标定义核心需求，推动产品需求落地；
+            2、理解和挖掘内容服务的结构化信息处理需求，对分类体系和标签体系进行规划和设计；
+            3、参与针对患者或大众的医学产品设计，并与 UI 设计师、开发工程师紧密合作，保证产品的上线和迭代效率；
+            4、与产品运营合作，推动运营流程标准化，提供运营效率，达成业务增长目标；
+            5、定义、分析和跟踪产品指标，会使用数据指导产品迭代。
+
+            任职条件：
+            1、能熟练使用 Axure RP、Sketch、MindManager 等工具设计产品原型，撰写产品需求文档；
+            2、自我驱动，责任心强，以结果为导向，具有优秀的「执行力」；
+            3、良好的洞察力和严密的逻辑思维能力；
+            4、本科以上学历。
+
+            优先条件：
+            1、有 CMS系统相关产品设计经验，有营销管理产品平台设计经验；
+            2、面向大众 App 产品经验优先；
+            3、热爱互联网产品，有微信公众号/微博或其他自媒体/社区运营经验；
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -52,19 +80,27 @@
   export default {
     data() {
       return {
-        detail: [
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 1,des:'职位描述'},
-          {name: '产品经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 2,des:'职位描述'},
-          {name: 'web前端', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 3,des:'职位描述'}
-        ],
-        id: this.$route.params.id,
+        id:this.$route.params.id,
+        name:this.$route.params.name,
+        salary:this.$route.params.salary,
+        address:this.$route.params.address,
+        time:this.$route.params.time
       }
     },
     created(){
-      console.log(this)
-    }
-
+      console.log(this.$route),
+      this._getDetail()
+    },
+    methods:{
+    //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
+      _getDetail(){
+        if(!this.name){
+          this.$router.push('/list')
+          return
+        }
+       }
   }
+}
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   #list_detail
@@ -107,14 +143,13 @@
               height: 12px
               margin: 0 10px
               color: #5AA2E7
-            .icon1{
+            .icon1
               display: inline-block
               float: left
               width: 6px
               height: 12px
               margin: 0 10px
               color: #99A9BF
-            }
             .nav_item
               float: left
               font-size: 14px
@@ -124,39 +159,128 @@
               color: #99A9BF
               &:nth-child(1), &:nth-child(3)
                 color: #5AA2E7
-
-
-      .detail_show {
+      .detail_show 
         height: 114px
         background :#fff
         padding: 21px 0 18px 24px
         margin-bottom: 20px
         border-bottom: 1px solid #E5E9F2
-        .title {
-          font-size: 18px
-          color: #1F2D3D
-          margin-bottom: 14px
-        }
-        .text {
-          height: 14px
-          line-height: 14px
-          .des {
-            display: inline-block
+        .content
+          position:relative
+          .post_share
+            position:absolute
+            width:222px
+            height:40px
+            line-height:40px
+            right:166px
+            top:0
+          .title 
+            font-size: 18px
+            color: #1F2D3D
+            margin-bottom: 14px
+          .text 
+            height: 14px
+            line-height: 14px
+            .des 
+              display: inline-block
+              font-size: 14px
+              color: #475669
+              margin-right: 23px
+            .price 
+              display: inline-block
+              font-size: 16px
+              color: #F96868
+          .p_time 
+            margin-top: 23px
             font-size: 14px
-            color: #475669
-            margin-right: 23px
-          }
-          .price {
-            display: inline-block
-            font-size: 16px
-            color: #F96868
-          }
-        }
-        .p_time {
-          margin-top: 23px
-          font-size: 14px
-          color: #99A9BF
-        }
-      }
+            color: #99A9BF
+      .detail_text
+        background:#fff
+        height:100%
+        padding:19px 0 29px 23px  
+      
+  
+  @media all and (max-width: 768px) 
+      #list_detail
 
+        .container
+          .detail_des
+            background :#fff
+            position :relative
+            height :52px
+            line-height :52px
+            border-bottom :1px solid #E5E9F2
+            margin-top :20px
+
+            .tips
+              position: absolute
+              left: 23px
+              top: 19px
+              height: 16px
+              line-height: 16px
+              .tips_nav
+                .icon
+                  display: inline-block
+                  float: left
+                  width: 6px
+                  height: 12px
+                  margin: 0 10px
+                  color: #5AA2E7
+                .icon1
+                  display: inline-block
+                  float: left
+                  width: 6px
+                  height: 12px
+                  margin: 0 10px
+                  color: #99A9BF
+                .nav_item
+                  float: left
+                  font-size: 14px
+                  width: 56px
+                  height: 16px
+                  text-align: center
+                  color: #99A9BF
+                  &:nth-child(1), &:nth-child(3)
+                    color: #5AA2E7
+          .detail_show 
+            height:158px
+            background:#F7F7F7
+            padding: 19px 0 15px 15px
+            margin-bottom: 20px
+            border-bottom: 1px solid #E5E9F2
+            .content
+              position:relative
+              .post_share
+                position:relative
+                width:222px
+                height:40px
+                line-height:40px
+                left:0
+
+              .title 
+                font-size: 16px
+                color: #1F2D3D
+                margin-bottom: 12px
+              .text 
+                height: 14px
+                line-height: 14px
+                .des 
+                  display: inline-block
+                  font-size: 14px
+                  color: #475669
+                  margin-right: 23px
+                .price 
+                  display: inline-block
+                  font-size: 16px
+                  color: #F96868
+              .p_time 
+                margin-top: 20px
+                font-size: 14px
+                color: #99A9BF
+                margin-bottom:9px
+          .detail_text
+            background:#fff
+            height:100%
+            padding:19px 0 29px 23px  
+    
 </style>

@@ -63,7 +63,7 @@
           <el-row :gutter="20">
             <el-col :span="8" :xs="24" :sm="8" :md="8" :lg="8" v-for="item in list" :key="item.id"
             >
-              <div class="grid-content bg-purple" @click="selectItem(item)">
+             <div class="grid-content bg-purple" @click="selectItem(item)">
                 <div class="title">{{item.name}}</div>
                 <div class="text">
                   <span class="des">{{item.address}}</span><span class="price">{{item.salary}}</span>
@@ -107,9 +107,17 @@
 
     methods: {
       selectItem(item) {
-//        console.log(item)
+       console.log(item)
         this.$router.push({
-          path:`/list/${item.id}`
+          path:`/list/${item.id}`,
+          name:'listDetail',
+          params:{
+            id:item.id,
+            name:item.name,
+            address:item.address,
+            salary:item.salary,
+            time:item.time
+          }
         })
 
       }
