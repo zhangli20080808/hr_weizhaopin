@@ -10,7 +10,11 @@ export default {
 }
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus">
-  @import "common/stylus/index.styl"
+<style>
+  .el-button--primary{
+    background: #5AA2E7 ;
+    border-color: #5AA2E7;
+    color: #fff;
+  }
 
 </style>

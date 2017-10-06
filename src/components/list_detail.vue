@@ -44,12 +44,12 @@
          <div class="p_time">发布时间：{{time}}</div>
 
         <div class="post_share">
-          <el-button type="primary">申请职位</el-button>
+          <el-button type="primary" @click="join">申请职位</el-button>
           <el-button>分享职位</el-button>
         </div>
        </div>
       </div>
-      
+
       <div class="detail_text">
         <div class="detail_content">
             职位描述：
@@ -98,7 +98,20 @@
           this.$router.push('/list')
           return
         }
-       }
+     },
+     join(){
+      this.$router.push({
+        path:`/apply/${this.id}`,
+        name:'apply',
+        params:{
+          id:this.id,
+          name:this.name,
+          address:this.address,
+          salary:this.salary,
+          time:this.time
+        }
+      })
+     }
   }
 }
 </script>
@@ -159,7 +172,7 @@
               color: #99A9BF
               &:nth-child(1), &:nth-child(3)
                 color: #5AA2E7
-      .detail_show 
+      .detail_show
         height: 114px
         background :#fff
         padding: 21px 0 18px 24px
@@ -174,33 +187,33 @@
             line-height:40px
             right:166px
             top:0
-          .title 
+          .title
             font-size: 18px
             color: #1F2D3D
             margin-bottom: 14px
-          .text 
+          .text
             height: 14px
             line-height: 14px
-            .des 
+            .des
               display: inline-block
               font-size: 14px
               color: #475669
               margin-right: 23px
-            .price 
+            .price
               display: inline-block
               font-size: 16px
               color: #F96868
-          .p_time 
+          .p_time
             margin-top: 23px
             font-size: 14px
             color: #99A9BF
       .detail_text
         background:#fff
         height:100%
-        padding:19px 0 29px 23px  
-      
-  
-  @media all and (max-width: 768px) 
+        padding:19px 0 29px 23px
+
+
+  @media all and (max-width: 768px)
       #list_detail
 
         .container
@@ -242,7 +255,7 @@
                   color: #99A9BF
                   &:nth-child(1), &:nth-child(3)
                     color: #5AA2E7
-          .detail_show 
+          .detail_show
             height:158px
             background:#F7F7F7
             padding: 19px 0 15px 15px
@@ -257,23 +270,23 @@
                 line-height:40px
                 left:0
 
-              .title 
+              .title
                 font-size: 16px
                 color: #1F2D3D
                 margin-bottom: 12px
-              .text 
+              .text
                 height: 14px
                 line-height: 14px
-                .des 
+                .des
                   display: inline-block
                   font-size: 14px
                   color: #475669
                   margin-right: 23px
-                .price 
+                .price
                   display: inline-block
                   font-size: 16px
                   color: #F96868
-              .p_time 
+              .p_time
                 margin-top: 20px
                 font-size: 14px
                 color: #99A9BF
@@ -281,6 +294,6 @@
           .detail_text
             background:#fff
             height:100%
-            padding:19px 0 29px 23px  
-    
+            padding:19px 0 29px 23px
+
 </style>

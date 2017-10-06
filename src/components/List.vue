@@ -75,12 +75,10 @@
 
         </div>
         <div class="page">
-          gs
         </div>
       </div>
 
     </div>
-    <!--导航-->
   </div>
 
 </template>
@@ -94,6 +92,8 @@
           address: '',
           kind: ''
         },
+        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+,
         list: [
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 1},
           {name: '产品经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 2},
@@ -119,7 +119,6 @@
             time:item.time
           }
         })
-
       }
     }
   }

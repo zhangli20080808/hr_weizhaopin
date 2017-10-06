@@ -7,6 +7,8 @@ import List from 'components/List'
 
 import listDetail from 'components/list_detail'
 
+import Apply from 'components/Apply'
+
 Vue.use(Router)
 
 export default new Router({
@@ -26,6 +28,12 @@ export default new Router({
       name: 'listDetail',
       component: listDetail
     },
+    {
+      path: '/apply/:id',
+      name: 'apply',
+      component: Apply
+    },
+
 
   ]
 })
