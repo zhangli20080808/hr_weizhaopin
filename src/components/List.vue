@@ -31,39 +31,38 @@
           </ul>
         </div>
         <div class="search_go">
-          <input type="text" placeholder="职位关键词" class="search_content">
+          <input type="search" placeholder="职位关键词" class="search_content">
           <span class="submit">搜索</span>
         </div>
       </div>
       <!--职位列表-->
-      <div class="list">
-        <!--choose-->
-        <div class="list-form">
-          <el-form ref="form" :model="form" label-width="80px">
+      <!--choose-->
+      <div class="list-form">
+        <el-form ref="form" :model="form" label-width="80px">
 
-            <el-form-item class="form_address">
-              <el-select v-model="form.address" placeholder="请选择地点">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
+          <el-form-item class="form_address">
+            <el-select v-model="form.address" placeholder="请选择地点">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
 
-            <el-form-item class="form_kind">
-              <el-select v-model="form.kind" placeholder="请选择职位分类">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
+          <el-form-item class="form_kind">
+            <el-select v-model="form.kind" placeholder="请选择职位分类">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
 
-          </el-form>
-        </div>
-
+        </el-form>
+      </div>
+      <Scroll class="list" :data="list">
         <!--list-->
-        <div class="list_content">
+        <div class="list_content" >
           <el-row :gutter="20">
             <el-col :span="8" :xs="24" :sm="8" :md="8" :lg="8" v-for="item in list" :key="item.id"
             >
-             <div class="grid-content bg-purple" @click="selectItem(item)">
+              <div class="grid-content bg-purple" @click="selectItem(item)">
                 <div class="title">{{item.name}}</div>
                 <div class="text">
                   <span class="des">{{item.address}}</span><span class="price">{{item.salary}}</span>
@@ -74,9 +73,8 @@
           </el-row>
 
         </div>
-        <div class="page">
-        </div>
-      </div>
+
+      </Scroll>
 
     </div>
   </div>
@@ -85,6 +83,7 @@
 
 
 <script>
+  import Scroll from './base/scroll.vue'
   export default {
     data() {
       return {
@@ -92,39 +91,54 @@
           address: '',
           kind: ''
         },
-        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
-,
+        fileList: [{
+          name: 'food.jpeg',
+          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        }, {
+          name: 'food2.jpeg',
+          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        }]
+        ,
         list: [
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 1},
           {name: '产品经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 2},
           {name: 'web前端', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 3},
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 4},
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 5},
+          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
+          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
+          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
+          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
+          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6}
         ]
       }
     },
-
     methods: {
       selectItem(item) {
-       console.log(item)
+        console.log(item)
         this.$router.push({
-          path:`/list/${item.id}`,
-          name:'listDetail',
-          params:{
-            id:item.id,
-            name:item.name,
-            address:item.address,
-            salary:item.salary,
-            time:item.time
+          path: `/list/${item.id}`,
+          name: 'listDetail',
+          params: {
+            id: item.id,
+            name: item.name,
+            address: item.address,
+            salary: item.salary,
+            time: item.time
           }
         })
       }
+    },
+    components: {
+      Scroll
     }
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../common/stylus/mixin.styl"
+
   #s_list {
     background: #F7F7F7
     height: 100%
@@ -193,12 +207,13 @@
           .search_content {
             width: 426px;
             height 47px;
+            line-height: 47px
             border: 1px solid #5AA2E7;
             position: relative;
             outline: none;
             color: #99A9BF;
             font-size: 14px;
-            padding: 16px 0 17px 21px;
+            padding: 18px 0 15px 14px
           }
           .submit {
             position: absolute;
@@ -219,39 +234,38 @@
           }
         }
       }
-      .list {
-        padding-top: 20px;
-        background: #fff
-        width: 100%;
-        .list-form {
-          height: 36px
-          line-height: 36px
-          color: #99A9BF
-          font-size: 14px
-          .form_address {
-            display: inline-block
-            margin-bottom: 0
-            .el-form-item__content {
-              margin-left: 29px !important
+      .list-form {
+        height: 76px;
+        line-height: 76px;
+        background: #fff;
+        color: #99a9bf;
+        font-size: 14px;
+        .form_address {
+          display: inline-block
+          margin-bottom: 0
+          .el-form-item__content {
+            margin-left: 29px !important
 
-            }
-          }
-          .form_kind {
-            display: inline-block
-            .el-form-item__content {
-              margin-left: 16px !important
-            }
           }
         }
+        .form_kind {
+          display: inline-block
+          .el-form-item__content {
+            margin-left: 16px !important
+          }
+        }
+      }
+      .list {
+        background: #fff
+        width: 100%;
         .list_content {
           width: 100%
           padding: 0 20px
-          margin-top: 20px
           .grid-content {
             height: 114px
             padding: 20px 0 20px 16px
             margin-bottom: 20px
-            border: 1px solid #E5E9F2
+            border :1px solid #E5E9F2
             .title {
               font-size: 18px
               color: #1F2D3D
@@ -293,7 +307,13 @@
     #s_list {
       background: #F7F7F7
       height: 100%
-      overflow: hidden
+      width: 100%
+      position :fixed
+      top :0
+      bottom :0
+      left :0
+      right :0
+      padding-bottom :10px
       .container {
         padding: 0
         margin: 0
@@ -340,33 +360,54 @@
             }
           }
         }
-        .list {
-          padding-top: 20px;
-          background: #fff
-          width: 100%;
-          .list-form {
-            height: 36px
-            line-height: 36px
-            color: #99A9BF
-            font-size: 14px
-            .form_address {
-              display: inline-block
-              width: 50%
-              float: left
-              .el-form-item__content {
-                margin-left: 15px !important
-                margin-bottom: 0
-              }
-            }
-            .form_kind {
-              display: inline-block
-              width: 50%
-              float: right
-              .el-form-item__content {
-                margin-right: 15px !important
+        .list-form {
+          height: 75px
+          line-height: 75px
+          color: #99A9BF
+          font-size: 14px
+          background :#fff
+          padding-top :20px
+          .el-form-item__content {
+            .el-select {
+              .el-input {
+                .el-input__inner {
+                  line-height: 36px
+                }
               }
             }
           }
+          .form_address {
+            display: inline-block
+            width: 50%
+            float: left
+            .el-form-item__content {
+              margin-left: 15px !important
+              margin-bottom: 0
+            }
+          }
+
+          .form_kind {
+            display: inline-block
+            width: 50%
+            float: right
+            .el-form-item__content {
+              margin-right: 15px !important
+            }
+          }
+
+        }
+
+        .list {
+          margin-top: 30px;
+          background: #fff
+          width: 100%;
+          position :fixed
+          top: 124px
+          right :0
+          left :0
+          bottom :0px
+          overflow :hidden
+
           .list_content {
             width: 100%
             padding: 0
@@ -376,8 +417,10 @@
               height: 114px
               padding: 20px 0 20px 16px
               margin-bottom: 0
+              border :none
               border-left: none
               border-right: none
+              border-t-1px(#E5E9F2)
 
               .title {
                 font-size: 18px
@@ -413,6 +456,7 @@
             margin-bottom: 0
           }
         }
+
       }
     }
   }

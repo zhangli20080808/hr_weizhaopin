@@ -20,3 +20,38 @@ extend-click()
     left: -10px
     right: -10px
     bottom: -10px
+
+
+//也就是这个伪类对这个元素做一个绝对定位  给伪类做一个缩放  下边框
+border-b-1px($color)
+  position: relative
+  &:after
+    display: block
+    position: absolute
+    left: 0
+    bottom: 0
+    width: 100%
+    border-top: 1px solid $color
+    content: ' '
+
+//上边框
+border-t-1px($color)
+  position: relative
+  &:before
+    display: block
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    border-top: 1px solid $color
+    content: ' '
+
+border-none()
+  &:after
+    display: none
+
+bg-image($url)
+  background-image: url($url + "@2x.png")
+  @media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3)
+    background-image: url($url + "@3x.png")
+

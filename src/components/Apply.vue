@@ -68,7 +68,9 @@
             <el-form-item label="邮箱" prop="mail">
               <el-input v-model.email="formLabelAlign.mail" ></el-input>
             </el-form-item>
+            <el-form-item class="form_btn" >
               <el-button type="primary" @click="submitForm('ruleForm')" class="btn">提交应聘请求</el-button>
+            </el-form-item>
           </el-form>
         </div>
       </div>
@@ -92,6 +94,7 @@
 </template>
 <script>
   import fileUpload from './base/fileUpload.vue';
+  import Scroll from './base/scroll.vue';
   const ERROR_OK =0
   export default {
     data() {
@@ -99,7 +102,6 @@
         upLoadData:{
 
         },
-        tips:'gsgsg',
         fileIds:[],
         empty:'',
         param:{
@@ -115,7 +117,7 @@
         address:this.$route.params.address,
         time:this.$route.params.time,
         fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
-        labelPosition:'right',
+        labelPosition:'left',
         formLabelAlign: {
           name: '',
           phone: '',
@@ -200,7 +202,8 @@
 
     },
     components:{
-      fileUpload
+      fileUpload,
+      Scroll
     }
   }
 </script>
@@ -329,7 +332,6 @@
           margin: auto
           .el-form
             .btn
-              margin-left: 80px;
               width: 328px;
             .el-form-item__content
               .post,.post1
@@ -343,6 +345,13 @@
 
   @media all and (max-width: 768px)
     #apply
+      background :#fff
+      .app_content
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
       .tips
         .el-dialog--small
           width :92%
@@ -354,7 +363,6 @@
             display :inline-block
             width :59px
             height :59px
-            background :yellow
           .title
             margin :35px 0 25px 0
             font-size :16px
@@ -371,7 +379,7 @@
           position :relative
           height :150px
           line-height :150px
-          border-bottom :1px solid #E5E9F2
+          border-b-1px(#E5E9F2)
           margin-top :10px
         .detail_show
           height: 150px
@@ -427,17 +435,24 @@
           .apply_content
             width :100%
             height :100%
-            padding :0 12px
+            padding-left :22px
+            padding-right :34px
             margin: auto
             .el-form
               .btn
                 width :100%
                 outline :none
+              .form_btn
+
               .el-form-item__content
                 .el-input
-                  width :90%
+                  width :100%
                 .post,.post1
                   .el-upload
+                  .el-upload__tip
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                     .el-upload__input
                       display :none
                   .el-upload-list

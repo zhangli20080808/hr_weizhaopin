@@ -69,6 +69,18 @@
             1、有 CMS系统相关产品设计经验，有营销管理产品平台设计经验；
             2、面向大众 App 产品经验优先；
             3、热爱互联网产品，有微信公众号/微博或其他自媒体/社区运营经验；
+
+
+                        任职条件：
+            1、能熟练使用 Axure RP、Sketch、MindManager 等工具设计产品原型，撰写产品需求文档；
+            2、自我驱动，责任心强，以结果为导向，具有优秀的「执行力」；
+            3、良好的洞察力和严密的逻辑思维能力；
+            4、本科以上学历。
+
+            优先条件：
+            1、有 CMS系统相关产品设计经验，有营销管理产品平台设计经验；
+            2、面向大众 App 产品经验优先；
+            3、热爱互联网产品，有微信公众号/微博或其他自媒体/社区运营经验；
         </div>
       </div>
 
@@ -116,6 +128,7 @@
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../common/stylus/mixin.styl"
   #list_detail
 
     header
@@ -215,14 +228,16 @@
 
   @media all and (max-width: 768px)
       #list_detail
-
+        background :#fff
         .container
+          padding :0
+          margin :0
           .detail_des
             background :#fff
             position :relative
             height :52px
             line-height :52px
-            border-bottom :1px solid #E5E9F2
+            border-b-1px(#E5E9F2)
             margin-top :20px
 
             .tips
@@ -294,6 +309,6 @@
           .detail_text
             background:#fff
             height:100%
-            padding:19px 0 29px 23px
+            padding:19px 16px 29px 14px
 
 </style>
