@@ -229,6 +229,11 @@
   @media all and (max-width: 768px)
       #list_detail
         background :#fff
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        right: 0;
+        left: 0;
         .container
           padding :0
           margin :0
@@ -271,44 +276,52 @@
                   &:nth-child(1), &:nth-child(3)
                     color: #5AA2E7
           .detail_show
-            height:158px
-            background:#F7F7F7
-            padding: 19px 0 15px 15px
-            margin-bottom: 20px
+            height:3.16rem
+            background:#f7f7f7
+            padding: 0.37rem 0 0.3rem 0.30rem
             border-bottom: 1px solid #E5E9F2
+
             .content
               position:relative
               .post_share
                 position:relative
                 width:222px
-                height:40px
-                line-height:40px
+                height:0.8rem
+                line-height: 0.8rem
                 left:0
-
+                margin-top: -0.1rem
               .title
+                height: 0.28rem
+                line-height: 0.28rem
                 font-size: 16px
                 color: #1F2D3D
-                margin-bottom: 12px
+                margin-bottom :0
               .text
-                height: 14px
-                line-height: 14px
+                height: 0.28rem
+                line-height: 0.28rem
+                margin-top :0.25rem
                 .des
                   display: inline-block
                   font-size: 14px
                   color: #475669
-                  margin-right: 23px
+                  margin-right: 0.46rem
+                  vertical-align :middle
                 .price
                   display: inline-block
+                  vertical-align :middle
                   font-size: 16px
                   color: #F96868
               .p_time
-                margin-top: 20px
+                height: 0.23rem
+                line-height: 0.23rem
                 font-size: 14px
                 color: #99A9BF
-                margin-bottom:9px
+                margin-bottom: 0.18rem
+                margin-top :0.5rem
           .detail_text
             background:#fff
             height:100%
-            padding:19px 16px 29px 14px
+            font-size:14px
+            padding: 0.38rem 0.32rem 0rem 0.27rem
 
 </style>

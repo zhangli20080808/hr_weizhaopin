@@ -12,6 +12,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'element-ui/lib/theme-default/index.css'
 import 'element-ui/lib/upload.js'
 
+import 'common/js/index'
+
 Vue.config.productionTip = false
 
 import 'common/stylus/index.styl'

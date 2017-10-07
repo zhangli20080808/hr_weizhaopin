@@ -208,6 +208,7 @@
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../common/stylus/mixin.styl"
   #apply
     .tips
       .el-dialog--small
@@ -346,6 +347,11 @@
   @media all and (max-width: 768px)
     #apply
       background :#fff
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      right: 0;
+      left: 0;
       .app_content
         position: fixed;
         top: 0;
@@ -359,12 +365,13 @@
             display :none
         .content
           text-align :center
+
           .img
             display :inline-block
-            width :59px
-            height :59px
+            width :1.18rem
+            height :1.18rem
           .title
-            margin :35px 0 25px 0
+            margin :0.70rem 0 0.5rem 0
             font-size :16px
             color :#1F2D3D
             font-weight :800
@@ -377,43 +384,46 @@
         .detail_des
           background :#fff
           position :relative
-          height :150px
-          line-height :150px
+          height :3rem
+          line-height :3rem
           border-b-1px(#E5E9F2)
-          margin-top :10px
+          margin-top :0.2rem
         .detail_show
-          height: 150px
+          height: 3rem
           background :#fff
-          padding: 10px 0 9px 12px
-          margin-bottom: 20px
-          border-bottom: 1px solid #E5E9F2
+          padding: 0.34rem 0 0.42rem 0.30rem
+          margin-bottom: 0.4rem
+          border-b-1px(#E5E9F2)
           .content
             position:relative
-            padding-top :10px
             height :100%
+
             .name
-              height :17px
-              line-height :17px
+              height :0.35rem
+              line-height :0.35rem
               font-size :22px
               color :#475669
             .title
-              height: 14px
-              line-height: 14px
+              height: 0.28rem
+              line-height: 0.28rem
               font-size: 18px
               color: #1F2D3D
-              margin-top :20px
-              margin-bottom: 12px
+              margin-top :0.4rem
+              margin-bottom:0
             .text
               display :block
-              height: 14px
-              line-height: 14px
+              height: 0.28rem
+              line-height: 0.28rem
+              margin-top: 0.24rem
               .des
                 display: inline-block
+                vertical-align :middle
                 font-size: 14px
                 color: #475669
-                margin-right: 11px
+                margin-right: 0.22rem
               .price
                 display: inline-block
+                vertical-align :middle
                 font-size: 16px
                 color: #F96868
             .p_time
@@ -423,20 +433,16 @@
               float :none
               font-size: 14px
               color: #99A9BF
-              margin-top :20px
-              margin-bottom :21px
-
-
-
+              margin-top :0.5rem
         .apply_post
-          padding :24px 0px 12px 0px
+          padding :0.48rem 0 0.24rem 0
           height :100%
           background :#fff
           .apply_content
             width :100%
             height :100%
-            padding-left :22px
-            padding-right :34px
+            padding-left :0.44rem
+            padding-right :0.68rem
             margin: auto
             .el-form
               .btn
@@ -450,6 +456,7 @@
                 .post,.post1
                   .el-upload
                   .el-upload__tip
+                    margin-top: -0.1rem;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;

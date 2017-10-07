@@ -305,7 +305,7 @@
 
   @media all and (max-width: 768px) {
     #s_list {
-      background: #F7F7F7
+      background: #fff
       height: 100%
       width: 100%
       position :fixed
@@ -313,42 +313,43 @@
       bottom :0
       left :0
       right :0
-      padding-bottom :10px
+      padding-bottom :0.1rem
       .container {
         padding: 0
         margin: 0
         .search {
-          width: 92%;
-          height: 91px;
+          width: 100%;
           position: relative;
           margin: 0 auto;
+          height :1.82rem
+          background :#f7f7f7
           .search_go {
-            width: 100%;
-            height: 47px;
-            background: yellow;
+            width: 92%;
+            height: 0.9rem;
             position: absolute;
             left: 50%;
             top: 50%;
-            margin-top: -23px
-            margin-left: -50%
+            margin-top: -0.45rem
+            margin-left: -46%
             .search_content {
               width: 100%;
-              height 47px;
+              display :table
+              height: 0.9rem;
               border: 1px solid #5AA2E7;
               position: relative;
               outline: none;
               color: #99A9BF;
               font-size: 14px;
-              padding: 16px 0 17px 21px;
+              padding: 0.16rem 0 0.17rem 0.21rem;
             }
             .submit {
               position: absolute;
               display inline-block
-              width: 59px;
-              height: 47px;
+              width: 1.10rem;
+              height: 0.9rem;
+              line-height :0.9rem
               right: 0;
               top: 0;
-              line-height: 47px
               text-align: center
 
               font-size: 14px
@@ -361,12 +362,12 @@
           }
         }
         .list-form {
-          height: 75px
-          line-height: 75px
+          height: 1.5rem
+          line-height: 1.5rem
           color: #99A9BF
           font-size: 14px
           background :#fff
-          padding-top :20px
+          padding-top :0.4rem
           .el-form-item__content {
             .el-select {
               .el-input {
@@ -398,24 +399,22 @@
         }
 
         .list {
-          margin-top: 30px;
           background: #fff
           width: 100%;
           position :fixed
-          top: 124px
+          top: 3.54rem
           right :0
           left :0
-          bottom :0px
+          bottom :0
           overflow :hidden
-
           .list_content {
             width: 100%
             padding: 0
-            margin-top: 20px
+            margin-top: 0.2rem
             .grid-content {
 
-              height: 114px
-              padding: 20px 0 20px 16px
+              height: 2.28rem
+              padding: 0.4rem 0 0.4rem 0.32rem
               margin-bottom: 0
               border :none
               border-left: none
@@ -425,16 +424,16 @@
               .title {
                 font-size: 18px
                 color: #1F2D3D
-                margin-bottom: 14px
+                margin-bottom: 0.28rem
               }
               .text {
-                height: 14px
-                line-height: 14px
+                height: 0.28rem
+                line-height: 0.28rem
                 .des {
                   display: inline-block
                   font-size: 14px
                   color: #475669
-                  margin-right: 23px
+                  margin-right: 0.46rem
                 }
                 .price {
                   display: inline-block
@@ -443,7 +442,7 @@
                 }
               }
               .p_time {
-                margin-top: 23px
+                margin-top: 0.46rem
                 font-size: 14px
                 color: #99A9BF
               }
@@ -451,8 +450,8 @@
 
           }
           .page {
-            height: 41px
-            line-height: 41px
+            height: 0.82rem
+            line-height: 0.82rem
             margin-bottom: 0
           }
         }

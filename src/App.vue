@@ -16,5 +16,9 @@ export default {
     border-color: #5AA2E7;
     color: #fff;
   }
-
+  @media all and (max-width: 768px) {
+    html {
+      font-size: 100px;
+    }
+  }
 </style>
