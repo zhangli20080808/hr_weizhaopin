@@ -9,6 +9,5 @@
     document.getElementById('app').style.width = desW + 'px';
     return;
   }
-  console.log(winW)
   document.documentElement.style.fontSize = winW / desW * 100 + 'px';
 }();

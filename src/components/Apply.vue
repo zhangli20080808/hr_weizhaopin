@@ -105,11 +105,12 @@
         fileIds:[],
         empty:'',
         param:{
-//          businessId:9,
-//          fId:-1
+          businessId:9,
+          fId:-1
         },
         param1:{
-
+          businessId:4,
+          fId:-1
         },
         id:this.$route.params.id,
         name:this.$route.params.name,

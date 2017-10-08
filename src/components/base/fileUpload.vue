@@ -6,7 +6,8 @@
       :on-preview="handlePreview"
       :on-remove="handleRemove"
       :on-success="successd"
-      :data = 'params'
+      :on-error="uploadError"
+
       :file-list="fileList">
       <el-button type="primary">点击上传</el-button>
       <div slot="tip" class="el-upload__tip">不能上传/exe/com/cgi/asp/php/jsp文件</div>
@@ -27,7 +28,7 @@
    empty => 传值进来清空上传列表(新增专用)
    */
   import Util from '../../common/js/util.js';
-//  import md5 from 'js-md5';
+  import md5 from 'js-md5';
   export default {
     props:{
       param:Object,
@@ -41,7 +42,7 @@
         uploadUrl:Util.uploadURLForCommon,
         params:{
           param:JSON.stringify(this.param),
-//          sign:md5('method'+"fileUpload/insertFileRecord"+"param"+JSON.stringify(this.param)+"ecbao")
+          sign:md5('method'+"fileUpload/insertFileRecord"+"param"+JSON.stringify(this.param)+"ecbao")
         },
         dialogVisible:false,
         dialogImageUrl:'',
@@ -77,7 +78,11 @@
           _this.fileList.pop();
           _this.$message.error(response.message);
         }
-      }
+      },
+      // 上传错误
+      uploadError (response, file, fileList) {
+        console.log('上传失败，请重试！')
+      },
     },
     watch: {
       fileListEdit: {

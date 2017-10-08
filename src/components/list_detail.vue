@@ -169,12 +169,14 @@
               height: 12px
               margin: 0 10px
               color: #5AA2E7
+              font-size :16px
             .icon1
               display: inline-block
               float: left
               width: 6px
               height: 12px
               margin: 0 10px
+              font-size :16px
               color: #99A9BF
             .nav_item
               float: left

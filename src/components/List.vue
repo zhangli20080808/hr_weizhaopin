@@ -41,9 +41,8 @@
         <el-form ref="form" :model="form" label-width="80px">
 
           <el-form-item class="form_address">
-            <el-select v-model="form.address" placeholder="请选择地点">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="form.address"  @change="change" placeholder="请选择地点">
+              <el-option v-for="item in selectChose" :label="item.name" :value="item.id" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
 
@@ -84,6 +83,8 @@
 
 <script>
   import Scroll from './base/scroll.vue'
+  import allData from '../common/js/allcity'
+  console.log(allData.province)
   export default {
     data() {
       return {
@@ -111,12 +112,12 @@
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6}
-        ]
+        ],
+        selectChose:allData.province
       }
     },
     methods: {
       selectItem(item) {
-        console.log(item)
         this.$router.push({
           path: `/list/${item.id}`,
           name: 'listDetail',
@@ -128,6 +129,9 @@
             time: item.time
           }
         })
+      },
+      change(item){
+        console.log(item)
       }
     },
     components: {
@@ -179,13 +183,13 @@
               float: left
               width: 6px
               height: 12px
+              font-size: 16px;
               margin: 0 10px
               color: #99A9BF
             }
             .nav_item {
               float: left
-              font-size: 14px
-              width: 56px
+              font-size: 16px
               height: 16px
               text-align: center
               color: #99A9BF
@@ -205,6 +209,7 @@
           margin-left: -25%;
           margin-top: -23px;
           .search_content {
+            display :table
             width: 426px;
             height 47px;
             line-height: 47px
@@ -402,7 +407,7 @@
           background: #fff
           width: 100%;
           position :fixed
-          top: 3.54rem
+          top: 3.24rem
           right :0
           left :0
           bottom :0
