@@ -84,7 +84,6 @@
 <script>
   import Scroll from './base/scroll.vue'
   import allData from '../common/js/allcity'
-  console.log(allData.province)
   export default {
     data() {
       return {
@@ -131,7 +130,6 @@
         })
       },
       change(item){
-        console.log(item)
       }
     },
     components: {
@@ -219,6 +217,9 @@
             color: #99A9BF;
             font-size: 14px;
             padding: 18px 0 15px 14px
+            &::placeholder{
+              color :#99a9bf
+            }
           }
           .submit {
             position: absolute;
@@ -319,6 +320,7 @@
       left :0
       right :0
       padding-bottom :0.1rem
+      padding-top: 0.9rem
       .container {
         padding: 0
         margin: 0
@@ -327,7 +329,8 @@
           position: relative;
           margin: 0 auto;
           height :1.82rem
-          background :#f7f7f7
+          font-family :"HiraginoSansGB-W3"
+          background :#f7f7f7;
           .search_go {
             width: 92%;
             height: 0.9rem;
@@ -345,7 +348,10 @@
               outline: none;
               color: #99A9BF;
               font-size: 14px;
-              padding: 0.16rem 0 0.17rem 0.21rem;
+              padding: 0.16rem 0 0.17rem 0.29rem;
+              &::placeholder{
+                color :#99a9bf
+              }
             }
             .submit {
               position: absolute;
@@ -357,7 +363,7 @@
               top: 0;
               text-align: center
 
-              font-size: 14px
+              font-size: 0.28rem
               color: #ffff
               background: #5AA2E7
               &:hover {
@@ -377,7 +383,8 @@
             .el-select {
               .el-input {
                 .el-input__inner {
-                  line-height: 36px
+                  line-height: 0.72rem
+                  font-size: 0.24rem;
                 }
               }
             }
@@ -407,7 +414,7 @@
           background: #fff
           width: 100%;
           position :fixed
-          top: 3.24rem
+          top: 4.14rem;
           right :0
           left :0
           bottom :0
@@ -427,28 +434,30 @@
               border-t-1px(#E5E9F2)
 
               .title {
-                font-size: 18px
-                color: #1F2D3D
-                margin-bottom: 0.28rem
+                font-size: 0.28rem;
+                color: #5AA2E7;
+                margin-bottom: 0.2rem;
               }
               .text {
                 height: 0.28rem
                 line-height: 0.28rem
                 .des {
                   display: inline-block
-                  font-size: 14px
+                  font-size: 0.14rem
                   color: #475669
                   margin-right: 0.46rem
+                  vertical-align :middle
                 }
                 .price {
                   display: inline-block
                   font-size: 16px
                   color: #F96868
+                  vertical-align :middle
                 }
               }
               .p_time {
                 margin-top: 0.46rem
-                font-size: 14px
+                font-size: 0.14rem
                 color: #99A9BF
               }
             }

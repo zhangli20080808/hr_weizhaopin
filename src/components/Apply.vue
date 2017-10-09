@@ -55,10 +55,10 @@
               <file-upload class="post" :param="param" @fileId="fileId" @deleFileId="deleFileId" :empty="empty"></file-upload>
             </el-form-item>
             <!--上传附件-->
-            <el-form-item label="上传附件">
+            <el-form-item label="上传附件" class="post_f">
               <file-upload class="post1" :param="param1" @fileId="fileId" @deleFileId="deleFileId" :empty="empty"></file-upload>
             </el-form-item>
-
+            <div class="line"></div>
             <el-form-item label="姓名" prop="name">
               <el-input v-model="formLabelAlign.name" ></el-input>
             </el-form-item>
@@ -74,6 +74,7 @@
           </el-form>
         </div>
       </div>
+
       <el-dialog
         class="tips"
         title="提示"
@@ -144,7 +145,7 @@
       }
     },
     created(){
-      console.log(this.$route)
+
       this._getDetail()
     },
     methods:{
@@ -353,6 +354,7 @@
       top: 0;
       right: 0;
       left: 0;
+      padding-top :0.9rem
       .app_content
         position: fixed;
         top: 0;
@@ -393,21 +395,21 @@
           height: 3rem
           background :#fff
           padding: 0.34rem 0 0.42rem 0.30rem
-          margin-bottom: 0.4rem
+          margin-bottom: 0
+          border :none
           border-b-1px(#E5E9F2)
           .content
             position:relative
             height :100%
 
             .name
-              height :0.35rem
-              line-height :0.35rem
-              font-size :22px
-              color :#475669
+              font-size: 0.36rem;
+              color: #475669;
+              font-family: HiraginoSansGB-W6;
             .title
               height: 0.28rem
               line-height: 0.28rem
-              font-size: 18px
+              font-size: 0.28rem
               color: #1F2D3D
               margin-top :0.4rem
               margin-bottom:0
@@ -419,20 +421,20 @@
               .des
                 display: inline-block
                 vertical-align :middle
-                font-size: 14px
+                font-size: 0.24rem
                 color: #475669
                 margin-right: 0.22rem
               .price
                 display: inline-block
                 vertical-align :middle
-                font-size: 16px
+                font-size: 0.26rem
                 color: #F96868
             .p_time
               display :block
-              height: 14px
-              line-height: 14px
+              height: 0.24rem
+              line-height: 0.24rem
               float :none
-              font-size: 14px
+              font-size: 0.24rem
               color: #99A9BF
               margin-top :0.5rem
         .apply_post
@@ -440,20 +442,33 @@
           height :100%
           background :#fff
           .apply_content
-            width :100%
-            height :100%
-            padding-left :0.44rem
-            padding-right :0.68rem
-            margin: auto
+            width: 100%;
+            height: 100%;
+            padding-left: 0.30rem;
+            padding-right: 0.30rem;
+            margin: auto;
+            .post_f
+              margin-bottom :0
+            .line
+              width: 100%
+              height :0.01rem
+              border-b-1px(#E5E9F2)
+              margin-bottom :0.44rem
+              margin-top :0.11rem
+
             .el-form
+              .el-form-item
+                margin-left: 0.23rem;
               .btn
                 width :100%
                 outline :none
               .form_btn
-
+                margin-left: 0;
+              .el-form-item__content
+                  margin-left :0!important
               .el-form-item__content
                 .el-input
-                  width :100%
+                  width: 4.56rem;
                 .post,.post1
                   .el-upload
                   .el-upload__tip

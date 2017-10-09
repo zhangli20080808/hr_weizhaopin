@@ -29,11 +29,13 @@ export default new Router({
       component: listDetail
     },
     {
-      path: '/apply/:id',
+      path: '/apple/:id',
       name: 'apply',
       component: Apply
     },
-
-
+    {
+      path: '*',
+      redirect: '/'
+    }
   ]
 })

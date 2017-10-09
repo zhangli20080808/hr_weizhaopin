@@ -37,11 +37,11 @@
 
       <div class="detail_show">
        <div class="content">
-         <div class="title">{{name}}</div>
+         <div class="title">{{apple.name}}</div>
          <div class="text">
-           <span class="des">{{address}}</span><span class="price">{{salary}}</span>
+           <span class="des">{{apple.address}}</span><span class="price">{{apple.salary}}</span>
          </div>
-         <div class="p_time">发布时间：{{time}}</div>
+         <div class="p_time">发布时间：{{apple.time}}</div>
 
         <div class="post_share">
           <el-button type="primary" @click="join">申请职位</el-button>
@@ -96,18 +96,30 @@
         name:this.$route.params.name,
         salary:this.$route.params.salary,
         address:this.$route.params.address,
-        time:this.$route.params.time
+        time:this.$route.params.time,
+        apple:{}
       }
     },
     created(){
-      console.log(this.$route),
+      console.log(this.$route)
       this._getDetail()
+      this.apple = {
+        id:this.id,
+        name:this.name,
+        salary:this.salary,
+        address:this.address,
+        time:this.time
+      }
     },
+
     methods:{
     //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
       _getDetail(){
         if(!this.name){
-          this.$router.push('/list')
+          this.$router.push({
+              path:`/list/${this.id}`
+            }
+          )
           return
         }
      },
@@ -132,20 +144,20 @@
   #list_detail
 
     header
-      height 80px;
-      line-height 80px;
+      height 80px
+      line-height 80px
       .navbar-sample
-        background-color: #fff;
-        border-color: #f5f5f5;
-        margin-bottom: 0;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
+        background-color: #fff
+        border-color: #f5f5f5
+        margin-bottom: 0
+        top: 0
+        width: 100%
+        z-index: 1000
         .navbar-header
           height 84px
 
         .navbar-brand
-          height: 80px;
+          height: 80px
     .container
       .detail_des
         background :#fff
@@ -231,11 +243,12 @@
   @media all and (max-width: 768px)
       #list_detail
         background :#fff
-        position: absolute;
-        bottom: 0;
-        top: 0;
-        right: 0;
-        left: 0;
+        position: absolute
+        bottom: 0
+        top: 0
+        right: 0
+        left: 0
+        padding-top :0.9rem
         .container
           padding :0
           margin :0
@@ -282,6 +295,7 @@
             background:#f7f7f7
             padding: 0.37rem 0 0.3rem 0.30rem
             border-bottom: 1px solid #E5E9F2
+            margin-bottom :0
 
             .content
               position:relative
@@ -292,38 +306,39 @@
                 line-height: 0.8rem
                 left:0
                 margin-top: -0.1rem
+                .el-button
+                  display: inline-block
+                  vertical-align: top
               .title
-                height: 0.28rem
-                line-height: 0.28rem
-                font-size: 16px
+                font-size: 0.28rem
                 color: #1F2D3D
                 margin-bottom :0
               .text
-                height: 0.28rem
-                line-height: 0.28rem
+                height: 0.25rem
+                line-height: 0.25rem
                 margin-top :0.25rem
                 .des
                   display: inline-block
-                  font-size: 14px
+                  font-size: 0.24rem
                   color: #475669
-                  margin-right: 0.46rem
+                  margin-right: 0.36rem
                   vertical-align :middle
                 .price
                   display: inline-block
                   vertical-align :middle
-                  font-size: 16px
+                  font-size: 0.26rem
                   color: #F96868
               .p_time
                 height: 0.23rem
                 line-height: 0.23rem
-                font-size: 14px
+                font-size: 0.24rem
                 color: #99A9BF
-                margin-bottom: 0.18rem
+                margin-bottom: 0.38rem
                 margin-top :0.5rem
           .detail_text
             background:#fff
             height:100%
             font-size:14px
-            padding: 0.38rem 0.32rem 0rem 0.27rem
+            padding: 0.39rem 0.32rem 1.05rem 0.27rem
 
 </style>

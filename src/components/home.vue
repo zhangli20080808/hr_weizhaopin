@@ -61,23 +61,23 @@
       <div class="line"></div>
 
 
-      <el-row class="icon_list">
-        <el-col :span="8">
+      <ul class="icon_list clearfix">
+        <li>
           <div class="grid-content bg-purple">
             <i class="icon1"></i><span>500-5000人</span>
           </div>
-        </el-col>
-        <el-col :span="8">
+        </li>
+        <li>
           <div class="grid-content bg-purple-light">
             <i class="icon2"></i><span>天使轮</span>
           </div>
-        </el-col>
-        <el-col :span="8">
+        </li>
+        <li>
           <div class="grid-content bg-purple">
             <i class="icon3"></i><span>电子技术/半导体/集成电路</span>
           </div>
-        </el-col>
-      </el-row>
+        </li>
+      </ul>
 
 
     </div>
@@ -91,43 +91,15 @@
           </div>
         </div>
         <el-row :gutter="20" class="list_content">
-          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8">
-            <div class="grid-content bg-purple">
+          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in product" :key="item.id">
+            <div class="grid-content bg-purple" @click="join">
               <div class="content">
-                <p class="des">产品类</p>
-                <span class="text">在招职位</span>
-                <span class="num">03</span>
+                <p class="des">{{item.des}}</p>
+                <span class="text">{{item.text}}</span>
+                <span class="num">{{item.num}}</span>
               </div>
             </div>
           </el-col>
-          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8">
-            <div class="grid-content bg-purple">
-              <div class="content">
-                <p class="des">产品类</p>
-                <span class="text">在招职位</span>
-                <span class="num">03</span>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8">
-            <div class="grid-content bg-purple">
-              <div class="content">
-                <p class="des">产品类</p>
-                <span class="text">在招职位</span>
-                <span class="num">03</span>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8">
-            <div class="grid-content bg-purple">
-              <div class="content">
-                <p class="des">产品类</p>
-                <span class="text">在招职位</span>
-                <span class="num">03</span>
-              </div>
-            </div>
-          </el-col>
-
         </el-row>
 
 
@@ -136,7 +108,7 @@
 
     <!--公司介绍-->
     <a name="2F"></a>
-    <div  class="intro_c">
+    <div class="intro_c">
       <div class="title">
         <div class="text">公司介绍
           <span class="line"></span>
@@ -160,42 +132,57 @@
 <script>
   export default {
     data() {
-      return {};
+      return {
+        product: [
+          {id:1,des: '产品类',text:'在招职位',num:'32'},
+          {id:2,des: '产品类1',text:'在招职位',num:'32'},
+          {id:3,des: '产品类2',text:'在招职位',num:'32'},
+          {id:4,des: '产品类3',text:'在招职位',num:'32'},
+        ]
+      }
     },
-    methods: {}
+    methods: {
+      join() {
+        this.$router.push({
+          path: `/list`
+        })
+      }
+    }
+
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus">
   .home {
+    background :#fff
     header {
-      height 80px;
-      line-height 80px;
+      height 80px
+      line-height 80px
       .navbar-sample {
-        background-color: #fff;
-        border-color: #f5f5f5;
-        margin-bottom: 0;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
+        background-color: #fff
+        border-color: #f5f5f5
+        margin-bottom: 0
+        top: 0
+        width: 100%
+        z-index: 1000
         .navbar-header {
           height 84px
         }
         .navbar-brand {
-          height: 80px;
+          height: 80px
         }
         .navbar-nav {
-          margin-left: 74px;
+          margin-left: 74px
           li {
-            margin-right: 10px;
+            margin-right: 10px
             a {
-              color: #1F2D3D;
-              line-height: 50px;
-              font-size: 16px;
+              color: #1F2D3D
+              line-height: 50px
+              font-size: 16px
               &:hover {
-                background #fff;
-                border-bottom: 1px solid #5AA2E7;
+                background #fff
+                border-bottom: 1px solid #5AA2E7
               }
             }
           }
@@ -203,23 +190,23 @@
         .nav_search {
           .search {
             .search_content {
-              width 230px;
-              height 40px;
-              border: 1px solid #C0CCDA;
-              position: relative;
-              outline: none;
-              color: #99A9BF;
-              font-size: 12px;
-              padding: 14px 0 13px 16px;
+              width 230px
+              height 40px
+              border: 1px solid #C0CCDA
+              position: relative
+              outline: none
+              color: #99A9BF
+              font-size: 12px
+              padding: 14px 0 13px 16px
             }
             .submit {
-              position: absolute;
+              position: absolute
               display inline-block
-              right: 0;
-              top: 21px;
-              width 40px;
-              height 40px;
-              background: url(../common/image/search.png) no-repeat center;
+              right: 0
+              top: 21px
+              width 40px
+              height 40px
+              background: url(../common/image/search.png) no-repeat center
             }
           }
         }
@@ -229,102 +216,103 @@
     .main_ad {
       .carousel-inner1 {
         .item {
-          background: url(../common/image/banner.png) no-repeat;
-          width: 100%;
-          height 478px;
-          background-position: center center;
-          background-size: cover;
-          position: relative;
+          background: url(../common/image/banner.png) no-repeat
+          width: 100%
+          height 478px
+          background-position: center center
+          background-size: cover
+          position: relative
 
           img {
-            width: 100%;
+            width: 100%
           }
           .item_text {
-            position: absolute;
-            width: 540px;
-            height: 134px;
-            top: 50%;
-            left: 50%;
-            margin-left: -270px;
-            margin-top: -67px;
-            color: #fff;
-            text-align: center;
+            position: absolute
+            width: 540px
+            height: 134px
+            top: 50%
+            left: 50%
+            margin-left: -270px
+            margin-top: -67px
+            color: #fff
+            text-align: center
 
             .title {
-              font-size 60px;
-              font-family: "SourceHanSansCN-Light";
-              margin-bottom 44px;
+              font-size 60px
+              font-family: "SourceHanSansCN-Light"
+              margin-bottom 44px
             }
             .des {
-              font-size: 24px;
+              font-size: 24px
             }
           }
         }
       }
     }
 
-
     .s_company {
-      width: 100%;
-      text-align: center;
-      background: #F7F7F7;
-      padding-top: 31px;
+      width: 100%
+      text-align: center
+      background: #F7F7F7
+      padding-top: 31px
       .c_img {
-        width: 180px;
-        height: 180px;
-        display: inline-block;
-        text-align: center;
-        background: url(../common/image/com_logo.png) no-repeat center;
-        position: relative;
+        width: 180px
+        height: 180px
+        display: inline-block
+        text-align: center
+        background: url(../common/image/com_logo.png) no-repeat center
+        position: relative
       }
       .text {
-        margin-top: 22px;
-        font-size: 16px;
-        color: #1F2D3D;
+        margin-top: 22px
+        font-size: 16px
+        color: #1F2D3D
       }
       .text1, .text2 {
-        color: #475669;
-        font-size: 14px;
-        margin-top: 30px;
-        margin-bottom: 36px;
+        color: #475669
+        font-size: 14px
+        margin-top: 30px
+        margin-bottom: 36px
       }
       .line {
-        width: 100%;
-        height: 1px;
-        background: #E0E6ED;
+        width: 100%
+        height: 1px
+        background: #E0E6ED
       }
       .icon_list {
-        height: 66px;
-        line-height 66px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        height: 66px
+        line-height 66px
+        padding:0 0.1rem
+        li{
+          display :inline-block
+          margin:0 80px
+        }
         .icon1 {
-          background url(../common/image/icon1.png) no-repeat center;
-          display: inline-block;
-          width: 15px;
-          height: 15px;
-          margin-right: 27px;
+          background url(../common/image/icon1.png) no-repeat center
+          display: inline-block
+          width: 15px
+          height: 15px
+          margin-right: 27px
           @media screen and (max-width: 768px) {
             margin-right: 5px
           }
         }
         .icon2 {
-          background url(../common/image/icon2.png) no-repeat center;
-          display: inline-block;
-          width: 15px;
-          height: 15px;
-          margin-right: 27px;
+          background url(../common/image/icon2.png) no-repeat center
+          display: inline-block
+          width: 15px
+          height: 15px
+          margin-right: 27px
           @media screen and (max-width: 768px) {
             margin-right: 5px
           }
         }
         .icon3 {
-          background url(../common/image/icon3.png) no-repeat center;
-          display: inline-block;
-          width: 15px;
-          height: 15px;
-          margin-right: 27px;
+          background url(../common/image/icon3.png) no-repeat center
+          display: inline-block
+          width: 15px
+          height: 15px
+          margin-right: 27px
           @media screen and (max-width: 768px) {
             margin-right: 5px
           }
@@ -332,70 +320,69 @@
       }
     }
 
-
     .s_recruit {
-      padding-top: 112px;
-      padding-bottom: 90px;
+      padding-top: 112px
+      padding-bottom: 90px
       .line {
-        width: 100%;
-        height: 1px;
-        background: #e0e6ed;
+        width: 100%
+        height: 1px
+        background: #e0e6ed
       }
       .title {
-        color: #1F2D3D;
-        font-size: 20px;
-        text-align: center;
+        color: #1F2D3D
+        font-size: 20px
+        text-align: center
         .text {
           position: relative
-          width: 123px;
-          height: 30px;
-          display: inline-block;
-          margin: 0 auto;
-          font-size: 30px;
+          width: 123px
+          height: 30px
+          display: inline-block
+          margin: 0 auto
+          font-size: 30px
           .line {
-            position: absolute;
-            bottom: -24px;
-            left: 50%;
-            display: block;
-            height: 2px;
-            width: 80px;
-            background: #5AA2E7;
-            margin-left: -40px;
+            position: absolute
+            bottom: -24px
+            left: 50%
+            display: block
+            height: 2px
+            width: 80px
+            background: #5AA2E7
+            margin-left: -40px
           }
         }
       }
       .list_content {
-        margin-top: 101px;
+        margin-top: 101px
         .grid-content {
 
-          width: 100%;
-          height: 158px;
-          margin-bottom: 30px;
-          border: 1px solid #5AA2E7;
-          display :flex;
+          width: 100%
+          height: 158px
+          margin-bottom: 30px
+          border: 1px solid #5AA2E7
+          display: flex
           &:nth-child(3n) {
             margin-right: 10px
           }
           .content {
-            line-height: 36px;
-            margin: auto;
-            text-align: center;
+            line-height: 36px
+            margin: auto
+            text-align: center
             .des {
-              font-size: 18px;
-              color: #1F2D3D;
+              font-size: 18px
+              color: #1F2D3D
             }
             .text {
-              font-size: 14px;
-              color: #475669;
-              display: inline-block;
-              vertical-align: super;
+              font-size: 14px
+              color: #475669
+              display: inline-block
+              vertical-align: super
             }
             .num {
-              font-size: 40px;
-              color: #5AA2E7;
-              display: inline-block;
-              margin-top: 8px;
-              margin-left: 6px;
+              font-size: 40px
+              color: #5AA2E7
+              display: inline-block
+              margin-top: 8px
+              margin-left: 6px
             }
           }
         }
@@ -405,275 +392,240 @@
 
     .intro_c {
       .title {
-        color: #1F2D3D;
-        font-size: 20px;
-        text-align: center;
+        color: #1F2D3D
+        font-size: 20px
+        text-align: center
         .text {
           position: relative
-          width: 123px;
-          height: 30px;
-          display: inline-block;
-          margin: 0 auto;
-          font-size: 30px;
+          width: 123px
+          height: 30px
+          display: inline-block
+          margin: 0 auto
+          font-size: 30px
           .line {
-            position: absolute;
-            bottom: -24px;
-            left: 50%;
-            display: block;
-            height: 2px;
-            width: 80px;
-            background: #5AA2E7;
-            margin-left: -40px;
+            position: absolute
+            bottom: -24px
+            left: 50%
+            display: block
+            height: 2px
+            width: 80px
+            background: #5AA2E7
+            margin-left: -40px
           }
         }
 
       }
       .intro_c_con {
-        padding: 20px;
-        margin-top: 60px;
-        margin-bottom: 48px;
-        border: 1px solid #E0E6ED;
+        padding: 20px
+        margin-top: 60px
+        margin-bottom: 48px
+        border: 1px solid #E0E6ED
         .intro {
         }
         .img {
-          width: 100%;
-          height: 424px;
-          background: url(../common/image/intro.png) no-repeat center;
+          width: 100%
+          height: 424px
+          background: url(../common/image/intro.png) no-repeat center
           background-size: cover
         }
         .intro_text {
-          font-size: 14px;
-          color: #475669;
+          font-size: 14px
+          color: #475669
           p {
-            line-height: 2;
+            line-height: 2
           }
           p:nth-child(1) {
-            text-indent: 30px;
-            margin-top: 29px;
+            text-indent: 30px
+            margin-top: 29px
           }
           p:nth-child(2) {
-            text-indent: 30px;
+            text-indent: 30px
           }
         }
       }
 
     }
 
-
     @media all and (max-width: 768px) {
       .main_ad {
+        height 2.74rem
         .carousel-inner1 {
           .item {
-            background: url(../common/image/banner.png) no-repeat;
-            width: 100%;
-            height 138px;
-            background-position: center center;
-            background-size: cover;
-            position: relative;
+            background: url(../common/image/banner.png) no-repeat
+            width: 100%
+            height 2.74rem
+            background-position: center center
+            background-size: cover
+            position: relative
             img {
-              width: 100%;
+              width: 100%
             }
             .item_text {
-              position: absolute;
-              width: 100%;
-              top: 50%;
-              left: 50%;
-              margin-left: -50%;
-              color: #fff;
-              text-align: center;
+              position: absolute
+              width: 100%
+              height: 2rem
+              top: 50%
+              left: 50%
+              margin-left: -50%
+              color: #fff
+              text-align: center
+              margin-top: -1rem
 
               .title {
-                font-size: 30px;
-                font-family: "SourceHanSansCN-Light";
-                margin-bottom: 22px;
-                margin-top: 30px;
+                font-size: 0.6rem
+                font-family: "SourceHanSansCN-Light"
+                margin-bottom: 0.44rem
+                margin-top: 0.4rem
               }
               .des {
-                font-size: 16px;
+                font-size: 0.24rem
               }
             }
           }
         }
       }
-
-      .intro_c {
-        .title {
-          color: #1F2D3D;
-          font-size: 20px;
-          text-align: center;
-          .text {
-            position: relative
-            width: 123px;
-            height: 30px;
-            display: inline-block;
-            margin: 0 auto;
-            font-size: 30px;
-            .line {
-              position: absolute;
-              bottom: -24px;
-              left: 50%;
-              display: block;
-              height: 2px;
-              width: 80px;
-              background: #5AA2E7;
-              margin-left: -40px;
-            }
-          }
-
-        }
-        .intro_c_con {
-          padding: 20px;
-          margin-top: 30px;
-          margin-bottom: 24px;
-          border: 1px solid #E0E6ED;
-          .intro {
-          }
-          .img {
-            width: 100%;
-            height: 212px;
-            background: url(../common/image/intro.png) no-repeat center;
-            background-size: cover
-          }
-          .intro_text {
-            font-size: 14px;
-            color: #475669;
-            p {
-              line-height: 2;
-            }
-            p:nth-child(1) {
-              text-indent: 30px;
-              margin-top: 29px;
-            }
-            p:nth-child(2) {
-              text-indent: 30px;
-            }
-          }
-        }
-
-      }
-
       .s_company {
-        width: 100%;
-        text-align: center;
-        background: #F7F7F7;
-        padding-top: 16px;
+        width: 100%
+        text-align: center
+        background: #F7F7F7
+        padding-top: 0.3rem
         .c_img {
-          width: 90px;
-          height: 90px;
-          display: inline-block;
-          text-align: center;
-          background: url(../common/image/com_logo.png) no-repeat center;
-          background-size: cover;
-          position: relative;
+          width: 1.8rem
+          height: 1.8rem
+          display: inline-block
+          text-align: center
+          background: url(../common/image/com_logo.png) no-repeat center
+          background-size: cover
+          position: relative
         }
         .text {
-          margin-top: 11px;
-          font-size: 16px;
-          color: #1F2D3D;
+          margin-top: 0.22rem
+          font-size: 0.28rem
+          color: #1F2D3D
         }
         .text1, .text2 {
-          color: #475669;
-          font-size: 14px;
-          margin-top: 15px;
-          margin-bottom: 18px;
+          color: #475669
+          font-size: 0.22rem
+          margin-top: 0.3rem
+          margin-bottom: 0.26rem
+          line-height :1.5
         }
         .line {
 
-          display: none;
+          display: none
         }
         .icon_list {
-          height: 33px;
-          line-height 33px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          .icon1 {
-            background url(../common/image/icon1.png) no-repeat center;
+          display :inline-block
+          width :100%
+          height: 0.66rem
+          line-height :0.66rem
+          margin: 0
+          li {
             display: inline-block;
-            width: 15px;
-            height: 15px;
-            margin-right: 5px;
+            margin: 0
+            padding-right: 3px
+            box-sizing: border-box
+          }
+          span{
+            display :inline-block
+            font-size :10px
+            vertical-align :top
+          }
+          .icon1 {
+            background url(../common/image/icon1.png) no-repeat center
+            display: inline-block
+            width: 15px
+            height: 15px
+            margin-right: 0.05rem
+            margin-bottom :0.2rem
+            vertical-align :middle
           }
           .icon2 {
-            background url(../common/image/icon2.png) no-repeat center;
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-            margin-right: 5px;
+            background url(../common/image/icon2.png) no-repeat center
+            display: inline-block
+            width: 15px
+            height: 15px
+            margin-right: 0.05rem
+            margin-bottom :0.2rem
+            vertical-align :middle
           }
           .icon3 {
-            background url(../common/image/icon3.png) no-repeat center;
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-            margin-right: 5px;
+            background url(../common/image/icon3.png) no-repeat center
+            display: inline-block
+            width: 15px
+            height: 15px
+            margin-right: 0.05rem
+            margin-bottom :0.2rem
+            vertical-align :middle
           }
         }
       }
-
       .s_recruit {
-        padding-top: 19px;
-        padding-bottom: 23px;
+        padding-top: 0.77rem
+        padding-bottom: 0.06rem
+        background :#fff
         .line {
-          width: 100%;
-          height: 1px;
-          background: #e0e6ed;
+          width: 100%
+          height: 1px
+          background: #e0e6ed
         }
         .title {
-          color: #1F2D3D;
-          font-size: 20px;
-          text-align: center;
+          color: #1F2D3D
+          font-size: 0.30rem
+          text-align: center
           .text {
             position: relative
-            width: 123px;
-            height: 30px;
-            display: inline-block;
-            margin: 0 auto;
-            font-size: 30px;
+            width: 100%
+            height: 0.6rem
+            line-height :0.6rem
+            display: inline-block
+            margin: 0 auto
+            font-size: 0.30rem
             .line {
-              position: absolute;
-              bottom: -24px;
-              left: 50%;
-              display: block;
-              height: 2px;
-              width: 80px;
-              background: #5AA2E7;
-              margin-left: -40px;
+              position: absolute
+              bottom: -0.2rem
+              width :10%
+              left: 50%
+              display: block
+              height: 0.04rem
+              background: #5AA2E7
+              margin-left: -5%
             }
           }
         }
         .list_content {
-          margin-top: 50px;
+          margin-top: 0.72rem
           .grid-content {
 
-            width: 100%;
-            height: 89px;
-            margin-bottom: 15px;
-            border: 1px solid #5AA2E7;
-            display :flex;
+            width: 100%
+            height: 1.58rem
+            margin-bottom: 0.3rem
+            border: 1px solid #5AA2E7
+            display: flex
             &:nth-child(3n) {
-              margin-right: 10
+              margin-right: 0.2rem
             }
             .content {
-              line-height: 36px;
-              margin: auto;
-              text-align: center;
+              line-height: 0.72rem
+              margin: auto
+              text-align: center
               .des {
-                font-size: 18px;
-                color: #1F2D3D;
+                font-size: 0.28rem
+                color: #1F2D3D
               }
               .text {
-                font-size: 14px;
-                color: #475669;
-                display: inline-block;
-                vertical-align: super;
+                font-size: 0.22rem
+                color: #475669
+                display: inline-block
+                vertical-align: super
               }
               .num {
-                font-size: 40px;
-                color: #5AA2E7;
-                display: inline-block;
-                margin-top: 8px;
-                margin-left: 6px;
+                font-size: 0.5rem
+                color: #5aa2e7
+                display: inline-block
+                margin-top: -0.03rem
+                margin-left: 0.1rem
+                float: right
               }
             }
           }
@@ -681,52 +633,55 @@
       }
 
       .intro_c {
+        padding :0 0.3rem
         .title {
-          color: #1F2D3D;
-          font-size: 20px;
-          text-align: center;
+          color: #1F2D3D
+          font-size: 0.3rem
+          text-align: center
+          padding: 0.3rem
           .text {
             position: relative
-            width: 123px;
-            height: 30px;
-            display: inline-block;
-            margin: 0 auto;
-            font-size: 30px;
+            width: 100%
+            height: 0.6rem
+            line-height :0.6rem
+            display: inline-block
+            margin: 0 auto
+            font-size: 0.3rem
             .line {
-              position: absolute;
-              bottom: -24px;
-              left: 50%;
-              display: block;
-              height: 2px;
-              width: 80px;
-              background: #5AA2E7;
-              margin-left: -40px;
+              position: absolute
+              bottom: -0.2rem
+              width :10%
+              left: 50%
+              display: block
+              height: 0.04rem
+              background: #5AA2E7
+              margin-left: -5%
             }
           }
 
         }
         .intro_c_con {
-          padding: 20px;
-          margin-top: 45px;
-          margin-bottom: 24px;
-          border: 1px solid #E0E6ED;
+          padding: 0.14rem 0.14rem 0.37rem 0.1rem
+          margin-top: 0.45rem
+          margin-bottom: 0.48rem
+          border: 1px solid #E0E6ED
           .intro {
           }
           .img {
-            width: 100%;
-            height: 212px;
-            background: url(../common/image/intro.png) no-repeat center;
+            width: 100%
+            height: 212px
+            background: url(../common/image/intro.png) no-repeat center
             background-size: cover
           }
           .intro_text {
-            font-size: 14px;
-            color: #475669;
+            font-size: 14px
+            color: #475669
             p {
-              line-height: 2;
-              text-indent: 30px;
+              line-height: 2
+              text-indent: 30px
             }
             p:nth-child(1) {
-              margin-top: 29px;
+              margin-top: 29px
             }
 
           }

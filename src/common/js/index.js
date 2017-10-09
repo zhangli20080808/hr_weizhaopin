@@ -11,3 +11,7 @@
   }
   document.documentElement.style.fontSize = winW / desW * 100 + 'px';
 }();
+
+window.onresize = function() {
+  window.location.reload()
+};
