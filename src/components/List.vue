@@ -383,7 +383,7 @@
             .el-select {
               .el-input {
                 .el-input__inner {
-                  line-height: 0.72rem
+                  line-height: 0.36rem
                   font-size: 0.24rem;
                 }
               }
@@ -443,21 +443,21 @@
                 line-height: 0.28rem
                 .des {
                   display: inline-block
-                  font-size: 0.14rem
+                  font-size: 0.24rem
                   color: #475669
                   margin-right: 0.46rem
                   vertical-align :middle
                 }
                 .price {
                   display: inline-block
-                  font-size: 16px
+                  font-size :0.26rem
                   color: #F96868
                   vertical-align :middle
                 }
               }
               .p_time {
                 margin-top: 0.46rem
-                font-size: 0.14rem
+                font-size: 0.24rem
                 color: #99A9BF
               }
             }

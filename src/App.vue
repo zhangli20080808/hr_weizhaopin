@@ -27,7 +27,6 @@
     color: #fff;
   }
   #app{
-    padding-top: 0.9rem;
   }
   @media all and (max-width: 768px) {
     html {

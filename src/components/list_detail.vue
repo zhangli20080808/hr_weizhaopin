@@ -325,8 +325,8 @@
                   vertical-align :middle
                 .price
                   display: inline-block
+                  font-size :0.26rem
                   vertical-align :middle
-                  font-size: 0.26rem
                   color: #F96868
               .p_time
                 height: 0.23rem

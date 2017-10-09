@@ -94,8 +94,8 @@
   </div>
 </template>
 <script>
-  import fileUpload from './base/fileUpload.vue';
-  import Scroll from './base/scroll.vue';
+  import fileUpload from './base/fileUpload.vue'
+  import Scroll from './base/scroll.vue'
   const ERROR_OK =0
   export default {
     data() {
@@ -147,6 +147,7 @@
     created(){
 
       this._getDetail()
+      this.open()
     },
     methods:{
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
@@ -157,10 +158,10 @@
         }
       },
       handleRemove(file, fileList) {
-        console.log(file, fileList);
+        console.log(file, fileList)
       },
       handlePreview(file) {
-        console.log(file);
+        console.log(file)
       },
       beforeAvatarUpload(file){
         console.log(file)
@@ -170,14 +171,14 @@
         }
       },
       fileId(id){
-        this.fileIds.push(id);
-        console.log(id);
+        this.fileIds.push(id)
+        console.log(id)
       },
       deleFileId(id){
-        var _this = this;
+        var _this = this
         for(var i=0;i<_this.fileIds.length;i++){
           if(_this.fileIds[i] == id){
-            _this.fileIds.splice(i,1);
+            _this.fileIds.splice(i,1)
           }
         }
       },
@@ -196,10 +197,10 @@
             },2000)
 
           } else {
-//            alert('提交失败');
-            return false;
+//            alert('提交失败')
+            return false
           }
-        });
+        })
       },
 
     },
@@ -234,20 +235,20 @@
           font-size :18px
           color :#1F2D3D
     header
-      height 80px;
-      line-height 80px;
+      height 80px
+      line-height 80px
       .navbar-sample
-        background-color: #fff;
-        border-color: #f5f5f5;
-        margin-bottom: 0;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
+        background-color: #fff
+        border-color: #f5f5f5
+        margin-bottom: 0
+        top: 0
+        width: 100%
+        z-index: 1000
         .navbar-header
           height 84px
 
         .navbar-brand
-          height: 80px;
+          height: 80px
     .container
       .detail_des
         background :#fff
@@ -335,7 +336,7 @@
           margin: auto
           .el-form
             .btn
-              width: 328px;
+              width: 328px
             .el-form-item__content
               .post,.post1
                 .el-upload
@@ -349,26 +350,29 @@
   @media all and (max-width: 768px)
     #apply
       background :#fff
-      position: absolute;
-      bottom: 0;
-      top: 0;
-      right: 0;
-      left: 0;
+      position: absolute
+      bottom: 0
+      top: 0
+      right: 0
+      left: 0
       padding-top :0.9rem
       .app_content
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        position: fixed
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
       .tips
         .el-dialog--small
           width :92%
+          top: 50%!important
+          height :5.94rem
+          margin-top: -2.87rem
           .el-dialog__header
             display :none
         .content
           text-align :center
-
+          padding: 1.14rem 0 1.13rem 0
           .img
             display :inline-block
             width :1.18rem
@@ -403,9 +407,9 @@
             height :100%
 
             .name
-              font-size: 0.36rem;
-              color: #475669;
-              font-family: HiraginoSansGB-W6;
+              font-size: 0.36rem
+              color: #475669
+              font-family: HiraginoSansGB-W6
             .title
               height: 0.28rem
               line-height: 0.28rem
@@ -442,11 +446,11 @@
           height :100%
           background :#fff
           .apply_content
-            width: 100%;
-            height: 100%;
-            padding-left: 0.30rem;
-            padding-right: 0.30rem;
-            margin: auto;
+            width: 100%
+            height: 100%
+            padding-left: 0.30rem
+            padding-right: 0.30rem
+            margin: auto
             .post_f
               margin-bottom :0
             .line
@@ -458,24 +462,24 @@
 
             .el-form
               .el-form-item
-                margin-left: 0.23rem;
+                margin-left: 0.23rem
               .btn
                 width :100%
                 outline :none
               .form_btn
-                margin-left: 0;
+                margin-left: 0
               .el-form-item__content
                   margin-left :0!important
               .el-form-item__content
                 .el-input
-                  width: 4.56rem;
+                  width: 4.56rem
                 .post,.post1
                   .el-upload
                   .el-upload__tip
-                    margin-top: -0.1rem;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                    margin-top: -0.1rem
+                    white-space: nowrap
+                    overflow: hidden
+                    text-overflow: ellipsis
                     .el-upload__input
                       display :none
                   .el-upload-list

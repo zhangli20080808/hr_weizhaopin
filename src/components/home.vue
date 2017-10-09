@@ -445,8 +445,11 @@
       }
 
     }
+  }
 
-    @media all and (max-width: 768px) {
+  @media all and (max-width: 768px) {
+    .home {
+      padding-top :0.9rem
       .main_ad {
         height 2.74rem
         .carousel-inner1 {
@@ -508,17 +511,17 @@
           font-size: 0.22rem
           margin-top: 0.3rem
           margin-bottom: 0.26rem
-          line-height :1.5
+          line-height: 1.5
         }
         .line {
 
           display: none
         }
         .icon_list {
-          display :inline-block
-          width :100%
+          display: inline-block
+          width: 100%
           height: 0.66rem
-          line-height :0.66rem
+          line-height: 0.66rem
           margin: 0
           li {
             display: inline-block;
@@ -526,10 +529,10 @@
             padding-right: 3px
             box-sizing: border-box
           }
-          span{
-            display :inline-block
-            font-size :10px
-            vertical-align :top
+          span {
+            display: inline-block
+            font-size: 10px
+            vertical-align: top
           }
           .icon1 {
             background url(../common/image/icon1.png) no-repeat center
@@ -537,8 +540,8 @@
             width: 15px
             height: 15px
             margin-right: 0.05rem
-            margin-bottom :0.2rem
-            vertical-align :middle
+            margin-bottom: 0.2rem
+            vertical-align: middle
           }
           .icon2 {
             background url(../common/image/icon2.png) no-repeat center
@@ -546,8 +549,8 @@
             width: 15px
             height: 15px
             margin-right: 0.05rem
-            margin-bottom :0.2rem
-            vertical-align :middle
+            margin-bottom: 0.2rem
+            vertical-align: middle
           }
           .icon3 {
             background url(../common/image/icon3.png) no-repeat center
@@ -555,15 +558,15 @@
             width: 15px
             height: 15px
             margin-right: 0.05rem
-            margin-bottom :0.2rem
-            vertical-align :middle
+            margin-bottom: 0.2rem
+            vertical-align: middle
           }
         }
       }
       .s_recruit {
         padding-top: 0.77rem
         padding-bottom: 0.06rem
-        background :#fff
+        background: #fff
         .line {
           width: 100%
           height: 1px
@@ -577,14 +580,14 @@
             position: relative
             width: 100%
             height: 0.6rem
-            line-height :0.6rem
+            line-height: 0.6rem
             display: inline-block
             margin: 0 auto
             font-size: 0.30rem
             .line {
               position: absolute
               bottom: -0.2rem
-              width :10%
+              width: 10%
               left: 50%
               display: block
               height: 0.04rem
@@ -633,7 +636,7 @@
       }
 
       .intro_c {
-        padding :0 0.3rem
+        padding: 0 0.3rem
         .title {
           color: #1F2D3D
           font-size: 0.3rem
@@ -643,14 +646,14 @@
             position: relative
             width: 100%
             height: 0.6rem
-            line-height :0.6rem
+            line-height: 0.6rem
             display: inline-block
             margin: 0 auto
             font-size: 0.3rem
             .line {
               position: absolute
               bottom: -0.2rem
-              width :10%
+              width: 10%
               left: 50%
               display: block
               height: 0.04rem
