@@ -26,11 +26,11 @@
       <div class="detail_des hidden-xs">
         <div class="tips ">
           <ul class="tips_nav">
-            <li class="nav_item">招聘首页</li>
+            <li class="nav_item" @click="backIndex">招聘首页</li>
             <span class="icon">></span>
-            <li class="nav_item">职位列表</li>
+            <li class="nav_item" @click="backSec">职位列表</li>
             <span class="icon">></span>
-            <li class="nav_item">职位详情</li>
+            <li class="nav_item" @click="backlist">职位详情</li>
             <span class="icon1">></span>
             <li class="nav_item">申请职位</li>
           </ul>
@@ -76,7 +76,7 @@
       </div>
 
       <el-dialog
-        class="tips"
+        class="tips1"
         title="提示"
         :visible.sync="dialogVisible"
         size="small"
@@ -88,6 +88,29 @@
           <div class="title">提交成功</div>
           <div class="des">感谢您的申请，我们将会尽快给您回复</div>
         </div>
+      </el-dialog>
+
+      <el-dialog
+        class="tips2"
+        title="扫码分享职位"
+        :visible.sync="dialogVisible2"
+        size="small"
+      >
+        <div class="content">
+          <div class="img">
+
+          </div>
+          <div class="des">或使用链接分享</div>
+        </div>
+        <el-form :inline="true" :model="formShare" class="share">
+          <el-form-item>
+            <el-input v-model="formShare.share"></el-input>
+          </el-form-item>
+
+          <el-form-item>
+            <el-button type="primary" @click="share" ref="btn">复制链接</el-button>
+          </el-form-item>
+        </el-form>
       </el-dialog>
     </div>
 
@@ -141,7 +164,12 @@
             { required: true, message: '请上传简历', trigger: 'change' }
           ]
         },
-        dialogVisible: false
+        dialogVisible: false,
+        dialogVisible2:false,
+        formShare:{
+          share:''
+        }
+
       }
     },
     created(){
@@ -183,7 +211,10 @@
         }
       },
       open() {
-        this.dialogVisible = true
+        this.dialogVisible =true
+        setTimeout(()=>{
+          this.dialogVisible2 = true
+        },2000)
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -202,6 +233,24 @@
           }
         })
       },
+      backIndex() {
+        this.$router.push({
+          path: `/`
+        })
+      },
+      backSec(){
+        this.$router.push({
+          path: `/list`
+        })
+      },
+      backlist(){
+        this.$router.push({
+          path: `/list/${this.id}`
+        })
+      },
+      share(){
+
+      }
 
     },
     components:{
@@ -213,13 +262,19 @@
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../common/stylus/mixin.styl"
   #apply
-    .tips
+    .tips1
       .el-dialog--small
+        width: 671px;
         height :424px
+        box-sizing: border-box
+        top: 50% !important
+        margin-top: -212px
         .el-dialog__header
           display :none
+        .el-dialog__body
+          height :424px
       .content
-        padding :114px 0 113px 0
+        padding :84px 0 113px 0
         text-align :center
         .img
           display :inline-block
@@ -234,6 +289,46 @@
         .des
           font-size :18px
           color :#1F2D3D
+    .tips2
+      .el-dialog--small
+        width: 428px;
+        height :404px
+        box-sizing: border-box
+        top: 50% !important
+        margin-top: -212px
+        .el-dialog__body
+          height :424px
+      .content
+        text-align :center
+        .img
+          display :inline-block
+          width :210px
+          height :210px
+          background :yellow
+        .title
+          margin :51px 0 22px 0
+          font-size :20px
+          color :#1F2D3D
+          font-weight :800
+        .des
+          text-align :left
+          margin-top :26px
+          margin-bottom :15px
+          color :#475669
+          font-size :14px
+       .share
+          .el-form-item
+            margin-bottom :0
+            margin-right :0
+            .el-form-item__content
+              .el-input
+                width :284px
+                .el-input__inner
+                  border: 1px solid #5AA2E7;
+              .el-button
+                &:hover
+                  background :#46BE8A
+
     header
       height 80px
       line-height 80px
@@ -258,36 +353,36 @@
         border-bottom :1px solid #E5E9F2
         margin-top :20px
 
-        .tips
-          position: absolute
-          left: 23px
-          top: 19px
-          height: 16px
-          line-height: 16px
-          .tips_nav
-            .icon
-              display: inline-block
-              float: left
-              width: 6px
-              height: 12px
-              margin: 0 10px
+      .tips
+        position: absolute
+        left: 23px
+        top: 19px
+        height: 16px
+        line-height: 16px
+        .tips_nav
+          .icon
+            display: inline-block
+            float: left
+            width: 6px
+            height: 12px
+            margin: 0 10px
+            color: #5AA2E7
+          .icon1
+            display: inline-block
+            float: left
+            width: 6px
+            height: 12px
+            margin: 0 10px
+            color: #99A9BF
+          .nav_item
+            float: left
+            font-size: 14px
+            width: 56px
+            height: 16px
+            text-align: center
+            color: #99A9BF
+            &:nth-child(1), &:nth-child(3), &:nth-child(5)
               color: #5AA2E7
-            .icon1
-              display: inline-block
-              float: left
-              width: 6px
-              height: 12px
-              margin: 0 10px
-              color: #99A9BF
-            .nav_item
-              float: left
-              font-size: 14px
-              width: 56px
-              height: 16px
-              text-align: center
-              color: #99A9BF
-              &:nth-child(1), &:nth-child(3), &:nth-child(5)
-                color: #5AA2E7
 
       .detail_show
         height :60px
@@ -323,7 +418,6 @@
             float :right
             font-size: 14px
             color: #99A9BF
-
 
 
       .apply_post
@@ -362,29 +456,6 @@
         left: 0
         right: 0
         bottom: 0
-      .tips
-        .el-dialog--small
-          width :92%
-          top: 50%!important
-          height :5.94rem
-          margin-top: -2.87rem
-          .el-dialog__header
-            display :none
-        .content
-          text-align :center
-          padding: 1.14rem 0 1.13rem 0
-          .img
-            display :inline-block
-            width :1.18rem
-            height :1.18rem
-          .title
-            margin :0.70rem 0 0.5rem 0
-            font-size :16px
-            color :#1F2D3D
-            font-weight :800
-          .des
-            font-size :14px
-            color :#1F2D3D
       .container
         padding:0
         margin :0
@@ -470,11 +541,13 @@
                 margin-left: 0
               .el-form-item__content
                   margin-left :0!important
-              .el-form-item__content
                 .el-input
                   width: 4.56rem
+              .el-form-item__error
+                  left :80px
                 .post,.post1
                   .el-upload
+                    padding-left: 0;
                   .el-upload__tip
                     margin-top: -0.1rem
                     white-space: nowrap
@@ -483,8 +556,77 @@
                     .el-upload__input
                       display :none
                   .el-upload-list
+                    padding-left: 80px;
                     .el-upload-list__item
                       width :70%
 
+
+      .tips1
+        .el-dialog--small
+          width: 92%
+          height :5.94rem
+          top: 50%
+          margin-top: -2.97rem
+          .el-dialog__header
+            display :none
+          .el-dialog__body
+            padding :0
+            height :5.94rem
+        .content
+          padding :1.50rem 0 1.5rem 0
+          text-align :center
+          .img
+            display :inline-block
+            width :1.189rem
+            height :1.189rem
+            background :yellow
+          .title
+            margin :0.71rem 0 0.51rem 0
+            font-size :0.28rem
+            color :#1F2D3D
+            font-family :"MicrosoftYaHei-Bold"
+          .des
+            font-size :0.24rem
+            color :#1F2D3D
+      .tips2
+        .el-dialog--small
+          width: 100%
+          height :7.09rem
+          box-sizing: border-box
+          top: 50% !important
+          margin-top: -3.15em
+          .el-dialog__header
+            position :relative
+            .el-dialog__title
+              position :absolute
+          .el-dialog__body
+            padding :0.54rem 0 0 0
+            height :6.37rem
+        .content
+          text-align :center
+          .img
+            display :inline-block
+            width :3.70rem
+            height :3.7rem
+            background :yellow
+          .des
+            margin :0.46rem 0 0.15rem 0.35rem
+            font-size :0.24rem
+            color :#475669
+
+        .share
+          padding: 0 0.35rem
+          .el-form-item
+            margin-bottom :0
+            margin-right :0
+            .el-form-item__content
+              .el-input
+                width :5rem
+                .el-input__inner
+                  border: 1px solid #5AA2E7
+              .el-button
+                margin-left: -0.4rem
+                &:hover
+                  background :#46BE8A
 
 </style>

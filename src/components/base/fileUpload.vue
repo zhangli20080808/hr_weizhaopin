@@ -51,13 +51,14 @@
     },
     methods: {
       handleRemove(file, fileList) {
-        var _this = this;
-        var method = "fileUpload/delFileRecord";
-        var param = JSON.stringify({id:file.response.data.ids});
-        var successd = function (res) {
-          _this.$emit('deleFileId',file.response.data.ids)
-        }
-        _this.$http(method,param,successd);
+        console.log(file,fileList)
+//        var _this = this;
+//        var method = "fileUpload/delFileRecord";
+//        var param = JSON.stringify({id:file.response.data.ids});
+//        var successd = function (res) {
+//          _this.$emit('deleFileId',file.response.data.ids)
+//        }
+//        _this.$http(method,param,successd);
       },
       handlePreview(file) {
         if(file.raw.type.indexOf('image') != -1){
@@ -69,15 +70,15 @@
       successd(response,file,fileList){
         var _this = this;
         console.log(response,file,fileList);
-        if (response.code == 0) {
-          _this.$emit('fileId',response.data.ids);
-          if(_this.param.businessId<5){
-            _this.fileList.pop();
-          }
-        } else {
-          _this.fileList.pop();
-          _this.$message.error(response.message);
-        }
+//        if (response.code == 0) {
+//          _this.$emit('fileId',response.data.ids);
+//          if(_this.param.businessId<5){
+//            _this.fileList.pop();
+//          }
+//        } else {
+//          _this.fileList.pop();
+//          _this.$message.error(response.message);
+//        }
       },
       // 上传错误
       uploadError (response, file, fileList) {

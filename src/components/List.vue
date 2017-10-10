@@ -25,7 +25,7 @@
       <div class="search">
         <div class="tips hidden-xs">
           <ul class="tips_nav">
-            <li class="nav_item">招聘首页</li>
+            <li class="nav_item" @click="backIndex">招聘首页</li>
             <span class="icon">></span>
             <li class="nav_item">职位列表</li>
           </ul>
@@ -55,7 +55,7 @@
 
         </el-form>
       </div>
-      <Scroll class="list" :data="list">
+      <Scroll class="list" :data="list" v-loading="!list" element-loading-text="拼命加载中">
         <!--list-->
         <div class="list_content" >
           <el-row :gutter="20">
@@ -110,6 +110,9 @@
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
+          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
+          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
+          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6}
         ],
         selectChose:allData.province
@@ -130,7 +133,12 @@
         })
       },
       change(item){
-      }
+      },
+      backIndex() {
+        this.$router.push({
+          path: `/`
+        })
+      },
     },
     components: {
       Scroll

@@ -1,5 +1,5 @@
 <template>
-  <div id="back">
+  <div id="back" class="visible-xs">
     <i class="el-icon-arrow-left icon" @click="back" v-show="show"></i>
     <h2 class="title">爱聚hr</h2>
   </div>
@@ -19,7 +19,7 @@
     },
     watch: {
       $route(to, from) {
-        console.log(to, from)
+//        console.log(to, from)
         if (to.path == '/list' ||
           to.path == '/list/' + this.$route.params.id ||
           to.path == '/apply' ) {

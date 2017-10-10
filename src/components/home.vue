@@ -20,8 +20,8 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li class="active"><a href="#">首页</a></li>
-              <li><a href="#1F" name="1F">招聘信息</a></li>
-              <li><a href="#2f" name="2f">公司介绍</a></li>
+              <li><a href="#1F" >招聘信息</a></li>
+              <li><a href="#2F" >公司介绍</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right nav_search">
               <li>
@@ -51,7 +51,6 @@
       </div>
     </div>
 
-    <a name="1F"></a>
     <!--公司简介-->
     <div class="s_company">
       <div class="c_img"></div>
@@ -83,7 +82,7 @@
     </div>
 
     <!--招聘职位-->
-    <div class="s_recruit">
+    <div id="1F" class="s_recruit">
       <div class="container">
         <div class="title">
           <div class="text">招聘职位
@@ -107,8 +106,7 @@
     </div>
 
     <!--公司介绍-->
-    <a name="2F"></a>
-    <div class="intro_c">
+    <div class="intro_c" id="2F">
       <div class="title">
         <div class="text">公司介绍
           <span class="line"></span>
@@ -198,6 +196,9 @@
               color: #99A9BF
               font-size: 12px
               padding: 14px 0 13px 16px
+              &::placeholder{
+                color: #99A9BF
+              }
             }
             .submit {
               position: absolute
@@ -418,7 +419,7 @@
       .intro_c_con {
         padding: 20px
         margin-top: 60px
-        margin-bottom: 48px
+        margin-bottom: 0
         border: 1px solid #E0E6ED
         .intro {
         }
