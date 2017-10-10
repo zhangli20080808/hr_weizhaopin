@@ -599,6 +599,7 @@
             position :relative
             .el-dialog__title
               position :absolute
+              font-size :0.28rem
           .el-dialog__body
             padding :0.54rem 0 0 0
             height :6.37rem
@@ -626,6 +627,8 @@
                   border: 1px solid #5AA2E7
               .el-button
                 margin-left: -0.4rem
+                span
+                  font-size :0.28rem
                 &:hover
                   background :#46BE8A
 

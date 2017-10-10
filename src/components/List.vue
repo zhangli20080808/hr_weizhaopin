@@ -362,13 +362,13 @@
               }
             }
             .submit {
-              position: absolute;
+              position: absolute
               display inline-block
-              width: 1.10rem;
-              height: 0.9rem;
+              width: 1.10rem
+              height: 0.9rem
               line-height :0.9rem
-              right: 0;
-              top: 0;
+              right: 0
+              top: 0
               text-align: center
 
               font-size: 0.28rem
@@ -381,18 +381,21 @@
           }
         }
         .list-form {
-          height: 1.5rem
-          line-height: 1.5rem
-          color: #99A9BF
-          font-size: 14px
-          background :#fff
-          padding-top :0.4rem
+          .el-form{
+            height: 1.5rem
+            line-height: 1.5rem
+            color: #99A9BF
+            font-size: 0.28rem
+            background :#fff
+            padding-top :0.4rem
+            border-b-1px(#E5E9F2)
+          }
           .el-form-item__content {
             .el-select {
               .el-input {
                 .el-input__inner {
                   line-height: 0.36rem
-                  font-size: 0.24rem;
+                  font-size: 0.24rem
                 }
               }
             }
@@ -422,7 +425,7 @@
           background: #fff
           width: 100%;
           position :fixed
-          top: 4.14rem;
+          top: 4.24rem;
           right :0
           left :0
           bottom :0
@@ -430,7 +433,6 @@
           .list_content {
             width: 100%
             padding: 0
-            margin-top: 0.2rem
             .grid-content {
 
               height: 2.28rem
@@ -439,7 +441,7 @@
               border :none
               border-left: none
               border-right: none
-              border-t-1px(#E5E9F2)
+              border-b-1px(#E5E9F2)
 
               .title {
                 font-size: 0.28rem;
