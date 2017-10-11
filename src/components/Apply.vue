@@ -219,7 +219,6 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.dialogVisible = true
             setTimeout(()=>{
               this.open()
               this.$router.push({
