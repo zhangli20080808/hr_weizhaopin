@@ -23,7 +23,7 @@
     <!--搜索-->
     <div class="container">
       <div class="search">
-        <div class="tips hidden-xs">
+        <div class="tips hidden-xs hidden-sm">
           <ul class="tips_nav">
             <li class="nav_item" @click="backIndex">招聘首页</li>
             <span class="icon">></span>
@@ -59,7 +59,7 @@
         <!--list-->
         <div class="list_content" >
           <el-row :gutter="20">
-            <el-col :span="8" :xs="24" :sm="8" :md="8" :lg="8" v-for="item in list" :key="item.id"
+            <el-col :span="8" :xs="24" :sm="12" :md="8" :lg="8" v-for="item in list" :key="item.id"
             >
               <div class="grid-content bg-purple" @click="selectItem(item)">
                 <div class="title">{{item.name}}</div>
@@ -317,7 +317,7 @@
     }
   }
 
-  @media all and (max-width: 768px) {
+  @media all and (max-width: 767px) {
     #s_list {
       background: #fff
       height: 100%
@@ -483,5 +483,149 @@
       }
     }
   }
+
+  @media (min-width: 768px) and (max-width: 920px){
+    #s_list {
+      background: #fff
+      height: 100%
+      width: 100%
+      position :fixed
+      top :0
+      bottom :0
+      left :0
+      right :0
+      padding-bottom :10px
+      .container {
+        width :100%
+        padding: 0
+        margin: 0
+        .search {
+          width: 100%;
+          position: relative;
+          margin: 0 auto;
+          height :1.42rem
+          font-family :"HiraginoSansGB-W3"
+          background :#f7f7f7;
+          .search_go {
+            width: 92%;
+            height: 60px
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-top: -30px
+            margin-left: -46%
+            .search_content {
+              width: 100%;
+              display :table
+              height: 60px
+              border: 1px solid #5AA2E7;
+              position: relative;
+              outline: none;
+              color: #99A9BF;
+              font-size: 14px;
+              padding: 18px 0 15px 14px
+              &::placeholder{
+                color :#99a9bf
+              }
+            }
+            .submit {
+              position: absolute
+              display inline-block
+              width: 1.10rem
+              height: 60px
+              line-height :60px
+              right: 0
+              top: 0
+              text-align: center
+
+              font-size: 24px
+              color: #ffff
+              background: #5AA2E7
+              &:hover {
+                background: #66AEF3
+              }
+            }
+          }
+        }
+
+        .list-form {
+          height: 76px;
+          line-height: 76px;
+          background: #fff;
+          color: #99a9bf;
+          font-size: 14px;
+          .form_address {
+            display: inline-block
+            margin-bottom: 0
+            .el-form-item__content {
+              margin-left: 29px !important
+
+            }
+          }
+          .form_kind {
+            display: inline-block
+            .el-form-item__content {
+              margin-left: 16px !important
+            }
+          }
+        }
+        .list {
+          background: #fff
+          width: 100%;
+          position :fixed
+          top: 300px
+          right :0
+          left :0
+          bottom :0
+          overflow :hidden
+          .list_content {
+            width: 100%
+            padding: 0 20px
+            .grid-content {
+              height: 114px
+              padding: 20px 0 20px 16px
+              margin-bottom: 20px
+              border :1px solid #E5E9F2
+              .title {
+                font-size: 18px
+                color: #1F2D3D
+                margin-bottom: 14px
+              }
+              .text {
+                height: 14px
+                line-height: 14px
+                .des {
+                  display: inline-block
+                  font-size: 14px
+                  color: #475669
+                  margin-right: 23px
+                  vertical-align :middle
+                }
+                .price {
+                  display: inline-block
+                  font-size: 16px
+                  color: #F96868
+                  vertical-align :middle
+                }
+              }
+              .p_time {
+                margin-top: 23px
+                font-size: 14px
+                color: #99A9BF
+              }
+            }
+
+          }
+          .page {
+            height: 41px
+            line-height: 41px
+            margin-bottom: 15px
+          }
+        }
+      }
+    }
+  }
+
+
 
 </style>

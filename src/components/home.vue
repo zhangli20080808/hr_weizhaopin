@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!--导航-->
-    <header class="hidden-xs">
+    <header class="hidden-xs hidden-sm">
       <nav class="navbar navbar-sample" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -23,7 +23,7 @@
               <li><a href="#1F" >招聘信息</a></li>
               <li><a href="#2F" >公司介绍</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right nav_search">
+            <ul class="nav navbar-nav navbar-right nav_search  hidden-sm">
               <li>
                 <div class="search">
                   <input type="text" placeholder="职位关键词" class="search_content">
@@ -31,7 +31,6 @@
                 </div>
               </li>
             </ul>
-
           </div>
         </div>
       </nav>
@@ -125,6 +124,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 <script>
@@ -448,9 +448,9 @@
     }
   }
 
-  @media all and (max-width: 768px) {
+  @media all and (max-width: 767px) {
     .home {
-      padding-top :0.9rem
+      padding-top :0.92rem
       .main_ad {
         height 2.74rem
         .carousel-inner1 {
@@ -637,7 +637,7 @@
       }
 
       .intro_c {
-        padding: 0 0.3rem
+        padding: 0 0.3rem 0.58rem
         .title {
           color: #1F2D3D
           font-size: 0.3rem
@@ -665,9 +665,9 @@
 
         }
         .intro_c_con {
+          width: 100%;
           padding: 0.14rem 0.14rem 0.37rem 0.1rem
           margin-top: 0.45rem
-          margin-bottom: 0.48rem
           border: 1px solid #E0E6ED
           .intro {
           }
@@ -695,4 +695,306 @@
 
     }
   }
+
+  @media (min-width: 768px) and (max-width: 920px){
+    .home{
+      background :#fff
+      padding-top: 84px
+      header {
+        height 80px
+        line-height 80px
+        .navbar-sample {
+          background-color: #fff
+          border-color: #f5f5f5
+          margin-bottom: 0
+          top: 0
+          width: 100%
+          z-index: 1000
+          .navbar-header {
+            height 84px
+          }
+          .navbar-brand {
+            height: 80px
+          }
+          .navbar-nav {
+            margin-left: 74px
+            li {
+              margin-right: 10px
+              a {
+                color: #1F2D3D
+                line-height: 50px
+                font-size: 16px
+                &:hover {
+                  background #fff
+                  border-bottom: 1px solid #5AA2E7
+                }
+              }
+            }
+          }
+          .nav_search {
+            .search {
+              .search_content {
+                width 230px
+                height 40px
+                border: 1px solid #C0CCDA
+                position: relative
+                outline: none
+                color: #99A9BF
+                font-size: 12px
+                padding: 14px 0 13px 16px
+                &::placeholder{
+                  color: #99A9BF
+                }
+              }
+              .submit {
+                position: absolute
+                display inline-block
+                right: 0
+                top: 21px
+                width 40px
+                height 40px
+                background: url(../common/image/search.png) no-repeat center
+              }
+            }
+          }
+        }
+      }
+
+      .main_ad {
+        .carousel-inner1 {
+          .item {
+            background: url(../common/image/banner.png) no-repeat
+            width: 100%
+            height 300px
+            background-position: center center
+            background-size: cover
+            position: relative
+
+            img {
+              width: 100%
+            }
+            .item_text {
+              position: absolute
+              width: 540px
+              height: 134px
+              top: 50%
+              left: 50%
+              margin-left: -270px
+              margin-top: -67px
+              color: #fff
+              text-align: center
+              letter-spacing: 8px;
+              .title {
+                font-size :30px
+                font-family: "SourceHanSansCN-Light"
+                margin-bottom: 44px
+              }
+              .des {
+                font-size: 24px
+              }
+            }
+          }
+        }
+      }
+
+      .s_company {
+        width: 100%
+        height: 465px
+        text-align: center
+        background: #F7F7F7
+        padding-top: 31px
+        .c_img {
+          width: 180px
+          height: 180px
+          display: inline-block
+          text-align: center
+          background: url(../common/image/com_logo.png) no-repeat center
+          position: relative
+        }
+        .text {
+          margin-top: 22px
+          font-size: 18px
+          color: #1F2D3D
+        }
+        .text1, .text2 {
+          color: #475669
+          font-size: 14px
+          margin-top: 30px
+          margin-bottom: 36px
+        }
+        .line {
+          width: 100%
+          height: 1px
+          background: #E0E6ED
+        }
+        .icon_list {
+          display :inline-block
+          height: 66px
+          line-height 66px
+          li{
+            display :inline-block
+            margin:0 20px
+            font-size :14px
+            vertical-align :top
+          }
+          .icon1 {
+            background url(../common/image/icon1.png) no-repeat center
+            display: inline-block
+            width: 15px
+            height: 15px
+            margin-right: 27px
+            vertical-align :middle
+          }
+          .icon2 {
+            background url(../common/image/icon2.png) no-repeat center
+            display: inline-block
+            width: 15px
+            height: 15px
+            margin-right: 27px
+            vertical-align :middle
+          }
+          .icon3 {
+            background url(../common/image/icon3.png) no-repeat center
+            display: inline-block
+            width: 15px
+            height: 15px
+            margin-right: 27px
+            vertical-align :middle
+          }
+      }
+      }
+
+      .s_recruit {
+        padding-top: 60px
+        padding-bottom: 20px
+        background: #fff
+        .line {
+          width: 100%
+          height: 1px
+          background: #e0e6ed
+        }
+        .title {
+          color: #1F2D3D
+          font-size: 0.20rem
+          text-align: center
+          .text {
+            position: relative
+            width: 100%
+            height: 0.6rem
+            line-height: 0.6rem
+            display: inline-block
+            margin: 0 auto
+            font-size: 0.20rem
+            .line {
+              position: absolute
+              bottom: -0.2rem
+              width: 10%
+              left: 50%
+              display: block
+              height: 2px
+              background: #5AA2E7
+              margin-left: -5%
+            }
+          }
+        }
+        .list_content {
+          margin-top: 0.72rem
+          .grid-content {
+
+            width: 100%
+            height: 1rem
+            margin-bottom: 0.3rem
+            border: 1px solid #5AA2E7
+            display: flex
+            &:nth-child(3n) {
+              margin-right: 0.2rem
+            }
+            .content {
+              line-height: 0.36rem
+              margin: auto
+              text-align: center
+              .des {
+                font-size: 0.18rem
+                color: #1F2D3D
+              }
+              .text {
+                font-size: 0.14rem
+                color: #475669
+                display: inline-block
+                vertical-align: super
+              }
+              .num {
+                font-size: 0.25rem
+                color: #5aa2e7
+                display: inline-block
+                margin-top: -0.03rem
+                margin-left: 0.1rem
+                float: right
+              }
+            }
+          }
+        }
+      }
+
+      .intro_c {
+        padding: 0 0.3rem 0.58rem;
+        .title {
+          color: #1F2D3D
+          font-size: 20px
+          text-align: center
+          .text {
+            position: relative
+            width: 123px
+            height: 30px
+            display: inline-block
+            margin: 0 auto
+            font-size: 20px
+            .line {
+              position: absolute
+              bottom: -24px
+              left: 50%
+              display: block
+              height: 2px
+              width: 80px
+              background: #5AA2E7
+              margin-left: -40px
+            }
+          }
+
+        }
+        .intro_c_con {
+          width: 100%
+          padding: 20px
+          margin-top: 60px
+          margin-bottom: 0
+          border: 1px solid #E0E6ED
+          .intro {
+          }
+          .img {
+            width: 100%
+            height: 424px
+            background: url(../common/image/intro.png) no-repeat center
+            background-size: cover
+          }
+          .intro_text {
+            font-size: 14px
+            color: #475669
+            p {
+              line-height: 2
+            }
+            p:nth-child(1) {
+              text-indent: 30px
+              margin-top: 29px
+            }
+            p:nth-child(2) {
+              text-indent: 30px
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+
 </style>

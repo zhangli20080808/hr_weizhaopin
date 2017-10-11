@@ -280,7 +280,8 @@
           display :inline-block
           width :85px
           height :85px
-          background :yellow
+          background :url(../common/image/tips.png)no-repeat center
+          background-size :cover
         .title
           margin :51px 0 22px 0
           font-size :20px
@@ -579,7 +580,8 @@
             display :inline-block
             width :1.189rem
             height :1.189rem
-            background :yellow
+            background :url(../common/image/tips.png)no-repeat center
+            background-size :cover
           .title
             margin :0.71rem 0 0.51rem 0
             font-size :0.28rem

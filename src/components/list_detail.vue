@@ -2,7 +2,7 @@
   <div id="list_detail">
 
     <!--导航-->
-    <header class="hidden-xs">
+    <header class="hidden-xs hidden-sm">
       <nav class="navbar navbar-sample" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -23,7 +23,7 @@
     </header>
 
     <div class="container">
-      <div class="detail_des hidden-xs">
+      <div class="detail_des hidden-xs hidden-sm">
         <div class="tips ">
           <ul class="tips_nav">
             <li class="nav_item" @click="backIndex">招聘首页</li>
@@ -248,7 +248,7 @@
         height: 100%
         padding: 19px 0 29px 23px
 
-  @media all and (max-width: 768px)
+  @media all and (max-width: 767px)
     #list_detail
       background: #fff
       position: absolute
@@ -348,5 +348,107 @@
           height: 100%
           font-size: 14px
           padding: 0.39rem 0.32rem 1.05rem 0.27rem
+
+  @media (min-width: 768px) and (max-width: 920px)
+    #list_detail
+      padding-top :84px
+
+      header
+        height 80px
+        line-height 80px
+        .navbar-sample
+          background-color: #fff
+          border-color: #f5f5f5
+          margin-bottom: 0
+          top: 0
+          width: 100%
+          z-index: 1000
+          .navbar-header
+            height 84px
+
+          .navbar-brand
+            height: 80px
+      .container
+        .detail_des
+          background: #fff
+          position: relative
+          height: 52px
+          line-height: 52px
+          border-bottom: 1px solid #E5E9F2
+          margin-top: 20px
+
+          .tips
+            position: absolute
+            left: 23px
+            top: 19px
+            height: 16px
+            line-height: 16px
+            .tips_nav
+              .icon
+                display: inline-block
+                float: left
+                width: 6px
+                height: 12px
+                margin: 0 10px
+                color: #5AA2E7
+                font-size: 16px
+              .icon1
+                display: inline-block
+                float: left
+                width: 6px
+                height: 12px
+                margin: 0 10px
+                font-size: 16px
+                color: #99A9BF
+              .nav_item
+                float: left
+                font-size: 14px
+                width: 56px
+                height: 16px
+                text-align: center
+                color: #99A9BF
+                &:nth-child(1), &:nth-child(3)
+                  color: #5AA2E7
+        .detail_show
+          height: 114px
+          background: #fff
+          padding: 21px 0 18px 24px
+          margin-bottom: 20px
+          border-bottom: 1px solid #E5E9F2
+          .content
+            position: relative
+            .post_share
+              position: absolute
+              width: 222px
+              height: 40px
+              line-height: 40px
+              right: 166px
+              top: 0
+            .title
+              font-size: 18px
+              color: #1F2D3D
+              margin-bottom: 14px
+            .text
+              height: 14px
+              line-height: 14px
+              .des
+                display: inline-block
+                font-size: 14px
+                color: #475669
+                margin-right: 23px
+                vertical-align :middle
+              .price
+                display: inline-block
+                font-size: 16px
+                color: #F96868
+                vertical-align :middle
+            .p_time
+              margin-top: 23px
+              font-size: 14px
+              color: #99A9BF
+        .detail_text
+          background: #fff
+          height: 100%
+          padding: 19px 0 29px 23px
 
 </style>
