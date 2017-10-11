@@ -317,6 +317,8 @@
               .el-button
                 display: inline-block
                 vertical-align: top
+              .el-button--default
+                margin-left :0
             .title
               font-size: 0.28rem
               color: #1F2D3D
@@ -349,9 +351,10 @@
           font-size: 14px
           padding: 0.39rem 0.32rem 1.05rem 0.27rem
 
-  @media (min-width: 768px) and (max-width: 920px)
+
+  @media (min-width: 768px) and (max-width: 992px)
     #list_detail
-      padding-top :84px
+      padding-top :66px
 
       header
         height 80px
@@ -369,6 +372,9 @@
           .navbar-brand
             height: 80px
       .container
+        width :100%
+        padding: 0
+        margin :0
         .detail_des
           background: #fff
           position: relative
@@ -449,6 +455,7 @@
         .detail_text
           background: #fff
           height: 100%
+          font-size :14px
           padding: 19px 0 29px 23px
 
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="s_list">
     <!--导航-->
-    <header class="hidden-xs">
+    <header class="hidden-xs hidden-sm">
       <nav class="navbar navbar-sample" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -208,7 +208,6 @@
         .search_go {
           width: 485px;
           height: 47px;
-          background: yellow;
           position: absolute;
           left: 50%;
           top: 50%;
@@ -217,12 +216,12 @@
           .search_content {
             display :table
             width: 426px;
-            height 47px;
+            height: 47px;
             line-height: 47px
             border: 1px solid #5AA2E7;
             position: relative;
             outline: none;
-            color: #99A9BF;
+            color: #333;
             font-size: 14px;
             padding: 18px 0 15px 14px
             &::placeholder{
@@ -337,24 +336,22 @@
           position: relative;
           margin: 0 auto;
           height :1.82rem
-          font-family :"HiraginoSansGB-W3"
-          background :#f7f7f7;
           .search_go {
             width: 92%;
-            height: 0.9rem;
+            height: 0.88rem;
             position: absolute;
             left: 50%;
             top: 50%;
-            margin-top: -0.45rem
+            margin-top: -0.44rem
             margin-left: -46%
             .search_content {
               width: 100%;
               display :table
-              height: 0.9rem;
+              height: 0.88rem;
               border: 1px solid #5AA2E7;
               position: relative;
               outline: none;
-              color: #99A9BF;
+              color: #333;
               font-size: 14px;
               padding: 0.16rem 0 0.17rem 0.29rem;
               &::placeholder{
@@ -365,11 +362,12 @@
               position: absolute
               display inline-block
               width: 1.10rem
-              height: 0.9rem
-              line-height :0.9rem
+              height: 0.88rem
+              line-height :0.88rem
               right: 0
               top: 0
               text-align: center
+              font-weight: 200
 
               font-size: 0.28rem
               color: #ffff
@@ -382,12 +380,11 @@
         }
         .list-form {
           .el-form{
-            height: 1.5rem
-            line-height: 1.5rem
+            height: 1.1rem
+            line-height: 1.1rem
             color: #99A9BF
             font-size: 0.28rem
             background :#fff
-            padding-top :0.4rem
             border-b-1px(#E5E9F2)
           }
           .el-form-item__content {
@@ -425,7 +422,7 @@
           background: #fff
           width: 100%;
           position :fixed
-          top: 4.24rem;
+          top: 3.84rem;
           right :0
           left :0
           bottom :0
@@ -484,7 +481,7 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 920px){
+  @media (min-width: 768px) and (max-width: 992px){
     #s_list {
       background: #fff
       height: 100%
@@ -494,6 +491,7 @@
       bottom :0
       left :0
       right :0
+      padding-top :66px
       padding-bottom :10px
       .container {
         width :100%
@@ -503,9 +501,7 @@
           width: 100%;
           position: relative;
           margin: 0 auto;
-          height :1.42rem
-          font-family :"HiraginoSansGB-W3"
-          background :#f7f7f7;
+          background :#fff;
           .search_go {
             width: 92%;
             height: 60px
@@ -521,7 +517,7 @@
               border: 1px solid #5AA2E7;
               position: relative;
               outline: none;
-              color: #99A9BF;
+              color: #333;
               font-size: 14px;
               padding: 18px 0 15px 14px
               &::placeholder{
@@ -531,7 +527,7 @@
             .submit {
               position: absolute
               display inline-block
-              width: 1.10rem
+              width: 110px
               height: 60px
               line-height :60px
               right: 0
@@ -573,11 +569,12 @@
           background: #fff
           width: 100%;
           position :fixed
-          top: 300px
+          top: 260px
           right :0
           left :0
           bottom :0
           overflow :hidden
+          padding :10px 10px
           .list_content {
             width: 100%
             padding: 0 20px

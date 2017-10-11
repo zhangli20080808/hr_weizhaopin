@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!--导航-->
-    <header class="hidden-xs hidden-sm">
+    <header class="hidden-xs hidden-sm ">
       <nav class="navbar navbar-sample" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -54,7 +54,7 @@
     <div class="s_company">
       <div class="c_img"></div>
       <div class="text">杭州针尖科技有限公司</div>
-      <p class="text1">客户第一、拥抱变化、团队合作、激情、诚信、敬业成长、共赢业成长</p>
+      <p class="text1">客户第一、拥抱变化、团队合作、激情、诚信、敬业成长</p>
       <p class="text2">地址：杭州市西湖区文一路公元里7幢6楼</p>
       <div class="line"></div>
 
@@ -239,12 +239,13 @@
             text-align: center
 
             .title {
-              font-size 60px
-              font-family: "SourceHanSansCN-Light"
+              font-size :60px
               margin-bottom 44px
+              font-weight: 200
             }
             .des {
               font-size: 24px
+              font-weight: 200
             }
           }
         }
@@ -477,7 +478,6 @@
 
               .title {
                 font-size: 0.6rem
-                font-family: "SourceHanSansCN-Light"
                 margin-bottom: 0.44rem
                 margin-top: 0.4rem
               }
@@ -696,69 +696,10 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 920px){
+  @media (min-width: 768px) and (max-width: 992px){
     .home{
       background :#fff
-      padding-top: 84px
-      header {
-        height 80px
-        line-height 80px
-        .navbar-sample {
-          background-color: #fff
-          border-color: #f5f5f5
-          margin-bottom: 0
-          top: 0
-          width: 100%
-          z-index: 1000
-          .navbar-header {
-            height 84px
-          }
-          .navbar-brand {
-            height: 80px
-          }
-          .navbar-nav {
-            margin-left: 74px
-            li {
-              margin-right: 10px
-              a {
-                color: #1F2D3D
-                line-height: 50px
-                font-size: 16px
-                &:hover {
-                  background #fff
-                  border-bottom: 1px solid #5AA2E7
-                }
-              }
-            }
-          }
-          .nav_search {
-            .search {
-              .search_content {
-                width 230px
-                height 40px
-                border: 1px solid #C0CCDA
-                position: relative
-                outline: none
-                color: #99A9BF
-                font-size: 12px
-                padding: 14px 0 13px 16px
-                &::placeholder{
-                  color: #99A9BF
-                }
-              }
-              .submit {
-                position: absolute
-                display inline-block
-                right: 0
-                top: 21px
-                width 40px
-                height 40px
-                background: url(../common/image/search.png) no-repeat center
-              }
-            }
-          }
-        }
-      }
+      padding-top: 66px
 
       .main_ad {
         .carousel-inner1 {
@@ -786,7 +727,6 @@
               letter-spacing: 8px;
               .title {
                 font-size :30px
-                font-family: "SourceHanSansCN-Light"
                 margin-bottom: 44px
               }
               .des {
