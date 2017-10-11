@@ -2,7 +2,7 @@
   <div id="apply">
 
     <!--导航-->
-    <header class="hidden-xs">
+    <header class="hidden-xs hidden-sm">
       <nav class="navbar navbar-sample" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -23,7 +23,7 @@
     </header>
 
     <div class="container">
-      <div class="detail_des hidden-xs">
+      <div class="detail_des hidden-xs hidden-sm">
         <div class="tips ">
           <ul class="tips_nav">
             <li class="nav_item" @click="backIndex">招聘首页</li>
@@ -279,7 +279,8 @@
           display :inline-block
           width :85px
           height :85px
-          background :yellow
+          background :url(../common/image/tips.png)no-repeat center
+          background-size :cover
         .title
           margin :51px 0 22px 0
           font-size :20px
@@ -398,6 +399,7 @@
             display: inline-block
             font-size: 18px
             color: #1F2D3D
+            margin-right :20px
           .text
             display: inline-block
             height: 14px
@@ -408,10 +410,12 @@
               font-size: 14px
               color: #475669
               margin-right: 23px
+              vertical-align :middle
             .price
               display: inline-block
               font-size: 16px
               color: #F96868
+              vertical-align :middle
           .p_time
             display: inline-block
             float :right
@@ -440,7 +444,7 @@
                     display:block
 
 
-  @media all and (max-width: 768px)
+  @media all and (max-width: 767px)
     #apply
       background :#fff
       position: absolute
@@ -479,7 +483,6 @@
             .name
               font-size: 0.36rem
               color: #475669
-              font-family: HiraginoSansGB-W6
             .title
               height: 0.28rem
               line-height: 0.28rem
@@ -578,7 +581,8 @@
             display :inline-block
             width :1.189rem
             height :1.189rem
-            background :yellow
+            background :url(../common/image/tips.png)no-repeat center
+            background-size :cover
           .title
             margin :0.71rem 0 0.51rem 0
             font-size :0.28rem
@@ -630,5 +634,166 @@
                   font-size :0.28rem
                 &:hover
                   background :#46BE8A
+
+
+
+  @media (min-width: 768px) and (max-width: 992px)
+    #apply
+      background :#fff
+      position: absolute
+      bottom: 0
+      top: 0
+      right: 0
+      left: 0
+      padding-top :66px
+      .container
+        width :100%
+        padding:0
+        margin :0
+        .detail_des
+          background :#fff
+          position :relative
+          height :3rem
+          line-height :3rem
+          border-b-1px(#E5E9F2)
+          margin-top :0.2rem
+        .detail_show
+          height :60px
+          line-height :60px
+          padding: 21px 29px 21px 21px
+          background :#fff
+          .content
+            position:relative
+            height :18px
+            line-height :18px
+            .name
+              font-size: 18px
+              color: #475669
+            .title
+              display :inline-block
+              height :14px
+              line-height :14px
+              font-size: 14px
+              color: #1F2D3D
+              vertical-align :top
+              margin-right :10px
+            .text
+              display :inline-block
+              height: 14px
+              line-height: 14px
+              vertical-align :top
+              .des
+                display: inline-block
+                vertical-align :top
+                font-size: 12px
+                color: #475669
+                margin-right: 11px
+              .price
+                display: inline-block
+                vertical-align :top
+                font-size: 13px
+                color: #F96868
+            .p_time
+              display :inline-block
+              height: 12px
+              line-height: 12px
+              font-size: 12px
+              color: #99A9BF
+
+        .apply_post
+            padding :50px 0px 34px 0
+            height :100%
+            background :#fff
+            .apply_content
+              width :500px
+              height :100%
+              margin: auto
+              .el-form
+                .btn
+                  width: 420px
+                  outline :none
+                .el-form-item__content
+                  .post,.post1
+                    .el-upload
+                      .el-upload__input
+                        display :none
+                    .el-upload-list__item
+                      .el-icon-close
+                        display:block
+
+
+      .tips1
+        .el-dialog--small
+          width: 72%
+          height :594px
+          top: 50%
+          margin-top: -297px
+          .el-dialog__header
+            display :none
+          .el-dialog__body
+            padding :0
+            height :5.94rem
+        .content
+          padding :1.50rem 0 1.5rem 0
+          text-align :center
+          .img
+            display :inline-block
+            width :1.189rem
+            height :1.189rem
+            background :url(../common/image/tips.png)no-repeat center
+            background-size :cover
+          .title
+            margin :0.71rem 0 0.51rem 0
+            font-size :0.28rem
+            color :#1F2D3D
+            font-family :"MicrosoftYaHei-Bold"
+          .des
+            font-size :0.24rem
+            color :#1F2D3D
+      .tips2
+        .el-dialog--small
+          width: 100%
+          height :7.09rem
+          box-sizing: border-box
+          top: 50% !important
+          margin-top: -3.15em
+          .el-dialog__header
+            position :relative
+            .el-dialog__title
+              position :absolute
+              font-size :0.28rem
+          .el-dialog__body
+            padding :0.54rem 0 0 0
+            height :6.37rem
+        .content
+          text-align :center
+          .img
+            display :inline-block
+            width :3.70rem
+            height :3.7rem
+            background :yellow
+          .des
+            margin :0.46rem 0 0.15rem 0.35rem
+            font-size :0.24rem
+            color :#475669
+
+        .share
+          padding: 0 0.35rem
+          .el-form-item
+            margin-bottom :0
+            margin-right :0
+            .el-form-item__content
+              .el-input
+                width :5rem
+                .el-input__inner
+                  border: 1px solid #5AA2E7
+              .el-button
+                margin-left: -0.4rem
+                span
+                  font-size :0.28rem
+                &:hover
+                  background :#46BE8A
+
+
 
 </style>
