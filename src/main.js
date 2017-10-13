@@ -13,6 +13,9 @@ import 'element-ui/lib/theme-default/index.css'
 
 import 'common/js/index'
 
+import Methods from 'common/js/methods'
+Vue.use(Methods);
+
 Vue.config.productionTip = false
 
 import 'common/stylus/index.styl'

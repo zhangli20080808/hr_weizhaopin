@@ -23,12 +23,11 @@
     <!--搜索-->
     <div class="container">
       <div class="search">
-        <div class="tips hidden-xs hidden-sm">
-          <ul class="tips_nav">
-            <li class="nav_item" @click="backIndex">招聘首页</li>
-            <span class="icon">></span>
-            <li class="nav_item">职位列表</li>
-          </ul>
+        <div class="detail_des hidden-xs hidden-sm">
+          <el-breadcrumb separator="/" class="tips">
+            <el-breadcrumb-item :to="{ path: '/' }" class="tips_1">招聘首页</el-breadcrumb-item>
+            <el-breadcrumb-item>职位列表</el-breadcrumb-item>
+          </el-breadcrumb>
         </div>
         <div class="search_go">
           <input type="search" placeholder="职位关键词" class="search_content">
@@ -183,26 +182,10 @@
           top: 23px
           height: 16px
           line-height: 16px
-          .tips_nav {
-            .icon {
-              display: inline-block
-              float: left
-              width: 6px
-              height: 12px
-              font-size: 16px;
-              margin: 0 10px
-              color: #99A9BF
-            }
-            .nav_item {
-              float: left
-              font-size: 16px
-              height: 16px
-              text-align: center
-              color: #99A9BF
-              &:first-child {
-                color: #5AA2E7
+          .tips_1{
+              .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a,.el-breadcrumb__separator{
+                color :#5AA2E7
               }
-            }
           }
         }
         .search_go {

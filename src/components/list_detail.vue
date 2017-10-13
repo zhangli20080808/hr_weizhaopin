@@ -24,15 +24,11 @@
 
     <div class="container">
       <div class="detail_des hidden-xs hidden-sm">
-        <div class="tips ">
-          <ul class="tips_nav">
-            <li class="nav_item" @click="backIndex">招聘首页</li>
-            <span class="icon">></span>
-            <li class="nav_item" @click="backSec">职位列表</li>
-            <span class="icon1">></span>
-            <li class="nav_item">职位详情</li>
-          </ul>
-        </div>
+        <el-breadcrumb separator="/" class="tips">
+          <el-breadcrumb-item :to="{ path: '/' }" class="tips_1">招聘首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/list' }" class="tips_2">职位列表</el-breadcrumb-item>
+          <el-breadcrumb-item >职位详情</el-breadcrumb-item>
+        </el-breadcrumb>
       </div>
 
       <div class="detail_show">
@@ -81,6 +77,7 @@
           1、有 CMS系统相关产品设计经验，有营销管理产品平台设计经验；
           2、面向大众 App 产品经验优先；
           3、热爱互联网产品，有微信公众号/微博或其他自媒体/社区运营经验；
+
         </div>
       </div>
 
@@ -136,9 +133,9 @@
         })
       },
       backIndex() {
-       this.$router.push({
-         path: `/`
-       })
+        this.$router.push({
+          path: `/`
+        })
       },
       backSec(){
         this.$router.push({
@@ -182,32 +179,11 @@
           top: 19px
           height: 16px
           line-height: 16px
-          .tips_nav
-            .icon
-              display: inline-block
-              float: left
-              width: 6px
-              height: 12px
-              margin: 0 10px
-              color: #5AA2E7
-              font-size: 16px
-            .icon1
-              display: inline-block
-              float: left
-              width: 6px
-              height: 12px
-              margin: 0 10px
-              font-size: 16px
-              color: #99A9BF
-            .nav_item
-              float: left
-              font-size: 14px
-              width: 56px
-              height: 16px
-              text-align: center
-              color: #99A9BF
-              &:nth-child(1), &:nth-child(3)
-                color: #5AA2E7
+          .tips_1,.tips_2{
+            .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a,.el-breadcrumb__separator{
+              color :#5AA2E7
+            }
+          }
       .detail_show
         height: 114px
         background: #fff
@@ -300,7 +276,7 @@
                   color: #5AA2E7
         .detail_show
           height: 3.16rem
-          background: #f7f7f7
+          background: #fff
           padding: 0.37rem 0 0.3rem 0.30rem
           border-bottom: 1px solid #E5E9F2
           margin-bottom: 0
@@ -318,7 +294,7 @@
                 display: inline-block
                 vertical-align: top
               .el-button--default
-                margin-left :0
+                margin-left: 0
             .title
               font-size: 0.28rem
               color: #1F2D3D
@@ -351,10 +327,9 @@
           font-size: 14px
           padding: 0.39rem 0.32rem 1.05rem 0.27rem
 
-
   @media (min-width: 768px) and (max-width: 992px)
     #list_detail
-      padding-top :66px
+      padding-top: 66px
 
       header
         height 80px
@@ -372,9 +347,9 @@
           .navbar-brand
             height: 80px
       .container
-        width :100%
+        width: 100%
         padding: 0
-        margin :0
+        margin: 0
         .detail_des
           background: #fff
           position: relative
@@ -442,12 +417,12 @@
                 font-size: 14px
                 color: #475669
                 margin-right: 23px
-                vertical-align :middle
+                vertical-align: middle
               .price
                 display: inline-block
                 font-size: 16px
                 color: #F96868
-                vertical-align :middle
+                vertical-align: middle
             .p_time
               margin-top: 23px
               font-size: 14px
@@ -455,7 +430,7 @@
         .detail_text
           background: #fff
           height: 100%
-          font-size :14px
+          font-size: 14px
           padding: 19px 0 29px 23px
 
 </style>

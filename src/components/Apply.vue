@@ -24,17 +24,12 @@
 
     <div class="container">
       <div class="detail_des hidden-xs hidden-sm">
-        <div class="tips ">
-          <ul class="tips_nav">
-            <li class="nav_item" @click="backIndex">招聘首页</li>
-            <span class="icon">></span>
-            <li class="nav_item" @click="backSec">职位列表</li>
-            <span class="icon">></span>
-            <li class="nav_item" @click="backlist">职位详情</li>
-            <span class="icon1">></span>
-            <li class="nav_item">申请职位</li>
-          </ul>
-        </div>
+        <el-breadcrumb separator="/" class="tips">
+          <el-breadcrumb-item :to="{ path: '/' }" class="tips_1">招聘首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/list' }" class="tips_2">职位列表</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/list/:id' }" class="tips_3">职位详情</el-breadcrumb-item>
+          <el-breadcrumb-item >申请职位</el-breadcrumb-item>
+        </el-breadcrumb>
       </div>
 
       <div class="detail_show">
@@ -176,9 +171,13 @@
 
       this._getDetail()
       this.open()
+      this.init()
     },
     methods:{
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
+      init(){
+        console.log(this.$http)
+      },
       _getDetail(){
         if(!this.name){
           this.$router.push('/list')
@@ -219,7 +218,6 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.dialogVisible = true
             setTimeout(()=>{
               this.open()
               this.$router.push({
@@ -353,37 +351,15 @@
         line-height :52px
         border-bottom :1px solid #E5E9F2
         margin-top :20px
-
-      .tips
-        position: absolute
-        left: 23px
-        top: 19px
-        height: 16px
-        line-height: 16px
-        .tips_nav
-          .icon
-            display: inline-block
-            float: left
-            width: 6px
-            height: 12px
-            margin: 0 10px
-            color: #5AA2E7
-          .icon1
-            display: inline-block
-            float: left
-            width: 6px
-            height: 12px
-            margin: 0 10px
-            color: #99A9BF
-          .nav_item
-            float: left
-            font-size: 14px
-            width: 56px
-            height: 16px
-            text-align: center
-            color: #99A9BF
-            &:nth-child(1), &:nth-child(3), &:nth-child(5)
-              color: #5AA2E7
+        .tips
+          position: absolute
+          left: 23px
+          top: 19px
+          height: 16px
+          line-height: 16px
+          .tips_1,.tips_2,.tips_3
+            .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a,.el-breadcrumb__separator
+              color :#5AA2E7
 
       .detail_show
         height :60px

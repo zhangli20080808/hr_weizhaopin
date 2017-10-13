@@ -26,11 +26,13 @@
     border-color: #5AA2E7;
     color: #fff;
   }
-  #app{
-  }
+
   @media all and (max-width: 768px) {
     html {
       font-size: 100px;
+    }
+    #app{
+      background: #fff;
     }
   }
 </style>
