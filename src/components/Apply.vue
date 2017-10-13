@@ -176,7 +176,16 @@
     methods:{
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
       init(){
-        console.log(this.$http)
+        var self = this;
+        var method = "",
+          param = JSON.stringify({
+
+          }),
+          successd=function(res){
+            console.log(res);
+//            self.today = res.data.data.today;
+          };
+        this.$http(method,param,successd);
       },
       _getDetail(){
         if(!this.name){

@@ -6,7 +6,7 @@
 
 var user = "http://192.168.5.76:8088/hrm_test"; // 小辉测试本地
 // var user = "http://192.168.5.76:8080/hrm"; // 小辉本地
-// var user = "http://192.168.4.215:8090/hrm"; // 琦玉本地 
+// var user = "http://192.168.4.215:8090/hrm"; // 琦玉本地
 // var user = "http://192.168.4.10:8080/hrm"; // 丸子本地
 // var user = "http://192.168.4.195:8080/hrm"; // 天明本地
 // var user="http://121.199.182.2:30004/hrm"
@@ -35,66 +35,66 @@ exports.postImportUrl = user + "/upload.do?method=positionManage/importPositionD
  */
 
 exports.methodStr = {
-    duty: {
-      tree: "dutyManage/getDutyTreeByParams",
-      add: "dutyManage/addDutyInfo",
-      delete: "dutyManage/delDutyInfo",
-      update: "dutyManage/updateDutyInfo",
-      query: "dutyManage/getDutyListByParams",
-      dutyLevel: "dutyManage/getDutyLevelListByParams",
-      dutyInfo: "dutyManage/getCompanyDutyInfoById",
-      download: "dutyManage/exportDutyModelExcel",
-      dataupload: "dutyManage/importDutyData",
-      addDutyLevel: "dutyManage/addDutyLevel",
-      updateDutyLevel: "dutyManage/updateDutyLevel",
-      delDutyLevel: "dutyManage/delDutyLevel",
-      exportDuty: "dutyManage/exportDutyListExcel",
-      abilityRequire: {
-        add: "dutyManage/addAbilityRequire",
-        delete: "dutyManage/delAbilityRequire",
-        update: "dutyManage/updateAbilityRequire",
-        query: "dutyManage/getAbilityRequireListByParams",
-        get: "getAbilityRequireById"
-      }
-    },
-    org: {
-      add: "department/addDepartment",
-      delete: "department/delDepartment",
-      update: "department/updateDepartment",
-      queryList: "department/getDepartmentList",
-      //    treeList: "department/getDepartmentTreeByCompanyId",
-      treeList: "department/getCommonInfoByDepartmentTree",
-      //人员编制
-      personnalList: "departmentPersonNum/getDepartmentPersonNum",
-      personnalAdd: "departmentPersonNum/addDepartmentPersonNum",
-      personnalDelete: "departmentPersonNum/delDepartmentPersonNum",
-      personnalUpdate: "departmentPersonNum/updateDepartmentPersonNum",
-      //负责人列表
-      principalList: "departmentPrincipal/getDepartmentPrincipal",
-      principalAdd: "departmentPrincipal/addDepartmentPrincipal",
-      principalDelete: "departmentPrincipal/delDepartmentPrincipal",
-      principalUpdate: "departmentPrincipal/updateDepartmentPrincipal",
-      //员工树形图
-      getCommonInfoTree: "department/getCommonInfoByDepartmentTree",
-      departmentList: "department/getDepartmentFramework",
-      dataupload: "department/importDepartment",
-      download: "department/downDeptModelExcel"
-    },
-    attendance:{
-      query:'attendanceRule/getAttendanceRuleList',
-      add:'attendanceRule/addAttendanceRule',
-      detail:'attendanceRule/getAttendanceRuleDetail',
-      dele:'attendanceRule/deleteAttendanceRule',
-      update:'attendanceRule/updateAttendanceRule',
-      queryDate:'attendanceRule/getSignRecords'
-    },
-    attendanceTj:{
-      query:'signRecordCount/signRecordCountByDay',
-      exports:"signRecordCount/exportSignRecordsByDay"
-    },
-    oaTask:{
-      recall:"taskInfo/withdrawTaskInfos"
+  duty: {
+    tree: "dutyManage/getDutyTreeByParams",
+    add: "dutyManage/addDutyInfo",
+    delete: "dutyManage/delDutyInfo",
+    update: "dutyManage/updateDutyInfo",
+    query: "dutyManage/getDutyListByParams",
+    dutyLevel: "dutyManage/getDutyLevelListByParams",
+    dutyInfo: "dutyManage/getCompanyDutyInfoById",
+    download: "dutyManage/exportDutyModelExcel",
+    dataupload: "dutyManage/importDutyData",
+    addDutyLevel: "dutyManage/addDutyLevel",
+    updateDutyLevel: "dutyManage/updateDutyLevel",
+    delDutyLevel: "dutyManage/delDutyLevel",
+    exportDuty: "dutyManage/exportDutyListExcel",
+    abilityRequire: {
+      add: "dutyManage/addAbilityRequire",
+      delete: "dutyManage/delAbilityRequire",
+      update: "dutyManage/updateAbilityRequire",
+      query: "dutyManage/getAbilityRequireListByParams",
+      get: "getAbilityRequireById"
     }
+  },
+  org: {
+    add: "department/addDepartment",
+    delete: "department/delDepartment",
+    update: "department/updateDepartment",
+    queryList: "department/getDepartmentList",
+    //    treeList: "department/getDepartmentTreeByCompanyId",
+    treeList: "department/getCommonInfoByDepartmentTree",
+    //人员编制
+    personnalList: "departmentPersonNum/getDepartmentPersonNum",
+    personnalAdd: "departmentPersonNum/addDepartmentPersonNum",
+    personnalDelete: "departmentPersonNum/delDepartmentPersonNum",
+    personnalUpdate: "departmentPersonNum/updateDepartmentPersonNum",
+    //负责人列表
+    principalList: "departmentPrincipal/getDepartmentPrincipal",
+    principalAdd: "departmentPrincipal/addDepartmentPrincipal",
+    principalDelete: "departmentPrincipal/delDepartmentPrincipal",
+    principalUpdate: "departmentPrincipal/updateDepartmentPrincipal",
+    //员工树形图
+    getCommonInfoTree: "department/getCommonInfoByDepartmentTree",
+    departmentList: "department/getDepartmentFramework",
+    dataupload: "department/importDepartment",
+    download: "department/downDeptModelExcel"
+  },
+  attendance:{
+    query:'attendanceRule/getAttendanceRuleList',
+    add:'attendanceRule/addAttendanceRule',
+    detail:'attendanceRule/getAttendanceRuleDetail',
+    dele:'attendanceRule/deleteAttendanceRule',
+    update:'attendanceRule/updateAttendanceRule',
+    queryDate:'attendanceRule/getSignRecords'
+  },
+  attendanceTj:{
+    query:'signRecordCount/signRecordCountByDay',
+    exports:"signRecordCount/exportSignRecordsByDay"
+  },
+  oaTask:{
+    recall:"taskInfo/withdrawTaskInfos"
+  }
 }
 
 
