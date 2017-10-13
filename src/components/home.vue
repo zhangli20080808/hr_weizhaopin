@@ -20,14 +20,14 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li class="active"><a href="#">首页</a></li>
-              <li><a href="#1F" >招聘信息</a></li>
-              <li><a href="#2F" >公司介绍</a></li>
+              <li><a href="#1F">招聘信息</a></li>
+              <li><a href="#2F">公司介绍</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right nav_search  hidden-sm">
               <li>
                 <div class="search">
-                  <input type="text" placeholder="职位关键词" class="search_content">
-                  <span class="submit"><i></i></span>
+                  <input type="text" placeholder="职位关键词" class="search_content" v-model="toSearch">
+                  <span class="submit" @click="goSearch"><i></i></span>
                 </div>
               </li>
             </ul>
@@ -132,11 +132,13 @@
     data() {
       return {
         product: [
-          {id:1,des: '产品类',text:'在招职位',num:'32'},
-          {id:2,des: '产品类1',text:'在招职位',num:'32'},
-          {id:3,des: '产品类2',text:'在招职位',num:'32'},
-          {id:4,des: '产品类3',text:'在招职位',num:'32'},
-        ]
+          {id: 1, des: '产品类', text: '在招职位', num: '32'},
+          {id: 2, des: '产品类1', text: '在招职位', num: '32'},
+          {id: 3, des: '产品类2', text: '在招职位', num: '32'},
+          {id: 4, des: '产品类3', text: '在招职位', num: '32'},
+        ],
+        toSearch:'',
+        PositionList:''
       }
     },
     methods: {
@@ -144,7 +146,47 @@
         this.$router.push({
           path: `/list`
         })
+      },
+      goSearch() {
+        this.searchDetail()
+        this.$router.push({
+          path: `/list`,
+          params:this.PositionList
+        })
+
+      },
+      getDetail() {
+        var _this = this;
+        var method = "miniRecruit/qryRecruitmentCountList";
+        var param = JSON.stringify({});
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            console.log(res.data)
+//            res.data.data.PositionList
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      searchDetail() {
+        var _this = this;
+        var method = "miniRecruit/searchRecruitPosition";
+        var param = JSON.stringify({
+          key: this.toSearch,
+          pageNum: 1,
+          pageSize: 9
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            console.log(res.data)
+            _this.PositionList = _this.res.data.data.recruitPositionList
+
+          }
+        }
+        _this.$http(method, param, successd);
       }
+    },
+    created() {
+      this.getDetail()
     }
 
   }
@@ -153,7 +195,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus">
   .home {
-    background :#fff
+    background: #fff
     header {
       height 80px
       line-height 80px
@@ -196,7 +238,7 @@
               color: #99A9BF
               font-size: 12px
               padding: 14px 0 13px 16px
-              &::placeholder{
+              &::placeholder {
                 color: #99A9BF
               }
             }
@@ -239,7 +281,7 @@
             text-align: center
 
             .title {
-              font-size :60px
+              font-size: 60px
               margin-bottom 44px
               font-weight: 200
             }
@@ -284,10 +326,10 @@
       .icon_list {
         height: 66px
         line-height 66px
-        padding:0 0.1rem
-        li{
-          display :inline-block
-          margin:0 80px
+        padding: 0 0.1rem
+        li {
+          display: inline-block
+          margin: 0 80px
         }
         .icon1 {
           background url(../common/image/icon1.png) no-repeat center
@@ -451,7 +493,7 @@
 
   @media all and (max-width: 767px) {
     .home {
-      padding-top :0.92rem
+      padding-top: 0.92rem
       .main_ad {
         height 2.74rem
         .carousel-inner1 {
@@ -696,9 +738,9 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 992px){
-    .home{
-      background :#fff
+  @media (min-width: 768px) and (max-width: 992px) {
+    .home {
+      background: #fff
       padding-top: 66px
 
       .main_ad {
@@ -726,7 +768,7 @@
               text-align: center
               letter-spacing: 8px;
               .title {
-                font-size :30px
+                font-size: 30px
                 margin-bottom: 44px
               }
               .des {
@@ -768,14 +810,14 @@
           background: #E0E6ED
         }
         .icon_list {
-          display :inline-block
+          display: inline-block
           height: 66px
           line-height 66px
-          li{
-            display :inline-block
-            margin:0 20px
-            font-size :14px
-            vertical-align :top
+          li {
+            display: inline-block
+            margin: 0 20px
+            font-size: 14px
+            vertical-align: top
           }
           .icon1 {
             background url(../common/image/icon1.png) no-repeat center
@@ -783,7 +825,7 @@
             width: 15px
             height: 15px
             margin-right: 27px
-            vertical-align :middle
+            vertical-align: middle
           }
           .icon2 {
             background url(../common/image/icon2.png) no-repeat center
@@ -791,7 +833,7 @@
             width: 15px
             height: 15px
             margin-right: 27px
-            vertical-align :middle
+            vertical-align: middle
           }
           .icon3 {
             background url(../common/image/icon3.png) no-repeat center
@@ -799,9 +841,9 @@
             width: 15px
             height: 15px
             margin-right: 27px
-            vertical-align :middle
+            vertical-align: middle
           }
-      }
+        }
       }
 
       .s_recruit {
