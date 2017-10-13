@@ -747,7 +747,6 @@
             margin :0.71rem 0 0.51rem 0
             font-size :0.28rem
             color :#1F2D3D
-            font-family :"MicrosoftYaHei-Bold"
           .des
             font-size :0.24rem
             color :#1F2D3D

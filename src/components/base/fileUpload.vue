@@ -29,6 +29,7 @@
    */
   import Util from '../../common/js/util.js';
   import md5 from 'js-md5';
+  import tips from './tips.vue';
   export default {
     props:{
       param:Object,
@@ -95,6 +96,9 @@
       empty:function() {
         this.fileList = [];//清空
       }
+    },
+    components:{
+      tips
     }
   }
 </script>
