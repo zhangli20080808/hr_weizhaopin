@@ -4,12 +4,15 @@
  */
 
 
-var user = "http://192.168.5.76:8088/hrm_test"; // 小辉测试本地
+// var user = "http://192.168.5.76:8088/hrm_test"; // 小辉测试本地
 // var user = "http://192.168.5.76:8080/hrm"; // 小辉本地
 // var user = "http://192.168.4.215:8090/hrm"; // 琦玉本地
 // var user = "http://192.168.4.10:8080/hrm"; // 丸子本地
 // var user = "http://192.168.4.195:8080/hrm"; // 天明本地
 // var user="http://121.199.182.2:30004/hrm"
+
+var user = "http://192.168.4.157:8080/hrm";  //鹿丸
+
 // var user = "https://hr.ecbao.cn/hrm"; // 正式
 
 

@@ -70,6 +70,10 @@
             </el-col>
           </el-row>
 
+          <div class="list_page">
+            <el-pagination layout="prev, pager, next" :total="50">
+            </el-pagination>
+          </div>
         </div>
 
       </Scroll>
@@ -138,6 +142,9 @@
           path: `/`
         })
       },
+    },
+    created(){
+      this.list = this.$router.params.PositionList
     },
     components: {
       Scroll
@@ -257,6 +264,9 @@
         .list_content {
           width: 100%
           padding: 0 20px
+          .list_page{
+            text-align :center
+          }
           .grid-content {
             height: 114px
             padding: 20px 0 20px 16px
