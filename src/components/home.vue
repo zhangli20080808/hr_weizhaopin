@@ -51,28 +51,30 @@
     </div>
 
     <!--公司简介-->
+
+
     <div class="s_company">
-      <div class="c_img"></div>
-      <div class="text">杭州针尖科技有限公司</div>
-      <p class="text1">客户第一、拥抱变化、团队合作、激情、诚信、敬业成长</p>
-      <p class="text2">地址：杭州市西湖区文一路公元里7幢6楼</p>
+      <img class="c_img" :src="bigLogo"/>
+      <div class="text">{{form.company_name}}</div>
+      <p class="text1">{{form.company_p}}</p>
+      <p class="text2">{{form.company_address}}</p>
       <div class="line"></div>
 
 
       <ul class="icon_list clearfix">
         <li>
           <div class="grid-content bg-purple">
-            <i class="icon1"></i><span>500-5000人</span>
+            <i class="icon1"></i><span>{{options[num - 1] ? options[num - 1].label : ''}}</span>
           </div>
         </li>
         <li>
           <div class="grid-content bg-purple-light">
-            <i class="icon2"></i><span>天使轮</span>
+            <i class="icon2"></i><span>{{s_options[kindt - 1] ? s_options[kindt - 1].label : ''}}</span>
           </div>
         </li>
         <li>
           <div class="grid-content bg-purple">
-            <i class="icon3"></i><span>电子技术/半导体/集成电路</span>
+            <i class="icon3"></i><span>{{website}}</span>
           </div>
         </li>
       </ul>
@@ -89,12 +91,12 @@
           </div>
         </div>
         <el-row :gutter="20" class="list_content">
-          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in product" :key="item.id">
+          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in wzpPositionList" :key="item.categoryId">
             <div class="grid-content bg-purple" @click="join">
               <div class="content">
-                <p class="des">{{item.des}}</p>
-                <span class="text">{{item.text}}</span>
-                <span class="num">{{item.num}}</span>
+                <p class="des">{{item.name}}</p>
+                <span class="text">在招职位</span>
+                <span class="num">{{item.recruitmentNum}}</span>
               </div>
             </div>
           </el-col>
@@ -131,14 +133,70 @@
   export default {
     data() {
       return {
-        product: [
-          {id: 1, des: '产品类', text: '在招职位', num: '32'},
-          {id: 2, des: '产品类1', text: '在招职位', num: '32'},
-          {id: 3, des: '产品类2', text: '在招职位', num: '32'},
-          {id: 4, des: '产品类3', text: '在招职位', num: '32'},
-        ],
-        toSearch:'',
-        PositionList:''
+        toSearch: '',
+        //上传logo
+        s_log_back: '',
+        //banner
+        img_list: [],
+        //公司logo模块
+        bigLogo: '',
+        num: 0,
+        kindt: 0,
+        website: '',
+        options: [{
+          value: 1,
+          label: '0-50'
+        }, {
+          value: 2,
+          label: '50-100'
+        }, {
+          value: 3,
+          label: '100-500'
+        }, {
+          value: 4,
+          label: '500-1000'
+        }, {
+          value: 5,
+          label: '1000人以上'
+        }],
+        s_options: [{
+          value: 1,
+          label: '天使轮'
+        }, {
+          value: 2,
+          label: 'A轮'
+        }, {
+          value: 3,
+          label: 'B轮'
+        }, {
+          value: 4,
+          label: 'C轮'
+        }, {
+          value: 5,
+          label: 'D轮'
+        }, {
+          value: 6,
+          label: '上市'
+        }, {
+          value: 7,
+          label: '未融资'
+        }],
+
+        form: {
+          title: '',
+          subTitle: '',
+          company_name: '',
+          company_p: '',
+          company_address: '',
+          recruit: '招聘职位',
+          choose: '',
+          isSearch: false,
+          intro: '公司介绍'
+        },
+        //职位招聘
+        wzpPositionList: [],
+        //公司介绍
+        listTo: ''
       }
     },
     methods: {
@@ -148,25 +206,41 @@
         })
       },
       goSearch() {
-        this.searchDetail()
-        this.$router.push({
-          path: `/list`,
-          params:this.PositionList
-        })
 
+        this.searchDetail()
       },
-      getDetail() {
+      //微招聘首页信息
+      _getIndexInfo() {
+        var _this = this;
+        var method = "miniRecruit/getWzpIndexInfo";
+        var param = JSON.stringify({});
+        var successd = function (res) {
+          if (res.data.code == 0) {
+//            console.log(res.data)
+//            _this.logoUrl = res.data.data.wzpCompany.logoUrl
+//            _this.sc_logo_form.name = res.data.data.wzpCompany.companyUrl
+//            _this.img_list = res.data.data.fileInfoList
+//            _this.content = res.data.data.wzpCompany.description
+            _this.bigLogo = res.data.data.wzpCompany.companyHeadImg
+            _this.wzpPositionList = res.data.data.recruitmentCountList.result;
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      //查询首页信息
+      _getDetail() {
         var _this = this;
         var method = "miniRecruit/qryRecruitmentCountList";
         var param = JSON.stringify({});
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data)
 //            res.data.data.PositionList
+//            console.log(res.data)
           }
         }
         _this.$http(method, param, successd);
       },
+      //首页职位搜索功能
       searchDetail() {
         var _this = this;
         var method = "miniRecruit/searchRecruitPosition";
@@ -177,18 +251,43 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data)
-            _this.PositionList = _this.res.data.data.recruitPositionList
-
+            _this.listTo = res.data.data.recruitPositionList
+            _this.$router.push({
+              path: `/list`,
+              name: 'List',
+              params: {
+                PositionList: _this.listTo
+              }
+            })
           }
         }
         _this.$http(method, param, successd);
-      }
-    },
-    created() {
-      this.getDetail()
-    }
+      },
+      //查询公司头像信息
+      getCompanyInfo() {
+        var _this = this;
+        var method = "wzpCompany/getWzpCompanyInfo";
+        var param = JSON.stringify({});
 
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            _this.num = res.data.data.dimensions
+            _this.kindt = res.data.data.status
+            _this.website = res.data.data.domain
+            _this.form.company_p = res.data.data.companyValues
+            _this.form.company_name = res.data.data.name
+            _this.form.company_address = res.data.data.address
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+    },
+    computed: {},
+    created() {
+      this._getIndexInfo()
+      this._getDetail()
+      this.getCompanyInfo()
+    }
   }
 </script>
 
@@ -235,7 +334,7 @@
               border: 1px solid #C0CCDA
               position: relative
               outline: none
-              color: #99A9BF
+              color: #333
               font-size: 12px
               padding: 14px 0 13px 16px
               &::placeholder {
@@ -304,7 +403,6 @@
         height: 180px
         display: inline-block
         text-align: center
-        background: url(../common/image/com_logo.png) no-repeat center
         position: relative
       }
       .text {

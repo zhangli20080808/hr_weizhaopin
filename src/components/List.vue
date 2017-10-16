@@ -61,11 +61,11 @@
             <el-col :span="8" :xs="24" :sm="12" :md="8" :lg="8" v-for="item in list" :key="item.id"
             >
               <div class="grid-content bg-purple" @click="selectItem(item)">
-                <div class="title">{{item.name}}</div>
+                <div class="title">{{item.positionName}}</div>
                 <div class="text">
-                  <span class="des">{{item.address}}</span><span class="price">{{item.salary}}</span>
+                  <span class="des">{{item.workCity}}／{{item.positionType ===1?'全职':item.positionType ===2?'兼职':'实习' }}</span><span class="price">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
                 </div>
-                <div class="p_time">发布时间：{{item.time}}</div>
+                <div class="p_time">发布时间：{{dateFormat(item.createTime)}}</div>
               </div>
             </el-col>
           </el-row>
@@ -87,6 +87,7 @@
 <script>
   import Scroll from './base/scroll.vue'
   import allData from '../common/js/allcity'
+  import {dateFormat} from  '../common/js/index'
   export default {
     data() {
       return {
@@ -105,19 +106,19 @@
         list: [
           {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 1},
           {name: '产品经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 2},
-          {name: 'web前端', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 3},
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 4},
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 5},
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6},
-          {name: '城市运营经理', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 6}
+          {name: 'web前端', address: '杭州/全职', salary: '8K-10K', time: '2017.09.21', id: 3}
+
         ],
+        positionType:[{
+          name:'全职',
+          value:0
+        },{
+          name:'兼职',
+          value:1
+        },{
+          name:'实习',
+          value:2
+        }],
         selectChose:allData.province
       }
     },
@@ -142,9 +143,27 @@
           path: `/`
         })
       },
+     positionList(){
+       var _this = this;
+       var method = "promotionPage/positionList";
+       var param = JSON.stringify({
+         pageSize:1,
+         pageNum:10,
+         classifyName:'',
+         workCity:''
+       });
+
+       var successd = function (res) {
+         if (res.data.code == 0) {
+          console.log(res.data)
+         }
+       }
+       _this.$http(method, param, successd);
+     }
     },
     created(){
-      this.list = this.$router.params.PositionList
+      console.log(this.$route)
+      this.list = this.$route.params.PositionList
     },
     components: {
       Scroll
@@ -203,6 +222,7 @@
           top: 50%;
           margin-left: -25%;
           margin-top: -23px;
+          color: #333;
           .search_content {
             display :table
             width: 426px;
