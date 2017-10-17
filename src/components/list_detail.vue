@@ -1,5 +1,5 @@
 <template>
-  <div id="list_detail">
+  <div id="list_detail" v-show="item">
 
     <!--导航-->
     <header class="hidden-xs hidden-sm">
@@ -33,11 +33,11 @@
 
       <div class="detail_show">
         <div class="content">
-          <div class="title">{{apple.name}}</div>
+          <div class="title">{{item.posiotionName}}</div>
           <div class="text">
-            <span class="des">{{apple.address}}</span><span class="price">{{apple.salary}}</span>
+            <span class="des">{{item.workCity}}／{{item.positionType ===1?'全职':item.positionType ===2?'兼职':'实习' }}</span><span class="price">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
           </div>
-          <div class="p_time">发布时间：{{apple.time}}</div>
+          <div class="p_time">发布时间：{{item.posiPubishTime}}</div>
 
           <div class="post_share">
             <el-button type="primary" @click="join">申请职位</el-button>
@@ -48,36 +48,7 @@
 
       <div class="detail_text">
         <div class="detail_content">
-          职位描述：
-          1、负责内容管理、营销管理平台的规划、设计，围绕业务目标定义核心需求，推动产品需求落地；
-          2、理解和挖掘内容服务的结构化信息处理需求，对分类体系和标签体系进行规划和设计；
-          3、参与针对患者或大众的医学产品设计，并与 UI 设计师、开发工程师紧密合作，保证产品的上线和迭代效率；
-          4、与产品运营合作，推动运营流程标准化，提供运营效率，达成业务增长目标；
-          5、定义、分析和跟踪产品指标，会使用数据指导产品迭代。
-
-          任职条件：
-          1、能熟练使用 Axure RP、Sketch、MindManager 等工具设计产品原型，撰写产品需求文档；
-          2、自我驱动，责任心强，以结果为导向，具有优秀的「执行力」；
-          3、良好的洞察力和严密的逻辑思维能力；
-          4、本科以上学历。
-
-          优先条件：
-          1、有 CMS系统相关产品设计经验，有营销管理产品平台设计经验；
-          2、面向大众 App 产品经验优先；
-          3、热爱互联网产品，有微信公众号/微博或其他自媒体/社区运营经验；
-
-
-          任职条件：
-          1、能熟练使用 Axure RP、Sketch、MindManager 等工具设计产品原型，撰写产品需求文档；
-          2、自我驱动，责任心强，以结果为导向，具有优秀的「执行力」；
-          3、良好的洞察力和严密的逻辑思维能力；
-          4、本科以上学历。
-
-          优先条件：
-          1、有 CMS系统相关产品设计经验，有营销管理产品平台设计经验；
-          2、面向大众 App 产品经验优先；
-          3、热爱互联网产品，有微信公众号/微博或其他自媒体/社区运营经验；
-
+          {{item.positionDesc}}
         </div>
       </div>
 
@@ -89,46 +60,48 @@
   export default {
     data() {
       return {
-        id: this.$route.params.id,
-        name: this.$route.params.name,
-        salary: this.$route.params.salary,
-        address: this.$route.params.address,
-        time: this.$route.params.time,
-        apple: {}
+        id:this.$route.params.id,
+        item:{
+          posiotionName:'',
+          classifyName:'',
+          workCity:'',
+          posiPubishTime:'',
+          positionType:1,
+          positionSalaryLowest:'',
+          positionSalaryHighest:'',
+          positionDesc:''
+        }
       }
     },
     created() {
-      this._getDetail()
-      this.apple = {
-        id: this.id,
-        name: this.name,
-        salary: this.salary,
-        address: this.address,
-        time: this.time
-      }
+      this.$nextTick(() => {
+        this._getDetail()
+      })
     },
 
     methods: {
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
       _getDetail() {
-        if (!this.name) {
-          this.$router.push({
-              path: `/list/${this.id}`
-            }
-          )
-          return
+
+        var _this = this;
+        var method = "promotionPage/positionInfo";
+        var param = JSON.stringify({
+          positionId:_this.id
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            _this.item = res.data.data.positionInfo
+          }
         }
+        _this.$http(method, param, successd);
+
       },
       join() {
         this.$router.push({
           path: `/apply/${this.id}`,
           name: 'apply',
           params: {
-            id: this.id,
-            name: this.name,
-            address: this.address,
-            salary: this.salary,
-            time: this.time
+            item:this.item
           }
         })
       },
@@ -137,11 +110,6 @@
           path: `/`
         })
       },
-      backSec(){
-        this.$router.push({
-          path: `/list`
-        })
-      }
     }
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <nav-title ></nav-title>
-    <router-view></router-view>
+    <nav-title></nav-title>
+      <router-view></router-view>
   </div>
 </template>
 
@@ -10,17 +10,19 @@
 
   export default {
     name: 'app',
-    data(){
-      return{
-      }
+    data() {
+      return {}
     },
-    components:{
+    components: {
       navTitle
     }
   }
 </script>
 
 <style>
+  [v-cloak]{
+    display:none;
+  }
   .el-button--primary {
     background: #5AA2E7;
     border-color: #5AA2E7;
@@ -31,7 +33,8 @@
     html {
       font-size: 100px;
     }
-    #app{
+
+    #app {
       background: #fff;
     }
   }

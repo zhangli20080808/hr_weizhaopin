@@ -254,7 +254,7 @@
             _this.listTo = res.data.data.recruitPositionList
             _this.$router.push({
               path: `/list`,
-              name: 'List',
+              name: 'list',
               params: {
                 PositionList: _this.listTo
               }
@@ -334,7 +334,7 @@
               border: 1px solid #C0CCDA
               position: relative
               outline: none
-              color: #333
+              color: #99A9BF
               font-size: 12px
               padding: 14px 0 13px 16px
               &::placeholder {
@@ -761,15 +761,16 @@
                 font-size: 0.22rem
                 color: #475669
                 display: inline-block
-                vertical-align: super
+                vertical-align: middle
               }
               .num {
                 font-size: 0.5rem
                 color: #5aa2e7
                 display: inline-block
                 margin-top: -0.03rem
-                margin-left: 0.1rem
-                float: right
+                margin-left: -0.1rem
+                float: none
+                vertical-align :middle
               }
             }
           }
@@ -1001,15 +1002,15 @@
                 font-size: 0.14rem
                 color: #475669
                 display: inline-block
-                vertical-align: super
+                vertical-align: middle
               }
               .num {
                 font-size: 0.25rem
                 color: #5aa2e7
                 display: inline-block
                 margin-top: -0.03rem
-                margin-left: 0.1rem
-                float: right
+                margin-left: -0.1rem
+                vertical-align :middle
               }
             }
           }

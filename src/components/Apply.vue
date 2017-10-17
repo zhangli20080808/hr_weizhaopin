@@ -37,7 +37,7 @@
           <div class="name visible-xs">申请职位</div>
           <div class="title">{{name}}</div>
           <div class="text">
-            <span class="des">{{address}}</span><span class="price">{{salary}}</span>
+            <span class="des">{{address}}</span><span class="price">{{salaryLow}}-{{salary}}</span>
           </div>
           <div class="p_time">发布时间：{{time}}</div>
         </div>
@@ -132,10 +132,11 @@
           fId:-1
         },
         id:this.$route.params.id,
-        name:this.$route.params.name,
-        salary:this.$route.params.salary,
-        address:this.$route.params.address,
-        time:this.$route.params.time,
+        name:this.$route.params.item.posiotionName,
+        salary:this.$route.params.item.positionSalaryHighest,
+        salaryLow:this.$route.params.item.positionSalaryLowest,
+        address:this.$route.params.item.workCity,
+        time:this.$route.params.item.posiPubishTime,
         fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
         labelPosition:'left',
         formLabelAlign: {
@@ -168,21 +169,14 @@
       }
     },
     created(){
-
+      console.log(this.$route)
       this._getDetail()
-      this.open()
-      this.init()
+//      this.open()
     },
     methods:{
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
-      init(){
-        console.log(this.$http)
-      },
       _getDetail(){
-        if(!this.name){
-          this.$router.push('/list')
-          return
-        }
+
       },
       handleRemove(file, fileList) {
         console.log(file, fileList)
