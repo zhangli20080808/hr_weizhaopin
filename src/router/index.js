@@ -29,7 +29,7 @@ export default new Router({
       component: listDetail
     },
     {
-      path: '/apple/:id',
+      path: '/apply/:id',
       name: 'apply',
       component: Apply
     },
