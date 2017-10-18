@@ -13,7 +13,7 @@
               <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">
-              <img src="../common/image/logo.png" alt="">
+              <img :src="logoUrl" alt="">
             </a>
           </div>
 
@@ -25,7 +25,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right nav_search  hidden-sm">
               <li>
-                <div class="search">
+                <div class="search" v-show="form.isSearch === 1?true:false">
                   <input type="text" placeholder="职位关键词" class="search_content" v-model="toSearch">
                   <span class="submit" @click="goSearch"><i></i></span>
                 </div>
@@ -36,96 +36,91 @@
       </nav>
     </header>
 
-    <!--轮播-->
-    <div class="main_ad">
-      <div class="carousel-inner1">
-        <!--我们的data属性来保存我们要的数据,没有任何功能-->
-        <div class="item ">
-          <div class="item_text">
-            <div class="title">寻找未来互联网精英
+      <!--轮播-->
+      <div class="main_ad">
+        <div class="carousel-inner1">
+          <!--我们的data属性来保存我们要的数据,没有任何功能-->
+          <div class="item ">
+            <img :src="img_list_1" alt="">
+            <div class="item_text">
+              <div class="title">{{form.title}}
+              </div>
+              <div class="des">{{form.subTitle}}</div>
             </div>
-            <div class="des">你的舞台,你的精彩</div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!--公司简介-->
-
-
-    <div class="s_company">
-      <img class="c_img" :src="bigLogo"/>
-      <div class="text">{{form.company_name}}</div>
-      <p class="text1">{{form.company_p}}</p>
-      <p class="text2">{{form.company_address}}</p>
-      <div class="line"></div>
+      <!--公司简介-->
 
 
-      <ul class="icon_list clearfix">
-        <li>
-          <div class="grid-content bg-purple">
-            <i class="icon1"></i><span>{{options[num - 1] ? options[num - 1].label : ''}}</span>
+      <div class="s_company">
+        <img class="c_img" :src="bigLogo"/>
+        <div class="text">{{form.company_name}}</div>
+        <p class="text1">{{form.company_p}}</p>
+        <p class="text2">{{form.company_address}}</p>
+        <div class="line"></div>
+
+
+        <ul class="icon_list clearfix">
+          <li>
+            <div class="grid-content bg-purple">
+              <i class="icon1"></i><span>{{options[num - 1] ? options[num - 1].label : ''}}</span>
+            </div>
+          </li>
+          <li>
+            <div class="grid-content bg-purple-light">
+              <i class="icon2"></i><span>{{s_options[kindt - 1] ? s_options[kindt - 1].label : ''}}</span>
+            </div>
+          </li>
+          <li>
+            <div class="grid-content bg-purple">
+              <i class="icon3"></i><span>{{website}}</span>
+            </div>
+          </li>
+        </ul>
+
+
+      </div>
+
+      <!--招聘职位-->
+      <div id="1F" class="s_recruit">
+        <div class="container">
+          <div class="title">
+            <div class="text">{{customName1}}
+              <span class="line"></span>
+            </div>
           </div>
-        </li>
-        <li>
-          <div class="grid-content bg-purple-light">
-            <i class="icon2"></i><span>{{s_options[kindt - 1] ? s_options[kindt - 1].label : ''}}</span>
-          </div>
-        </li>
-        <li>
-          <div class="grid-content bg-purple">
-            <i class="icon3"></i><span>{{website}}</span>
-          </div>
-        </li>
-      </ul>
+          <el-row :gutter="20" class="list_content">
+            <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in wzpPositionList" :key="item.categoryId">
+              <div class="grid-content bg-purple" @click="join">
+                <div class="content">
+                  <p class="des">{{item.name}}</p>
+                  <span class="text">在招职位</span>
+                  <span class="num">{{item.recruitmentNum}}</span>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
 
 
-    </div>
+        </div>
+      </div>
 
-    <!--招聘职位-->
-    <div id="1F" class="s_recruit">
-      <div class="container">
+      <!--公司介绍-->
+      <div class="intro_c" id="2F">
         <div class="title">
-          <div class="text">招聘职位
+          <div class="text">{{customName2}}
             <span class="line"></span>
           </div>
         </div>
-        <el-row :gutter="20" class="list_content">
-          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in wzpPositionList" :key="item.categoryId">
-            <div class="grid-content bg-purple" @click="join">
-              <div class="content">
-                <p class="des">{{item.name}}</p>
-                <span class="text">在招职位</span>
-                <span class="num">{{item.recruitmentNum}}</span>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
 
-
-      </div>
-    </div>
-
-    <!--公司介绍-->
-    <div class="intro_c" id="2F">
-      <div class="title">
-        <div class="text">公司介绍
-          <span class="line"></span>
+        <div class="intro_c_con container">
+          <!--<div class="img"></div>-->
+          <div class="intro_text" v-html="content">
+          </div>
         </div>
       </div>
-
-      <div class="intro_c_con container">
-        <div class="img"></div>
-        <div class="intro_text">
-          <p>杭州爱聚科技有限公司（目前A轮，千万美金）成立于2012年4月，由前淘宝资深小二马国良、姜涛及UT斯达康戚华平联合创立，团队核心成员均来自阿里巴巴、UT、 人人网、金蝶等知名企业。
-          </p> 　　
-          <p>公司对外产品品牌——电商宝，专注电商财务数据管理软件产品的研发，多项产品已荣获国家软件著作权证书。
-          </p>
-          <p>目前已经覆盖淘宝、天猫、京东、贝贝网、蘑菇街、唯品会、卷皮等二十多个主流电商平台，国内首家支持全渠道多店铺财务数据管理SaaS模式，拥有商家用户超过40多万，日处理千万订单量，亿级订单金额。
-          </p>
-        </div>
-      </div>
-    </div>
 
   </div>
 </template>
@@ -133,11 +128,13 @@
   export default {
     data() {
       return {
+        logoUrl:'',
         toSearch: '',
         //上传logo
         s_log_back: '',
         //banner
         img_list: [],
+        img_list_1:'',
         //公司logo模块
         bigLogo: '',
         num: 0,
@@ -190,13 +187,17 @@
           company_address: '',
           recruit: '招聘职位',
           choose: '',
-          isSearch: false,
+          isSearch: 0,
           intro: '公司介绍'
         },
+        customName1:'',
+        customName2:'',
         //职位招聘
         wzpPositionList: [],
         //公司介绍
-        listTo: ''
+        listTo: '',
+        content:'',
+        wzpCompanyid:2
       }
     },
     methods: {
@@ -216,26 +217,21 @@
         var param = JSON.stringify({});
         var successd = function (res) {
           if (res.data.code == 0) {
-//            console.log(res.data)
-//            _this.logoUrl = res.data.data.wzpCompany.logoUrl
-//            _this.sc_logo_form.name = res.data.data.wzpCompany.companyUrl
-//            _this.img_list = res.data.data.fileInfoList
+            console.log(res.data)
+            _this.logoUrl = res.data.data.wzpCompany.logoUrl
+            _this.s_log_back = res.data.data.wzpCompany.companyUrl
+            _this.logo_url = res.data.data.wzpCompany.logoUrl
+            _this.img_list = res.data.data.fileInfoList
+            _this.img_list_1 = res.data.data.fileInfoList[0].url
 //            _this.content = res.data.data.wzpCompany.description
             _this.bigLogo = res.data.data.wzpCompany.companyHeadImg
             _this.wzpPositionList = res.data.data.recruitmentCountList.result;
-          }
-        }
-        _this.$http(method, param, successd);
-      },
-      //查询首页信息
-      _getDetail() {
-        var _this = this;
-        var method = "miniRecruit/qryRecruitmentCountList";
-        var param = JSON.stringify({});
-        var successd = function (res) {
-          if (res.data.code == 0) {
-//            res.data.data.PositionList
-//            console.log(res.data)
+            _this.form.subTitle = res.data.data.miniRecruit.subTitle
+            _this.form.title = res.data.data.miniRecruit.title
+            _this.form.isSearch = res.data.data.miniRecruit.isSearch
+            _this.customName1 = res.data.data.miniRecruit.customName1
+            _this.customName2 = res.data.data.miniRecruit.customName2
+            _this.wzpCompanyid = res.data.data.wzpCompany.id
           }
         }
         _this.$http(method, param, successd);
@@ -281,12 +277,27 @@
         }
         _this.$http(method, param, successd);
       },
+      //查询公司介绍
+      getCompanyIntr() {
+        var _this = this;
+        var method = "wzpCompany/getWzpCompanyDescription";
+        var param = JSON.stringify({
+          wzpCompanyId: _this.wzpCompanyid
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+//            _this.form.intro = res.data.data.customName2;
+            _this.content = res.data.data.description
+          }
+        };
+        _this.$http(method, param, successd);
+      },
     },
     computed: {},
     created() {
       this._getIndexInfo()
-      this._getDetail()
       this.getCompanyInfo()
+      this.getCompanyIntr()
     }
   }
 </script>
@@ -307,6 +318,13 @@
         z-index: 1000
         .navbar-header {
           height 84px
+          .navbar-brand{
+            img{
+              display: block;
+              width: 164px;
+              height: 46px;
+            }
+          }
         }
         .navbar-brand {
           height: 80px
@@ -367,6 +385,7 @@
 
           img {
             width: 100%
+            height :100%
           }
           .item_text {
             position: absolute
@@ -604,6 +623,7 @@
             position: relative
             img {
               width: 100%
+              height: 100%
             }
             .item_text {
               position: absolute
@@ -638,7 +658,7 @@
           height: 1.8rem
           display: inline-block
           text-align: center
-          background: url(../common/image/com_logo.png) no-repeat center
+          /*background: url(../common/image/com_logo.png) no-repeat center*/
           background-size: cover
           position: relative
         }
@@ -854,6 +874,7 @@
 
             img {
               width: 100%
+              height: 100%
             }
             .item_text {
               position: absolute
@@ -889,7 +910,7 @@
           height: 180px
           display: inline-block
           text-align: center
-          background: url(../common/image/com_logo.png) no-repeat center
+          /*background: url(../common/image/com_logo.png) no-repeat center*/
           position: relative
         }
         .text {

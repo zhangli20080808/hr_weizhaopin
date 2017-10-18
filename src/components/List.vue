@@ -36,6 +36,7 @@
       </div>
       <!--职位列表-->
       <!--choose-->
+
       <div class="list-form">
         <el-form ref="form" :model="form" label-width="80px">
 
@@ -50,8 +51,7 @@
 
           <el-form-item class="form_kind">
             <el-select v-model="form.kind" placeholder="请选择职位分类" @change="selectKind">
-              <el-option :label="item.name" :value="item.name" v-for="item in selectK" :key="item.id"></el-option>
-
+              <el-option :label="item.name" :value="item.id" v-for="item in selectK" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -69,19 +69,24 @@
                     class="des">{{item.workCity}}／{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
                     }}</span><span class="price">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
                 </div>
-                <div class="p_time">发布时间：{{item.posiPubishTime}}</div>
+                <div class="p_time">发布时间：{{item.posiPublishTime}}</div>
               </div>
             </el-col>
           </el-row>
 
           <div class="list_page hidden-xs">
-            <el-pagination layout="prev, pager, next" :total="50">
+            <el-pagination layout="prev, pager, next"
+                           :total="config.totalCount"
+                           :current-page="config.pageNum"
+                           :page-size="config.pageSize"
+                           @size-change="changePageSize"
+                           @current-change="changePageNum"
+            >
             </el-pagination>
           </div>
         </div>
 
       </Scroll>
-
     </div>
   </div>
 
@@ -99,6 +104,11 @@
         form: {
           address: [],
           kind: ''
+        },
+        config: {
+          pageSize: 10,
+          pageNum: 1,
+          totalCount: 0
         },
         selectK: [
           {
@@ -138,7 +148,7 @@
     methods: {
       selectItem(item) {
         this.$router.push({
-          path: `/list/${item.positionId}`
+          path: `/list/${item.id}`
         })
       },
       change(item) {
@@ -147,13 +157,13 @@
         var param = JSON.stringify({
           pageNum: 1,
           pageSize: 10,
-//         classifyName:'',
-          workCity: String(item)
+//          classifyName:'',
+          workCity: String(item[1])
         });
-        console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
-//            _this.list = res.data.data.positionList
+            console.log(res.data)
+            _this.list = res.data.data.positionList
           }
         }
         _this.$http(method, param, successd);
@@ -186,21 +196,24 @@
         }
         this.workCityLists = provinces;
       },
-
       //职位列表页
       positionList() {
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: 1,
-          pageSize: 10,
-//         classifyName:'',
-//         workCity:''
+          pageNum: this.config.pageNum,
+          pageSize: this.config.pageSize
+//           classifyName:'',
+//           workCity:''
         });
 
         var successd = function (res) {
           if (res.data.code == 0) {
+            console.log(res.data)
             _this.list = res.data.data.positionList
+            _this.config.totalCount = res.data.data.count
+            _this.config.pageNum = res.data.data.param.pageNum
+            _this.config.pageSize = res.data.data.param.pageSize
           }
         }
         _this.$http(method, param, successd);
@@ -225,8 +238,7 @@
         var param = JSON.stringify({
           pageNum: 1,
           pageSize: 10,
-          classifyName: _this.form.kind,
-//         workCity:''
+          categoryId: _this.form.kind,
         });
 
         var successd = function (res) {
@@ -256,13 +268,24 @@
           }
         }
         _this.$http(method, param, successd);
-      }
+      },
+
+      changePageSize(pageSize) {
+        this.config.pageSize = pageSize;
+        this.config.pageNum = 1;
+        this.positionList()
+      },
+      changePageNum(pageNum) {
+        this.config.pageNum = pageNum;
+        this.positionList()
+      },
     },
     created() {
       this.$nextTick(() => {
         this.positionList()
         this.transitionCityLists()
         this.getPositionCategoryList()
+
       })
     },
     components: {

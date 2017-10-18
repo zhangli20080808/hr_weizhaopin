@@ -28,7 +28,7 @@
           <el-breadcrumb-item :to="{ path: '/' }" class="tips_1">招聘首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/list' }" class="tips_2">职位列表</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/list/:id' }" class="tips_3">职位详情</el-breadcrumb-item>
-          <el-breadcrumb-item >申请职位</el-breadcrumb-item>
+          <el-breadcrumb-item>申请职位</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
 
@@ -44,26 +44,48 @@
       </div>
       <div class="apply_post">
         <div class="apply_content">
-          <el-form :label-position="labelPosition" label-width="80px" ref="ruleForm" :model="formLabelAlign" :rules="rules">
+          <el-form :label-position="labelPosition" label-width="80px" ref="ruleForm" :model="formLabelAlign"
+                   :rules="rules">
             <!--上传简历-->
             <el-form-item label="上传简历">
-              <file-upload class="post" :param="param" @fileId="fileId" @deleFileId="deleFileId" :empty="empty"></file-upload>
+              <el-upload
+                class="post"
+                :action="upLogoUrl"
+                :data="params"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="successed"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              </el-upload>
             </el-form-item>
+            {{resumeId}}
             <!--上传附件-->
             <el-form-item label="上传附件" class="post_f">
-              <file-upload class="post1" :param="param1" @fileId="fileId" @deleFileId="deleFileId" :empty="empty"></file-upload>
+              <el-upload
+                class="post1"
+                :action="upLogoUrl"
+                :data="params"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="successed2"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              </el-upload>
             </el-form-item>
             <div class="line"></div>
             <el-form-item label="姓名" prop="name">
-              <el-input v-model="formLabelAlign.name" ></el-input>
+              <el-input v-model="formLabelAlign.name"></el-input>
             </el-form-item>
             <el-form-item label="手机号" prop="phone">
-              <el-input v-model.number="formLabelAlign.phone" ></el-input>
+              <el-input v-model.number="formLabelAlign.phone"></el-input>
             </el-form-item>
             <el-form-item label="邮箱" prop="mail">
-              <el-input v-model.email="formLabelAlign.mail" ></el-input>
+              <el-input v-model.email="formLabelAlign.mail"></el-input>
             </el-form-item>
-            <el-form-item class="form_btn" >
+            <el-form-item class="form_btn">
               <el-button type="primary" @click="submitForm('ruleForm')" class="btn">提交应聘请求</el-button>
             </el-form-item>
           </el-form>
@@ -84,98 +106,70 @@
           <div class="des">感谢您的申请，我们将会尽快给您回复</div>
         </div>
       </el-dialog>
-
-      <el-dialog
-        class="tips2"
-        title="扫码分享职位"
-        :visible.sync="dialogVisible2"
-        size="small"
-      >
-        <div class="content">
-          <div class="img">
-
-          </div>
-          <div class="des">或使用链接分享</div>
-        </div>
-        <el-form :inline="true" :model="formShare" class="share">
-          <el-form-item>
-            <el-input v-model="formShare.share"></el-input>
-          </el-form-item>
-
-          <el-form-item>
-            <el-button type="primary" @click="share" ref="btn">复制链接</el-button>
-          </el-form-item>
-        </el-form>
-      </el-dialog>
     </div>
-
   </div>
 </template>
 <script>
-  import fileUpload from './base/fileUpload.vue'
+  import Util from '../common/js/util.js';
+  import md5 from 'js-md5';
   import Scroll from './base/scroll.vue'
-  const ERROR_OK =0
+
+  const ERROR_OK = 0
   export default {
     data() {
       return {
-        upLoadData:{
-
-        },
-        fileIds:[],
-        empty:'',
-        param:{
-          businessId:9,
-          fId:-1
-        },
-        param1:{
-          businessId:4,
-          fId:-1
-        },
-        id:this.$route.params.id,
-        name:this.$route.params.item.posiotionName,
-        salary:this.$route.params.item.positionSalaryHighest,
-        salaryLow:this.$route.params.item.positionSalaryLowest,
-        address:this.$route.params.item.workCity,
-        time:this.$route.params.item.posiPubishTime,
-        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
-        labelPosition:'left',
+        upLogoUrl: Util.uploadURLForCommon,
+        fileIds: [],
+        resumeId: 0,
+        ids1: 0,
+        interviewerId: 0,
+        attachmentIds: 0,
+        id: this.$route.params.id,
+        name: this.$route.params.item.positionName,
+        salary: this.$route.params.item.positionSalaryHighest,
+        salaryLow: this.$route.params.item.positionSalaryLowest,
+        address: this.$route.params.item.workCity,
+        time: this.$route.params.item.posiPublishTime,
+        fileList: [],
+        labelPosition: 'left',
         formLabelAlign: {
           name: '',
           phone: '',
           mail: ''
         },
-        rules:{
+        rules: {
           name: [
-            { required: true, message: '请填写真实姓名', trigger: 'blur' }
+            {required: true, message: '请填写真实姓名', trigger: 'blur'}
           ],
           phone: [
-            { required: true, message: '手机号不能为空'},
-            { type: 'number', message: '必须为数字值'}
+            {required: true, message: '手机号不能为空'},
+            {type: 'number', message: '必须为数字值'}
           ],
           mail: [
-            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-            { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+            {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+            {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change'}
           ],
-          post_j:[
-            { required: true, message: '请上传简历', trigger: 'change' }
+          post_j: [
+            {required: true, message: '请上传简历', trigger: 'change'}
           ]
         },
         dialogVisible: false,
-        dialogVisible2:false,
-        formShare:{
-          share:''
-        }
-
+        params: {
+          param: JSON.stringify({businessId: 14, fId: -1}),
+          sign: md5('method' + "fileUpload/insertFileRecord" + "param" + JSON.stringify({
+            businessId: 14,
+            fId: -1
+          }) + "ecbao")
+        },
       }
     },
-    created(){
-      console.log(this.$route)
+    created() {
       this._getDetail()
-//      this.open()
+//      this.uploadResume()
     },
-    methods:{
+    methods: {
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
-      _getDetail(){
+      _getDetail() {
 
       },
       handleRemove(file, fileList) {
@@ -184,40 +178,85 @@
       handlePreview(file) {
         console.log(file)
       },
-      beforeAvatarUpload(file){
+      beforeAvatarUpload(file) {
         console.log(file)
         const isLt2M = file.size / 1024 / 1024 < 10
         if (!isLt2M) {
           alert('上传模板大小不能超过 50MB!')
         }
       },
-      fileId(id){
-        this.fileIds.push(id)
-        console.log(id)
+      successed(res, file) {
+        console.log(res, file)
+        this.resumeId = res.data.ids
+        this.uploadResume()
       },
-      deleFileId(id){
+      successed2(res, file) {
+        this.attachmentIds = res.data.ids
+      },
+
+      uploadResume() {
         var _this = this
-        for(var i=0;i<_this.fileIds.length;i++){
-          if(_this.fileIds[i] == id){
-            _this.fileIds.splice(i,1)
+        var method = "addResume/uploadResume";
+        var param = JSON.stringify({
+          ids: _this.resumeId,
+          resumeFrom: 1
+        });
+        var successd = function (res) {
+          if (res.data.code = 0) {
+            _this.interviewerId = res.data.data
+            _this.$message({
+              message: res.data.message,
+              type: 'success'
+            });
           }
         }
+        _this.$http(method, param, successd);
       },
       open() {
-        this.dialogVisible =true
-        setTimeout(()=>{
+        this.dialogVisible = true
+        setTimeout(() => {
           this.dialogVisible2 = true
-        },2000)
+        }, 2000)
       },
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+        var self = this;
+//        var fileIds = "";
+//        if (self.fileIds != []) {
+//          fileIds = self.fileIds.join();
+//        }
+        self.$refs[formName].validate((valid) => {
           if (valid) {
-            setTimeout(()=>{
-              this.open()
-              this.$router.push({
-                path:`/list`
-              })
-            },2000)
+
+            var method = 'promotionPage/submitInterivewApplication',
+              param = JSON.stringify({
+                positionApply: {
+                  resumeId: self.resumeId,
+                  attachmentIds: self.attachmentIds || '',
+                  name: self.formLabelAlign.name,
+                  phone: self.formLabelAlign.phone,
+                  email: self.formLabelAlign.mail,
+                  interviewerId: self.interviewerId,
+                  resumeFrom: 1
+                }
+              }),
+              succeed = function (res) {
+                console.log(res)
+                if (res.data.code == 0) {
+                  self.$message({
+                    message: res.data.message,
+                    type: 'success'
+                  });
+                  self.dialogVisible = true
+                  setTimeout(() => {
+
+                    this.$router.push({
+                      path: `/list`
+                    })
+                  }, 2000)
+                }
+              };
+            this.$http(method, param, succeed);
+
 
           } else {
 //            alert('提交失败')
@@ -230,23 +269,22 @@
           path: `/`
         })
       },
-      backSec(){
+      backSec() {
         this.$router.push({
           path: `/list`
         })
       },
-      backlist(){
+      backlist() {
         this.$router.push({
           path: `/list/${this.id}`
         })
       },
-      share(){
+      share() {
 
       }
 
     },
-    components:{
-      fileUpload,
+    components: {
       Scroll
     }
   }
@@ -257,70 +295,31 @@
     .tips1
       .el-dialog--small
         width: 671px;
-        height :424px
+        height: 424px
         box-sizing: border-box
         top: 50% !important
         margin-top: -212px
         .el-dialog__header
-          display :none
+          display: none
         .el-dialog__body
-          height :424px
+          height: 424px
       .content
-        padding :84px 0 113px 0
-        text-align :center
+        padding: 84px 0 113px 0
+        text-align: center
         .img
-          display :inline-block
-          width :85px
-          height :85px
-          background :url(../common/image/tips.png)no-repeat center
-          background-size :cover
+          display: inline-block
+          width: 85px
+          height: 85px
+          background: url(../common/image/tips.png) no-repeat center
+          background-size: cover
         .title
-          margin :51px 0 22px 0
-          font-size :20px
-          color :#1F2D3D
-          font-weight :800
+          margin: 51px 0 22px 0
+          font-size: 20px
+          color: #1F2D3D
+          font-weight: 800
         .des
-          font-size :18px
-          color :#1F2D3D
-    .tips2
-      .el-dialog--small
-        width: 428px;
-        height :404px
-        box-sizing: border-box
-        top: 50% !important
-        margin-top: -212px
-        .el-dialog__body
-          height :424px
-      .content
-        text-align :center
-        .img
-          display :inline-block
-          width :210px
-          height :210px
-          background :yellow
-        .title
-          margin :51px 0 22px 0
-          font-size :20px
-          color :#1F2D3D
-          font-weight :800
-        .des
-          text-align :left
-          margin-top :26px
-          margin-bottom :15px
-          color :#475669
-          font-size :14px
-       .share
-          .el-form-item
-            margin-bottom :0
-            margin-right :0
-            .el-form-item__content
-              .el-input
-                width :284px
-                .el-input__inner
-                  border: 1px solid #5AA2E7;
-              .el-button
-                &:hover
-                  background :#46BE8A
+          font-size: 18px
+          color: #1F2D3D
 
     header
       height 80px
@@ -339,91 +338,89 @@
           height: 80px
     .container
       .detail_des
-        background :#fff
-        position :relative
-        height :52px
-        line-height :52px
-        border-bottom :1px solid #E5E9F2
-        margin-top :20px
+        background: #fff
+        position: relative
+        height: 52px
+        line-height: 52px
+        border-bottom: 1px solid #E5E9F2
+        margin-top: 20px
         .tips
           position: absolute
           left: 23px
           top: 19px
           height: 16px
           line-height: 16px
-          .tips_1,.tips_2,.tips_3
-            .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a,.el-breadcrumb__separator
-              color :#5AA2E7
+          .tips_1, .tips_2, .tips_3
+            .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a, .el-breadcrumb__separator
+              color: #5AA2E7
 
       .detail_show
-        height :60px
-        line-height :60px
+        height: 60px
+        line-height: 60px
         padding: 21px 29px 21px 21px
-        background :#fff
+        background: #fff
         border-bottom: 1px solid #E5E9F2
         .content
-          position:relative
-          height :18px
-          line-height :18px
+          position: relative
+          height: 18px
+          line-height: 18px
 
           .title
             display: inline-block
             font-size: 18px
             color: #1F2D3D
-            margin-right :20px
+            margin-right: 20px
           .text
             display: inline-block
             height: 14px
             line-height: 14px
-            margin-right :20px
+            margin-right: 20px
             .des
               display: inline-block
               font-size: 14px
               color: #475669
               margin-right: 23px
-              vertical-align :middle
+              vertical-align: middle
             .price
               display: inline-block
               font-size: 16px
               color: #F96868
-              vertical-align :middle
+              vertical-align: middle
           .p_time
             display: inline-block
-            float :right
+            float: right
             font-size: 14px
             color: #99A9BF
 
-
       .apply_post
-        padding :50px 0px 34px 0
-        height :100%
-        background :#fff
+        padding: 50px 0px 34px 0
+        height: 100%
+        background: #fff
         .apply_content
-          width :408px
-          height :100%
+          width: 408px
+          height: 100%
           margin: auto
           .el-form
             .btn
               width: 328px
             .el-form-item__content
-              .post,.post1
+              .post, .post1
                 .el-upload
                   .el-upload__input
-                    display :none
+                    display: none
                 .el-upload-list__item
                   .el-icon-close
-                    display:block
-
+                    display: block
 
   @media all and (max-width: 767px)
     #apply
-      background :#fff
+      background: #fff
       position: absolute
       bottom: 0
       top: 0
       right: 0
       left: 0
-      padding-top :0.9rem
+      padding-top: 0.9rem
       .app_content
         position: fixed
         top: 0
@@ -431,25 +428,25 @@
         right: 0
         bottom: 0
       .container
-        padding:0
-        margin :0
+        padding: 0
+        margin: 0
         .detail_des
-          background :#fff
-          position :relative
-          height :3rem
-          line-height :3rem
+          background: #fff
+          position: relative
+          height: 3rem
+          line-height: 3rem
           border-b-1px(#E5E9F2)
-          margin-top :0.2rem
+          margin-top: 0.2rem
         .detail_show
           height: 3rem
-          background :#fff
+          background: #fff
           padding: 0.34rem 0 0.42rem 0.30rem
           margin-bottom: 0
-          border :none
+          border: none
           border-b-1px(#E5E9F2)
           .content
-            position:relative
-            height :100%
+            position: relative
+            height: 100%
 
             .name
               font-size: 0.36rem
@@ -459,36 +456,36 @@
               line-height: 0.28rem
               font-size: 0.28rem
               color: #1F2D3D
-              margin-top :0.4rem
-              margin-bottom:0
+              margin-top: 0.4rem
+              margin-bottom: 0
             .text
-              display :block
+              display: block
               height: 0.28rem
               line-height: 0.28rem
               margin-top: 0.24rem
               .des
                 display: inline-block
-                vertical-align :middle
+                vertical-align: middle
                 font-size: 0.24rem
                 color: #475669
                 margin-right: 0.22rem
               .price
                 display: inline-block
-                vertical-align :middle
+                vertical-align: middle
                 font-size: 0.26rem
                 color: #F96868
             .p_time
-              display :block
+              display: block
               height: 0.24rem
               line-height: 0.24rem
-              float :none
+              float: none
               font-size: 0.24rem
               color: #99A9BF
-              margin-top :0.5rem
+              margin-top: 0.5rem
         .apply_post
-          padding :0.48rem 0 0.24rem 0
-          height :100%
-          background :#fff
+          padding: 0.48rem 0 0.24rem 0
+          height: 100%
+          background: #fff
           .apply_content
             width: 100%
             height: 100%
@@ -496,274 +493,226 @@
             padding-right: 0.30rem
             margin: auto
             .post_f
-              margin-bottom :0
+              margin-bottom: 0
             .line
               width: 100%
-              height :0.01rem
+              height: 0.01rem
               border-b-1px(#E5E9F2)
-              margin-bottom :0.44rem
-              margin-top :0.11rem
+              margin-bottom: 0.44rem
+              margin-top: 0.11rem
 
             .el-form
               .el-form-item
                 margin-left: 0.23rem
               .btn
-                width :100%
-                outline :none
+                width: 100%
+                outline: none
               .form_btn
                 margin-left: 0
               .el-form-item__content
-                  margin-left :0!important
-                .el-input
-                  width: 4.56rem
+                margin-left: 0 !important
+              .el-input
+                width: 4.56rem
               .el-form-item__error
-                  left :80px
-                .post,.post1
-                  .el-upload
-                    padding-left: 0;
-                  .el-upload__tip
-                    margin-top: -0.1rem
-                    white-space: nowrap
-                    overflow: hidden
-                    text-overflow: ellipsis
-                    .el-upload__input
-                      display :none
-                  .el-upload-list
-                    padding-left: 80px;
-                    .el-upload-list__item
-                      width :70%
-
+                left: 80px
+              .post, .post1
+                .el-upload
+                  padding-left: 0;
+                .el-upload__tip
+                  margin-top: -0.1rem
+                  white-space: nowrap
+                  overflow: hidden
+                  text-overflow: ellipsis
+                  .el-upload__input
+                    display: none
+                .el-upload-list
+                  padding-left: 80px;
+                  .el-upload-list__item
+                    width: 70%
 
       .tips1
         .el-dialog--small
           width: 92%
-          height :5.94rem
+          height: 5.94rem
           top: 50%
           margin-top: -2.97rem
           .el-dialog__header
-            display :none
+            display: none
           .el-dialog__body
-            padding :0
-            height :5.94rem
+            padding: 0
+            height: 5.94rem
         .content
-          padding :1.50rem 0 1.5rem 0
-          text-align :center
+          padding: 1.50rem 0 1.5rem 0
+          text-align: center
           .img
-            display :inline-block
-            width :1.189rem
-            height :1.189rem
-            background :url(../common/image/tips.png)no-repeat center
-            background-size :cover
+            display: inline-block
+            width: 1.189rem
+            height: 1.189rem
+            background: url(../common/image/tips.png) no-repeat center
+            background-size: cover
           .title
-            margin :0.71rem 0 0.51rem 0
-            font-size :0.28rem
-            color :#1F2D3D
-            font-family :"MicrosoftYaHei-Bold"
+            margin: 0.71rem 0 0.51rem 0
+            font-size: 0.28rem
+            color: #1F2D3D
+            font-family: "MicrosoftYaHei-Bold"
           .des
-            font-size :0.24rem
-            color :#1F2D3D
-      .tips2
-        .el-dialog--small
-          width: 100%
-          height :7.09rem
-          box-sizing: border-box
-          top: 50% !important
-          margin-top: -3.15em
-          .el-dialog__header
-            position :relative
-            .el-dialog__title
-              position :absolute
-              font-size :0.28rem
-          .el-dialog__body
-            padding :0.54rem 0 0 0
-            height :6.37rem
-        .content
-          text-align :center
-          .img
-            display :inline-block
-            width :3.70rem
-            height :3.7rem
-            background :yellow
-          .des
-            margin :0.46rem 0 0.15rem 0.35rem
-            font-size :0.24rem
-            color :#475669
-
-        .share
-          padding: 0 0.35rem
-          .el-form-item
-            margin-bottom :0
-            margin-right :0
-            .el-form-item__content
-              .el-input
-                width :5rem
-                .el-input__inner
-                  border: 1px solid #5AA2E7
-              .el-button
-                margin-left: -0.4rem
-                span
-                  font-size :0.28rem
-                &:hover
-                  background :#46BE8A
-
-
+            font-size: 0.24rem
+            color: #1F2D3D
 
   @media (min-width: 768px) and (max-width: 992px)
     #apply
-      background :#fff
+      background: #fff
       position: absolute
       bottom: 0
       top: 0
       right: 0
       left: 0
-      padding-top :66px
+      padding-top: 66px
       .container
-        width :100%
-        padding:0
-        margin :0
+        width: 100%
+        padding: 0
+        margin: 0
         .detail_des
-          background :#fff
-          position :relative
-          height :3rem
-          line-height :3rem
+          background: #fff
+          position: relative
+          height: 3rem
+          line-height: 3rem
           border-b-1px(#E5E9F2)
-          margin-top :0.2rem
+          margin-top: 0.2rem
         .detail_show
-          height :60px
-          line-height :60px
+          height: 60px
+          line-height: 60px
           padding: 21px 29px 21px 21px
-          background :#fff
+          background: #fff
           .content
-            position:relative
-            height :18px
-            line-height :18px
+            position: relative
+            height: 18px
+            line-height: 18px
             .name
               font-size: 18px
               color: #475669
             .title
-              display :inline-block
-              height :14px
-              line-height :14px
-              font-size: 14px
-              color: #1F2D3D
-              vertical-align :top
-              margin-right :10px
-            .text
-              display :inline-block
+              display: inline-block
               height: 14px
               line-height: 14px
-              vertical-align :top
+              font-size: 14px
+              color: #1F2D3D
+              vertical-align: top
+              margin-right: 10px
+            .text
+              display: inline-block
+              height: 14px
+              line-height: 14px
+              vertical-align: top
               .des
                 display: inline-block
-                vertical-align :top
+                vertical-align: top
                 font-size: 12px
                 color: #475669
                 margin-right: 11px
               .price
                 display: inline-block
-                vertical-align :top
+                vertical-align: top
                 font-size: 13px
                 color: #F96868
             .p_time
-              display :inline-block
+              display: inline-block
               height: 12px
               line-height: 12px
               font-size: 12px
               color: #99A9BF
 
         .apply_post
-            padding :50px 0px 34px 0
-            height :100%
-            background :#fff
-            .apply_content
-              width :500px
-              height :100%
-              margin: auto
-              .el-form
-                .btn
-                  width: 420px
-                  outline :none
-                .el-form-item__content
-                  .post,.post1
-                    .el-upload
-                      .el-upload__input
-                        display :none
-                    .el-upload-list__item
-                      .el-icon-close
-                        display:block
-
+          padding: 50px 0px 34px 0
+          height: 100%
+          background: #fff
+          .apply_content
+            width: 500px
+            height: 100%
+            margin: auto
+            .el-form
+              .btn
+                width: 420px
+                outline: none
+              .el-form-item__content
+                .post, .post1
+                  .el-upload
+                    .el-upload__input
+                      display: none
+                  .el-upload-list__item
+                    .el-icon-close
+                      display: block
 
       .tips1
         .el-dialog--small
           width: 72%
-          height :594px
+          height: 594px
           top: 50%
           margin-top: -297px
           .el-dialog__header
-            display :none
+            display: none
           .el-dialog__body
-            padding :0
-            height :5.94rem
+            padding: 0
+            height: 5.94rem
         .content
-          padding :1.50rem 0 1.5rem 0
-          text-align :center
+          padding: 1.50rem 0 1.5rem 0
+          text-align: center
           .img
-            display :inline-block
-            width :1.189rem
-            height :1.189rem
-            background :url(../common/image/tips.png)no-repeat center
-            background-size :cover
+            display: inline-block
+            width: 1.189rem
+            height: 1.189rem
+            background: url(../common/image/tips.png) no-repeat center
+            background-size: cover
           .title
-            margin :0.71rem 0 0.51rem 0
-            font-size :0.28rem
-            color :#1F2D3D
+            margin: 0.71rem 0 0.51rem 0
+            font-size: 0.28rem
+            color: #1F2D3D
           .des
-            font-size :0.24rem
-            color :#1F2D3D
+            font-size: 0.24rem
+            color: #1F2D3D
       .tips2
         .el-dialog--small
           width: 100%
-          height :7.09rem
+          height: 7.09rem
           box-sizing: border-box
           top: 50% !important
           margin-top: -3.15em
           .el-dialog__header
-            position :relative
+            position: relative
             .el-dialog__title
-              position :absolute
-              font-size :0.28rem
+              position: absolute
+              font-size: 0.28rem
           .el-dialog__body
-            padding :0.54rem 0 0 0
-            height :6.37rem
+            padding: 0.54rem 0 0 0
+            height: 6.37rem
         .content
-          text-align :center
+          text-align: center
           .img
-            display :inline-block
-            width :3.70rem
-            height :3.7rem
-            background :yellow
+            display: inline-block
+            width: 3.70rem
+            height: 3.7rem
+            background: yellow
           .des
-            margin :0.46rem 0 0.15rem 0.35rem
-            font-size :0.24rem
-            color :#475669
+            margin: 0.46rem 0 0.15rem 0.35rem
+            font-size: 0.24rem
+            color: #475669
 
         .share
           padding: 0 0.35rem
           .el-form-item
-            margin-bottom :0
-            margin-right :0
+            margin-bottom: 0
+            margin-right: 0
             .el-form-item__content
               .el-input
-                width :5rem
+                width: 5rem
                 .el-input__inner
                   border: 1px solid #5AA2E7
               .el-button
                 margin-left: -0.4rem
                 span
-                  font-size :0.28rem
+                  font-size: 0.28rem
                 &:hover
-                  background :#46BE8A
-
+                  background: #46BE8A
 
 
 </style>

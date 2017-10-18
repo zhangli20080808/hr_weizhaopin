@@ -17,7 +17,6 @@
               <img src="../common/image/logo.png" alt="">
             </a>
           </div>
-
         </div>
       </nav>
     </header>
@@ -27,21 +26,22 @@
         <el-breadcrumb separator="/" class="tips">
           <el-breadcrumb-item :to="{ path: '/' }" class="tips_1">招聘首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/list' }" class="tips_2">职位列表</el-breadcrumb-item>
-          <el-breadcrumb-item >职位详情</el-breadcrumb-item>
+          <el-breadcrumb-item>职位详情</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
 
-      <div class="detail_show">
+      <div class="detail_show" v-show="show">
         <div class="content">
-          <div class="title">{{item.posiotionName}}</div>
+          <div class="title">{{item.positionName}}</div>
           <div class="text">
-            <span class="des">{{item.workCity}}／{{item.positionType ===1?'全职':item.positionType ===2?'兼职':'实习' }}</span><span class="price">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
+            <span class="des">{{item.workCity}}／{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
+              }}</span><span class="price">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
           </div>
           <div class="p_time">发布时间：{{item.posiPubishTime}}</div>
 
           <div class="post_share">
             <el-button type="primary" @click="join">申请职位</el-button>
-            <el-button>分享职位</el-button>
+            <el-button @click="share">分享职位</el-button>
           </div>
         </div>
       </div>
@@ -53,24 +53,51 @@
       </div>
 
     </div>
+    <el-dialog
+      class="tips2"
+      title="扫码分享职位"
+      :visible.sync="dialogVisible2"
+      size="small"
+    >
+      <div class="content">
+        <div class="img" >
+          <img :src="eLogo" alt="">
+        </div>
+        <div class="des">或使用链接分享</div>
+      </div>
+      <el-form :inline="true" :model="formShare" class="share">
+        <el-form-item>
+          <el-input v-model="formShare.eLink"></el-input>
+        </el-form-item>
 
+        <el-form-item>
+          <el-button type="primary"  ref="btn">复制链接</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
   export default {
     data() {
       return {
-        id:this.$route.params.id,
-        item:{
-          posiotionName:'',
-          classifyName:'',
-          workCity:'',
-          posiPubishTime:'',
-          positionType:1,
-          positionSalaryLowest:'',
-          positionSalaryHighest:'',
-          positionDesc:''
-        }
+        id: this.$route.params.id,
+        item: {
+          positionName: '',
+          classifyName: '',
+          workCity: '',
+          posiPubishTime: '',
+          positionType: 1,
+          positionSalaryLowest: '',
+          positionSalaryHighest: '',
+          positionDesc: ''
+        },
+        dialogVisible2: false,
+        formShare: {
+          eLink: ''
+        },
+        eLogo:'',
+        show:false
       }
     },
     created() {
@@ -86,22 +113,22 @@
         var _this = this;
         var method = "promotionPage/positionInfo";
         var param = JSON.stringify({
-          positionId:_this.id
+          id: _this.id
         });
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.item = res.data.data.positionInfo
+            _this.show = true
           }
         }
         _this.$http(method, param, successd);
-
       },
       join() {
         this.$router.push({
           path: `/apply/${this.id}`,
           name: 'apply',
           params: {
-            item:this.item
+            item: this.item
           }
         })
       },
@@ -110,12 +137,71 @@
           path: `/`
         })
       },
+      share() {
+        this.dialogVisible2 = true
+
+        var _this = this;
+        var method = "recruitPosition/sharePosition";
+        var param = JSON.stringify({
+          positionId: _this.id
+        });
+        console.log(param)
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            console.log(res.data)
+            _this.eLogo = res.data.data[0]
+            _this.formShare.eLink = res.data.data[1]
+          }
+        }
+        _this.$http(method, param, successd);
+      }
     }
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../common/stylus/mixin.styl"
   #list_detail
+    .tips2
+      .el-dialog--small
+        width: 428px;
+        height: 404px
+        box-sizing: border-box
+        top: 50% !important
+        margin-top: -212px
+        .el-dialog__body
+          height: 424px
+      .content
+        text-align: center
+        .img
+          display: inline-block
+          width: 210px
+          height: 210px
+          img
+            width: 100%;
+            height: 100%;
+        .title
+          margin: 51px 0 22px 0
+          font-size: 20px
+          color: #1F2D3D
+          font-weight: 800
+        .des
+          text-align: left
+          margin-top: 26px
+          margin-bottom: 15px
+          color: #475669
+          font-size: 14px
+      .share
+        .el-form-item
+          margin-bottom: 0
+          margin-right: 0
+          .el-form-item__content
+            .el-input
+              width: 284px
+              .el-input__inner
+                border: 1px solid #5AA2E7;
+            .el-button
+              &:hover
+                background: #46BE8A
 
     header
       height 80px
@@ -147,9 +233,9 @@
           top: 19px
           height: 16px
           line-height: 16px
-          .tips_1,.tips_2{
-            .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a,.el-breadcrumb__separator{
-              color :#5AA2E7
+          .tips_1, .tips_2 {
+            .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a, .el-breadcrumb__separator {
+              color: #5AA2E7
             }
           }
       .detail_show
@@ -295,9 +381,57 @@
           font-size: 14px
           padding: 0.39rem 0.32rem 1.05rem 0.27rem
 
+
+      .tips2
+        .el-dialog--small
+          width: 100%
+          height: 7.09rem
+          box-sizing: border-box
+          top: 50% !important
+          margin-top: -3.15em
+          .el-dialog__header
+            position: relative
+            .el-dialog__title
+              position: absolute
+              font-size: 0.28rem
+          .el-dialog__body
+            padding: 0.54rem 0 0 0
+            height: 6.37rem
+            .content
+              text-align: center
+              .img
+                display: inline-block
+                width: 3.70rem
+                height: 3.7rem
+                img
+                  width :100%
+                  height :100%
+              .des
+                margin: 0.46rem 0 0.15rem 0.35rem
+                font-size: 0.24rem
+                color: #475669
+
+            .share
+              padding: 0 0.35rem
+              .el-form-item
+                margin-bottom: 0
+                margin-right: 0
+                .el-form-item__content
+                  .el-input
+                    width: 5rem
+                    .el-input__inner
+                      border: 1px solid #5AA2E7
+                  .el-button
+                    margin-left: -0.4rem
+                    span
+                      font-size: 0.28rem
+                    &:hover
+                      background: #46BE8A
+
   @media (min-width: 768px) and (max-width: 992px)
     #list_detail
       padding-top: 66px
+
 
       header
         height 80px
@@ -400,5 +534,50 @@
           height: 100%
           font-size: 14px
           padding: 19px 0 29px 23px
+
+      .tips2
+        .el-dialog--small
+          width: 100%
+          height: 7.09rem
+          box-sizing: border-box
+          top: 50% !important
+          margin-top: -3.15em
+          .el-dialog__header
+            position: relative
+            .el-dialog__title
+              position: absolute
+              font-size: 0.28rem
+          .el-dialog__body
+            padding: 0.54rem 0 0 0
+            height: 6.37rem
+            .content
+              text-align: center
+              .img
+                display: inline-block
+                width: 3.70rem
+                height: 3.7rem
+                background: yellow
+              .des
+                margin: 0.46rem 0 0.15rem 0.35rem
+                font-size: 0.24rem
+                color: #475669
+
+            .share
+              padding: 0 0.35rem
+              .el-form-item
+                margin-bottom: 0
+                margin-right: 0
+                .el-form-item__content
+                  .el-input
+                    width: 5rem
+                    .el-input__inner
+                      border: 1px solid #5AA2E7
+                  .el-button
+                    margin-left: -0.4rem
+                    span
+                      font-size: 0.28rem
+                    &:hover
+                      background: #46BE8A
+
 
 </style>
