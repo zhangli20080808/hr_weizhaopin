@@ -7,7 +7,7 @@
       :on-remove="handleRemove"
       :on-success="successd"
       :on-error="uploadError"
-      :data="params"
+      :data="param"
 
       :file-list="fileList">
       <el-button type="primary">点击上传</el-button>
@@ -53,6 +53,7 @@
     },
     methods: {
       handleRemove(file, fileList) {
+        console.log(file,fileList)
         var _this = this;
         var method = "fileUpload/delFileRecord";
         var param = JSON.stringify({id:file.response.data.ids});
@@ -72,7 +73,7 @@
         var _this = this;
         console.log(response,file,fileList);
         if (response.code == 0) {
-          _this.$emit('fileId',response.data.ids);
+          _this.$emit('fileId2',response.data.ids);
           if(_this.param.businessId<5){
             _this.fileList.pop();
           }
