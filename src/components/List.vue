@@ -162,7 +162,6 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data)
             _this.list = res.data.data.positionList
           }
         }
@@ -209,7 +208,6 @@
 
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data)
             _this.list = res.data.data.positionList
             _this.config.totalCount = res.data.data.count
             _this.config.pageNum = res.data.data.param.pageNum

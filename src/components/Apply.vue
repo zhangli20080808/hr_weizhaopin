@@ -57,10 +57,9 @@
                 :on-success="successed"
               >
                 <el-button size="small" type="primary">点击上传</el-button>
-                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                <div slot="tip" class="el-upload__tip">支持PDF、HTML、Word等简历格式</div>
               </el-upload>
             </el-form-item>
-            {{resumeId}}
             <!--上传附件-->
             <el-form-item label="上传附件" class="post_f">
               <el-upload
@@ -72,7 +71,7 @@
                 :on-success="successed2"
               >
                 <el-button size="small" type="primary">点击上传</el-button>
-                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                <div slot="tip" class="el-upload__tip">附件大小总和不超过50MB</div>
               </el-upload>
             </el-form-item>
             <div class="line"></div>
@@ -165,7 +164,6 @@
     },
     created() {
       this._getDetail()
-//      this.uploadResume()
     },
     methods: {
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
@@ -212,12 +210,7 @@
         }
         _this.$http(method, param, successd);
       },
-      open() {
-        this.dialogVisible = true
-        setTimeout(() => {
-          this.dialogVisible2 = true
-        }, 2000)
-      },
+
       submitForm(formName) {
         var self = this;
 //        var fileIds = "";
