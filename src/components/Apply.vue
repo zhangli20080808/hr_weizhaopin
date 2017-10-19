@@ -167,9 +167,6 @@
     },
     methods: {
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
-      _getDetail() {
-
-      },
       handleRemove(file, fileList) {
         console.log(file, fileList)
       },
