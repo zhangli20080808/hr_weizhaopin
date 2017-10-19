@@ -162,9 +162,7 @@
         },
       }
     },
-    created() {
-      this._getDetail()
-    },
+
     methods: {
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
       handleRemove(file, fileList) {
@@ -210,10 +208,7 @@
 
       submitForm(formName) {
         var self = this;
-//        var fileIds = "";
-//        if (self.fileIds != []) {
-//          fileIds = self.fileIds.join();
-//        }
+
         self.$refs[formName].validate((valid) => {
           if (valid) {
 
@@ -230,7 +225,6 @@
                 }
               }),
               succeed = function (res) {
-                console.log(res)
                 if (res.data.code == 0) {
                   self.$message({
                     message: res.data.message,
