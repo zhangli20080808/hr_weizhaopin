@@ -256,12 +256,16 @@
         var param = JSON.stringify({
           key: _this.Search,
           pageNum: 1,
-          pageSize: 9
+          pageSize: 3
         });
         var successd = function (res) {
           if (res.data.code == 0) {
             console.log(res.data)
             _this.list = res.data.data.recruitPositionList
+            _this.config.totalCount = res.data.data.page.totalCount
+            _this.config.pageNum = res.data.data.page.pageNum
+            _this.config.pageSize = res.data.data.page.pageSize
+
 
           }
         }
@@ -283,6 +287,10 @@
         this.positionList()
         this.transitionCityLists()
         this.getPositionCategoryList()
+        if(this.$route.params.PositionList){
+          console.log(this.$route.params.PositionList)
+          this.list  = this.$route.params.PositionList
+        }
 
       })
     },

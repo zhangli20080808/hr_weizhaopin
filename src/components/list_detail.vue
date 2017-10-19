@@ -67,11 +67,10 @@
       </div>
       <el-form :inline="true" :model="formShare" class="share">
         <el-form-item>
-          <el-input v-model="formShare.eLink"></el-input>
+          <el-input v-model="formShare.eLink" id="copyLinkInput"></el-input>
         </el-form-item>
-
         <el-form-item>
-          <el-button type="primary"  ref="btn">复制链接</el-button>
+          <el-button type="primary"  ref="btn" @click="copyLink" >复制链接</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -154,6 +153,16 @@
           }
         }
         _this.$http(method, param, successd);
+      },
+      copyLink(){
+
+        var self=this;
+        document.getElementById("copyLinkInput").children[0].select();
+        document.execCommand("Copy");
+        self.$message({
+          message:"复制成功",
+          type:'success'
+        })
       }
     }
   }

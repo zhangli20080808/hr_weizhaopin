@@ -217,7 +217,6 @@
         var param = JSON.stringify({});
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data)
             _this.logoUrl = res.data.data.wzpCompany.logoUrl
             _this.s_log_back = res.data.data.wzpCompany.companyUrl
             _this.logo_url = res.data.data.wzpCompany.logoUrl
@@ -247,10 +246,11 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
+
             _this.listTo = res.data.data.recruitPositionList
             _this.$router.push({
               path: `/list`,
-              name: 'list',
+              name: 'List',
               params: {
                 PositionList: _this.listTo
               }
