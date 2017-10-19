@@ -36,105 +36,105 @@
       </nav>
     </header>
 
-      <!--轮播-->
-      <div class="main_ad">
-        <div class="carousel-inner1">
-          <!--我们的data属性来保存我们要的数据,没有任何功能-->
-          <div class="item ">
-            <img :src="img_list_1" alt="">
-            <div class="item_text">
-              <div class="title">{{form.title}}
-              </div>
-              <div class="des">{{form.subTitle}}</div>
+    <!--轮播-->
+    <div class="main_ad">
+      <div class="carousel-inner1">
+        <!--我们的data属性来保存我们要的数据,没有任何功能-->
+        <div class="item ">
+          <img :src="img_list_1" alt="">
+          <div class="item_text">
+            <div class="title">{{form.title}}
+
             </div>
+            <div class="des">{{form.subTitle}}</div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!--公司简介-->
-
-
-      <div class="s_company">
-        <img class="c_img" :src="bigLogo"/>
-        <div class="text">{{form.company_name}}</div>
-        <p class="text1">{{form.company_p}}</p>
-        <p class="text2">{{form.company_address}}</p>
-        <div class="line"></div>
+    <!--公司简介-->
 
 
-        <ul class="icon_list clearfix">
-          <li>
-            <div class="grid-content bg-purple">
-              <i class="icon1"></i><span>{{options[num - 1] ? options[num - 1].label : ''}}</span>
-            </div>
-          </li>
-          <li>
-            <div class="grid-content bg-purple-light">
-              <i class="icon2"></i><span>{{s_options[kindt - 1] ? s_options[kindt - 1].label : ''}}</span>
-            </div>
-          </li>
-          <li>
-            <div class="grid-content bg-purple">
-              <i class="icon3"></i><span>{{website}}</span>
-            </div>
-          </li>
-        </ul>
+    <div class="s_company">
+      <img class="c_img" :src="bigLogo"/>
+      <div class="text">{{form.company_name}}</div>
+      <p class="text1">{{form.company_p}}</p>
+      <p class="text2">{{form.company_address}}</p>
+      <div class="line"></div>
 
 
-      </div>
-
-      <!--招聘职位-->
-      <div id="1F" class="s_recruit">
-        <div class="container">
-          <div class="title">
-            <div class="text">{{customName1}}
-              <span class="line"></span>
-            </div>
+      <ul class="icon_list clearfix">
+        <li>
+          <div class="grid-content bg-purple">
+            <i class="icon1"></i><span>{{options[num - 1] ? options[num - 1].label : ''}}</span>
           </div>
-          <el-row :gutter="20" class="list_content">
-            <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in wzpPositionList" :key="item.categoryId">
-              <div class="grid-content bg-purple" @click="join">
-                <div class="content">
-                  <p class="des">{{item.name}}</p>
-                  <span class="text">在招职位</span>
-                  <span class="num">{{item.recruitmentNum}}</span>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
+        </li>
+        <li>
+          <div class="grid-content bg-purple-light">
+            <i class="icon2"></i><span>{{s_options[kindt - 1] ? s_options[kindt - 1].label : ''}}</span>
+          </div>
+        </li>
+        <li>
+          <div class="grid-content bg-purple">
+            <i class="icon3"></i><span>{{website}}</span>
+          </div>
+        </li>
+      </ul>
 
 
-        </div>
-      </div>
+    </div>
 
-      <!--公司介绍-->
-      <div class="intro_c" id="2F">
+    <!--招聘职位-->
+    <div id="1F" class="s_recruit">
+      <div class="container">
         <div class="title">
-          <div class="text">{{customName2}}
-            <span class="line"></span>
+          <div class="text">{{customName1}}
+              <span class="line"></span>
           </div>
         </div>
+        <el-row :gutter="20" class="list_content">
+          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in wzpPositionList" :key="item.categoryId">
+            <div class="grid-content bg-purple" @click="join">
+              <div class="content">
+                <p class="des">{{item.name}}</p>
+                <span class="text">在招职位</span>
+                <span class="num">{{item.recruitmentNum}}</span>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
 
-        <div class="intro_c_con container">
-          <!--<div class="img"></div>-->
-          <div class="intro_text" v-html="content">
-          </div>
+
+      </div>
+    </div>
+
+    <!--公司介绍-->
+    <div class="intro_c" id="2F">
+      <div class="title">
+        <div class="text">{{customName2}}
+            <span class="line"></span>
         </div>
       </div>
 
+      <div class="intro_c_con container">
+        <!--<div class="img"></div>-->
+        <div class="intro_text" v-html="content">
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
   export default {
     data() {
       return {
-        logoUrl:'',
+        logoUrl: '',
         toSearch: '',
         //上传logo
         s_log_back: '',
         //banner
         img_list: [],
-        img_list_1:'',
+        img_list_1: '',
         //公司logo模块
         bigLogo: '',
         num: 0,
@@ -185,19 +185,23 @@
           company_name: '',
           company_p: '',
           company_address: '',
-          recruit: '招聘职位',
+          recruit: '',
           choose: '',
           isSearch: 0,
-          intro: '公司介绍'
+          intro: ''
         },
-        customName1:'',
-        customName2:'',
+        customName1: '',
+        customName2: '',
         //职位招聘
         wzpPositionList: [],
         //公司介绍
         listTo: '',
-        content:'',
-        wzpCompanyid:2
+        content: '',
+        wzpCompanyid: 2,
+        companyId: (() => {
+          let queryParam = this.urlParse();
+          return queryParam.companyId;
+        })()
       }
     },
     methods: {
@@ -214,7 +218,11 @@
       _getIndexInfo() {
         var _this = this;
         var method = "miniRecruit/getWzpIndexInfo";
-        var param = JSON.stringify({});
+        var param = JSON.stringify({
+          companyId: _this.companyId,
+          type: 2
+        });
+        console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.logoUrl = res.data.data.wzpCompany.logoUrl
@@ -292,9 +300,33 @@
         };
         _this.$http(method, param, successd);
       },
+      urlParse() {
+
+        let url = window.location.href;
+        let obj = {};
+        //正则匹配 匹配？&^非+多个  对应    包含？&的字符 后面  非^&的字符 一个或者多个  等号连接
+        let reg = /[?&][^?&]+=[^?&]+/g;
+        //返回一个数组
+        // ['？id=12345','&a=b']
+        let arr = url.match(reg);
+        if (arr) {
+          arr.forEach((item) => {
+            //substring字符串 截取
+            let tempArr = item.substring(1).split('=');
+            //这里我们需要调用一个decode  因为是url参数
+            let key = decodeURIComponent(tempArr[0]);
+
+            let val = decodeURIComponent(tempArr[1]);
+
+            obj[key] = val;
+          });
+        }
+        return obj;
+      }
     },
     computed: {},
     created() {
+      this.urlParse()
       this._getIndexInfo()
       this.getCompanyInfo()
       this.getCompanyIntr()
@@ -318,8 +350,8 @@
         z-index: 1000
         .navbar-header {
           height 84px
-          .navbar-brand{
-            img{
+          .navbar-brand {
+            img {
               display: block;
               width: 164px;
               height: 46px;
@@ -385,7 +417,7 @@
 
           img {
             width: 100%
-            height :100%
+            height: 100%
           }
           .item_text {
             position: absolute
@@ -790,7 +822,7 @@
                 margin-top: -0.03rem
                 margin-left: -0.1rem
                 float: none
-                vertical-align :middle
+                vertical-align: middle
               }
             }
           }
@@ -1031,7 +1063,7 @@
                 display: inline-block
                 margin-top: -0.03rem
                 margin-left: -0.1rem
-                vertical-align :middle
+                vertical-align: middle
               }
             }
           }
