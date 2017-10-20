@@ -25,7 +25,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right nav_search  hidden-sm">
               <li>
-                <div class="search" v-show="form.isSearch === 1?true:false">
+                <div class="search" v-show="form.isSearch">
                   <input type="text" placeholder="职位关键词" class="search_content" v-model="toSearch">
                   <span class="submit" @click="goSearch"><i></i></span>
                 </div>
@@ -94,7 +94,7 @@
         </div>
         <el-row :gutter="20" class="list_content">
           <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in wzpPositionList" :key="item.categoryId">
-            <div class="grid-content bg-purple" @click="join">
+            <div class="grid-content bg-purple" @click="SelectTo(item)">
               <div class="content">
                 <p class="des">{{item.name}}</p>
                 <span class="text">在招职位</span>
@@ -189,7 +189,7 @@
           company_address: '',
           recruit: '',
           choose: '',
-          isSearch: 0,
+          isSearch: false,
           intro: ''
         },
         customName1: '',
@@ -203,7 +203,9 @@
         companyId: (() => {
           let queryParam = this.urlParse();
           return queryParam.companyId;
-        })()
+        })(),
+        categoryId: 0,
+        list: []
       }
     },
     methods: {
@@ -225,25 +227,36 @@
           companyId: _this.companyId,
           type: 2
         });
-        console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
+            console.log(res.data)
             _this.logoUrl = res.data.data.wzpCompany.logoUrl
             _this.s_log_back = res.data.data.wzpCompany.companyUrl
             _this.logo_url = res.data.data.wzpCompany.logoUrl
             _this.img_list = res.data.data.fileInfoList
             _this.img_list_1 = res.data.data.fileInfoList[0].url
-//            _this.content = res.data.data.wzpCompany.description
+            _this.content = res.data.data.wzpCompany.description
             _this.bigLogo = res.data.data.wzpCompany.companyHeadImg
             _this.wzpPositionList = res.data.data.recruitmentCountList.result;
             _this.form.subTitle = res.data.data.miniRecruit.subTitle
             _this.form.title = res.data.data.miniRecruit.title
-            _this.form.isSearch = res.data.data.miniRecruit.isSearch
+            _this.form.isSearch = res.data.data.miniRecruit.isSearch ===1 ?true:false
             _this.customName1 = res.data.data.miniRecruit.customName1
             _this.customName2 = res.data.data.miniRecruit.customName2
             _this.wzpCompanyid = res.data.data.wzpCompany.id
+            _this.form.website = res.data.data.wzpCompany.domain
+            _this.form.company_p = res.data.data.wzpCompany.companyValues
+            _this.form.company_address = res.data.data.wzpCompany.address
+            _this.form.company_name = res.data.data.wzpCompany.name
+
+            _this.num = res.data.data.wzpCompany.companyDomainId
+            _this.kindt = res.data.data.wzpCompany.dimensions
+            _this.website = res.data.data.wzpCompany.status
           }
         }
+
+
+
         _this.$http(method, param, successd);
       },
       //首页职位搜索功能
@@ -304,7 +317,6 @@
         _this.$http(method, param, successd);
       },
       //获取url参数
-
       urlParse() {
 
         let url = window.location.href;
@@ -322,14 +334,43 @@
           });
         }
         return obj;
-      }
+      },
+      SelectTo(item) {
+        this.categoryId = item.categoryId
+        this.selectSearch()
+      },
+      selectSearch() {
+        var _this = this;
+        var method = "promotionPage/positionList";
+        var param = JSON.stringify({
+          pageNum: 1,
+          pageSize: 3,
+          categoryId: _this.categoryId
+        });
+
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            console.log(res.data.data)
+            _this.list = res.data.data.positionList
+            _this.$router.push({
+              path: `/list`,
+              name: 'List',
+              params: {
+                list: _this.list
+              }
+            })
+
+          }
+        }
+        _this.$http(method, param, successd);
+      },
     },
     created() {
 
       this.urlParse()
       this._getIndexInfo()
-      this.getCompanyInfo()
-      this.getCompanyIntr()
+//      this.getCompanyInfo()
+//      this.getCompanyIntr()
     }
   }
 </script>
