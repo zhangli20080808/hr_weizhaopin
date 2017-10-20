@@ -80,7 +80,6 @@
         </li>
       </ul>
 
-
     </div>
 
     <!--招聘职位-->
@@ -94,7 +93,7 @@
         </div>
         <el-row :gutter="20" class="list_content">
           <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in wzpPositionList" :key="item.categoryId">
-            <div class="grid-content bg-purple" @click="SelectTo(item)">
+            <div class="grid-content bg-purple" @click="join">
               <div class="content">
                 <p class="des">{{item.name}}</p>
                 <span class="text">在招职位</span>
