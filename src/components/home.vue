@@ -88,6 +88,7 @@
       <div class="container">
         <div class="title">
           <div class="text">{{customName1}}
+
             <span class="line"></span>
           </div>
         </div>
@@ -111,6 +112,7 @@
     <div class="intro_c" id="2F">
       <div class="title">
         <div class="text">{{customName2}}
+
           <span class="line"></span>
         </div>
       </div>
@@ -185,10 +187,10 @@
           company_name: '',
           company_p: '',
           company_address: '',
-          recruit: '招聘职位',
+          recruit: '',
           choose: '',
           isSearch: 0,
-          intro: '公司介绍'
+          intro: ''
         },
         customName1: '',
         customName2: '',
@@ -197,7 +199,11 @@
         //公司介绍
         listTo: '',
         content: '',
-        wzpCompanyid: 2
+        wzpCompanyid: 2,
+        companyId: (() => {
+          let queryParam = this.urlParse();
+          return queryParam.companyId;
+        })()
       }
     },
     methods: {
@@ -215,9 +221,11 @@
         var _this = this;
         var method = "miniRecruit/getWzpIndexInfo";
         var param = JSON.stringify({
-//          companyId: ,
+
+          companyId: _this.companyId,
           type: 2
         });
+        console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.logoUrl = res.data.data.wzpCompany.logoUrl
@@ -296,23 +304,29 @@
         _this.$http(method, param, successd);
       },
       //获取url参数
-      GetRequest(){
-        var theRequest = {};
-        var l = window.location.href
-        var url = l.split("#/")[1]; //获取url中"?"符后的字串
-        if (url.indexOf("?") != -1) {
-          var str = url.substr(1);
-          strs = str.split("&");
-          for(var i = 0; i < strs.length; i ++) {
-            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-          }
+
+      urlParse() {
+
+        let url = window.location.href;
+        let obj = {};
+        let reg = /[?&][^?&]+=[^?&]+/g;
+        let arr = url.match(reg);
+        if (arr) {
+          arr.forEach((item) => {
+            let tempArr = item.substring(1).split('=');
+            let key = decodeURIComponent(tempArr[0]);
+
+            let val = decodeURIComponent(tempArr[1]);
+
+            obj[key] = val;
+          });
         }
-        console.log(theRequest)
+        return obj;
       }
     },
-    computed: {},
     created() {
-      this.GetRequest()
+
+      this.urlParse()
       this._getIndexInfo()
       this.getCompanyInfo()
       this.getCompanyIntr()
