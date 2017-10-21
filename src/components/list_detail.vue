@@ -4,7 +4,7 @@
     <div class="container">
       <div class="detail_des hidden-xs hidden-sm">
         <el-breadcrumb separator="/" class="tips">
-          <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/' }" class="tips_1">招聘首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/list' ,query:{ companyId: this.companyId}}" class="tips_2">职位列表</el-breadcrumb-item>
           <el-breadcrumb-item>职位详情</el-breadcrumb-item>
         </el-breadcrumb>
@@ -85,7 +85,6 @@
         this._getDetail()
         if (this.$route.query.companyId) {
           this.companyId = this.$route.query.companyId
-          this.id = this.$route.params.id
         }
       })
     },
@@ -109,23 +108,21 @@
       },
       join() {
         this.$router.push({
-          path: `/apply`,
+          path: `/apply/${this.id}`,
           name: 'apply',
           params: {
             item: this.item,
             id:this.id
           },
           query: {
-            companyId: this.companyId,
+            companyId: this.companyId
           }
+
         })
       },
       backIndex() {
         this.$router.push({
-          path: `/`,
-          query: {
-            companyId: this.companyId,
-          }
+          path: `/`
         })
       },
       share() {

@@ -33,6 +33,7 @@
             <el-select v-model="form.kind" placeholder="请选择职位分类" @change="selectKind">
               <el-option :label="item.name" :value="item.id" v-for="item in selectK" :key="item.id"></el-option>
             </el-select>
+            {{form.kind}}  {{item}}
           </el-form-item>
         </el-form>
       </div>
@@ -86,6 +87,7 @@
           address: [],
           kind: ''
         },
+        item:[],
         config: {
           pageSize: 6,
           pageNum: 1,
@@ -141,17 +143,45 @@
         })
       },
       change(item) {
+        this.item = item
+        if(this.form.kind){
+          this.selectOne(item)
+        }else {
+          this.selectOne2(item)
+        }
+      },
+      selectOne(item){
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
           pageNum: 1,
           pageSize: 10,
           companyId: this.companyId,
-//          classifyName:'',
+          categoryId:_this.form.kind,
           workCity: String(item[1])
         });
+        console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
+            console.log(res.data.data)
+            _this.list = res.data.data.positionList
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      selectOne2(item){
+        var _this = this;
+        var method = "promotionPage/positionList";
+        var param = JSON.stringify({
+          pageNum: 1,
+          pageSize: 10,
+          companyId: this.companyId,
+          workCity: String(item[1])
+        });
+        console.log(param)
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            console.log(res.data.data)
             _this.list = res.data.data.positionList
           }
         }
@@ -228,6 +258,9 @@
       },
       //职位分类下拉搜索
       selectSearch() {
+        if(this.form.address){
+          this.selectOne(this.item)
+        }
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
@@ -247,6 +280,7 @@
           }
         }
         _this.$http(method, param, successd);
+        this.selectOne(this.item)
       },
       //职位搜索
       goSearch() {
@@ -280,6 +314,7 @@
         this.positionList()
       },
     },
+
     mounted() {
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId,
@@ -296,6 +331,9 @@
           this.config.pageNum = this.$route.params.searchPage.pageNum
           this.config.pageSize = this.$route.params.searchPage.pageSize
           this.config.totalCount = this.$route.params.searchPage.totalCount
+        }
+        if(this.form.address){
+
         }
       }
     },

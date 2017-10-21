@@ -201,7 +201,8 @@
                   phone: self.formLabelAlign.phone,
                   email: self.formLabelAlign.mail,
                   interviewerId: self.interviewerId,
-                  resumeFrom: 1
+                  resumeFrom: 1,
+                  positionId:self.id
                 }
               }),
               succeed = function (res) {
@@ -252,11 +253,9 @@
 
     },
     created(){
-      if (this.$route.query.companyId) {
         console.log(this.$route)
         this.companyId = this.$route.query.companyId
         this.id = this.$route.params.id
-      }
     },
     components: {
       Scroll
