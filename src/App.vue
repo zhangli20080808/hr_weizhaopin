@@ -1,20 +1,202 @@
 <template>
   <div id="app">
     <nav-title></nav-title>
-      <router-view></router-view>
+    <navHeader :seller="seller" @search="searchDetail"></navHeader>
+      <router-view :homeData="homeData" ></router-view>
   </div>
 </template>
 
 <script>
   import navTitle from './components/base/back'
+  import navHeader from './components/base/nav'
 
   export default {
     name: 'app',
     data() {
-      return {}
+      return {
+        seller:{
+          logoUrl:'',
+          isSearch:false,
+          search:''
+        },
+        companyId: (() => {
+          let queryParam = this.urlParse();
+          return queryParam.companyId;
+        })(),
+        homeData:{
+          s_log_back:'',
+          //banner
+          img_list: [],
+          img_list_1: '',
+          //公司logo模块
+          bigLogo: '',
+          num: 0,
+          kindt: 0,
+          website: '',
+          options: [{
+            value: 1,
+            label: '0-50'
+          }, {
+            value: 2,
+            label: '50-100'
+          }, {
+            value: 3,
+            label: '100-500'
+          }, {
+            value: 4,
+            label: '500-1000'
+          }, {
+            value: 5,
+            label: '1000人以上'
+          }],
+          s_options: [{
+            value: 1,
+            label: '天使轮'
+          }, {
+            value: 2,
+            label: 'A轮'
+          }, {
+            value: 3,
+            label: 'B轮'
+          }, {
+            value: 4,
+            label: 'C轮'
+          }, {
+            value: 5,
+            label: 'D轮'
+          }, {
+            value: 6,
+            label: '上市'
+          }, {
+            value: 7,
+            label: '未融资'
+          }],
+
+          form: {
+            title: '',
+            subTitle: '',
+            company_name: '',
+            company_p: '',
+            company_address: '',
+            recruit: '',
+            choose: '',
+            isSearch: false,
+            intro: ''
+          },
+          customName1: '',
+          customName2: '',
+          //职位招聘
+          wzpPositionList: [],
+          //公司介绍
+          content: '',
+          num:0,
+          kindt:0,
+          website:'',
+          content:''
+        }
+      }
     },
     components: {
-      navTitle
+      navTitle,
+      navHeader
+    },
+    methods:{
+      //获取url参数
+      urlParse() {
+
+        let url = window.location.href;
+        let obj = {};
+        let reg = /[?&][^?&]+=[^?&]+/g;
+        let arr = url.match(reg);
+        if (arr) {
+          arr.forEach((item) => {
+            let tempArr = item.substring(1).split('=');
+            let key = decodeURIComponent(tempArr[0]);
+
+            let val = decodeURIComponent(tempArr[1]);
+
+            obj[key] = val;
+          });
+        }
+        return obj;
+      },
+      //微招聘首页信息
+      _getIndexInfo() {
+        var _this = this;
+        var method = "miniRecruit/getWzpIndexInfo";
+        var param = JSON.stringify({
+          companyId: _this.companyId,
+          type: 2
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+           console.log(res.data.data)
+            _this.seller.logoUrl = res.data.data.wzpCompany.logoUrl
+            _this.seller.isSearch = res.data.data.miniRecruit.isSearch === 1 ? true : false
+
+
+            _this.homeData.s_log_back = res.data.data.wzpCompany.companyUrl
+            _this.homeData.img_list = res.data.data.fileInfoList
+            _this.homeData.img_list_1 = res.data.data.fileInfoList[0].url
+            _this.homeData.content = res.data.data.wzpCompany.description
+            _this.homeData.bigLogo = res.data.data.wzpCompany.companyHeadImg
+            _this.homeData.wzpPositionList = res.data.data.recruitmentCountList.result
+            _this.homeData.form.subTitle = res.data.data.miniRecruit.subTitle
+            _this.homeData.form.title = res.data.data.miniRecruit.title
+            _this.homeData.customName1 = res.data.data.miniRecruit.customName1
+            _this.homeData.customName2 = res.data.data.miniRecruit.customName2
+            _this.homeData.wzpCompanyid = res.data.data.wzpCompany.id
+            _this.homeData.form.website = res.data.data.wzpCompany.domain
+            _this.homeData.form.company_p = res.data.data.wzpCompany.companyValues
+            _this.homeData.form.company_address = res.data.data.wzpCompany.address
+            _this.homeData.form.company_name = res.data.data.wzpCompany.name
+//
+            _this.homeData.num = res.data.data.wzpCompany.dimensions
+            _this.homeData.kindt = res.data.data.wzpCompany.status
+            _this.homeData.website = res.data.data.wzpCompany.domain
+
+            _this.homeData.content = res.data.data.wzpCompany.description
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      searchDetail(val){
+        this.searchDetail(val)
+      },
+      //首页职位搜索功能
+      searchDetail(val) {
+        var _this = this;
+        var method = "miniRecruit/searchRecruitPosition";
+        var param = JSON.stringify({
+          key: val,
+          companyId: _this.companyId,
+          pageNum: 1,
+          pageSize: 9
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            console.log(res.data.data)
+            _this.list = res.data.data.recruitPositionList
+            _this.searchPage = res.data.data.page
+            _this.$router.push({
+              path: `/list`,
+              name: 'List',
+              query:{
+                companyId: _this.companyId,
+              },
+              params:{
+                searchList: _this.list,
+                searchPage:_this.searchPage
+              }
+            })
+          }
+
+        }
+        _this.$http(method, param, successd);
+      },
+    },
+    created(){
+      this._getIndexInfo()
     }
   }
 </script>

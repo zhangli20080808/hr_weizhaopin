@@ -1,33 +1,12 @@
 <template>
   <div id="apply">
 
-    <!--导航-->
-    <header class="hidden-xs hidden-sm">
-      <nav class="navbar navbar-sample" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">
-              <img src="../common/image/logo.png" alt="">
-            </a>
-          </div>
-
-        </div>
-      </nav>
-    </header>
-
     <div class="container">
       <div class="detail_des hidden-xs hidden-sm">
         <el-breadcrumb separator="/" class="tips">
           <el-breadcrumb-item :to="{ path: '/' }" class="tips_1">招聘首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/list' }" class="tips_2">职位列表</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/list/:id' }" class="tips_3">职位详情</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/list'}" class="tips_2">职位列表</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/list/:id'}" class="tips_3">职位详情</el-breadcrumb-item>
           <el-breadcrumb-item>申请职位</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -118,6 +97,7 @@
     data() {
       return {
         upLogoUrl: Util.uploadURLForCommon,
+        companyId:0,
         fileIds: [],
         resumeId: 0,
         ids1: 0,
@@ -250,23 +230,33 @@
       },
       backIndex() {
         this.$router.push({
-          path: `/`
+          path: `/`,
+          query:{ companyId: this.companyId}
         })
       },
       backSec() {
         this.$router.push({
-          path: `/list`
+          path: `/list`,
+          query:{ companyId: this.companyId}
         })
       },
       backlist() {
         this.$router.push({
-          path: `/list/${this.id}`
+          path: `/list/${this.id}`,
+          params:{
+            id:this.id
+          },
+          query:{ companyId: this.companyId}
         })
       },
-      share() {
 
+    },
+    created(){
+      if (this.$route.query.companyId) {
+        console.log(this.$route)
+        this.companyId = this.$route.query.companyId
+        this.id = this.$route.params.id
       }
-
     },
     components: {
       Scroll
@@ -304,22 +294,6 @@
         .des
           font-size: 18px
           color: #1F2D3D
-
-    header
-      height 80px
-      line-height 80px
-      .navbar-sample
-        background-color: #fff
-        border-color: #f5f5f5
-        margin-bottom: 0
-        top: 0
-        width: 100%
-        z-index: 1000
-        .navbar-header
-          height 84px
-
-        .navbar-brand
-          height: 80px
     .container
       .detail_des
         background: #fff

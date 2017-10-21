@@ -1,36 +1,16 @@
 <template>
   <div id="s_list">
-    <!--导航-->
-    <header class="hidden-xs hidden-sm">
-      <nav class="navbar navbar-sample" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">
-              <img src="../common/image/logo.png" alt="">
-            </a>
-          </div>
-
-        </div>
-      </nav>
-    </header>
     <!--搜索-->
     <div class="container">
       <div class="search">
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
-            <el-breadcrumb-item :to="{ path: '/' }" class="tips_1">招聘首页</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页</el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <div class="search_go">
-          <input type="search" placeholder="职位关键词" class="search_content" v-model="Search">
+          <input type="search" placeholder="职位关键词" class="search_content" v-model="Search" @keyup.13="goSearch">
           <span class="submit" @click="goSearch">搜索</span>
         </div>
       </div>
@@ -101,12 +81,13 @@
   export default {
     data() {
       return {
+        logoUrl: '',
         form: {
           address: [],
           kind: ''
         },
         config: {
-          pageSize: 10,
+          pageSize: 6,
           pageNum: 1,
           totalCount: 0
         },
@@ -141,14 +122,22 @@
           value: 2
         }],
         Search: '',
-        workCityLists: []
-
+        workCityLists: [],
+        companyId: 0
       }
     },
     methods: {
       selectItem(item) {
         this.$router.push({
-          path: `/list/${item.id}`
+          path: `/list/${item.id}`,
+          name:'listDetail',
+          query: {
+            companyId: this.companyId,
+          },
+          params:{
+            logoUrl:this.logoUrl,
+            id:item.id
+          }
         })
       },
       change(item) {
@@ -157,6 +146,7 @@
         var param = JSON.stringify({
           pageNum: 1,
           pageSize: 10,
+          companyId: this.companyId,
 //          classifyName:'',
           workCity: String(item[1])
         });
@@ -169,7 +159,10 @@
       },
       backIndex() {
         this.$router.push({
-          path: `/`
+          path: `/`,
+          query: {
+            companyId: this.companyId,
+          }
         })
       },
       selectKind() {
@@ -201,11 +194,11 @@
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
           pageNum: this.config.pageNum,
-          pageSize: this.config.pageSize
+          pageSize: this.config.pageSize,
+          companyId: _this.companyId,
 //           classifyName:'',
 //           workCity:''
         });
-
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.list = res.data.data.positionList
@@ -220,7 +213,11 @@
       getPositionCategoryList() {
         var _this = this;
         var method = "recruitPosition/getPositionCategoryList";
-        var param = JSON.stringify({});
+        var param = JSON.stringify({
+          companyId: this.companyId,
+          type: 2
+        });
+
 
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -237,6 +234,7 @@
           pageNum: 1,
           pageSize: 10,
           categoryId: _this.form.kind,
+          companyId: this.companyId,
         });
 
         var successd = function (res) {
@@ -252,16 +250,18 @@
       },
       //职位搜索
       goSearch() {
+        this.form.address = [];
+        this.form.kind = '';
         var _this = this;
         var method = "miniRecruit/searchRecruitPosition";
         var param = JSON.stringify({
+          companyId: _this.companyId,
           key: _this.Search,
           pageNum: 1,
-          pageSize: 3
+          pageSize: 9
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data)
             _this.list = res.data.data.recruitPositionList
             _this.config.totalCount = res.data.data.page.totalCount
             _this.config.pageNum = res.data.data.page.pageNum
@@ -270,7 +270,6 @@
         }
         _this.$http(method, param, successd);
       },
-
       changePageSize(pageSize) {
         this.config.pageSize = pageSize;
         this.config.pageNum = 1;
@@ -281,13 +280,24 @@
         this.positionList()
       },
     },
-    created() {
-      this.$nextTick(() => {
-        this.positionList()
-        this.transitionCityLists()
-        this.getPositionCategoryList()
-
-      })
+    mounted() {
+      if (this.$route.query.companyId) {
+        this.companyId = this.$route.query.companyId,
+          this.logoUrl = this.$route.params.logoUrl
+      }
+      this.positionList()
+      this.transitionCityLists()
+      this.getPositionCategoryList()
+    },
+    watch: {
+      list() {
+        if (this.$route.params.searchList) {
+          this.list = this.$route.params.searchList
+          this.config.pageNum = this.$route.params.searchPage.pageNum
+          this.config.pageSize = this.$route.params.searchPage.pageSize
+          this.config.totalCount = this.$route.params.searchPage.totalCount
+        }
+      }
     },
     components: {
       Scroll
@@ -301,26 +311,6 @@
   #s_list {
     background: #F7F7F7
     height: 100%
-    overflow: hidden
-    header {
-      height 80px;
-      line-height 80px;
-      .navbar-sample {
-        background-color: #fff;
-        border-color: #f5f5f5;
-        margin-bottom: 0;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        .navbar-header {
-          height 84px
-        }
-        .navbar-brand {
-          height: 80px;
-        }
-      }
-    }
-
     .container {
       .search {
         width: 100%;
