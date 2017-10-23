@@ -88,10 +88,6 @@
           //职位招聘
           wzpPositionList: [],
           //公司介绍
-          content: '',
-          num:0,
-          kindt:0,
-          website:'',
           content:''
         }
       }
