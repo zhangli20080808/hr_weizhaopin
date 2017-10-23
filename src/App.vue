@@ -9,6 +9,7 @@
 <script>
   import navTitle from './components/base/back'
   import navHeader from './components/base/nav'
+  import footerNav from './components/base/nav'
 
   export default {
     name: 'app',

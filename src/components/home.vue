@@ -46,7 +46,7 @@
     </div>
 
     <!--招聘职位-->
-    <div id="1F" class="s_recruit" v-show="homeData.wzpPositionList"homeData.>
+    <div id="1F" class="s_recruit" v-show="homeData.wzpPositionList">
       <div class="container">
         <div class="title">
           <div class="text" v-show="homeData.customName1">{{homeData.customName1}}
@@ -213,6 +213,7 @@
       },
     },
     created() {
+  console.log(this.homeData)
 
     }
   }

@@ -5,8 +5,8 @@
       <div class="detail_des hidden-xs hidden-sm">
         <el-breadcrumb separator="/" class="tips">
           <el-breadcrumb-item :to="{ path: '/' }" class="tips_1">招聘首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/list'}" class="tips_2">职位列表</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/list/:id'}" class="tips_3">职位详情</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/list',query:{ companyId: this.companyId}}" class="tips_2" >职位列表</el-breadcrumb-item>
+          <el-breadcrumb-item @click="backlist" class="tips_3">职位详情</el-breadcrumb-item>
           <el-breadcrumb-item>申请职位</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -102,7 +102,7 @@
         resumeId: 0,
         ids1: 0,
         interviewerId: 0,
-        attachmentIds: 0,
+        attachmentIds: [],
         id: this.$route.params.id,
         name: this.$route.params.item.positionName,
         salary: this.$route.params.item.positionSalaryHighest,
@@ -164,7 +164,7 @@
         this.uploadResume()
       },
       successed2(res, file) {
-        this.attachmentIds = res.data.ids
+        this.attachmentIds.push(res.data.ids)
       },
 
       uploadResume() {
@@ -172,7 +172,9 @@
         var method = "addResume/uploadResume";
         var param = JSON.stringify({
           ids: _this.resumeId,
-          resumeFrom: 1
+          recommendId : "",
+          recommendPhone : "",
+          resumeFrom: 14
         });
         var successd = function (res) {
           if (res.data.code = 0) {
@@ -191,20 +193,24 @@
 
         self.$refs[formName].validate((valid) => {
           if (valid) {
-
+            if(!this.resumeId){
+              alert('请上传您的简历')
+              return
+            }
             var method = 'promotionPage/submitInterivewApplication',
               param = JSON.stringify({
                 positionApply: {
                   resumeId: self.resumeId,
-                  attachmentIds: self.attachmentIds || '',
+                  attachmentIds: String(self.attachmentIds),
                   name: self.formLabelAlign.name,
                   phone: self.formLabelAlign.phone,
                   email: self.formLabelAlign.mail,
                   interviewerId: self.interviewerId,
-                  resumeFrom: 1,
+                  resumeFrom: 14,
                   positionId:self.id
                 }
               }),
+
               succeed = function (res) {
                 if (res.data.code == 0) {
                   self.$message({
@@ -214,12 +220,14 @@
                   self.dialogVisible = true
                   setTimeout(() => {
 
-                    this.$router.push({
-                      path: `/list`
+                    self.$router.push({
+                      path: `/list`,
+                      query:{ companyId: this.companyId}
                     })
                   }, 2000)
                 }
               };
+            console.log(param)
             this.$http(method, param, succeed);
 
 
@@ -253,7 +261,6 @@
 
     },
     created(){
-        console.log(this.$route)
         this.companyId = this.$route.query.companyId
         this.id = this.$route.params.id
     },

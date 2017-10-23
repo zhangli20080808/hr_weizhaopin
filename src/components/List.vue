@@ -5,7 +5,8 @@
       <div class="search">
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
-            <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页
+            </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
@@ -33,7 +34,6 @@
             <el-select v-model="form.kind" placeholder="请选择职位分类" @change="selectKind">
               <el-option :label="item.name" :value="item.id" v-for="item in selectK" :key="item.id"></el-option>
             </el-select>
-            {{form.kind}}  {{item}}
           </el-form-item>
         </el-form>
       </div>
@@ -87,9 +87,9 @@
           address: [],
           kind: ''
         },
-        item:[],
+        item: [],
         config: {
-          pageSize: 6,
+          pageSize: 20,
           pageNum: 1,
           totalCount: 0
         },
@@ -132,32 +132,32 @@
       selectItem(item) {
         this.$router.push({
           path: `/list/${item.id}`,
-          name:'listDetail',
+          name: 'listDetail',
           query: {
             companyId: this.companyId,
           },
-          params:{
-            logoUrl:this.logoUrl,
-            id:item.id
+          params: {
+            logoUrl: this.logoUrl,
+            id: item.id
           }
         })
       },
       change(item) {
         this.item = item
-        if(this.form.kind){
+        if (this.form.kind) {
           this.selectOne(item)
-        }else {
+        } else {
           this.selectOne2(item)
         }
       },
-      selectOne(item){
+      selectOne(item) {
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
           pageNum: 1,
           pageSize: 10,
           companyId: this.companyId,
-          categoryId:_this.form.kind,
+          categoryId: _this.form.kind,
           workCity: String(item[1])
         });
         console.log(param)
@@ -169,13 +169,14 @@
         }
         _this.$http(method, param, successd);
       },
-      selectOne2(item){
+      selectOne2(item) {
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
           pageNum: 1,
           pageSize: 10,
           companyId: this.companyId,
+          categoryId: '',
           workCity: String(item[1])
         });
         console.log(param)
@@ -226,11 +227,12 @@
           pageNum: this.config.pageNum,
           pageSize: this.config.pageSize,
           companyId: _this.companyId,
-//           classifyName:'',
-//           workCity:''
+          categoryId: '',
+          workCity: ''
         });
         var successd = function (res) {
           if (res.data.code == 0) {
+            console.log(res.data)
             _this.list = res.data.data.positionList
             _this.config.totalCount = res.data.data.count
             _this.config.pageNum = res.data.data.param.pageNum
@@ -258,9 +260,7 @@
       },
       //职位分类下拉搜索
       selectSearch() {
-        if(this.form.address){
-          this.selectOne(this.item)
-        }
+
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
@@ -280,6 +280,9 @@
           }
         }
         _this.$http(method, param, successd);
+        if (this.form.address) {
+          this.selectOne(this.item)
+        }
         this.selectOne(this.item)
       },
       //职位搜索
@@ -332,7 +335,7 @@
           this.config.pageSize = this.$route.params.searchPage.pageSize
           this.config.totalCount = this.$route.params.searchPage.totalCount
         }
-        if(this.form.address){
+        if (this.form.address) {
 
         }
       }
