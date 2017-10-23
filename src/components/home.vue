@@ -46,7 +46,7 @@
     </div>
 
     <!--招聘职位-->
-    <div id="1F" class="s_recruit" v-show="homeData.wzpPositionList"homeData.>
+    <div id="1F" class="s_recruit" v-show="homeData.wzpPositionList">
       <div class="container">
         <div class="title">
           <div class="text" v-show="homeData.customName1">{{homeData.customName1}}
@@ -137,7 +137,12 @@
         })(),
         categoryId: 0,
         list: [],
-        searchPage:{}
+        searchPage:{},
+        config: {
+          pageSize: 9,
+          pageNum: 1,
+          totalCount: 0
+        }
       }
     },
     props:{
@@ -147,14 +152,12 @@
     },
     methods: {
       join() {
+
         this.$router.push({
           path: `/list`,
           name:'List',
           query:{
             companyId: this.companyId,
-          },
-          params:{
-            logoUrl:this.logoUrl
           }
         })
       },
@@ -184,15 +187,18 @@
       },
       SelectTo(item) {
         this.categoryId = item.categoryId
-        this.selectSearch()
+        this.selectSearch(this.categoryId)
       },
-      selectSearch() {
+      selectSearch(item) {
+        console.log(item)
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: 1,
-          pageSize: 3,
-          categoryId: _this.categoryId
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
+          companyId: _this.companyId,
+          categoryId: item,
+          workCity: ''
         });
 
         var successd = function (res) {
@@ -203,17 +209,19 @@
               path: `/list`,
               name: 'List',
               params: {
-                list: _this.list
+                list: _this.list,
+                config:_this.config
+              },
+              query:{
+                companyId: _this.companyId,
               }
             })
-
           }
         }
         _this.$http(method, param, successd);
       },
     },
     created() {
-
     }
   }
 </script>
@@ -401,6 +409,7 @@
     }
 
     .intro_c {
+      padding-bottom: 60px;
       .title {
         color: #1F2D3D
         font-size: 20px
@@ -446,7 +455,6 @@
           }
           p:nth-child(1) {
             text-indent: 30px
-            margin-top: 29px
           }
           p:nth-child(2) {
             text-indent: 30px
@@ -695,7 +703,7 @@
               text-indent: 30px
             }
             p:nth-child(1) {
-              margin-top: 29px
+              margin-top: 16px
             }
 
           }

@@ -5,7 +5,8 @@
       <div class="search">
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
-            <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页
+            </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
@@ -33,7 +34,6 @@
             <el-select v-model="form.kind" placeholder="请选择职位分类" @change="selectKind">
               <el-option :label="item.name" :value="item.id" v-for="item in selectK" :key="item.id"></el-option>
             </el-select>
-            {{form.kind}}  {{item}}
           </el-form-item>
         </el-form>
       </div>
@@ -87,9 +87,9 @@
           address: [],
           kind: ''
         },
-        item:[],
+        item: [],
         config: {
-          pageSize: 6,
+          pageSize: 9,
           pageNum: 1,
           totalCount: 0
         },
@@ -132,33 +132,28 @@
       selectItem(item) {
         this.$router.push({
           path: `/list/${item.id}`,
-          name:'listDetail',
+          name: 'listDetail',
           query: {
             companyId: this.companyId,
           },
-          params:{
-            logoUrl:this.logoUrl,
-            id:item.id
+          params: {
+            id: item.id
           }
         })
       },
       change(item) {
         this.item = item
-        if(this.form.kind){
-          this.selectOne(item)
-        }else {
-          this.selectOne2(item)
-        }
+          this.selectOne()
       },
-      selectOne(item){
+      selectOne() {
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: 1,
-          pageSize: 10,
-          companyId: this.companyId,
-          categoryId:_this.form.kind,
-          workCity: String(item[1])
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
+          companyId: _this.companyId,
+          categoryId: _this.form.kind,
+          workCity: String(_this.item[1])
         });
         console.log(param)
         var successd = function (res) {
@@ -169,19 +164,19 @@
         }
         _this.$http(method, param, successd);
       },
-      selectOne2(item){
+      selectOne2() {
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: 1,
-          pageSize: 10,
-          companyId: this.companyId,
-          workCity: String(item[1])
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
+          companyId: _this.companyId,
+          categoryId: _this.form.kind,
+          workCity: ''
         });
         console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data.data)
             _this.list = res.data.data.positionList
           }
         }
@@ -223,11 +218,11 @@
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: this.config.pageNum,
-          pageSize: this.config.pageSize,
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
           companyId: _this.companyId,
-//           classifyName:'',
-//           workCity:''
+          categoryId: '',
+          workCity: ''
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -258,29 +253,12 @@
       },
       //职位分类下拉搜索
       selectSearch() {
-        if(this.form.address){
-          this.selectOne(this.item)
+        if(this.form.address == ''){
+          this.selectOne2()
+        }else {
+          this.selectOne()
         }
-        var _this = this;
-        var method = "promotionPage/positionList";
-        var param = JSON.stringify({
-          pageNum: 1,
-          pageSize: 10,
-          categoryId: _this.form.kind,
-          companyId: this.companyId,
-        });
 
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            console.log(res.data.data)
-            if (res.data.data.positionList == '') {
-              return
-            }
-            _this.list = res.data.data.positionList
-          }
-        }
-        _this.$http(method, param, successd);
-        this.selectOne(this.item)
       },
       //职位搜索
       goSearch() {
@@ -291,8 +269,8 @@
         var param = JSON.stringify({
           companyId: _this.companyId,
           key: _this.Search,
-          pageNum: 1,
-          pageSize: 9
+          pageNum: config.pageNum,
+          pageSize: config.pageSize,
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -316,9 +294,9 @@
     },
 
     mounted() {
+      console.log(this.$route)
       if (this.$route.query.companyId) {
-        this.companyId = this.$route.query.companyId,
-          this.logoUrl = this.$route.params.logoUrl
+        this.companyId = this.$route.query.companyId
       }
       this.positionList()
       this.transitionCityLists()
@@ -332,8 +310,11 @@
           this.config.pageSize = this.$route.params.searchPage.pageSize
           this.config.totalCount = this.$route.params.searchPage.totalCount
         }
-        if(this.form.address){
-
+        if (this.$route.params.list) {
+          this.list = this.$route.params.list
+          this.config.pageNum = this.$route.params.config.pageNum
+          this.config.pageSize = this.$route.params.config.pageSize
+          this.config.totalCount = this.$route.params.config.totalCount
         }
       }
     },
@@ -433,6 +414,7 @@
       .list {
         background: #fff
         width: 100%;
+        padding-bottom: 60px;
         .list_content {
           width: 100%
           padding: 0 20px

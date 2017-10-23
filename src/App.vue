@@ -1,14 +1,16 @@
 <template>
   <div id="app">
     <nav-title></nav-title>
-    <navHeader :seller="seller" @search="searchDetail"></navHeader>
+    <navHeader :seller="seller" @search="searchDetail" :companyId="companyId" @toIndex="ToHome"></navHeader>
       <router-view :homeData="homeData" ></router-view>
+    <footerNav></footerNav>
   </div>
 </template>
 
 <script>
   import navTitle from './components/base/back'
   import navHeader from './components/base/nav'
+  import footerNav from './components/base/foot'
 
   export default {
     name: 'app',
@@ -94,7 +96,8 @@
     },
     components: {
       navTitle,
-      navHeader
+      navHeader,
+      footerNav
     },
     methods:{
       //获取url参数
@@ -190,6 +193,14 @@
         }
         _this.$http(method, param, successd);
       },
+      ToHome(val){
+        this.$router.push({
+          path: `/`,
+          query: {
+            companyId: val,
+          }
+        })
+      }
     },
     created(){
       this._getIndexInfo()
@@ -198,6 +209,7 @@
 </script>
 
 <style>
+
   [v-cloak]{
     display:none;
   }

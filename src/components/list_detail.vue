@@ -4,7 +4,7 @@
     <div class="container">
       <div class="detail_des hidden-xs hidden-sm">
         <el-breadcrumb separator="/" class="tips">
-          <el-breadcrumb-item :to="{ path: '/' }" class="tips_1">招聘首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/list' ,query:{ companyId: this.companyId}}" class="tips_2">职位列表</el-breadcrumb-item>
           <el-breadcrumb-item>职位详情</el-breadcrumb-item>
         </el-breadcrumb>
@@ -17,7 +17,7 @@
             <span class="des">{{item.workCity}}／{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
               }}</span><span class="price">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
           </div>
-          <div class="p_time">发布时间：{{item.posiPubishTime}}</div>
+          <div class="p_time">发布时间：{{item.posiPublishTime}}</div>
 
           <div class="post_share">
             <el-button type="primary" @click="join">申请职位</el-button>
@@ -28,7 +28,7 @@
 
       <div class="detail_text">
         <div class="detail_content">
-          {{item.positionDesc}}
+          <textarea class="des_p"  v-html="item.positionDesc" disabled="disabled"></textarea>
         </div>
       </div>
 
@@ -82,6 +82,7 @@
     },
     created() {
       this.$nextTick(() => {
+        console.log(this.$route)
         this._getDetail()
         if (this.$route.query.companyId) {
           this.companyId = this.$route.query.companyId
@@ -106,6 +107,10 @@
         }
         _this.$http(method, param, successd);
       },
+      //过滤
+      filter(item){
+        return JSON.parse(item)
+      },
       join() {
         this.$router.push({
           path: `/apply/${this.id}`,
@@ -115,7 +120,7 @@
             id:this.id
           },
           query: {
-            companyId: this.companyId
+            companyId: this.companyId,
           }
 
         })
@@ -260,6 +265,13 @@
         background: #fff
         height: 100%
         padding: 19px 0 29px 23px
+        .detail_content
+          .des_p
+            width :100%
+            border :none
+            outline :none
+            height:400px
+            line-height :2
 
   @media all and (max-width: 767px)
     #list_detail
