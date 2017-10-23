@@ -89,7 +89,7 @@
         },
         item: [],
         config: {
-          pageSize: 20,
+          pageSize: 9,
           pageNum: 1,
           totalCount: 0
         },
@@ -137,7 +137,6 @@
             companyId: this.companyId,
           },
           params: {
-            logoUrl: this.logoUrl,
             id: item.id
           }
         })
@@ -154,8 +153,8 @@
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: 1,
-          pageSize: 10,
+          pageNum: config.pageNum,
+          pageSize: config.pageSize,
           companyId: this.companyId,
           categoryId: _this.form.kind,
           workCity: String(item[1])
@@ -173,8 +172,8 @@
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: 1,
-          pageSize: 10,
+          pageNum: config.pageNum,
+          pageSize: pageNum.pageSize,
           companyId: this.companyId,
           categoryId: '',
           workCity: String(item[1])
@@ -264,8 +263,8 @@
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: 1,
-          pageSize: 10,
+          pageNum: config.pageNum,
+          pageSize: pageNum.pageSize,
           categoryId: _this.form.kind,
           companyId: this.companyId,
         });
@@ -294,8 +293,8 @@
         var param = JSON.stringify({
           companyId: _this.companyId,
           key: _this.Search,
-          pageNum: 1,
-          pageSize: 9
+          pageNum: config.pageNum,
+          pageSize: config.pageSize,
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -319,9 +318,9 @@
     },
 
     mounted() {
+      console.log(this.$route)
       if (this.$route.query.companyId) {
-        this.companyId = this.$route.query.companyId,
-          this.logoUrl = this.$route.params.logoUrl
+        this.companyId = this.$route.query.companyId
       }
       this.positionList()
       this.transitionCityLists()
@@ -436,6 +435,7 @@
       .list {
         background: #fff
         width: 100%;
+        padding-bottom: 60px;
         .list_content {
           width: 100%
           padding: 0 20px

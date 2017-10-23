@@ -17,7 +17,7 @@
             <span class="des">{{item.workCity}}／{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
               }}</span><span class="price">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
           </div>
-          <div class="p_time">发布时间：{{item.posiPubishTime}}</div>
+          <div class="p_time">发布时间：{{item.posiPublishTime}}</div>
 
           <div class="post_share">
             <el-button type="primary" @click="join">申请职位</el-button>
@@ -82,6 +82,7 @@
     },
     created() {
       this.$nextTick(() => {
+        console.log(this.$route)
         this._getDetail()
         if (this.$route.query.companyId) {
           this.companyId = this.$route.query.companyId
@@ -100,6 +101,7 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
+            console.log(res.data)
             _this.item = res.data.data.positionInfo
             _this.show = true
           }

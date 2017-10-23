@@ -11,8 +11,8 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="javascript:void(0)">
-              <img :src="seller.logoUrl" alt="">
+            <a class="navbar-brand" @click="toIndex">
+              <img :src="seller.logoUrl" alt="" >
             </a>
           </div>
 
@@ -47,9 +47,13 @@
     props: {
       seller: {
         type: Object
+      },
+      companyId:{
+        type:String
       }
     },
     created() {
+
     },
     watch: {
       $route(to, from) {
@@ -64,6 +68,9 @@
     methods: {
       goSearch() {
         this.$emit('search', this.search)
+      },
+      toIndex(){
+        this.$emit('toIndex',Number(this.companyId))
       }
     }
   }

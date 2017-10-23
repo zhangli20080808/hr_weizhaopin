@@ -4,7 +4,7 @@
     <div class="container">
       <div class="detail_des hidden-xs hidden-sm">
         <el-breadcrumb separator="/" class="tips">
-          <el-breadcrumb-item :to="{ path: '/' }" class="tips_1">招聘首页</el-breadcrumb-item>
+          <el-breadcrumb-item class="tips_1">招聘首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/list',query:{ companyId: this.companyId}}" class="tips_2" >职位列表</el-breadcrumb-item>
           <el-breadcrumb-item @click="backlist" class="tips_3">职位详情</el-breadcrumb-item>
           <el-breadcrumb-item>申请职位</el-breadcrumb-item>

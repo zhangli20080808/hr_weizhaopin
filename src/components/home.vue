@@ -152,9 +152,6 @@
           name:'List',
           query:{
             companyId: this.companyId,
-          },
-          params:{
-            logoUrl:this.logoUrl
           }
         })
       },
@@ -213,7 +210,7 @@
       },
     },
     created() {
-  console.log(this.homeData)
+      console.log(this.homeData)
 
     }
   }
@@ -402,6 +399,7 @@
     }
 
     .intro_c {
+      padding-bottom: 60px;
       .title {
         color: #1F2D3D
         font-size: 20px
@@ -447,7 +445,6 @@
           }
           p:nth-child(1) {
             text-indent: 30px
-            margin-top: 29px
           }
           p:nth-child(2) {
             text-indent: 30px
@@ -696,7 +693,7 @@
               text-indent: 30px
             }
             p:nth-child(1) {
-              margin-top: 29px
+              margin-top: 16px
             }
 
           }
