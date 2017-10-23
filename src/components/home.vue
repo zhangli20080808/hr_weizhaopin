@@ -137,7 +137,12 @@
         })(),
         categoryId: 0,
         list: [],
-        searchPage:{}
+        searchPage:{},
+        config: {
+          pageSize: 9,
+          pageNum: 1,
+          totalCount: 0
+        }
       }
     },
     props:{
@@ -147,6 +152,7 @@
     },
     methods: {
       join() {
+
         this.$router.push({
           path: `/list`,
           name:'List',
@@ -181,15 +187,18 @@
       },
       SelectTo(item) {
         this.categoryId = item.categoryId
-        this.selectSearch()
+        this.selectSearch(this.categoryId)
       },
-      selectSearch() {
+      selectSearch(item) {
+        console.log(item)
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: 1,
-          pageSize: 3,
-          categoryId: _this.categoryId
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
+          companyId: _this.companyId,
+          categoryId: item,
+          workCity: ''
         });
 
         var successd = function (res) {
@@ -200,18 +209,19 @@
               path: `/list`,
               name: 'List',
               params: {
-                list: _this.list
+                list: _this.list,
+                config:_this.config
+              },
+              query:{
+                companyId: _this.companyId,
               }
             })
-
           }
         }
         _this.$http(method, param, successd);
       },
     },
     created() {
-      console.log(this.homeData)
-
     }
   }
 </script>

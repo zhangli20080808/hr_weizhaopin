@@ -143,21 +143,17 @@
       },
       change(item) {
         this.item = item
-        if (this.form.kind) {
-          this.selectOne(item)
-        } else {
-          this.selectOne2(item)
-        }
+          this.selectOne()
       },
-      selectOne(item) {
+      selectOne() {
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: config.pageNum,
-          pageSize: config.pageSize,
-          companyId: this.companyId,
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
+          companyId: _this.companyId,
           categoryId: _this.form.kind,
-          workCity: String(item[1])
+          workCity: String(_this.item[1])
         });
         console.log(param)
         var successd = function (res) {
@@ -168,20 +164,19 @@
         }
         _this.$http(method, param, successd);
       },
-      selectOne2(item) {
+      selectOne2() {
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: config.pageNum,
-          pageSize: pageNum.pageSize,
-          companyId: this.companyId,
-          categoryId: '',
-          workCity: String(item[1])
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
+          companyId: _this.companyId,
+          categoryId: _this.form.kind,
+          workCity: ''
         });
         console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data.data)
             _this.list = res.data.data.positionList
           }
         }
@@ -223,15 +218,14 @@
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
-          pageNum: this.config.pageNum,
-          pageSize: this.config.pageSize,
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
           companyId: _this.companyId,
           categoryId: '',
           workCity: ''
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data)
             _this.list = res.data.data.positionList
             _this.config.totalCount = res.data.data.count
             _this.config.pageNum = res.data.data.param.pageNum
@@ -259,30 +253,12 @@
       },
       //职位分类下拉搜索
       selectSearch() {
-
-        var _this = this;
-        var method = "promotionPage/positionList";
-        var param = JSON.stringify({
-          pageNum: config.pageNum,
-          pageSize: pageNum.pageSize,
-          categoryId: _this.form.kind,
-          companyId: this.companyId,
-        });
-
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            console.log(res.data.data)
-            if (res.data.data.positionList == '') {
-              return
-            }
-            _this.list = res.data.data.positionList
-          }
+        if(this.form.address == ''){
+          this.selectOne2()
+        }else {
+          this.selectOne()
         }
-        _this.$http(method, param, successd);
-        if (this.form.address) {
-          this.selectOne(this.item)
-        }
-        this.selectOne(this.item)
+
       },
       //职位搜索
       goSearch() {
@@ -334,8 +310,11 @@
           this.config.pageSize = this.$route.params.searchPage.pageSize
           this.config.totalCount = this.$route.params.searchPage.totalCount
         }
-        if (this.form.address) {
-
+        if (this.$route.params.list) {
+          this.list = this.$route.params.list
+          this.config.pageNum = this.$route.params.config.pageNum
+          this.config.pageSize = this.$route.params.config.pageSize
+          this.config.totalCount = this.$route.params.config.totalCount
         }
       }
     },

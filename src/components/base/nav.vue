@@ -52,8 +52,10 @@
         type:String
       }
     },
-    created() {
-
+    created(){
+      if(this.$route.name !== 'home'){
+        this.hiddens = false
+      }
     },
     watch: {
       $route(to, from) {

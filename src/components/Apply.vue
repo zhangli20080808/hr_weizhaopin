@@ -159,9 +159,7 @@
         }
       },
       successed(res, file) {
-        console.log(res, file)
         this.resumeId = res.data.ids
-        this.uploadResume()
       },
       successed2(res, file) {
         this.attachmentIds.push(res.data.ids)
@@ -178,6 +176,7 @@
         });
         var successd = function (res) {
           if (res.data.code = 0) {
+            console.log(res.data)
             _this.interviewerId = res.data.data
             _this.$message({
               message: res.data.message,
@@ -197,6 +196,7 @@
               alert('请上传您的简历')
               return
             }
+            this.uploadResume()
             var method = 'promotionPage/submitInterivewApplication',
               param = JSON.stringify({
                 positionApply: {
@@ -222,7 +222,7 @@
 
                     self.$router.push({
                       path: `/list`,
-                      query:{ companyId: this.companyId}
+                      query:{ companyId: self.companyId}
                     })
                   }, 2000)
                 }
@@ -257,11 +257,16 @@
           },
           query:{ companyId: this.companyId}
         })
-      },
-
+      }
     },
     created(){
-        this.companyId = this.$route.query.companyId
+      if(!this.$route.params.item.positionName){
+        console.log('gsg')
+        this.$router.push({
+          path:`/list`
+        })
+      }
+      this.companyId = this.$route.query.companyId
         this.id = this.$route.params.id
     },
     components: {

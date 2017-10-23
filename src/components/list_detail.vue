@@ -28,7 +28,7 @@
 
       <div class="detail_text">
         <div class="detail_content">
-          {{item.positionDesc}}
+          <textarea class="des_p"  v-html="item.positionDesc" disabled="disabled"></textarea>
         </div>
       </div>
 
@@ -101,12 +101,15 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data)
             _this.item = res.data.data.positionInfo
             _this.show = true
           }
         }
         _this.$http(method, param, successd);
+      },
+      //过滤
+      filter(item){
+        return JSON.parse(item)
       },
       join() {
         this.$router.push({
@@ -262,6 +265,13 @@
         background: #fff
         height: 100%
         padding: 19px 0 29px 23px
+        .detail_content
+          .des_p
+            width :100%
+            border :none
+            outline :none
+            height:400px
+            line-height :2
 
   @media all and (max-width: 767px)
     #list_detail
