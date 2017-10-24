@@ -25,7 +25,7 @@
             <ul class="nav navbar-nav navbar-right nav_search  hidden-sm">
               <li>
                 <div class="search" v-show="seller.isSearch">
-                  <input type="text" placeholder="职位关键词" class="search_content" v-model="search">
+                  <input type="text" placeholder="职位关键词" class="search_content" v-model="search" @keyup.enter="goSearch">
                   <span class="submit" @click="goSearch"><i></i></span>
                 </div>
               </li>

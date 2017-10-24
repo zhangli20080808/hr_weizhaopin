@@ -56,7 +56,7 @@
         </div>
         <el-row :gutter="20" class="list_content">
           <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in homeData.wzpPositionList" :key="item.categoryId">
-            <div class="grid-content bg-purple" @click="join">
+            <div class="grid-content bg-purple" @click="SelectTo(item)">
               <div class="content">
                 <p class="des">{{item.name}}</p>
                 <span class="text">在招职位</span>
@@ -65,8 +65,6 @@
             </div>
           </el-col>
         </el-row>
-
-
       </div>
     </div>
 

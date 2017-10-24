@@ -11,7 +11,7 @@
           </el-breadcrumb>
         </div>
         <div class="search_go">
-          <input type="search" placeholder="职位关键词" class="search_content" v-model="Search" @keyup.13="goSearch">
+          <input type="search" placeholder="职位关键词" class="search_content" v-model="Search" @keyup.enter="goSearch">
           <span class="submit" @click="goSearch">搜索</span>
         </div>
       </div>
@@ -158,7 +158,6 @@
         console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data.data)
             _this.list = res.data.data.positionList
           }
         }
@@ -269,8 +268,8 @@
         var param = JSON.stringify({
           companyId: _this.companyId,
           key: _this.Search,
-          pageNum: config.pageNum,
-          pageSize: config.pageSize,
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -294,28 +293,24 @@
     },
 
     mounted() {
-      console.log(this.$route)
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId
       }
-      this.positionList()
       this.transitionCityLists()
       this.getPositionCategoryList()
-    },
-    watch: {
-      list() {
-        if (this.$route.params.searchList) {
-          this.list = this.$route.params.searchList
-          this.config.pageNum = this.$route.params.searchPage.pageNum
-          this.config.pageSize = this.$route.params.searchPage.pageSize
-          this.config.totalCount = this.$route.params.searchPage.totalCount
-        }
-        if (this.$route.params.list) {
-          this.list = this.$route.params.list
-          this.config.pageNum = this.$route.params.config.pageNum
-          this.config.pageSize = this.$route.params.config.pageSize
-          this.config.totalCount = this.$route.params.config.totalCount
-        }
+      if (this.$route.params.searchList) {
+        this.list = this.$route.params.searchList
+        this.config.pageNum = this.$route.params.searchPage.pageNum
+        this.config.pageSize = this.$route.params.searchPage.pageSize
+        this.config.totalCount = this.$route.params.searchPage.totalCount
+        return
+      }
+      if (this.$route.params.list) {
+        this.list = this.$route.params.list
+        this.config.pageNum = this.$route.params.config.pageNum
+        this.config.pageSize = this.$route.params.config.pageSize
+        this.config.totalCount = this.$route.params.config.totalCount
+        return
       }
     },
     components: {
