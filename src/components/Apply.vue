@@ -223,7 +223,7 @@
                   setTimeout(() => {
 
                     self.$router.push({
-                      path: `/list`,
+                      path: `/list／${this.id}`,
                       query:{ companyId: self.companyId}
                     })
                   }, 2000)

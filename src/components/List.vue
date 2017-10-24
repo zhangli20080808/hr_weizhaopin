@@ -35,6 +35,9 @@
               <el-option :label="item.name" :value="item.id" v-for="item in selectK" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item class="all">
+            <el-button type="primary" @click="findAll">查询所有</el-button>
+          </el-form-item>
         </el-form>
       </div>
       <Scroll class="list" :data="list" v-loading="!list" element-loading-text="拼命加载中">
@@ -213,6 +216,9 @@
         }
         this.workCityLists = provinces;
       },
+      findAll(){
+        this.positionList()
+      },
       //职位列表页
       positionList() {
         var _this = this;
@@ -314,6 +320,7 @@
       }else{
         this.positionList()
       }
+
     },
     watch:{
       list(newList,oldList){
@@ -410,6 +417,10 @@
           .el-form-item__content {
             margin-left: 16px !important
           }
+        }
+        .all {
+          display: inline-block
+          margin-left: -53px
         }
       }
       .list {

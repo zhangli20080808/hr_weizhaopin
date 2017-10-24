@@ -5,7 +5,7 @@
       <div class="detail_des hidden-xs hidden-sm">
         <el-breadcrumb separator="/" class="tips">
           <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/list' ,query:{ companyId: this.companyId}}" class="tips_2">职位列表</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}" class="tips_2">职位列表</el-breadcrumb-item>
           <el-breadcrumb-item>职位详情</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -81,14 +81,15 @@
       }
     },
     created() {
-      this.$nextTick(() => {
         this._getDetail()
+        console.log(this.$route)
         if (this.$route.query.companyId) {
           this.companyId = this.$route.query.companyId
         }
-      })
+        if(this.$route.params.id){
+          this.id = this.$route.params.id
+        }
     },
-
     methods: {
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
       _getDetail() {
@@ -272,6 +273,7 @@
             outline :none
             height:400px
             line-height :2
+            font-size :14px
 
   @media all and (max-width: 767px)
     #list_detail

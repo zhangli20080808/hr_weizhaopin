@@ -11,7 +11,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" @click="toIndex">
+            <a class="navbar-brand" :href="seller.s_log_back" target="_blank">
               <img :src="seller.logoUrl" alt="" >
             </a>
           </div>
@@ -50,12 +50,13 @@
       },
       companyId:{
         type:String
-      }
+      },
     },
     created(){
       if(this.$route.name !== 'home'){
         this.hiddens = false
       }
+      console.log(this.seller)
     },
     watch: {
       $route(to, from) {
@@ -67,6 +68,10 @@
         }
       }
     },
+//    filters:{
+//      getTitleHref:function(val){
+//        return val + 'this.companyId'
+//      }
     methods: {
       goSearch() {
         this.$emit('search', this.search)

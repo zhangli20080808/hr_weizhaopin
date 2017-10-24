@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" v-cloak="">
     <!--导航-->
 
     <!--轮播-->
@@ -46,10 +46,10 @@
     </div>
 
     <!--招聘职位-->
-    <div id="1F" class="s_recruit" v-show="homeData.wzpPositionList">
+    <div id="1F" class="s_recruit" v-if="homeData.wzpPositionList">
       <div class="container">
         <div class="title">
-          <div class="text" v-show="homeData.customName1">{{homeData.customName1}}
+          <div class="text" v-if="homeData.customName1">{{homeData.customName1}}
 
             <span class="line"></span>
           </div>
@@ -69,8 +69,8 @@
     </div>
 
     <!--公司介绍-->
-    <div class="intro_c" id="2F" v-show="homeData.content">
-      <div class="title" v-show="homeData.customName2">
+    <div class="intro_c" id="2F" v-if="homeData.content">
+      <div class="title" v-if="homeData.customName2">
         <div class="text">{{homeData.customName2}}
 
           <span class="line"></span>
@@ -139,7 +139,7 @@
         config: {
           pageSize: 9,
           pageNum: 1,
-          totalCount: 0
+          totalCount: 1
         }
       }
     },
@@ -297,6 +297,7 @@
         height: 66px
         line-height 66px
         padding: 0 0.1rem
+        font-size: 16px;
         li {
           display: inline-block
           margin: 0 80px
@@ -335,8 +336,8 @@
     }
 
     .s_recruit {
-      padding-top: 112px
-      padding-bottom: 90px
+      padding-top: 50px
+      padding-bottom: 20px
       .line {
         width: 100%
         height: 1px
@@ -348,7 +349,7 @@
         text-align: center
         .text {
           position: relative
-          width: 123px
+          width: 100%
           height: 30px
           display: inline-block
           margin: 0 auto
@@ -374,6 +375,7 @@
           margin-bottom: 30px
           border: 1px solid #5AA2E7
           display: flex
+          cursor :pointer
           &:nth-child(3n) {
             margin-right: 10px
           }
@@ -412,7 +414,7 @@
         text-align: center
         .text {
           position: relative
-          width: 123px
+          width: 100%
           height: 30px
           display: inline-block
           margin: 0 auto
@@ -448,6 +450,10 @@
           color: #475669
           p {
             line-height: 2
+            img{
+              width :100%
+              display :block
+            }
           }
           p:nth-child(1) {
             text-indent: 30px
@@ -694,6 +700,12 @@
           .intro_text {
             font-size: 14px
             color: #475669
+            background :red
+            p{
+              img{
+                width :100%!important
+              }
+            }
             p {
               line-height: 2
               text-indent: 30px
