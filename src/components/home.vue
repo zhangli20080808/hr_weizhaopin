@@ -188,7 +188,6 @@
         this.selectSearch(this.categoryId)
       },
       selectSearch(item) {
-        console.log(item)
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({

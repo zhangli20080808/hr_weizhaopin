@@ -125,7 +125,8 @@
         }],
         Search: '',
         workCityLists: [],
-        companyId: 0
+        companyId: 0,
+        list_search:[]
       }
     },
     methods: {
@@ -273,6 +274,7 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
+            console.log(res.data.data)
             _this.list = res.data.data.recruitPositionList
             _this.config.totalCount = res.data.data.page.totalCount
             _this.config.pageNum = res.data.data.page.pageNum
@@ -289,7 +291,7 @@
       changePageNum(pageNum) {
         this.config.pageNum = pageNum;
         this.positionList()
-      },
+      }
     },
 
     mounted() {
@@ -303,14 +305,19 @@
         this.config.pageNum = this.$route.params.searchPage.pageNum
         this.config.pageSize = this.$route.params.searchPage.pageSize
         this.config.totalCount = this.$route.params.searchPage.totalCount
-        return
       }
       if (this.$route.params.list) {
         this.list = this.$route.params.list
         this.config.pageNum = this.$route.params.config.pageNum
         this.config.pageSize = this.$route.params.config.pageSize
         this.config.totalCount = this.$route.params.config.totalCount
-        return
+      }else{
+        this.positionList()
+      }
+    },
+    watch:{
+      list(newList,oldList){
+        console.log(newList,oldList)
       }
     },
     components: {
@@ -421,6 +428,7 @@
             padding: 20px 0 20px 16px
             margin-bottom: 20px
             border: 1px solid #E5E9F2
+            cursor: pointer;
             .title {
               font-size: 18px
               color: #1F2D3D

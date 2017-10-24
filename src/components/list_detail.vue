@@ -268,6 +268,7 @@
         .detail_content
           .des_p
             width :100%
+            background:#fff
             border :none
             outline :none
             height:400px
