@@ -200,7 +200,6 @@
 
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data.data)
             _this.list = res.data.data.positionList
             _this.$router.push({
               path: `/list`,

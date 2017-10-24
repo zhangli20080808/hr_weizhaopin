@@ -317,7 +317,6 @@
     },
     watch:{
       list(newList,oldList){
-        console.log(newList,oldList)
       }
     },
     components: {

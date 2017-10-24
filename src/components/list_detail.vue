@@ -82,7 +82,6 @@
     },
     created() {
       this.$nextTick(() => {
-        console.log(this.$route)
         this._getDetail()
         if (this.$route.query.companyId) {
           this.companyId = this.$route.query.companyId
