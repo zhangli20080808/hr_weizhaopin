@@ -6,6 +6,7 @@
         <el-breadcrumb separator="/" class="tips">
           <el-breadcrumb-item class="tips_1">招聘首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/list',query:{ companyId: this.companyId}}" class="tips_2">职位列表
+
           </el-breadcrumb-item>
           <el-breadcrumb-item @click="backlist" class="tips_3">职位详情</el-breadcrumb-item>
           <el-breadcrumb-item>申请职位</el-breadcrumb-item>
@@ -217,22 +218,21 @@
 
               succeed = function (res) {
                 if (res.data.code == 0) {
-                    if(res.data.data === true){
-                      self.$message({
-                        message: res.data.message,
-                        type: 'success'
-                      });
-                      self.dialogVisible = true
-                      setTimeout(() => {
-
-                        self.$router.push({
-                          path: `/list/${self.id}`,
-                          query: {companyId: self.companyId}
-                        })
-                      }, 2000)
-                    }else {
-                      alert('提交失败')
-                    }
+                  if (res.data.data === true) {
+                    self.$message({
+                      message: res.data.message,
+                      type: 'success'
+                    });
+                    self.dialogVisible = true
+                    setTimeout(() => {
+                      self.$router.push({
+                        path: `/list/${self.id}`,
+                        query: {companyId: self.companyId}
+                      })
+                    }, 2000)
+                  } else {
+                    alert('提交失败')
+                  }
                 }
               };
             console.log(param)
@@ -395,7 +395,6 @@
       top: 0
       right: 0
       left: 0
-      padding-top: 0.9rem
       .app_content
         position: fixed
         top: 0
@@ -542,7 +541,6 @@
       top: 0
       right: 0
       left: 0
-      padding-top: 66px
       .container
         width: 100%
         padding: 0

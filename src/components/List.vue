@@ -36,7 +36,7 @@
             </el-select>
           </el-form-item>
           <el-form-item class="all">
-            <el-button type="primary" @click="findAll">查询所有</el-button>
+            <el-button type="primary" @click="findAll" class="hidden-xs">查询所有</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -487,7 +487,6 @@
       left: 0
       right: 0
       padding-bottom: 0.1rem
-      padding-top: 0.9rem
       .container {
         padding: 0
         margin: 0
@@ -582,7 +581,7 @@
           background: #fff
           width: 100%;
           position: fixed
-          top: 3.84rem;
+          top: 3.04rem;
           right: 0
           left: 0
           bottom: 0

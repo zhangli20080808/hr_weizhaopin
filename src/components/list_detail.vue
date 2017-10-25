@@ -283,7 +283,6 @@
       top: 0
       right: 0
       left: 0
-      padding-top: 0.9rem
       .container
         padding: 0
         margin: 0
@@ -427,7 +426,6 @@
 
   @media (min-width: 768px) and (max-width: 992px)
     #list_detail
-      padding-top: 66px
 
 
       header

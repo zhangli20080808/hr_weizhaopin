@@ -443,7 +443,7 @@
         .intro {
         }
         .img {
-          width: 100%
+          max-width: 100%
           height: 424px
           background: url(../common/image/intro.png) no-repeat center
           background-size: cover
@@ -472,7 +472,6 @@
 
   @media all and (max-width: 767px) {
     .home {
-      padding-top: 0.92rem
       .main_ad {
         height 2.74rem
         .carousel-inner1 {
@@ -703,7 +702,6 @@
           .intro_text {
             font-size: 14px
             color: #475669
-            background :red
             p{
               img{
                 width :100%!important
@@ -728,7 +726,6 @@
   @media (min-width: 768px) and (max-width: 992px) {
     .home {
       background: #fff
-      padding-top: 66px
 
       .main_ad {
         .carousel-inner1 {

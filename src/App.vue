@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+
     <nav-title></nav-title>
     <navHeader :homeData="homeData" :seller="seller" @search="searchDetail" :companyId="companyId" @toIndex="ToHome"></navHeader>
       <router-view :homeData="homeData" ></router-view>
@@ -8,7 +9,7 @@
 </template>
 
 <script>
-  import navTitle from './components/base/back'
+//  import navTitle from './components/base/back'
   import navHeader from './components/base/nav'
   import footerNav from './components/base/foot'
 
@@ -96,7 +97,7 @@
       }
     },
     components: {
-      navTitle,
+//      navTitle,
       navHeader,
       footerNav
     },
