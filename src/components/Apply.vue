@@ -5,7 +5,8 @@
       <div class="detail_des hidden-xs hidden-sm">
         <el-breadcrumb separator="/" class="tips">
           <el-breadcrumb-item class="tips_1">招聘首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/list',query:{ companyId: this.companyId}}" class="tips_2" >职位列表</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/list',query:{ companyId: this.companyId}}" class="tips_2">职位列表
+          </el-breadcrumb-item>
           <el-breadcrumb-item @click="backlist" class="tips_3">职位详情</el-breadcrumb-item>
           <el-breadcrumb-item>申请职位</el-breadcrumb-item>
         </el-breadcrumb>
@@ -98,7 +99,7 @@
     data() {
       return {
         upLogoUrl: Util.uploadURLForCommon,
-        companyId:0,
+        companyId: 0,
         fileIds: [],
         resumeId: 0,
         ids1: 0,
@@ -138,9 +139,9 @@
         params: {
           param: JSON.stringify({businessId: 14, fId: -1}),
           sign: md5('method' + "fileUpload/insertFileRecord" + "param" + JSON.stringify({
-            businessId: 14,
-            fId: -1
-          }) + "ecbao")
+              businessId: 14,
+              fId: -1
+            }) + "ecbao")
         },
       }
     },
@@ -172,9 +173,10 @@
         var method = "addResume/uploadResume";
         var param = JSON.stringify({
           ids: _this.resumeId,
-          recommendId : "",
-          recommendPhone : "",
-          resumeFrom: 14
+          recommendId: "",
+          recommendPhone: "",
+          resumeFrom: 14,
+          positionId: _this.id
         });
         var successd = function (res) {
           if (res.data.code = 0) {
@@ -194,11 +196,11 @@
 
         self.$refs[formName].validate((valid) => {
           if (valid) {
-            if(!this.resumeId){
+            if (!this.resumeId) {
               alert('请上传您的简历')
               return
             }
-            this.uploadResume()
+            self.uploadResume()
             var method = 'promotionPage/submitInterivewApplication',
               param = JSON.stringify({
                 positionApply: {
@@ -209,7 +211,7 @@
                   email: self.formLabelAlign.mail,
                   interviewerId: self.interviewerId,
                   resumeFrom: 14,
-                  positionId:self.id
+                  positionId: self.id
                 }
               }),
 
@@ -223,8 +225,8 @@
                   setTimeout(() => {
 
                     self.$router.push({
-                      path: `/list／${this.id}`,
-                      query:{ companyId: self.companyId}
+                      path: `/list/${self.id}`,
+                      query: {companyId: self.companyId}
                     })
                   }, 2000)
                 }
@@ -242,34 +244,34 @@
       backIndex() {
         this.$router.push({
           path: `/`,
-          query:{ companyId: this.companyId}
+          query: {companyId: this.companyId}
         })
       },
       backSec() {
         this.$router.push({
           path: `/list`,
-          query:{ companyId: this.companyId}
+          query: {companyId: this.companyId}
         })
       },
       backlist() {
         this.$router.push({
           path: `/list/${this.id}`,
-          params:{
-            id:this.id
+          params: {
+            id: this.id
           },
-          query:{ companyId: this.companyId}
+          query: {companyId: this.companyId}
         })
       }
     },
     created(){
-      if(!this.$route.params.item.positionName){
+      if (!this.$route.params.item.positionName) {
         console.log('gsg')
         this.$router.push({
-          path:`/list`
+          path: `/list`
         })
       }
       this.companyId = this.$route.query.companyId
-        this.id = this.$route.params.id
+      this.id = this.$route.params.id
     },
     components: {
       Scroll
