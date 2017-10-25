@@ -338,6 +338,9 @@
     .s_recruit {
       padding-top: 50px
       padding-bottom: 20px
+      .container{
+        padding :0
+      }
       .line {
         width: 100%
         height: 1px

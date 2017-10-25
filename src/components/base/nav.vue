@@ -12,20 +12,21 @@
               <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" :href="seller.s_log_back" target="_blank">
-              <img :src="seller.logoUrl" alt="" >
+              <img :src="seller.logoUrl" alt="">
             </a>
           </div>
 
           <div v-if="hiddens" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li class="active"><a href="#">首页</a></li>
-              <li><a href="#1F">招聘信息</a></li>
-              <li><a href="#2F">公司介绍</a></li>
+              <li><a href="#1F">{{homeData.customName1}}</a></li>
+              <li><a href="#2F">{{homeData.customName2}}</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right nav_search  hidden-sm">
               <li>
                 <div class="search" v-show="seller.isSearch">
-                  <input type="text" placeholder="职位关键词" class="search_content" v-model="search" @keyup.enter="goSearch">
+                  <input type="text" placeholder="职位关键词" class="search_content" v-model="search"
+                         @keyup.enter="goSearch">
                   <span class="submit" @click="goSearch"><i></i></span>
                 </div>
               </li>
@@ -48,15 +49,18 @@
       seller: {
         type: Object
       },
-      companyId:{
-        type:String
+      companyId: {
+        type: String
       },
+      homeData: {
+        type: Object
+      }
     },
     created(){
-      if(this.$route.name !== 'home'){
+      if (this.$route.name !== 'home') {
         this.hiddens = false
       }
-      console.log(this.seller)
+      console.log(this.homeData)
     },
     watch: {
       $route(to, from) {
@@ -68,16 +72,12 @@
         }
       }
     },
-//    filters:{
-//      getTitleHref:function(val){
-//        return val + 'this.companyId'
-//      }
     methods: {
       goSearch() {
         this.$emit('search', this.search)
       },
       toIndex(){
-        this.$emit('toIndex',Number(this.companyId))
+        this.$emit('toIndex', Number(this.companyId))
       }
     }
   }

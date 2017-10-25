@@ -56,6 +56,5 @@ export function urlParse() {
       obj[key] = val;
     });
   }
-  console.log(obj)
   return obj;
 }

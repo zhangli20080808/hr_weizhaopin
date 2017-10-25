@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <!--<nav-title></nav-title>-->
-    <navHeader :seller="seller" @search="searchDetail" :companyId="companyId" @toIndex="ToHome"></navHeader>
+
+    <nav-title></nav-title>
+    <navHeader :homeData="homeData" :seller="seller" @search="searchDetail" :companyId="companyId" @toIndex="ToHome"></navHeader>
       <router-view :homeData="homeData" ></router-view>
     <footerNav></footerNav>
   </div>
@@ -176,6 +177,7 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
+              console.log(res.data.data)
             _this.list = res.data.data.recruitPositionList
             _this.searchPage = res.data.data.page
             _this.$router.push({
