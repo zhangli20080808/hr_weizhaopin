@@ -223,7 +223,7 @@
                   setTimeout(() => {
 
                     self.$router.push({
-                      path: `/list／${this.id}`,
+                      path: `/list／${self.id}`,
                       query:{ companyId: self.companyId}
                     })
                   }, 2000)
@@ -391,7 +391,6 @@
       top: 0
       right: 0
       left: 0
-      padding-top: 0.9rem
       .app_content
         position: fixed
         top: 0
@@ -538,7 +537,6 @@
       top: 0
       right: 0
       left: 0
-      padding-top: 66px
       .container
         width: 100%
         padding: 0
