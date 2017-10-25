@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-
-    <nav-title></nav-title>
     <navHeader :homeData="homeData" :seller="seller" @search="searchDetail" :companyId="companyId" @toIndex="ToHome"></navHeader>
       <router-view :homeData="homeData" ></router-view>
     <footerNav></footerNav>

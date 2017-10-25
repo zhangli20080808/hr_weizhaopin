@@ -274,6 +274,7 @@
             height:400px
             line-height :2
             font-size :14px
+            color :#333
 
   @media all and (max-width: 767px)
     #list_detail

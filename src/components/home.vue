@@ -1,5 +1,5 @@
 <template>
-  <div class="home" v-cloak="">
+  <div class="home" v-cloak="" v-show="homeData">
     <!--导航-->
 
     <!--轮播-->
@@ -18,7 +18,7 @@
     </div>
     <!--公司简介-->
     <div class="s_company">
-      <img class="c_img" :src="homeData.bigLogo"/>
+      <img class="c_img" v-show="homeData.bigLogo" :src="homeData.bigLogo">
       <div class="text">{{homeData.form.company_name}}</div>
       <p class="text1">{{homeData.form.company_p}}</p>
       <p class="text2">{{homeData.form.company_address}}</p>
@@ -303,7 +303,7 @@
           margin: 0 80px
         }
         .icon1 {
-          background url(../common/image/icon1.png) no-repeat center
+          background url(../common/image/Shape.png) no-repeat center
           display: inline-block
           width: 15px
           height: 15px
@@ -313,7 +313,7 @@
           }
         }
         .icon2 {
-          background url(../common/image/icon2.png) no-repeat center
+          background url(../common/image/Shape65.png) no-repeat center
           display: inline-block
           width: 15px
           height: 15px
@@ -323,7 +323,7 @@
           }
         }
         .icon3 {
-          background url(../common/image/icon3.png) no-repeat center
+          background url(../common/image/industry.png) no-repeat center
           display: inline-block
           width: 15px
           height: 15px
@@ -338,9 +338,6 @@
     .s_recruit {
       padding-top: 50px
       padding-bottom: 20px
-      .container{
-        padding :0
-      }
       .line {
         width: 100%
         height: 1px
@@ -533,7 +530,7 @@
           font-size: 0.22rem
           margin-top: 0.3rem
           margin-bottom: 0.26rem
-          line-height: 1.5
+          line-height: 0.7
         }
         .line {
 
@@ -547,6 +544,7 @@
           margin: 0
           li {
             display: inline-block;
+            width :25%
             margin: 0
             padding-right: 3px
             box-sizing: border-box
@@ -554,34 +552,31 @@
           span {
             display: inline-block
             font-size: 10px
-            vertical-align: top
+            vertical-align: middle
           }
           .icon1 {
-            background url(../common/image/icon1.png) no-repeat center
+            background url(../common/image/Shape.png) no-repeat center
             display: inline-block
-            width: 15px
-            height: 15px
-            margin-right: 0.05rem
-            margin-bottom: 0.2rem
-            vertical-align: middle
+            width: 24px
+            height: 24px
+            vertical-align: text-top
+            background-size :67%
           }
           .icon2 {
-            background url(../common/image/icon2.png) no-repeat center
+            background url(../common/image/Shape65.png) no-repeat center
             display: inline-block
-            width: 15px
-            height: 15px
-            margin-right: 0.05rem
-            margin-bottom: 0.2rem
-            vertical-align: middle
+            width: 24px
+            height: 24px
+            vertical-align: text-top
+            background-size :67%
           }
           .icon3 {
-            background url(../common/image/icon3.png) no-repeat center
+            background url(../common/image/industry.png) no-repeat center
             display: inline-block
-            width: 15px
-            height: 15px
-            margin-right: 0.05rem
-            margin-bottom: 0.2rem
-            vertical-align: middle
+            width: 24px
+            height: 24px
+            vertical-align: text-top
+            background-size :67%
           }
         }
       }
