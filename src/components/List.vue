@@ -11,7 +11,7 @@
           </el-breadcrumb>
         </div>
         <div class="search_go">
-          <input type="search" placeholder="职位关键词" class="search_content" v-model="Search" @keyup.13="goSearch">
+          <input type="search" placeholder="职位关键词" class="search_content" v-model="Search" @keyup.enter="goSearch">
           <span class="submit" @click="goSearch">搜索</span>
         </div>
       </div>
@@ -34,6 +34,9 @@
             <el-select v-model="form.kind" placeholder="请选择职位分类" @change="selectKind">
               <el-option :label="item.name" :value="item.id" v-for="item in selectK" :key="item.id"></el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item class="all">
+            <el-button type="primary" @click="findAll">查询所有</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -125,7 +128,8 @@
         }],
         Search: '',
         workCityLists: [],
-        companyId: 0
+        companyId: 0,
+        list_search:[]
       }
     },
     methods: {
@@ -158,7 +162,6 @@
         console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data.data)
             _this.list = res.data.data.positionList
           }
         }
@@ -212,6 +215,9 @@
           }
         }
         this.workCityLists = provinces;
+      },
+      findAll(){
+        this.positionList()
       },
       //职位列表页
       positionList() {
@@ -269,11 +275,12 @@
         var param = JSON.stringify({
           companyId: _this.companyId,
           key: _this.Search,
-          pageNum: config.pageNum,
-          pageSize: config.pageSize,
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
         });
         var successd = function (res) {
           if (res.data.code == 0) {
+            console.log(res.data.data)
             _this.list = res.data.data.recruitPositionList
             _this.config.totalCount = res.data.data.page.totalCount
             _this.config.pageNum = res.data.data.page.pageNum
@@ -290,32 +297,33 @@
       changePageNum(pageNum) {
         this.config.pageNum = pageNum;
         this.positionList()
-      },
+      }
     },
 
     mounted() {
-      console.log(this.$route)
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId
       }
-      this.positionList()
       this.transitionCityLists()
       this.getPositionCategoryList()
+      if (this.$route.params.searchList) {
+        this.list = this.$route.params.searchList
+        this.config.pageNum = this.$route.params.searchPage.pageNum
+        this.config.pageSize = this.$route.params.searchPage.pageSize
+        this.config.totalCount = this.$route.params.searchPage.totalCount
+      }
+      if (this.$route.params.list) {
+        this.list = this.$route.params.list
+        this.config.pageNum = this.$route.params.config.pageNum
+        this.config.pageSize = this.$route.params.config.pageSize
+        this.config.totalCount = this.$route.params.config.totalCount
+      }else{
+        this.positionList()
+      }
+
     },
-    watch: {
-      list() {
-        if (this.$route.params.searchList) {
-          this.list = this.$route.params.searchList
-          this.config.pageNum = this.$route.params.searchPage.pageNum
-          this.config.pageSize = this.$route.params.searchPage.pageSize
-          this.config.totalCount = this.$route.params.searchPage.totalCount
-        }
-        if (this.$route.params.list) {
-          this.list = this.$route.params.list
-          this.config.pageNum = this.$route.params.config.pageNum
-          this.config.pageSize = this.$route.params.config.pageSize
-          this.config.totalCount = this.$route.params.config.totalCount
-        }
+    watch:{
+      list(newList,oldList){
       }
     },
     components: {
@@ -410,6 +418,10 @@
             margin-left: 16px !important
           }
         }
+        .all {
+          display: inline-block
+          margin-left: -53px
+        }
       }
       .list {
         background: #fff
@@ -426,6 +438,7 @@
             padding: 20px 0 20px 16px
             margin-bottom: 20px
             border: 1px solid #E5E9F2
+            cursor: pointer;
             .title {
               font-size: 18px
               color: #1F2D3D

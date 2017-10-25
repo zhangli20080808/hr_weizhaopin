@@ -16,7 +16,8 @@
           <div class="name visible-xs">申请职位</div>
           <div class="title">{{name}}</div>
           <div class="text">
-            <span class="des">{{address}}</span><span class="price">{{salaryLow}}-{{salary}}</span>
+            <span class="des">{{address}}／{{positionType === 1 ? '全职' : positionType === 2 ? '兼职' : '实习'
+              }}</span><span class="price">{{salaryLow}}-{{salary}}</span>
           </div>
           <div class="p_time">发布时间：{{time}}</div>
         </div>
@@ -109,6 +110,7 @@
         salaryLow: this.$route.params.item.positionSalaryLowest,
         address: this.$route.params.item.workCity,
         time: this.$route.params.item.posiPublishTime,
+        positionType: this.$route.params.item.positionType,
         fileList: [],
         labelPosition: 'left',
         formLabelAlign: {
@@ -221,7 +223,7 @@
                   setTimeout(() => {
 
                     self.$router.push({
-                      path: `/list`,
+                      path: `/list／${this.id}`,
                       query:{ companyId: self.companyId}
                     })
                   }, 2000)

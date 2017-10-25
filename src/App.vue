@@ -19,7 +19,8 @@
         seller:{
           logoUrl:'',
           isSearch:false,
-          search:''
+          search:'',
+          s_log_back:''
         },
         companyId: (() => {
           let queryParam = this.urlParse();
@@ -132,6 +133,7 @@
            console.log(res.data.data)
             _this.seller.logoUrl = res.data.data.wzpCompany.logoUrl
             _this.seller.isSearch = res.data.data.miniRecruit.isSearch === 1 ? true : false
+            _this.seller.s_log_back = res.data.data.wzpCompany.companyUrl
 
 
             _this.homeData.s_log_back = res.data.data.wzpCompany.companyUrl
@@ -174,7 +176,6 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data.data)
             _this.list = res.data.data.recruitPositionList
             _this.searchPage = res.data.data.page
             _this.$router.push({
