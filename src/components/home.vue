@@ -454,7 +454,7 @@
           p {
             line-height: 2
             img{
-              width :100%
+              max-width :100%
               display :block
             }
           }

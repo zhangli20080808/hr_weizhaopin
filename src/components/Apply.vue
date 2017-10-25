@@ -217,24 +217,26 @@
 
               succeed = function (res) {
                 if (res.data.code == 0) {
-                  self.$message({
-                    message: res.data.message,
-                    type: 'success'
-                  });
-                  self.dialogVisible = true
-                  setTimeout(() => {
+                    if(res.data.data === true){
+                      self.$message({
+                        message: res.data.message,
+                        type: 'success'
+                      });
+                      self.dialogVisible = true
+                      setTimeout(() => {
 
-                    self.$router.push({
-                      path: `/list/${self.id}`,
-                      query: {companyId: self.companyId}
-                    })
-                  }, 2000)
+                        self.$router.push({
+                          path: `/list/${self.id}`,
+                          query: {companyId: self.companyId}
+                        })
+                      }, 2000)
+                    }else {
+                      alert('提交失败')
+                    }
                 }
               };
             console.log(param)
             this.$http(method, param, succeed);
-
-
           } else {
 //            alert('提交失败')
             return false
