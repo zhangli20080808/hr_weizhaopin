@@ -18,10 +18,10 @@
           <div class="name visible-xs">申请职位</div>
           <div class="title">{{name}}</div>
           <div class="text">
-            <span class="des">{{address}}／{{positionType === 1 ? '全职' : positionType === 2 ? '兼职' : '实习'
-              }}</span><span class="price">{{salaryLow}}-{{salary}}</span>
+            <span class="des">{{getCity(address)}}／{{positionType === 1 ? '全职' : positionType === 2 ? '兼职' : '实习'
+              }}</span><span class="price">{{salaryLow}}k-{{salary}}k</span>
           </div>
-          <div class="p_time">发布时间：{{time}}</div>
+          <div class="p_time">发布时间：{{filter(time)}}</div>
         </div>
       </div>
       <div class="apply_post">
@@ -70,6 +70,11 @@
               <el-button type="primary" @click="submitForm('ruleForm')" class="btn">提交应聘请求</el-button>
             </el-form-item>
           </el-form>
+        </div>
+        <div class="footer">
+          <footer>
+            <div class="title"></div>
+          </footer>
         </div>
       </div>
 
@@ -182,6 +187,7 @@
         var successd = function (res) {
           if (res.data.code = 0) {
             console.log(res.data)
+            console.log(2)
             _this.interviewerId = res.data.data
             _this.$message({
               message: res.data.message,
@@ -201,47 +207,65 @@
               alert('请上传您的简历')
               return
             }
-            self.uploadResume()
-            var method = 'promotionPage/submitInterivewApplication',
-              param = JSON.stringify({
-                positionApply: {
-                  resumeId: self.resumeId,
-                  attachmentIds: String(self.attachmentIds),
-                  name: self.formLabelAlign.name,
-                  phone: self.formLabelAlign.phone,
-                  email: self.formLabelAlign.mail,
-                  interviewerId: self.interviewerId,
-                  resumeFrom: 14,
-                  positionId: self.id
-                }
-              }),
-
-              succeed = function (res) {
-                if (res.data.code == 0) {
-                  if (res.data.data === true) {
-                    self.$message({
-                      message: res.data.message,
-                      type: 'success'
-                    });
-                    self.dialogVisible = true
-                    setTimeout(() => {
-                      self.$router.push({
-                        path: `/list/${self.id}`,
-                        query: {companyId: self.companyId}
-                      })
-                    }, 2000)
-                  } else {
-                    alert('提交失败')
-                  }
-                }
-              };
-            console.log(param)
-            this.$http(method, param, succeed);
+            var self = this
+            var method = "addResume/uploadResume";
+            var param = JSON.stringify({
+              ids: self.resumeId,
+              recommendId: "",
+              recommendPhone: "",
+              resumeFrom: 14,
+              positionId: self.id
+            });
+            var successd = function (res) {
+              if (res.data.code == 0) {
+                console.log(res.data)
+                self.interviewerId = res.data.data
+                self.submit()
+              }
+            }
+            self.$http(method, param, successd);
           } else {
 //            alert('提交失败')
             return false
           }
         })
+      },
+      submit(){
+        var self = this
+        var method = 'promotionPage/submitInterivewApplication',
+          param = JSON.stringify({
+            positionApply: {
+              resumeId: self.resumeId,
+              attachmentIds: String(self.attachmentIds),
+              name: self.formLabelAlign.name,
+              phone: self.formLabelAlign.phone,
+              email: self.formLabelAlign.mail,
+              interviewerId: self.interviewerId,
+              resumeFrom: 14,
+              positionId: self.id
+            }
+          }),
+
+          succeed = function (res) {
+            if (res.data.code == 0) {
+              if (res.data.data === true) {
+                self.$message({
+                  message: res.data.message,
+                  type: 'success'
+                });
+                self.dialogVisible = true
+                setTimeout(() => {
+                  self.$router.push({
+                    path: `/list/${self.id}`,
+                    query: {companyId: self.companyId}
+                  })
+                }, 1000)
+              } else {
+                alert('提交失败')
+              }
+            }
+          };
+        this.$http(method, param, succeed);
       },
       backIndex() {
         this.$router.push({
@@ -249,11 +273,17 @@
           query: {companyId: this.companyId}
         })
       },
+      filter(item){
+          return item.slice(0,10)
+      },
       backSec() {
         this.$router.push({
           path: `/list`,
           query: {companyId: this.companyId}
         })
+      },
+      getCity(item){
+        return item.split(',')[1]
       },
       backlist() {
         this.$router.push({
@@ -391,7 +421,7 @@
     #apply
       background: #fff
       position: absolute
-      bottom: 0
+      bottom: 1rem
       top: 0
       right: 0
       left: 0
@@ -504,6 +534,23 @@
                   .el-upload-list__item
                     width: 70%
 
+          .footer
+            position :relative
+            width :100%
+            bottom: -0.46rem
+            footer
+              height: 1rem
+              background: #F7F7F7
+              width: 100%
+              line-height: 1px
+
+            .title
+              height: 1rem
+              line-height: 1rem
+              text-align: center
+              color: #999999
+              font-size: 0.14rem
+              background :url(../common/image/footer_logo.png)no-repeat center
       .tips1
         .el-dialog--small
           width: 92%

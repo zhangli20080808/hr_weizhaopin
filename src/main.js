@@ -13,6 +13,8 @@ import 'element-ui/lib/theme-default/index.css'
 
 import 'common/js/index'
 
+import moment from 'moment'
+
 import Methods from 'common/js/methods'
 Vue.use(Methods);
 
@@ -21,6 +23,8 @@ Vue.config.productionTip = false
 import 'common/stylus/index.styl'
 
 Vue.use(ElementUI)
+
+Object.defineProperty(Vue.prototype, '$moment', { value: moment });
 
 
 

@@ -6,12 +6,13 @@
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <div class="search_go">
-          <input type="search" placeholder="职位关键词" class="search_content" v-model="Search" @keyup.enter="goSearch">
+          <input placeholder="职位关键词" class="search_content" v-model="Search" @keyup.enter="goSearch">
           <span class="submit" @click="goSearch">搜索</span>
         </div>
       </div>
@@ -50,10 +51,10 @@
                 <div class="title">{{item.positionName}}</div>
                 <div class="text">
                   <span
-                    class="des">{{item.workCity}}／{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
-                    }}</span><span class="price">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
+                    class="des">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
+                    }}</span><span class="price">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
                 </div>
-                <div class="p_time">发布时间：{{item.posiPublishTime}}</div>
+                <div class="p_time">发布时间：{{filter(item.posiPublishTime)}}</div>
               </div>
             </el-col>
           </el-row>
@@ -69,8 +70,13 @@
             </el-pagination>
           </div>
         </div>
-
+        <!--<div class="footer">-->
+          <!--<footer>-->
+            <!--<div class="title"></div>-->
+          <!--</footer>-->
+        <!--</div>-->
       </Scroll>
+
     </div>
   </div>
 
@@ -80,8 +86,6 @@
 <script>
   import Scroll from './base/scroll.vue'
   import allcity from '../common/js/allcity'
-  import {dateFormat} from '../common/js/index'
-
   export default {
     data() {
       return {
@@ -129,7 +133,7 @@
         Search: '',
         workCityLists: [],
         companyId: 0,
-        list_search:[]
+        list_search: []
       }
     },
     methods: {
@@ -147,7 +151,7 @@
       },
       change(item) {
         this.item = item
-          this.selectOne()
+        this.selectOne()
       },
       selectOne() {
         var _this = this;
@@ -159,13 +163,15 @@
           categoryId: _this.form.kind,
           workCity: String(_this.item[1])
         });
-        console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.list = res.data.data.positionList
           }
         }
         _this.$http(method, param, successd);
+      },
+      filter(item){
+          return item.substr(0,10)
       },
       selectOne2() {
         var _this = this;
@@ -219,6 +225,9 @@
       findAll(){
         this.positionList()
       },
+      getCity(item){
+        return item.split(',')[1]
+      },
       //职位列表页
       positionList() {
         var _this = this;
@@ -232,6 +241,7 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
+            console.log(res.data)
             _this.list = res.data.data.positionList
             _this.config.totalCount = res.data.data.count
             _this.config.pageNum = res.data.data.param.pageNum
@@ -259,9 +269,9 @@
       },
       //职位分类下拉搜索
       selectSearch() {
-        if(this.form.address == ''){
+        if (this.form.address == '') {
           this.selectOne2()
-        }else {
+        } else {
           this.selectOne()
         }
 
@@ -301,6 +311,7 @@
     },
 
     mounted() {
+
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId
       }
@@ -311,19 +322,20 @@
         this.config.pageNum = this.$route.params.searchPage.pageNum
         this.config.pageSize = this.$route.params.searchPage.pageSize
         this.config.totalCount = this.$route.params.searchPage.totalCount
+        return
       }
       if (this.$route.params.list) {
         this.list = this.$route.params.list
         this.config.pageNum = this.$route.params.config.pageNum
         this.config.pageSize = this.$route.params.config.pageSize
         this.config.totalCount = this.$route.params.config.totalCount
-      }else{
+      } else {
         this.positionList()
       }
 
     },
-    watch:{
-      list(newList,oldList){
+    watch: {
+      list(newList, oldList){
       }
     },
     components: {
@@ -434,34 +446,37 @@
             text-align: center
           }
           .grid-content {
-            height: 114px
+            height: 126px
             padding: 20px 0 20px 16px
             margin-bottom: 20px
             border: 1px solid #E5E9F2
             cursor: pointer;
             .title {
-              font-size: 18px
+              font-size: 20px
               color: #1F2D3D
-              margin-bottom: 14px
+              margin-bottom: 16px
+              &:hover {
+                color: #5aa2e7
+              }
             }
             .text {
               height: 14px
               line-height: 14px
               .des {
                 display: inline-block
-                font-size: 14px
+                font-size: 16px
                 color: #475669
                 margin-right: 23px
               }
               .price {
                 display: inline-block
-                font-size: 16px
+                font-size: 18px
                 color: #F96868
               }
             }
             .p_time {
               margin-top: 23px
-              font-size: 14px
+              font-size: 16px
               color: #99A9BF
             }
           }
@@ -503,16 +518,19 @@
             top: 50%;
             margin-top: -0.44rem
             margin-left: -46%
+            border: 1px solid #5AA2E7;
             .search_content {
               width: 100%;
-              display: table
-              height: 0.88rem;
-              border: 1px solid #5AA2E7;
-              position: relative;
+              display: block
+              height: 0.44rem;
+              line-height: 0.5rem
+              border: none;
+              position: absolute;
               outline: none;
               color: #333;
-              font-size: 14px;
-              padding: 0.16rem 0 0.17rem 0.29rem;
+              font-size: 0.28rem;
+              padding: 0 0 0 0.22rem;
+              margin: 0.22rem 0;
               &::placeholder {
                 color: #99a9bf
               }
@@ -545,36 +563,38 @@
             font-size: 0.28rem
             background: #fff
             border-b-1px(#E5E9F2)
-          }
-          .el-form-item__content {
-            .el-select {
-              .el-input {
-                .el-input__inner {
-                  line-height: 0.36rem
-                  font-size: 0.24rem
+            .form_address {
+              display: inline-block
+              width: 50%
+              float: left
+              .el-form-item__content {
+                margin-left: 15px !important
+                margin-bottom: 0
+                .el-input {
+                  .el-input__inner {
+                    line-height: 0.36rem
+                    font-size: 0.24rem
+                  }
+                }
+              }
+            }
+            .form_kind {
+              display: inline-block
+              width: 50%
+              float: right
+              .el-form-item__content {
+                margin-right: 15px !important
+                .el-select {
+                  .el-input {
+                    .el-input__inner {
+                      line-height: 0.36rem
+                      font-size: 0.24rem
+                    }
+                  }
                 }
               }
             }
           }
-          .form_address {
-            display: inline-block
-            width: 50%
-            float: left
-            .el-form-item__content {
-              margin-left: 15px !important
-              margin-bottom: 0
-            }
-          }
-
-          .form_kind {
-            display: inline-block
-            width: 50%
-            float: right
-            .el-form-item__content {
-              margin-right: 15px !important
-            }
-          }
-
         }
 
         .list {
@@ -586,6 +606,7 @@
           left: 0
           bottom: 0
           overflow: hidden
+          padding-bottom: 0
           .list_content {
             width: 100%
             padding: 0
@@ -628,6 +649,25 @@
               }
             }
 
+          }
+          .footer{
+            position :relative
+            width :100%
+            bottom: -0.46rem
+            footer{
+              height: 1rem
+              background: #F7F7F7
+              width: 100%
+              line-height: 1px
+              .title{
+                height: 1rem
+                line-height: 1rem
+                text-align: center
+                color: #999999
+                font-size: 0.14rem
+                background :url(../common/image/footer_logo.png)no-repeat center
+              }
+            }
           }
           .page {
             height: 0.82rem

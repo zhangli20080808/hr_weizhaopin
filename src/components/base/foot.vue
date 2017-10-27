@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <footer class="hidden-sm hidden-xs ">
+    <footer>
       <div class="title"></div>
     </footer>
   </div>
@@ -27,10 +27,9 @@
   @media all and (max-width: 767px)
 
     .footer
-      position :absolute
+      position :relative
       width :100%
       bottom: -0.46rem
-      left :0
       footer
         height: 1rem
         background: #F7F7F7
@@ -43,5 +42,6 @@
         text-align: center
         color: #999999
         font-size: 0.14rem
+        background :url(../../common/image/footer_logo.png)no-repeat center
 
 </style>

@@ -1,32 +1,32 @@
 <template>
   <div id="app">
-    <navHeader :homeData="homeData" :seller="seller" @search="searchDetail" :companyId="companyId" @toIndex="ToHome"></navHeader>
-      <router-view :homeData="homeData" ></router-view>
-    <footerNav></footerNav>
+    <navHeader :homeData="homeData" :seller="seller" @search="searchDetail" :companyId="companyId"
+               @toIndex="ToHome"></navHeader>
+    <router-view :homeData="homeData"></router-view>
+    <!--<footerNav></footerNav>-->
   </div>
 </template>
 
 <script>
-//  import navTitle from './components/base/back'
+  //  import navTitle from './components/base/back'
   import navHeader from './components/base/nav'
-  import footerNav from './components/base/foot'
 
   export default {
     name: 'app',
     data() {
       return {
-        seller:{
-          logoUrl:'',
-          isSearch:false,
-          search:'',
-          s_log_back:''
+        seller: {
+          logoUrl: '',
+          isSearch: false,
+          search: '',
+          s_log_back: ''
         },
         companyId: (() => {
           let queryParam = this.urlParse();
           return queryParam.companyId;
         })(),
-        homeData:{
-          s_log_back:'',
+        homeData: {
+          s_log_back: '',
           //banner
           img_list: [],
           img_list_1: '',
@@ -90,16 +90,16 @@
           //职位招聘
           wzpPositionList: [],
           //公司介绍
-          content:''
+          content: ''
         }
       }
     },
     components: {
 //      navTitle,
       navHeader,
-      footerNav
+//      footerNav
     },
-    methods:{
+    methods: {
       //获取url参数
       urlParse() {
 
@@ -129,7 +129,7 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-           console.log(res.data.data)
+            console.log(res.data.data)
             _this.seller.logoUrl = res.data.data.wzpCompany.logoUrl
             _this.seller.isSearch = res.data.data.miniRecruit.isSearch === 1 ? true : false
             _this.seller.s_log_back = res.data.data.wzpCompany.companyUrl
@@ -175,18 +175,18 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-              console.log(res.data.data)
+            console.log(res.data.data)
             _this.list = res.data.data.recruitPositionList
             _this.searchPage = res.data.data.page
             _this.$router.push({
               path: `/list`,
               name: 'List',
-              query:{
+              query: {
                 companyId: _this.companyId,
               },
-              params:{
+              params: {
                 searchList: _this.list,
-                searchPage:_this.searchPage
+                searchPage: _this.searchPage
               }
             })
           }
@@ -211,9 +211,10 @@
 
 <style>
 
-  [v-cloak]{
-    display:none;
+  [v-cloak] {
+    display: none;
   }
+
   .el-button--primary {
     background: #5AA2E7;
     border-color: #5AA2E7;

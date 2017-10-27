@@ -3,13 +3,14 @@
     <!--导航-->
 
     <!--轮播-->
-    <div class="main_ad">
+    <div class="main_ad" v-show="homeData.img_list_1">
       <div class="carousel-inner1">
         <!--我们的data属性来保存我们要的数据,没有任何功能-->
-        <div class="item ">
-          <img :src="homeData.img_list_1" alt="">
+        <div class="item " :style="bgStyle">
+          <!--<img :src="homeData.img_list_1" alt="">-->
           <div class="item_text">
             <div class="title">{{homeData.form.title}}
+
             </div>
             <div class="des">{{homeData.form.subTitle}}</div>
           </div>
@@ -33,7 +34,8 @@
         </li>
         <li>
           <div class="grid-content bg-purple-light">
-            <i class="icon2"></i><span>{{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</span>
+            <i
+              class="icon2"></i><span>{{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</span>
           </div>
         </li>
         <li>
@@ -46,7 +48,7 @@
     </div>
 
     <!--招聘职位-->
-    <div id="1F" class="s_recruit" v-if="homeData.wzpPositionList">
+    <div id="1F" class="s_recruit" v-show="homeData.wzpPositionList">
       <div class="container">
         <div class="title">
           <div class="text" v-if="homeData.customName1">{{homeData.customName1}}
@@ -55,7 +57,8 @@
           </div>
         </div>
         <el-row :gutter="20" class="list_content">
-          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in homeData.wzpPositionList" :key="item.categoryId">
+          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in homeData.wzpPositionList"
+                  :key="item.categoryId">
             <div class="grid-content bg-purple" @click="SelectTo(item)">
               <div class="content">
                 <p class="des">{{item.name}}</p>
@@ -83,10 +86,11 @@
         </div>
       </div>
     </div>
-
+    <footerNav></footerNav>
   </div>
 </template>
 <script>
+  import footerNav from './base/foot'
   export default {
     data() {
       return {
@@ -135,7 +139,7 @@
         })(),
         categoryId: 0,
         list: [],
-        searchPage:{},
+        searchPage: {},
         config: {
           pageSize: 9,
           pageNum: 1,
@@ -143,27 +147,16 @@
         }
       }
     },
-    props:{
-      homeData:{
-        type:Object
+    props: {
+      homeData: {
+        type: Object
       }
     },
     methods: {
-      join() {
-
-        this.$router.push({
-          path: `/list`,
-          name:'List',
-          query:{
-            companyId: this.companyId,
-          }
-        })
-      },
       goSearch() {
         this.searchDetail()
 
       },
-
       //获取url参数
       urlParse() {
 
@@ -206,9 +199,9 @@
               name: 'List',
               params: {
                 list: _this.list,
-                config:_this.config
+                config: _this.config
               },
-              query:{
+              query: {
                 companyId: _this.companyId,
               }
             })
@@ -217,7 +210,13 @@
         _this.$http(method, param, successd);
       },
     },
-    created() {
+    computed: {
+      bgStyle() {
+        return `background-image:url(${this.homeData.img_list_1})`
+      }
+    },
+    components:{
+      footerNav
     }
   }
 </script>
@@ -301,13 +300,18 @@
         li {
           display: inline-block
           margin: 0 80px
+          span {
+            vertical-align: middle
+          }
         }
         .icon1 {
           background url(../common/image/Shape.png) no-repeat center
           display: inline-block
-          width: 15px
-          height: 15px
+          width: 24px
+          height: 24px
           margin-right: 27px
+          background-size: 65%
+          vertical-align: middle
           @media screen and (max-width: 768px) {
             margin-right: 5px
           }
@@ -315,9 +319,11 @@
         .icon2 {
           background url(../common/image/Shape65.png) no-repeat center
           display: inline-block
-          width: 15px
-          height: 15px
+          width: 24px
+          height: 24px
           margin-right: 27px
+          background-size: 65%
+          vertical-align: middle
           @media screen and (max-width: 768px) {
             margin-right: 5px
           }
@@ -325,9 +331,11 @@
         .icon3 {
           background url(../common/image/industry.png) no-repeat center
           display: inline-block
-          width: 15px
-          height: 15px
+          width: 24px
+          height: 24px
           margin-right: 27px
+          background-size: 65%
+          vertical-align: middle
           @media screen and (max-width: 768px) {
             margin-right: 5px
           }
@@ -384,11 +392,11 @@
             margin: auto
             text-align: center
             .des {
-              font-size: 18px
+              font-size: 20px
               color: #1F2D3D
             }
             .text {
-              font-size: 14px
+              font-size: 16px
               color: #475669
               display: inline-block
               vertical-align: super
@@ -446,13 +454,13 @@
           background-size: cover
         }
         .intro_text {
-          font-size: 14px
+          font-size: 16px
           color: #475669
           p {
             line-height: 2
-            img{
-              max-width :100%
-              display :block
+            img {
+              max-width: 100%
+              display: block
             }
           }
           p:nth-child(1) {
@@ -543,8 +551,6 @@
           line-height: 0.66rem
           margin: 0
           li {
-            display: inline-block;
-            width :25%
             margin: 0
             padding-right: 3px
             box-sizing: border-box
@@ -559,24 +565,24 @@
             display: inline-block
             width: 24px
             height: 24px
-            vertical-align: text-top
-            background-size :67%
+            vertical-align: middle
+            background-size: 67%
           }
           .icon2 {
             background url(../common/image/Shape65.png) no-repeat center
             display: inline-block
             width: 24px
             height: 24px
-            vertical-align: text-top
-            background-size :67%
+            vertical-align: middle
+            background-size: 67%
           }
           .icon3 {
             background url(../common/image/industry.png) no-repeat center
             display: inline-block
             width: 24px
             height: 24px
-            vertical-align: text-top
-            background-size :67%
+            vertical-align: middle
+            background-size: 67%
           }
         }
       }
@@ -697,9 +703,9 @@
           .intro_text {
             font-size: 14px
             color: #475669
-            p{
-              img{
-                width :100%!important
+            p {
+              img {
+                width: 100% !important
               }
             }
             p {

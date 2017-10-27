@@ -149,7 +149,9 @@ export default {
     //时间过滤器,去掉时分秒
     Vue.filter('date-filter', function(value) {
       console.log(typeof value)
-      var date = value.slice(0,9)
+      if(value!=''){
+        var date = value.slice(0,10)
+      }
       return date;
     })
     //头像过滤器
