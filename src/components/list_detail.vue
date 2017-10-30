@@ -8,10 +8,12 @@
           <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
 
 
+
           </el-breadcrumb-item>
           <el-breadcrumb-item
             :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}" class="tips_2">
             职位列表
+
 
 
           </el-breadcrumb-item>
@@ -39,15 +41,15 @@
       <div class="detail_text">
         <div class="detail_content">
           <div class="title">职位描述</div>
-          <textarea class="des_p" v-html="item.positionDesc" readonly="true"></textarea>
-        </div>
-        <div class="footer">
-          <footer>
-            <div class="title"></div>
-          </footer>
+          <el-form>
+            <el-form-item>
+              <el-input type="textarea" class="text" v-model="item.positionDesc" readonly
+                        :autosize="{ minRows: 2, maxRows: 100}"></el-input>
+            </el-form-item>
+          </el-form>
+          <!--<textarea class="des_p" v-html="item.positionDesc" readonly="true"></textarea>-->
         </div>
       </div>
-
     </div>
     <el-dialog
       class="tips2"
@@ -70,6 +72,11 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <div class="footer hidden-xs">
+      <footer>
+        <div class="title"></div>
+      </footer>
+    </div>
   </div>
 </template>
 <script>
@@ -94,7 +101,7 @@
         },
         eLogo: '',
         show: false,
-        arrow:false
+        arrow: false
       }
     },
     created() {
@@ -151,16 +158,16 @@
         })
       },
       filterTime(item){
-        if(item){
+        if (item) {
           return item.substr(0, 10)
-        }else{
-            return '';
+        } else {
+          return '';
         }
 
       },
       share() {
         this.dialogVisible2 = true
-        this.arrow = true
+//        this.arrow = true
 
         var _this = this;
         var method = "recruitPosition/sharePosition";
@@ -192,122 +199,148 @@
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../common/stylus/mixin.styl"
-    #list_detail
-      .tips2
-        .el-dialog--small
-          width: 428px;
-          height: 404px
-          box-sizing: border-box
-          top: 50% !important
-          margin-top: -212px
-          .el-dialog__body
-            height: 424px
+  #list_detail
+    .tips2
+      .el-dialog--small
+        width: 428px;
+        height: 404px
+        box-sizing: border-box
+        top: 50% !important
+        margin-top: -212px
+        .el-dialog__body
+          height: 424px
+      .content
+        text-align: center
+        .img
+          display: inline-block
+          width: 210px
+          height: 210px
+          img
+            width: 100%;
+            height: 100%;
+        .title
+          margin: 51px 0 22px 0
+          font-size: 20px
+          color: #1F2D3D
+          font-weight: 800
+        .des
+          text-align: left
+          margin-top: 26px
+          margin-bottom: 15px
+          color: #475669
+          font-size: 14px
+      .share
+        .el-form-item
+          margin-bottom: 0
+          margin-right: 0
+          .el-form-item__content
+            .el-input
+              width: 284px
+              .el-input__inner
+                border: 1px solid #5AA2E7;
+            .el-button
+              &:hover
+                background: #46BE8A
+
+    .container
+      .detail_des
+        background: #fff
+        position: relative
+        height: 52px
+        line-height: 52px
+        border-bottom: 1px solid #E5E9F2
+        margin-top: 20px
+
+        .tips
+          position: absolute
+          left: 23px
+          top: 19px
+          height: 16px
+          line-height: 16px
+          .tips_1, .tips_2 {
+            .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a, .el-breadcrumb__separator {
+              color: #5AA2E7
+            }
+          }
+      .detail_show
+        height: 126px
+        background: #fff
+        padding: 21px 0 18px 24px
+        margin-bottom: 20px
+        border-bottom: 1px solid #E5E9F2
         .content
-          text-align: center
-          .img
-            display: inline-block
-            width: 210px
-            height: 210px
-            img
-              width: 100%;
-              height: 100%;
+          position: relative
+          .post_share
+            position: absolute
+            width: 222px
+            height: 40px
+            line-height: 40px
+            right: 30px
+            top: 0
           .title
-            margin: 51px 0 22px 0
             font-size: 20px
             color: #1F2D3D
-            font-weight: 800
-          .des
-            text-align: left
-            margin-top: 26px
-            margin-bottom: 15px
-            color: #475669
-            font-size: 14px
-        .share
-          .el-form-item
-            margin-bottom: 0
-            margin-right: 0
-            .el-form-item__content
-              .el-input
-                width: 284px
-                .el-input__inner
-                  border: 1px solid #5AA2E7;
-              .el-button
-                &:hover
-                  background: #46BE8A
-
-      .container
-        .detail_des
-          background: #fff
-          position: relative
-          height: 52px
-          line-height: 52px
-          border-bottom: 1px solid #E5E9F2
-          margin-top: 20px
-
-          .tips
-            position: absolute
-            left: 23px
-            top: 19px
+            margin-bottom: 14px
+          .text
             height: 16px
             line-height: 16px
-            .tips_1, .tips_2 {
-              .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a, .el-breadcrumb__separator {
-                color: #5AA2E7
-              }
-            }
-        .detail_show
-          height: 126px
-          background: #fff
-          padding: 21px 0 18px 24px
-          margin-bottom: 20px
-          border-bottom: 1px solid #E5E9F2
-          .content
-            position: relative
-            .post_share
-              position: absolute
-              width: 222px
-              height: 40px
-              line-height: 40px
-              right: 30px
-              top: 0
-            .title
-              font-size: 20px
-              color: #1F2D3D
-              margin-bottom: 14px
-            .text
-              height: 16px
-              line-height: 16px
-              .des
-                display: inline-block
-                font-size: 16px
-                color: #475669
-                margin-right: 23px
-              .price
-                display: inline-block
-                font-size: 18px
-                color: #F96868
-            .p_time
-              margin-top: 23px
+            .des
+              display: inline-block
               font-size: 16px
-              color: #99A9BF
-        .detail_text
-          background: #fff
-          height: 100%
-          padding: 19px 0 29px 23px
-          .detail_content
-            .title
-              margin-bottom: 20px
-              font-size: 16px
-            .des_p
-              width: 100%
-              background: #fff
-              border: none
-              outline: none
-              height: 400px
-              line-height: 2
-              font-size: 14px
-              color: #333
+              color: #475669
+              margin-right: 23px
+            .price
+              display: inline-block
+              font-size: 18px
+              color: #F96868
+          .p_time
+            margin-top: 23px
+            font-size: 16px
+            color: #99A9BF
+      .detail_text
+        background: #fff
+        height: 100%
+        padding: 19px 0 29px 23px
+        .detail_content
+          .title
+            margin-bottom: 20px
+            font-size: 16px
+          .el-form
+            .el-form-item
+              .el-form-item__content
+                .text
+                  outline: none
+                  border: none
+                  .el-textarea__inner
+                    border: none!important
+                    outline:none!important
+          .des_p
+            width: 100%
+            background: #fff
+            border: none
+            outline: none
+            height: 400px
+            line-height: 2
+            font-size: 14px
+            color: #333
 
+    .footer {
+      footer {
+        height: 100px
+        line-height: 100px
+        background: #F7F7F7
+        width: 100%
+        .title {
+          width: 100%
+          height: 100px
+          line-height: 100px
+          color: #999999
+          font-size: 28px
+          margin: 0 auto
+          background: url(../common/image/footer_logo.png) no-repeat center
+        }
+      }
+    }
   @media all and (max-width: 767px)
     #list_detail
       background: #fff
@@ -326,7 +359,7 @@
           height: 2.42rem;
           right: 0.34rem;
           z-index: 10002;
-          background :url(../common/image/arrow.png)no-repeat center
+          background: url(../common/image/arrow.png) no-repeat center
           background-size: 100%;
         .detail_des
           background: #fff
@@ -424,6 +457,15 @@
             .title
               margin-bottom: 0.2rem
               font-size: 0.32rem
+            .el-form
+              .el-form-item
+                .el-form-item__content
+                  .text
+                    outline: none
+                    border: none
+                    .el-textarea__inner
+                      border: none!important
+                      outline:none!important
             .des_p
               width: 100%
               background: #fff
@@ -435,9 +477,9 @@
               color: #333
 
         .footer
-          position :relative
-          width :100%
-          bottom: -0.46rem
+          position: fixed
+          width: 100%
+          bottom: 0
           footer
             height: 1rem
             background: #F7F7F7
@@ -450,55 +492,54 @@
             text-align: center
             color: #999999
             font-size: 0.14rem
-            background :url(../common/image/footer_logo.png)no-repeat center
-
+            background: url(../common/image/footer_logo.png) no-repeat center
 
   .tips2
-          .el-dialog--small
-            width: 100%
-            height: 7.09rem
-            box-sizing: border-box
-            top: 50% !important
-            margin-top: -3.15em
-            display :none
-            .el-dialog__header
-              position: relative
-              .el-dialog__title
-                position: absolute
-                font-size: 0.28rem
-            .el-dialog__body
-              padding: 0.54rem 0 0 0
-              height: 6.37rem
-              .content
-                text-align: center
-                .img
-                  display: inline-block
-                  width: 3.70rem
-                  height: 3.7rem
-                  img
-                    width: 100%
-                    height: 100%
-                .des
-                  margin: 0.46rem 0 0.15rem 0.35rem
-                  font-size: 0.24rem
-                  color: #475669
+    .el-dialog--small
+      width: 100%
+      height: 7.09rem
+      box-sizing: border-box
+      top: 50% !important
+      margin-top: -3.15em
+      display: none
+      .el-dialog__header
+        position: relative
+        .el-dialog__title
+          position: absolute
+          font-size: 0.28rem
+      .el-dialog__body
+        padding: 0.54rem 0 0 0
+        height: 6.37rem
+        .content
+          text-align: center
+          .img
+            display: inline-block
+            width: 3.70rem
+            height: 3.7rem
+            img
+              width: 100%
+              height: 100%
+          .des
+            margin: 0.46rem 0 0.15rem 0.35rem
+            font-size: 0.24rem
+            color: #475669
 
-              .share
-                padding: 0 0.35rem
-                .el-form-item
-                  margin-bottom: 0
-                  margin-right: 0
-                  .el-form-item__content
-                    .el-input
-                      width: 5rem
-                      .el-input__inner
-                        border: 1px solid #5AA2E7
-                    .el-button
-                      margin-left: -0.4rem
-                      span
-                        font-size: 0.28rem
-                      &:hover
-                        background: #46BE8A
+        .share
+          padding: 0 0.35rem
+          .el-form-item
+            margin-bottom: 0
+            margin-right: 0
+            .el-form-item__content
+              .el-input
+                width: 5rem
+                .el-input__inner
+                  border: 1px solid #5AA2E7
+              .el-button
+                margin-left: -0.4rem
+                span
+                  font-size: 0.28rem
+                &:hover
+                  background: #46BE8A
 
   @media (min-width: 768px) and (max-width: 992px)
     #list_detail

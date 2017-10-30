@@ -71,11 +71,11 @@
             </el-form-item>
           </el-form>
         </div>
-        <div class="footer">
-          <footer>
-            <div class="title"></div>
-          </footer>
-        </div>
+        <!--<div class="foote">-->
+          <!--<footer>-->
+            <!--<div class="title"></div>-->
+          <!--</footer>-->
+        <!--</div>-->
       </div>
 
       <el-dialog
@@ -92,6 +92,11 @@
           <div class="des">感谢您的申请，我们将会尽快给您回复</div>
         </div>
       </el-dialog>
+    </div>
+    <div class="footer hidden-xs">
+      <footer>
+        <div class="title"></div>
+      </footer>
     </div>
   </div>
 </template>
@@ -417,6 +422,20 @@
                   .el-icon-close
                     display: block
 
+    .footer
+      footer
+        height: 100px
+        line-height: 100px
+        background: #F7F7F7
+        width: 100%
+      .title
+        width :100%
+        height: 100px
+        line-height: 100px
+        color: #999999
+        font-size: 28px
+        margin :0 auto
+        background :url(../common/image/footer_logo.png)no-repeat center
   @media all and (max-width: 767px)
     #apply
       background: #fff

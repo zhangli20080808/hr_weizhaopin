@@ -7,6 +7,8 @@
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页
 
+
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
@@ -70,13 +72,12 @@
             </el-pagination>
           </div>
         </div>
-        <!--<div class="footer">-->
-          <!--<footer>-->
-            <!--<div class="title"></div>-->
-          <!--</footer>-->
-        <!--</div>-->
       </Scroll>
-
+    </div>
+    <div class="footer hidden-xs">
+      <footer>
+        <div class="title"></div>
+      </footer>
     </div>
   </div>
 
@@ -171,7 +172,7 @@
         _this.$http(method, param, successd);
       },
       filter(item){
-          return item.substr(0,10)
+        return item.substr(0, 10)
       },
       selectOne2() {
         var _this = this;
@@ -489,8 +490,24 @@
         }
       }
     }
+    .footer {
+      footer {
+        height: 100px
+        line-height: 100px
+        background: #F7F7F7
+        width: 100%
+        .title {
+          width: 100%
+          height: 100px
+          line-height: 100px
+          color: #999999
+          font-size: 28px
+          margin: 0 auto
+          background: url(../common/image/footer_logo.png) no-repeat center
+        }
+      }
+    }
   }
-
   @media all and (max-width: 767px) {
     #s_list {
       background: #fff
@@ -650,22 +667,22 @@
             }
 
           }
-          .footer{
-            position :relative
-            width :100%
+          .footer {
+            position: relative
+            width: 100%
             bottom: -0.46rem
-            footer{
+            footer {
               height: 1rem
               background: #F7F7F7
               width: 100%
               line-height: 1px
-              .title{
+              .title {
                 height: 1rem
                 line-height: 1rem
                 text-align: center
                 color: #999999
                 font-size: 0.14rem
-                background :url(../common/image/footer_logo.png)no-repeat center
+                background: url(../common/image/footer_logo.png) no-repeat center
               }
             }
           }
