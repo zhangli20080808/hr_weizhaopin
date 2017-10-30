@@ -207,6 +207,7 @@
         box-sizing: border-box
         top: 50% !important
         margin-top: -212px
+        display :block
         .el-dialog__body
           height: 424px
       .content
@@ -230,6 +231,7 @@
           color: #475669
           font-size: 14px
       .share
+        padding: 0 1.35rem;
         .el-form-item
           margin-bottom: 0
           margin-right: 0
