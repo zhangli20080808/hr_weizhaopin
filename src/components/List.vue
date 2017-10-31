@@ -9,6 +9,8 @@
 
 
 
+
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
@@ -43,7 +45,15 @@
           </el-form-item>
         </el-form>
       </div>
-      <Scroll class="list" :data="list" v-loading="!list" element-loading-text="拼命加载中">
+      <Scroll class="list"
+              :data="list"
+              :pullup="pullup"
+              :beforeScroll="beforeScroll"
+              :pulldown="pulldown"
+              @pulldown="loadData"
+              @scrollToEnd="searchMore"
+              v-loading="!list"
+      >
         <!--list-->
         <div class="list_content" v-show="list.length">
           <el-row :gutter="20">
@@ -72,7 +82,12 @@
             </el-pagination>
           </div>
         </div>
+
       </Scroll>
+      <!--loading-->
+      <div class="loading-container" v-show="!list.length">
+        <loading></loading>
+      </div>
     </div>
     <div class="footer hidden-xs">
       <footer>
@@ -87,9 +102,13 @@
 <script>
   import Scroll from './base/scroll.vue'
   import allcity from '../common/js/allcity'
+  import loading from './base/loading/loading.vue'
   export default {
     data() {
       return {
+        pullup: true,
+        pulldown: true,
+        beforeScroll: true,
         logoUrl: '',
         form: {
           address: [],
@@ -97,9 +116,9 @@
         },
         item: [],
         config: {
-          pageSize: 9,
+          pageSize: 6,
           pageNum: 1,
-          totalCount: 0
+          totalCount: 1
         },
         selectK: [
           {
@@ -134,7 +153,8 @@
         Search: '',
         workCityLists: [],
         companyId: 0,
-        list_search: []
+        list_search: [],
+        hasMore: true
       }
     },
     methods: {
@@ -231,6 +251,7 @@
       },
       //职位列表页
       positionList() {
+        this.hasMore = true
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
@@ -242,11 +263,29 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data)
             _this.list = res.data.data.positionList
             _this.config.totalCount = res.data.data.count
             _this.config.pageNum = res.data.data.param.pageNum
             _this.config.pageSize = res.data.data.param.pageSize
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      //posId
+      loadCategory(item){
+        var _this = this;
+        var method = "promotionPage/positionList";
+        var param = JSON.stringify({
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
+          companyId: _this.companyId,
+          categoryId: item,
+          workCity: ''
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+              console.log(res.data)
+            _this.list = res.data.data.positionList
           }
         }
         _this.$http(method, param, successd);
@@ -308,11 +347,59 @@
       changePageNum(pageNum) {
         this.config.pageNum = pageNum;
         this.positionList()
+      },
+      searchMore(){
+        if (!this.hasMore) {
+          return
+        }
+        this.config.pageNum++
+        var _this = this;
+        var method = "promotionPage/positionList";
+        var param = JSON.stringify({
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
+          companyId: _this.companyId,
+          categoryId: '',
+          workCity: ''
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            _this.list = res.data.data.positionList
+            _this.config.totalCount = res.data.data.count
+            _this.config.pageNum = res.data.data.param.pageNum
+            _this.config.pageSize = res.data.data.param.pageSize
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      loadData(){
+        if (!this.hasMore) {
+          return
+        }
+        var _this = this;
+        var method = "promotionPage/positionList";
+        var param = JSON.stringify({
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
+          companyId: _this.companyId,
+          categoryId: '',
+          workCity: ''
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            _this.list = res.data.data.positionList
+            _this.config.totalCount = res.data.data.count
+            _this.config.pageNum = res.data.data.param.pageNum
+            _this.config.pageSize = res.data.data.param.pageSize
+          }
+        }
+        _this.$http(method, param, successd);
       }
     },
 
     mounted() {
 
+      console.log(this.$route)
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId
       }
@@ -326,21 +413,17 @@
         return
       }
       if (this.$route.params.list) {
-        this.list = this.$route.params.list
-        this.config.pageNum = this.$route.params.config.pageNum
-        this.config.pageSize = this.$route.params.config.pageSize
-        this.config.totalCount = this.$route.params.config.totalCount
-      } else {
-        this.positionList()
+        let posId = localStorage.getItem('posId')
+        this.config = this.$route.params.config
+        this.loadCategory(posId)
+        return
       }
-
-    },
-    watch: {
-      list(newList, oldList){
-      }
+      let posId = localStorage.getItem('posId')
+      this.loadCategory(posId)
     },
     components: {
-      Scroll
+      Scroll,
+      loading
     }
   }
 </script>
@@ -508,6 +591,7 @@
       }
     }
   }
+
   @media all and (max-width: 767px) {
     #s_list {
       background: #fff
@@ -693,6 +777,12 @@
           }
         }
 
+        .loading-container {
+          position: absolute
+          width: 100%
+          top: 50%
+          transform: translateY(-50%)
+        }
       }
     }
   }

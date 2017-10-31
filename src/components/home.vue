@@ -144,7 +144,8 @@
           pageSize: 9,
           pageNum: 1,
           totalCount: 1
-        }
+        },
+        posId:0
       }
     },
     props: {
@@ -178,6 +179,7 @@
       },
       SelectTo(item) {
         this.categoryId = item.categoryId
+        localStorage.setItem('posId',this.categoryId)
         this.selectSearch(this.categoryId)
       },
       selectSearch(item) {
@@ -643,16 +645,16 @@
                 font-size: 0.22rem
                 color: #475669
                 display: inline-block
-                vertical-align: middle
+                vertical-align: top
               }
               .num {
                 font-size: 0.5rem
                 color: #5aa2e7
                 display: inline-block
                 margin-top: -0.03rem
-                margin-left: -0.1rem
+                margin-left: -0.2rem
                 float: none
-                vertical-align: middle
+                vertical-align: top
               }
             }
           }
@@ -660,7 +662,7 @@
       }
 
       .intro_c {
-        padding: 0 0.3rem 0.58rem
+        padding: 0 0.3rem 0.18rem
         .title {
           color: #1F2D3D
           font-size: 0.3rem
@@ -713,7 +715,7 @@
               text-indent: 30px
             }
             p:nth-child(1) {
-              margin-top: 16px
+              margin-top: 0.16rem
             }
 
           }

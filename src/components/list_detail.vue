@@ -1,56 +1,92 @@
 <template>
   <div id="list_detail" v-show="item">
-
-    <div class="container">
-      <div class="share-arrow" v-show="arrow"></div>
-      <div class="detail_des hidden-xs hidden-sm">
-        <el-breadcrumb separator="/" class="tips">
-          <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
-
-
-
-          </el-breadcrumb-item>
-          <el-breadcrumb-item
-            :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}" class="tips_2">
-            职位列表
+    <Scroll
+      :data="item"
+      :listenScroll="listenScroll"
+      :probeType="probeType"
+      ref="list"
+      class="container">
+      <div>
+        <div class="detail_des hidden-xs hidden-sm">
+          <el-breadcrumb separator="/" class="tips">
+            <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
 
 
 
-          </el-breadcrumb-item>
-          <el-breadcrumb-item>职位详情</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
 
-      <div class="detail_show" v-show="show">
-        <div class="content">
-          <div class="title">{{item.positionName}}</div>
-          <div class="text">
+
+
+
+
+
+
+
+
+            </el-breadcrumb-item>
+            <el-breadcrumb-item
+              :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
+              class="tips_2">
+              职位列表
+
+
+
+
+
+
+
+
+
+
+
+
+            </el-breadcrumb-item>
+            <el-breadcrumb-item>职位详情</el-breadcrumb-item>
+          </el-breadcrumb>
+        </div>
+
+        <div class="detail_show" v-show="show">
+          <div class="content">
+            <div class="title">{{item.positionName}}</div>
+            <div class="text">
             <span
               class="des">{{getCity(item.workCity)}}／{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
               }}</span><span class="price">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
-          </div>
-          <div class="p_time">发布时间：{{filterTime(item.posiPublishTime)}}</div>
+            </div>
+            <div class="p_time">发布时间：{{filterTime(item.posiPublishTime)}}</div>
 
-          <div class="post_share">
-            <el-button type="primary" @click="join">申请职位</el-button>
-            <el-button @click="share">分享职位</el-button>
+            <div class="post_share">
+              <x-button mini type="primary" @click.native="join">申请职位</x-button>
+              <x-button mini  @click.native="share">分享职位</x-button>
+            </div>
+          </div>
+        </div>
+        <div class="detail_text">
+          <div class="detail_content">
+            <div class="title" v-show="item">职位描述</div>
+            <el-form>
+              <el-form-item>
+                <el-input type="textarea" class="text" v-model="item.positionDesc" readonly
+                          autosize></el-input>
+              </el-form-item>
+            </el-form>
+
           </div>
         </div>
       </div>
-
-      <div class="detail_text">
-        <div class="detail_content">
-          <div class="title">职位描述</div>
-          <el-form>
-            <el-form-item>
-              <el-input type="textarea" class="text" v-model="item.positionDesc" readonly
-                        :autosize="{ minRows: 2, maxRows: 100}"></el-input>
-            </el-form-item>
-          </el-form>
-          <!--<textarea class="des_p" v-html="item.positionDesc" readonly="true"></textarea>-->
-        </div>
-      </div>
+    </Scroll>
+    <div class="footer">
+      <footer>
+        <div class="title"></div>
+      </footer>
     </div>
+    <div v-transfer-dom>
+      <x-dialog v-model="showDialogStyle" hide-on-blur :dialog-style="{'max-width': '100%', width: '100%', height: '50%', 'background-color': 'transparent'}">
+        <p style="color:#fff;text-align:center;" @click="showDialogStyle = false">
+          <span style="font-size:30px;" class="img"></span>
+        </p>
+      </x-dialog>
+    </div>
+
     <el-dialog
       class="tips2"
       title="扫码分享职位"
@@ -72,14 +108,15 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <div class="footer hidden-xs">
-      <footer>
-        <div class="title"></div>
-      </footer>
+    <div class="model" v-show="model" @click="close">
+      <div class="share-arrow" v-show="arrow_tip"></div>
     </div>
+
   </div>
 </template>
 <script>
+  import Scroll from './base/scroll2'
+  import {XButton,XDialog,TransferDomDirective as TransferDom } from 'vux'
   export default {
     data() {
       return {
@@ -101,12 +138,17 @@
         },
         eLogo: '',
         show: false,
-        arrow: false
+        arrow_tip: false,
+        model:false
       }
     },
+    directives: {
+      TransferDom
+    },
     created() {
+      this.probeType = 3
+      this.listenScroll = true
       this._getDetail()
-      console.log(this.$route)
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId
       }
@@ -166,23 +208,26 @@
 
       },
       share() {
-        this.dialogVisible2 = true
-//        this.arrow = true
-
-        var _this = this;
-        var method = "recruitPosition/sharePosition";
-        var param = JSON.stringify({
-          positionId: _this.id
-        });
-        console.log(param)
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            console.log(res.data)
-            _this.eLogo = res.data.data[0]
-            _this.formShare.eLink = res.data.data[1]
+        if (document.documentElement.clientWidth > 768) {
+          this.dialogVisible2 = true
+          var _this = this;
+          var method = "recruitPosition/sharePosition";
+          var param = JSON.stringify({
+            positionId: _this.id
+          });
+          var successd = function (res) {
+            if (res.data.code == 0) {
+              console.log(res.data)
+              _this.eLogo = res.data.data[0]
+              _this.formShare.eLink = res.data.data[1]
+            }
           }
+          _this.$http(method, param, successd);
+        } else {
+          this.model = true
+          this.arrow_tip = true
+
         }
-        _this.$http(method, param, successd);
       },
       copyLink(){
 
@@ -193,7 +238,16 @@
           message: "复制成功",
           type: 'success'
         })
+      },
+      close(){
+        this.model = false
+        this.arrow_tip = false
       }
+    },
+    components: {
+      Scroll,
+      XButton,
+      XDialog
     }
   }
 </script>
@@ -207,7 +261,7 @@
         box-sizing: border-box
         top: 50% !important
         margin-top: -212px
-        display :block
+        display: block
         .el-dialog__body
           height: 424px
       .content
@@ -230,6 +284,7 @@
           margin-bottom: 15px
           color: #475669
           font-size: 14px
+          padding-left: 17px;
       .share
         padding: 0 1.35rem;
         .el-form-item
@@ -301,7 +356,6 @@
             color: #99A9BF
       .detail_text
         background: #fff
-        height: 100%
         padding: 19px 0 29px 23px
         .detail_content
           .title
@@ -314,8 +368,8 @@
                   outline: none
                   border: none
                   .el-textarea__inner
-                    border: none!important
-                    outline:none!important
+                    border: none !important
+                    outline: none !important
           .des_p
             width: 100%
             background: #fff
@@ -343,26 +397,29 @@
         }
       }
     }
+
   @media all and (max-width: 767px)
     #list_detail
       background: #fff
-      position: absolute
-      bottom: 0.8rem
+      position: fixed
+      bottom: 0
       top: 0
       right: 0
       left: 0
       .container
         padding: 0
         margin: 0
+        height: 100%
+        overflow: hidden
         .share-arrow
           position: fixed;
           top: 10px;
           width: 2.66rem;
           height: 2.42rem;
           right: 0.34rem;
-          z-index: 10002;
-          background: url(../common/image/arrow.png) no-repeat center
+          background: url(../common/image/tips.png) no-repeat center
           background-size: 100%;
+          z-index: 2001;
         .detail_des
           background: #fff
           position: relative
@@ -416,12 +473,16 @@
               height: 0.8rem
               line-height: 0.8rem
               left: 0
-              margin-top: -0.1rem
-              .el-button
+              .weui-btn_mini
                 display: inline-block
                 vertical-align: top
-              .el-button--default
+                background: #5aa2e7
+              .weui-btn_default
                 margin-left: 0
+                display: inline-block
+                vertical-align: top
+                margin-top :0
+                background :#F8F8F8
             .title
               font-size: 0.28rem
               color: #1F2D3D
@@ -449,16 +510,16 @@
               margin-bottom: 0.38rem
               margin-top: 0.5rem
         .detail_text
-          background: #fff
-          height: 100%
-          font-size: 14px
-          padding: 0
+          width: 100%;
+          background: #fff;
+          padding: 0;
           .detail_content
-            padding: 0.39rem 0.32rem 0rem 0.27rem
-            color: black
+            padding: 0.39rem 0.32rem 0.3rem 0.27rem
+            color: #1F2D3D
+            font-size :0.28rem
             .title
               margin-bottom: 0.2rem
-              font-size: 0.32rem
+              font-size: 0.28rem
             .el-form
               .el-form-item
                 .el-form-item__content
@@ -466,8 +527,11 @@
                     outline: none
                     border: none
                     .el-textarea__inner
-                      border: none!important
-                      outline:none!important
+                      font-size :0.28rem
+                      line-height: 2
+                      overflow: hidden
+                      border: none !important
+                      outline: none !important
             .des_p
               width: 100%
               background: #fff
@@ -479,23 +543,44 @@
               color: #333
 
         .footer
-          position: fixed
+          position: relative
           width: 100%
           bottom: 0
+          left: 0
+          height: 1rem
+          line-height: 1rem
           footer
-            height: 1rem
             background: #F7F7F7
+            height: 1rem !important
+            line-height: 1rem !important
             width: 100%
-            line-height: 1px
+            .title
+              width: 100%
+              height: 100%
+              text-align: center
+              color: #999999
+              font-size: 0.14rem
+              background: url(../common/image/footer_logo.png) no-repeat center
 
-          .title
-            height: 1rem
-            line-height: 1rem
-            text-align: center
-            color: #999999
-            font-size: 0.14rem
-            background: url(../common/image/footer_logo.png) no-repeat center
-
+      .model
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: .5;
+        background: #000;
+        z-index: 2000
+        .share-arrow{
+          position: fixed;
+          width: 2rem;
+          right: 0.8rem;
+          top: 0;
+          height: 2rem;
+          background: url(../common/image/arrow.png)no-repeat center
+          z-index: 3000;
+          background-size :100%
+        }
   .tips2
     .el-dialog--small
       width: 100%

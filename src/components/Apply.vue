@@ -71,11 +71,11 @@
             </el-form-item>
           </el-form>
         </div>
-        <!--<div class="foote">-->
-          <!--<footer>-->
-            <!--<div class="title"></div>-->
-          <!--</footer>-->
-        <!--</div>-->
+        <div class="footer">
+          <footer>
+            <div class="title"></div>
+          </footer>
+        </div>
       </div>
 
       <el-dialog
@@ -440,7 +440,7 @@
     #apply
       background: #fff
       position: absolute
-      bottom: 1rem
+      bottom: 0
       top: 0
       right: 0
       left: 0

@@ -12,7 +12,6 @@
         type: Number,
         default: 1
       },
-      //点击是否派发点击事件
       click: {
         type: Boolean,
         default: true
@@ -22,27 +21,11 @@
         type: Boolean,
         default: false
       },
-      //列表的数据
       data: {
-        type: Array,
+        type: Object,
         default: null
-      },
-      //是否派发滚动到底部的事件,用于上拉加载
-      pullup: {
-        type: Boolean,
-        default: false
-      },
-      //是否派发列表滚动开始的事件
-      beforeScroll: {
-        type: Boolean,
-        default: false
-      },
-      //是否派发顶部下拉事件
-      pulldown: {
-        type: Boolean,
-        default: false
-      },
-      //是否派发顶部下拉事件，用于下拉刷新
+      }
+      //这个地方我们组件套的数据有可能输动态变化的 refresh我们的scroll保证我们计算的正确
     },
     mounted(){
       setTimeout(() => {
@@ -66,28 +49,7 @@
             me.$emit('scroll', pos)
           })
         }
-        if (this.pullup) {
-          this.scroll.on('scrollEnd', () => {
-            if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
-              this.$emit('scrollToEnd')
-            }
-          })
-        }
 
-        if (this.beforeScroll) {
-          this.scroll.on('beforeScrollStart', () => {
-            this.$emit('beforeScroll')
-          })
-        }
-
-        if (this.pulldown) {
-          this.scroll.on('touchend', (pos) => {
-            //下拉动作
-            if (pos.y > 50) {
-              this.$emit('pulldown')
-            }
-          })
-        }
       },
       //可以做一些better-scroll方法的代理
       enable(){
@@ -108,7 +70,7 @@
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
     },
-    //这里我们去监听data的变化,// 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
+    //这里我们去监听data的变化
     watch: {
       data(){
         setTimeout(() => {
