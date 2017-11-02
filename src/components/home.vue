@@ -1,5 +1,5 @@
 <template>
-  <div class="home" v-cloak="" v-if="homeData">
+  <div class="home" v-cloak="" v-show="homeData">
     <!--导航-->
     <!--轮播-->
     <div class="main_ad" v-show="homeData.img_list_1">
@@ -8,11 +8,11 @@
         <div class="item " :style="bgStyle">
           <!--<img :src="homeData.img_list_1" alt="">-->
           <div class="item_text">
-            <div class="title">{{homeData.form.title}}
+            <div class="title" v-show="homeData.form.title">{{homeData.form.title}}
 
 
             </div>
-            <div class="des">{{homeData.form.subTitle}}</div>
+            <div class="des" v-show="homeData.form.subTitle">{{homeData.form.subTitle}}</div>
             <div class="search-1BHuC hidden-sm hidden-lg">
               <div class="container-28cVH">
                 <input type="text" class="input-1WRwm" placeholder="搜索职位关键字" v-model="search" @keyup.enter="goSearch">
@@ -520,17 +520,11 @@
           font-size: 16px
           color: #475669
           p {
-            line-height: 2
+            line-height :18px
             img {
               max-width: 100%
               display: block
             }
-          }
-          p:nth-child(1) {
-            text-indent: 30px
-          }
-          p:nth-child(2) {
-            text-indent: 30px
           }
         }
       }
@@ -615,6 +609,8 @@
                 box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
                 border-radius: 2px;
                 background-color: #fff;
+                border-top-right-radius: 8px;
+                border-bottom-right-radius: 8px;
                 .input-1WRwm {
                   border: 0;
                   height: 40px;
@@ -652,6 +648,8 @@
                 .custom-icon-background-color {
                   background: url(../common/image/search.png) no-repeat center
                   color: rgba(249, 249, 250, 1);
+                  background-size :cover
+
                 }
               }
             }
@@ -832,7 +830,7 @@
               margin-top: 0;
               font-size: 0.26rem;
               color: #5c6170;
-              line-height: 2;
+              line-height: 18px;
             }
             p:nth-child(1) {
               text-indent: 0
@@ -931,7 +929,6 @@
           display: flex;
           line-height: 16px;
           padding-bottom: 11px;
-          border-bottom: 1px #f4f4f6 solid;
           .title {
             margin-right: auto;
             font-size: 0.32rem;

@@ -14,6 +14,7 @@
 
 
 
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
@@ -27,7 +28,7 @@
       <!--back-->
       <div class="back visible-xs  hidden-sm hidden-lg">
         <i class="icon" @click="back"></i>
-        <h2 class="title">爱聚hr</h2>
+        <h2 class="title">在招职位</h2>
       </div>
 
 
@@ -41,7 +42,7 @@
               :options="workCityLists"
               v-model="form.address"
               @change="change"
-              placeholder="请选择地点"
+              placeholder="全部工作地点"
             ></el-cascader>
           </el-form-item>
 
@@ -317,6 +318,8 @@
         this.workCityLists = provinces;
       },
       findAll(){
+        this.form.address = []
+        this.form.kind = ''
         this.positionList()
       },
       getCity(item){
@@ -540,7 +543,7 @@
           top: 50%;
           margin-left: -25%;
           margin-top: -23px;
-          color: #333;
+          color: #5c6170;
           .search_content {
             display: table
             width: 426px;
@@ -549,7 +552,7 @@
             border: 1px solid #5AA2E7;
             position: relative;
             outline: none;
-            color: #333;
+            color: #5c6170;
             font-size: 14px;
             padding: 18px 0 15px 14px
             &::placeholder {
@@ -664,7 +667,7 @@
           width: 100%
           height: 100px
           line-height: 100px
-          color: #999999
+          color: #5c6170999
           font-size: 28px
           margin: 0 auto
           background: url(../common/image/footer_logo.png) no-repeat center
@@ -710,7 +713,7 @@
               border: none;
               position: absolute;
               outline: none;
-              color: #333;
+              color: #5c6170;
               font-size: 0.28rem;
               padding: 0 0 0 0.22rem;
               margin: 0.22rem 0;
@@ -742,7 +745,7 @@
           background: #fff
           width: 100%;
           position: fixed
-          top: 3.74rem;
+          top: 3.34rem;
           right: 0
           left: 0
           bottom: 0
@@ -752,23 +755,22 @@
             width: 100%
             border-bottom: none
             display: block;
-            padding: 12px 0;
+            padding: 0 0.52rem;
+
             .grid-content {
               height: 1.4rem
               line-height: 0.7rem
-              padding: 0
               margin-bottom: 0
               border: none
               border-left: none
               border-right: none
-              padding: 0 12px;
               background: #fff;
-              border-bottom: 1px solid #f4f4f6;
+              padding: 0.08rem 0 0 0;
+              border-b-1px(#dddfe3)
               .title {
                 font-size: 0.30rem;
-                color: #333;
-                font-weight: bold;
-                margin-bottom: 0.2rem;
+                color: #5c6170;
+                margin-bottom: 0.02rem;
                 padding-left: 0.1rem
               }
               .text {
@@ -776,15 +778,20 @@
                 line-height: 0.28rem
                 font-size: 0.26rem
                 .des {
-                  display: inline-block!important
-                  font-size: 0.24rem
-                  color: #999
+                  display: inline-block
+                  float: left
+                  width: 1.7rem
+                  font-size: 0.28rem
+                  color: #666
                   height: 14px
                   line-height: 14px
-                  margin-right: 0
+                  margin-right: 0;
                   vertical-align: middle
                   position: relative
-                  padding-left: 0.4rem
+                  padding-left: 0.5rem
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
                   .address_icon {
                     display: inline-block
                     vertical-align: top
@@ -793,16 +800,18 @@
                     height: 14px
                     top: 0
                     left: 0
-                    background: url(../common/image/address_icon.png) no-repeat center
+                    background: url(../common/image/address.png) no-repeat center
                     background-size: 50%
                   }
                 }
                 .price {
-                  display: inline-block!important
-                  font-size: 0.26rem
+                  display: inline-block
+                  float: left
+                  width: 1.6rem
+                  font-size: 0.28rem
                   height: 14px
                   line-height: 14px
-                  color: #999
+                  color: #666
                   vertical-align: middle
                   margin-right: 0
                   position: relative
@@ -813,16 +822,17 @@
                     width: 26px
                     height: 14px
                     line-height: 14px
-                    top: -0.02rem
+                    top: 0
                     left: 0
-                    background: url(../common/image/salary_icon.png) no-repeat center
+                    background: url(../common/image/salary.png) no-repeat center
                     background-size: 50%
                   }
                 }
                 .mp_time {
-                  display: inline-block!important
-                  font-size: 0.26rem
-                  color: #999
+                  display: inline-block
+                  float: left
+                  font-size: 0.28rem
+                  color: #666
                   vertical-align: middle
                   margin-top: 0
                   height: 14px
@@ -834,7 +844,7 @@
                     position: absolute
                     width: 26px
                     height: 14px
-                    top: -0.02rem
+                    top: 0
                     left: 0
                     background: url(../common/image/time_icon.png) no-repeat center
                     background-size: 50%
@@ -858,7 +868,7 @@
                 height: 1rem
                 line-height: 1rem
                 text-align: center
-                color: #999999
+                color: #5c6170999
                 font-size: 0.14rem
                 background: url(../common/image/footer_logo.png) no-repeat center
               }
@@ -924,10 +934,9 @@
               .el-form {
                 height: 0.8rem;
                 line-height: 0.8rem;
-                color: #99A9BF
+                color: #5c6170
                 font-size: 0.28rem
                 background: #fff
-                border-b-1px(#E5E9F2)
                 .form_address {
                   display: inline-block
                   width: 50%
@@ -937,7 +946,7 @@
                     position: absolute
                     top: 0.08rem
                     display: inline-block
-                    background: url(../common/image/address_icon.png) no-repeat center
+                    background: url(../common/image/address_city.png) no-repeat center
                     width: 22px
                     height: 28px
                     z-index: 1
@@ -947,6 +956,7 @@
                     margin-left: 15px !important
                     margin-bottom: 0
                     .el-input {
+                      border-b-1px(#E5E9F2)
                       .el-input__icon {
                         display: none
                       }
@@ -988,6 +998,7 @@
                   .el-form-item__content {
                     margin-right: 15px !important
                     .el-select {
+                      border-b-1px(#E5E9F2)
                       .el-input {
                         .el-input__icon {
                           display: none
@@ -1012,7 +1023,7 @@
 
             .mobile-text-input {
               width: 100%;
-              padding: 0 10px;
+              padding: 0 16px;
               display: inline-block;
               -webkit-box-sizing: border-box;
               -moz-box-sizing: border-box;
@@ -1056,6 +1067,7 @@
                   height: 40px
                   line-height: 40px;
                   color: #9a9fac;
+                  margin-left: -0.10rem;
                   -webkit-transition: color 0.2s;
                   -moz-transition: color 0.2s;
                   -o-transition: color 0.2s;
@@ -1086,7 +1098,10 @@
                   height: 0.8rem;
                   color: #5c6170;
                   outline: none
-                  padding-left: 0.1rem;
+                  padding-left: 0.18rem;
+                  &::placeholder {
+                    color: #5c6170;
+                  }
                 }
               }
             }
@@ -1162,7 +1177,7 @@
               border: 1px solid #5AA2E7;
               position: relative;
               outline: none;
-              color: #333;
+              color: #5c6170;
               font-size: 14px;
               padding: 18px 0 15px 14px
               &::placeholder {

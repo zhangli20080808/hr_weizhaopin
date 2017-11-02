@@ -1,7 +1,7 @@
 <template>
   <div id="list_detail" v-show="item" ref="list">
     <!--back-->
-    <div class=" back visible-xs  hidden-sm hidden-lg" v-if="hiddens">
+    <div class=" back hidden-sm hidden-lg">
       <i class="icon" @click="back"></i>
       <h2 class="title">职位详情</h2>
     </div>
@@ -96,7 +96,7 @@
             <div class="title" v-show="item">职位描述</div>
             <el-form>
               <el-form-item>
-                <el-input type="textarea" class="text" v-model="a" readonly
+                <el-input type="textarea" class="text" v-model="item.positionDesc" readonly
                           autosize></el-input>
               </el-form-item>
             </el-form>
@@ -205,7 +205,7 @@
         console.log(this.homeData)
         if (this.$route.name !== 'home') {
           this.hiddens = false
-          document.getElementById('list_detail').style.paddingTop = 0
+//          document.getElementById('list_detail').style.paddingTop = 0
         }
       },20)
     },
@@ -345,7 +345,7 @@
           font-size: 14px
           padding-left: 17px;
       .share
-        padding: 0 1.35rem;
+        padding: 0 0.35rem;
         .el-form-item
           margin-bottom: 0
           margin-right: 0
@@ -427,6 +427,7 @@
                   outline: none
                   border: none
                   .el-textarea__inner
+                    min-height :300px
                     border: none !important
                     outline: none !important
           .des_p
@@ -449,7 +450,7 @@
           width: 100%
           height: 100px
           line-height: 100px
-          color: #999999
+          color: #5c6170999
           font-size: 28px
           margin: 0 auto
           background: url(../common/image/footer_logo.png) no-repeat center
@@ -617,8 +618,9 @@
                     outline: none
                     border: none
                     .el-textarea__inner
+                      color: #5c6170!important
                       font-size :0.28rem
-                      line-height: 2
+                      line-height :18px
                       overflow: hidden
                       border: none !important
                       outline: none !important
@@ -642,7 +644,7 @@
             font-size: 0.32rem;
             font-weight: bold;
             vertical-align: middle;
-            color: #090a0b;
+            color: #5c6170;
           .job-page__others
             position: relative;
             font-size :0.28rem
@@ -651,14 +653,14 @@
             color: #5c6170;
             .des {
               display: inline-block
-              font-size: 0.24rem
-              color: #999
+              font-size: 0.28rem
+              color: #666
               height :14px
               line-height :14px
-              margin-right: 1.21rem
+              margin-right: 0.4rem
               vertical-align: middle
               position :relative
-              padding-left :0.5rem
+              padding-left :0.4rem
               .address_icon{
                 display :inline-block
                 vertical-align :top
@@ -673,12 +675,12 @@
             }
             .price {
               display: inline-block
-              font-size: 0.26rem
+              font-size: 0.28rem
               height :14px
               line-height :14px
-              color: #999
+              color: #666
               vertical-align: middle
-              margin-right :1.21rem
+              margin-right: 0.4rem
               position :relative
               padding-left :0.62rem
               .salary_icon{
@@ -695,8 +697,8 @@
             }
             .kind {
               display: inline-block
-              font-size: 0.26rem
-              color: #999
+              font-size: 0.28rem
+              color: #666
               vertical-align: middle
               margin-top :0
               height :14px
@@ -735,8 +737,8 @@
                 border: 1px solid #dddfe3;
                 border-radius: 2px;
                 img{
-                  max-width: 100%;
-                  max-height: 100%;
+                  width: 1.07rem;
+                  height: 1.07rem;
                 }
               }
             }
@@ -798,7 +800,7 @@
                 width: 100%
                 height: 100%
                 text-align: center
-                color: #999999
+                color: #5c6170999
                 font-size: 0.14rem
                 background: url(../common/image/footer_logo.png) no-repeat center
 

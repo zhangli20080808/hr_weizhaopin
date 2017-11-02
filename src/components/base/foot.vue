@@ -29,7 +29,7 @@
     .footer
       position :relative
       width :100%
-      bottom: -0.46rem
+      bottom: -0.2rem
       footer
         height: 0.64rem
         background: #F7F7F7
