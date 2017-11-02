@@ -2,10 +2,13 @@
   <div id="s_list">
     <!--搜索-->
     <div class="container">
-      <div class="search">
-        <div class="detail_des hidden-xs hidden-sm">
+      <div class="search hidden-xs hidden-sm">
+        <div class="detail_des">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页
+
+
+
 
 
 
@@ -21,12 +24,19 @@
         </div>
       </div>
       <!--职位列表-->
-      <!--choose-->
+      <!--back-->
+      <div class="back visible-xs  hidden-sm hidden-lg">
+        <i class="icon" @click="back"></i>
+        <h2 class="title">爱聚hr</h2>
+      </div>
 
-      <div class="list-form">
+
+      <div class="list-form hidden-xs">
+
         <el-form ref="form" :model="form" label-width="80px">
 
           <el-form-item class="form_address">
+            <i class="address_icon"></i>
             <el-cascader
               :options="workCityLists"
               v-model="form.address"
@@ -36,6 +46,7 @@
           </el-form-item>
 
           <el-form-item class="form_kind">
+            <i class="kind_icon"></i>
             <el-select v-model="form.kind" placeholder="请选择职位分类" @change="selectKind">
               <el-option :label="item.name" :value="item.id" v-for="item in selectK" :key="item.id"></el-option>
             </el-select>
@@ -45,6 +56,48 @@
           </el-form-item>
         </el-form>
       </div>
+      <!--搜索-->
+      <div class="job-filter visible-xs">
+        <div class="job-filter__row">
+          <div class="mobile-text-input job-filter__search-input">
+            <div class="mobile-text-input__wrapper text  ">
+              <span class="icon icon-search mobile-text-input__icon  "></span>
+              <span class="mobile-text-input__label   "></span>
+              <input type="search" class="mobile-text-input__input" placeholder="请输入关键字" v-model="Search"
+                     @keyup.enter="goSearch">
+            </div>
+          </div>
+        </div>
+        <!--下拉查询-->
+        <div class="job-filter__row">
+          <div class="list-form">
+
+            <el-form ref="form" :model="form" label-width="80px">
+
+              <el-form-item class="form_address">
+                <i class="address_icon"></i>
+                <el-cascader
+                  :options="workCityLists"
+                  v-model="form.address"
+                  @change="change"
+                  placeholder="请选择地点"
+                ></el-cascader>
+              </el-form-item>
+
+              <el-form-item class="form_kind">
+                <i class="kind_icon"></i>
+                <el-select v-model="form.kind" placeholder="请选择职位分类" @change="selectKind">
+                  <el-option :label="item.name" :value="item.id" v-for="item in selectK" :key="item.id"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item class="all">
+                <el-button type="primary" @click="findAll" class="hidden-xs">查询所有</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+      </div>
+
       <Scroll class="list"
               :data="list"
               :pullup="pullup"
@@ -54,19 +107,39 @@
               @scrollToEnd="searchMore"
               v-loading="!list"
       >
+        <div>
+          <!--<ul class="job-list__list">-->
+          <!--<li class="" v-for="item in list">-->
+          <!--<a class="job-list-item" @click="selectItem(item)">-->
+          <!--<div class="title">{{item.positionName}}</div>-->
+          <!--<div class="details">-->
+          <!--<span class="misc">-->
+          <!--<span class="secondary">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>-->
+          <!--<span class="secondary">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>-->
+          <!--<span class="secondary">发布时间：{{filter(item.posiPublishTime)}}</span>-->
+          <!--</span>-->
+          <!--</div>-->
+          <!--</a>-->
+          <!--</li>-->
+          <!--</ul>-->
+        </div>
         <!--list-->
         <div class="list_content" v-show="list.length">
-          <el-row :gutter="20">
+          <el-row :gutter="20" class="">
             <el-col :span="8" :xs="24" :sm="12" :md="8" :lg="8" v-for="item in list" :key="item.id"
             >
               <div class="grid-content bg-purple" @click="selectItem(item)">
                 <div class="title">{{item.positionName}}</div>
                 <div class="text">
-                  <span
-                    class="des">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
-                    }}</span><span class="price">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
+                  <span class="des hidden-xs"><i
+                    class="address_icon"></i>{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
+                    }}</span>
+                  <span class="des visible-xs"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
+                  <span class="price"><i
+                    class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
+                  <span class="mp_time visible-xs"><i class="time_icon"></i>{{filter(item.posiPublishTime)}}</span>
+                  <p class="p_time hidden-xs">发布时间：{{filter(item.posiPublishTime)}}</p>
                 </div>
-                <div class="p_time">发布时间：{{filter(item.posiPublishTime)}}</div>
               </div>
             </el-col>
           </el-row>
@@ -273,6 +346,8 @@
       },
       //posId
       loadCategory(item){
+        this.config.pageNum = 1
+        this.hasMore = true
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
@@ -284,11 +359,13 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-              console.log(res.data)
-            _this.list = res.data.data.positionList
+            console.log(res.data)
+            _this.list = _this.list.concat(res.data.data.positionList)
           }
         }
         _this.$http(method, param, successd);
+      },
+      _checkMore(data){
       },
       //职位分类
       getPositionCategoryList() {
@@ -352,6 +429,7 @@
         if (!this.hasMore) {
           return
         }
+        console.log('已经到底部了，可以加载数据了')
         this.config.pageNum++
         var _this = this;
         var method = "promotionPage/positionList";
@@ -364,7 +442,7 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            _this.list = res.data.data.positionList
+            _this.list = _this.list.concat(res.data.data.positionList)
             _this.config.totalCount = res.data.data.count
             _this.config.pageNum = res.data.data.param.pageNum
             _this.config.pageSize = res.data.data.param.pageSize
@@ -373,9 +451,6 @@
         _this.$http(method, param, successd);
       },
       loadData(){
-        if (!this.hasMore) {
-          return
-        }
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
@@ -387,13 +462,14 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
+            console.log(res.data.data)
             _this.list = res.data.data.positionList
-            _this.config.totalCount = res.data.data.count
-            _this.config.pageNum = res.data.data.param.pageNum
-            _this.config.pageSize = res.data.data.param.pageSize
           }
         }
         _this.$http(method, param, successd);
+      },
+      back() {
+        this.$router.back()
       }
     },
 
@@ -412,14 +488,19 @@
         this.config.totalCount = this.$route.params.searchPage.totalCount
         return
       }
-      if (this.$route.params.list) {
-        let posId = localStorage.getItem('posId')
-        this.config = this.$route.params.config
-        this.loadCategory(posId)
-        return
-      }
+
       let posId = localStorage.getItem('posId')
-      this.loadCategory(posId)
+      this.form.kind = Number(posId)
+      if (this.form.kind) {
+        this.selectSearch()
+      }
+      let search = localStorage.getItem('search')
+      this.Search = search
+      if (this.search) {
+        this.goSearch()
+      }
+
+
     },
     components: {
       Scroll,
@@ -606,6 +687,7 @@
       .container {
         padding: 0
         margin: 0
+        padding-top: 1.12rem
         .search {
           width: 100%;
           position: relative;
@@ -656,53 +738,11 @@
             }
           }
         }
-        .list-form {
-          .el-form {
-            height: 1.1rem
-            line-height: 1.1rem
-            color: #99A9BF
-            font-size: 0.28rem
-            background: #fff
-            border-b-1px(#E5E9F2)
-            .form_address {
-              display: inline-block
-              width: 50%
-              float: left
-              .el-form-item__content {
-                margin-left: 15px !important
-                margin-bottom: 0
-                .el-input {
-                  .el-input__inner {
-                    line-height: 0.36rem
-                    font-size: 0.24rem
-                  }
-                }
-              }
-            }
-            .form_kind {
-              display: inline-block
-              width: 50%
-              float: right
-              .el-form-item__content {
-                margin-right: 15px !important
-                .el-select {
-                  .el-input {
-                    .el-input__inner {
-                      line-height: 0.36rem
-                      font-size: 0.24rem
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-
         .list {
           background: #fff
           width: 100%;
           position: fixed
-          top: 3.04rem;
+          top: 3.74rem;
           right: 0
           left: 0
           bottom: 0
@@ -710,44 +750,98 @@
           padding-bottom: 0
           .list_content {
             width: 100%
-            padding: 0
+            border-bottom: none
+            display: block;
+            padding: 12px 0;
             .grid-content {
-
-              height: 2.28rem
-              padding: 0.4rem 0 0.4rem 0.32rem
+              height: 1.4rem
+              line-height: 0.7rem
+              padding: 0
               margin-bottom: 0
               border: none
               border-left: none
               border-right: none
-              border-b-1px(#E5E9F2)
-
+              padding: 0 12px;
+              background: #fff;
+              border-bottom: 1px solid #f4f4f6;
               .title {
-                font-size: 0.28rem;
-                color: #5AA2E7;
+                font-size: 0.30rem;
+                color: #333;
+                font-weight: bold;
                 margin-bottom: 0.2rem;
+                padding-left: 0.1rem
               }
               .text {
                 height: 0.28rem
                 line-height: 0.28rem
+                font-size: 0.26rem
                 .des {
-                  display: inline-block
+                  display: inline-block!important
                   font-size: 0.24rem
-                  color: #475669
-                  margin-right: 0.46rem
+                  color: #999
+                  height: 14px
+                  line-height: 14px
+                  margin-right: 0
                   vertical-align: middle
+                  position: relative
+                  padding-left: 0.4rem
+                  .address_icon {
+                    display: inline-block
+                    vertical-align: top
+                    position: absolute
+                    width: 22px
+                    height: 14px
+                    top: 0
+                    left: 0
+                    background: url(../common/image/address_icon.png) no-repeat center
+                    background-size: 50%
+                  }
                 }
                 .price {
-                  display: inline-block
+                  display: inline-block!important
                   font-size: 0.26rem
-                  color: #F96868
+                  height: 14px
+                  line-height: 14px
+                  color: #999
                   vertical-align: middle
+                  margin-right: 0
+                  position: relative
+                  padding-left: 0.52rem
+                  .salary_icon {
+                    display: inline-block
+                    position: absolute
+                    width: 26px
+                    height: 14px
+                    line-height: 14px
+                    top: -0.02rem
+                    left: 0
+                    background: url(../common/image/salary_icon.png) no-repeat center
+                    background-size: 50%
+                  }
+                }
+                .mp_time {
+                  display: inline-block!important
+                  font-size: 0.26rem
+                  color: #999
+                  vertical-align: middle
+                  margin-top: 0
+                  height: 14px
+                  line-height: 14px
+                  position: relative
+                  padding-left: 0.52rem
+                  .time_icon {
+                    display: inline-block
+                    position: absolute
+                    width: 26px
+                    height: 14px
+                    top: -0.02rem
+                    left: 0
+                    background: url(../common/image/time_icon.png) no-repeat center
+                    background-size: 50%
+                  }
                 }
               }
-              .p_time {
-                margin-top: 0.46rem
-                font-size: 0.24rem
-                color: #99A9BF
-              }
+
             }
 
           }
@@ -783,6 +877,251 @@
           top: 50%
           transform: translateY(-50%)
         }
+        .back {
+          position: fixed;
+          left: 0;
+          top: 0;
+          right: 0;
+          z-index: 1;
+          height: 1.12rem;
+          padding-left: 20px;
+          padding-right: 20px;
+          background-color: #64b5f6;
+          color: rgba(9, 10, 11, 1);
+          .icon {
+            display: inline-block
+            width: 39px
+            height: 34px
+            position: absolute
+            left: 0.2rem
+            top: 0.18rem
+            background: url(../common/image/back.png) no-repeat center
+            background-size: 50%
+          }
+          .title {
+            width: 100%
+            height: 1.12rem;
+            line-height: 1.12rem;
+            color: #fff
+            font-size: 0.34rem
+            margin-left: 0.6rem
+          }
+        }
+        .job-filter {
+          padding: 0.1rem 0.2rem;
+          background-color: #fff;
+          .job-filter__row {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: box;
+            display: flex;
+            .list-form {
+              margin-top: 0.2rem
+              height: 1rem
+              line-height: 1rem
+              .el-form {
+                height: 0.8rem;
+                line-height: 0.8rem;
+                color: #99A9BF
+                font-size: 0.28rem
+                background: #fff
+                border-b-1px(#E5E9F2)
+                .form_address {
+                  display: inline-block
+                  width: 50%
+                  float: left
+                  position: relative
+                  .address_icon {
+                    position: absolute
+                    top: 0.08rem
+                    display: inline-block
+                    background: url(../common/image/address_icon.png) no-repeat center
+                    width: 22px
+                    height: 28px
+                    z-index: 1
+                    background-size: 50%
+                  }
+                  .el-form-item__content {
+                    margin-left: 15px !important
+                    margin-bottom: 0
+                    .el-input {
+                      .el-input__icon {
+                        display: none
+                      }
+                      .el-input__inner {
+                        border: none;
+                        text-align: center;
+                        line-height: 0.36rem
+                        font-size: 0.28rem
+                        color: #5c6170 !important
+                        &::placeholder {
+                          color: #5c6170
+                          font-size: 0.28rem
+                        }
+                      }
+                    }
+                    .el-cascader__label {
+                      padding: 0 10px 0 30px;
+                      color: #5c6170
+                      font-size: 0.28rem
+                    }
+                  }
+                }
+                .form_kind {
+                  display: inline-block
+                  width: 50%
+                  float: right
+                  margin-bottom: 0 !important
+                  position: relative
+                  .kind_icon {
+                    display: inline-block
+                    position: absolute
+                    top: 6px
+                    background: url(../common/image/other.png) no-repeat center
+                    width: 27px
+                    height: 23px
+                    background-size: 50%
+                    z-index: 1
+                  }
+                  .el-form-item__content {
+                    margin-right: 15px !important
+                    .el-select {
+                      .el-input {
+                        .el-input__icon {
+                          display: none
+                        }
+                        .el-input__inner {
+                          border: none
+                          text-align: center;
+                          line-height: 0.36rem
+                          font-size: 0.28rem
+                          color: #5c6170 !important
+                          padding-right: 0
+                          &::placeholder {
+                            color: #5c6170
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            .mobile-text-input {
+              width: 100%;
+              padding: 0 10px;
+              display: inline-block;
+              -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
+              .mobile-text-input__wrapper {
+                position: relative;
+                display: -webkit-box;
+                display: -moz-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: box;
+                display: flex;
+                height: 40px;
+                padding: 0 2px 0 2px;
+                margin-top: 10px;
+                line-height: 40px;
+                font-size: 12px;
+                border-bottom: 1px solid #dddfe3;
+                -webkit-transition: color 0.2s;
+                -moz-transition: color 0.2s;
+                -o-transition: color 0.2s;
+                -ms-transition: color 0.2s;
+                transition: color 0.2s;
+                -webkit-box-align: end;
+                -moz-box-align: end;
+                -o-box-align: end;
+                -ms-flex-align: end;
+                -webkit-align-items: flex-end;
+                align-items: flex-end;
+                .icon-search {
+                  display: inline-block
+                  -moz-box-flex: 0;
+                  -o-box-flex: 0;
+                  box-flex: 0;
+                  -webkit-flex: none;
+                  -ms-flex: none;
+                  flex: none;
+                  vertical-align: top;
+                  width: 30px;
+                  font-size: 15px;
+                  height: 40px
+                  line-height: 40px;
+                  color: #9a9fac;
+                  -webkit-transition: color 0.2s;
+                  -moz-transition: color 0.2s;
+                  -o-transition: color 0.2s;
+                  -ms-transition: color 0.2s;
+                  transition: color 0.2s;
+                  background: url(../common/image/search_list.png) no-repeat center
+                  background-size: 50%
+
+                }
+                .mobile-text-input__label {
+                  position: absolute;
+                  width: 80%
+                  left: 30px;
+                  top: -2px;
+                  margin-top: 0;
+                  font-size: 0.3rem;
+                  height: 0.8rem;
+                  color: #9a9fac;
+                  transition: all 0.2s;
+                  pointer-events: none;
+                }
+                .mobile-text-input__input {
+                  flex: 1;
+                  padding: 0;
+                  vertical-align: top;
+                  border: none;
+                  font-size: 0.28rem;
+                  height: 0.8rem;
+                  color: #5c6170;
+                  outline: none
+                  padding-left: 0.1rem;
+                }
+              }
+            }
+          }
+        }
+        .job-list__list {
+          margin: 0;
+          padding: 0 12px;
+          background: #fff;
+          list-style: none;
+          .job-list-item {
+            border-bottom: 1px solid #f4f4f6;
+            display: block;
+            padding: 12px 0;
+            .title {
+              font-size: 15px;
+              font-weight: bold;
+              margin-bottom: 4px;
+              color: #5c6170;
+            }
+            .details {
+              width: 100%;
+              color: #5c6170;
+              .misc {
+                display: inline-block
+                font-size: 0.26rem
+                .secondary {
+                  margin-right: 10px;
+                  padding-right: 10px;
+                }
+              }
+            }
+          }
+        }
+
       }
     }
   }

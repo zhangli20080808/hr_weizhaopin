@@ -223,11 +223,17 @@
 
   @media all and (max-width: 768px) {
     html {
-      font-size: 100px;
+     font-size:100px
     }
-
-    #app {
-      background: #fff;
+    body .el-cascader-menus {
+      /*top: 166px!important;*/
+    }
+    body .el-cascader-menus .el-cascader-menu{
+      min-width: 135px!important;
+    }
+    body .el-select-dropdown{
+      /*top: 166px!important;*/
+      min-width: 135px!important;
     }
   }
 </style>

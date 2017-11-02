@@ -1,11 +1,11 @@
 <template>
-  <div id="list_detail" v-show="item">
-    <Scroll
-      :data="item"
-      :listenScroll="listenScroll"
-      :probeType="probeType"
-      ref="list"
-      class="container">
+  <div id="list_detail" v-show="item" ref="list">
+    <!--back-->
+    <div class=" back visible-xs  hidden-sm hidden-lg" v-if="hiddens">
+      <i class="icon" @click="back"></i>
+      <h2 class="title">职位详情</h2>
+    </div>
+    <div class="container">
       <div>
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
@@ -44,28 +44,59 @@
           </el-breadcrumb>
         </div>
 
-        <div class="detail_show" v-show="show">
+        <div class="detail_show hidden-xs" v-show="show">
           <div class="content">
             <div class="title">{{item.positionName}}</div>
             <div class="text">
             <span
-              class="des">{{getCity(item.workCity)}}／{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
+              class="des">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
               }}</span><span class="price">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
             </div>
             <div class="p_time">发布时间：{{filterTime(item.posiPublishTime)}}</div>
 
             <div class="post_share">
-              <x-button mini type="primary" @click.native="join">申请职位</x-button>
-              <x-button mini  @click.native="share">分享职位</x-button>
+              <el-button  type="primary" @click="join">申请职位</el-button>
+              <el-button   @click="share">分享职位</el-button>
             </div>
           </div>
         </div>
+        <div class="job-page__header visible-xs">
+          <div class="job-page__header__title">
+            <span>{{item.positionName}}</span>
+          </div>
+          <div class="job-page__others">
+            <span class="des"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
+            <span class="price"><i class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
+            <span class="kind"><i class="kind_icon"></i>{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
+              }}</span>
+          </div>
+        </div>
+        <!--公司-->
+        <div class="job-page__header__link visible-xs">
+          <div class="inner" @click="backIndex">
+            <div class="column1">
+              <div class="logo_border">
+                <img :src="homeData.bigLogo" alt="">
+              </div>
+            </div>
+            <div class="column2">
+              <div class="company">{{homeData.form.company_name}}</div>
+              <div class="status">
+                <span class="custom-icon-text-color">{{homeData.s_log_back}}</span>
+              </div>
+            </div>
+            <div class="column3">
+              <span class="arrow_icon"></span>
+            </div>
+          </div>
+        </div>
+        <!--职位描述-->
         <div class="detail_text">
           <div class="detail_content">
             <div class="title" v-show="item">职位描述</div>
             <el-form>
               <el-form-item>
-                <el-input type="textarea" class="text" v-model="item.positionDesc" readonly
+                <el-input type="textarea" class="text" v-model="a" readonly
                           autosize></el-input>
               </el-form-item>
             </el-form>
@@ -73,11 +104,18 @@
           </div>
         </div>
       </div>
-    </Scroll>
-    <div class="footer">
+    </div>
+    <div class="footer hidden-xs">
       <footer>
         <div class="title"></div>
       </footer>
+    </div>
+
+    <div class="mobile_footer visible-xs">
+      <div class="post_share">
+        <button  @click="share" class="post_share_button">我要分享</button>
+        <button type="primary" @click="join" class="post_button">我要投递</button>
+      </div>
     </div>
     <div v-transfer-dom>
       <x-dialog v-model="showDialogStyle" hide-on-blur :dialog-style="{'max-width': '100%', width: '100%', height: '50%', 'background-color': 'transparent'}">
@@ -120,6 +158,7 @@
   export default {
     data() {
       return {
+         a:'1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；',
         id: this.$route.params.id,
         companyId: '',
         item: {
@@ -139,22 +178,36 @@
         eLogo: '',
         show: false,
         arrow_tip: false,
-        model:false
+        model:false,
+        showDialogStyle:false,
+        hiddens:true
+      }
+    },
+    props: {
+      homeData: {
+        type: Object
       }
     },
     directives: {
       TransferDom
     },
     created() {
-      this.probeType = 3
-      this.listenScroll = true
-      this._getDetail()
-      if (this.$route.query.companyId) {
-        this.companyId = this.$route.query.companyId
-      }
-      if (this.$route.params.id) {
-        this.id = this.$route.params.id
-      }
+      setTimeout(()=>{
+        this.probeType = 3
+        this.listenScroll = true
+        this._getDetail()
+        if (this.$route.query.companyId) {
+          this.companyId = this.$route.query.companyId
+        }
+        if (this.$route.params.id) {
+          this.id = this.$route.params.id
+        }
+        console.log(this.homeData)
+        if (this.$route.name !== 'home') {
+          this.hiddens = false
+          document.getElementById('list_detail').style.paddingTop = 0
+        }
+      },20)
     },
     methods: {
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
@@ -196,7 +249,10 @@
       },
       backIndex() {
         this.$router.push({
-          path: `/`
+          path: `/`,
+          query:{
+            companyId: this.companyId,
+          }
         })
       },
       filterTime(item){
@@ -242,6 +298,9 @@
       close(){
         this.model = false
         this.arrow_tip = false
+      },
+      back() {
+        this.$router.back()
       }
     },
     components: {
@@ -400,17 +459,43 @@
 
   @media all and (max-width: 767px)
     #list_detail
-      background: #fff
-      position: fixed
-      bottom: 0
-      top: 0
-      right: 0
-      left: 0
+      padding-top :1.12rem
+      .back{
+        position: fixed;
+        left: 0;
+        top :0;
+        right: 0;
+        z-index: 1;
+        height: 1.12rem;
+        padding-left: 20px;
+        padding-right: 20px;
+        background-color: #64b5f6;
+        color: rgba(9, 10, 11, 1);
+        .icon{
+          display: inline-block
+          width :39px
+          height :34px
+          position :absolute
+          left :0.2rem
+          top :0.18rem
+          background :url(../common/image/back.png)no-repeat center
+          background-size :50%
+        }
+        .title{
+          width :100%
+          height: 1.12rem;
+          line-height: 1.12rem;
+          color :#fff
+          font-size :0.34rem
+          margin-left :0.6rem
+        }
+      }
       .container
         padding: 0
         margin: 0
         height: 100%
         overflow: hidden
+        padding-bottom: 1.12rem
         .share-arrow
           position: fixed;
           top: 10px;
@@ -512,14 +597,19 @@
         .detail_text
           width: 100%;
           background: #fff;
+          margin-top :0.4rem
           padding: 0;
           .detail_content
             padding: 0.39rem 0.32rem 0.3rem 0.27rem
             color: #1F2D3D
             font-size :0.28rem
             .title
-              margin-bottom: 0.2rem
-              font-size: 0.28rem
+              font-weight: 500;
+              margin-bottom: 10px;
+              border-bottom: 1px solid #f4f4f6;
+              padding-bottom: 8px;
+              font-size: 0.3rem;
+              color: #333;
             .el-form
               .el-form-item
                 .el-form-item__content
@@ -542,25 +632,175 @@
               font-size: 0.28rem
               color: #333
 
-        .footer
-          position: relative
-          width: 100%
-          bottom: 0
-          left: 0
-          height: 1rem
-          line-height: 1rem
-          footer
-            background: #F7F7F7
-            height: 1rem !important
-            line-height: 1rem !important
+        .job-page__header
+          position: relative;
+          padding: 20px 12px 12px;
+          background-color: #fff;
+          border-radius: 1px;
+          .job-page__header__title
             width: 100%
-            .title
+            font-size: 0.32rem;
+            font-weight: bold;
+            vertical-align: middle;
+            color: #090a0b;
+          .job-page__others
+            position: relative;
+            font-size :0.28rem
+            margin-top: 0.3rem;
+            min-height: 20px;
+            color: #5c6170;
+            .des {
+              display: inline-block
+              font-size: 0.24rem
+              color: #999
+              height :14px
+              line-height :14px
+              margin-right: 1.21rem
+              vertical-align: middle
+              position :relative
+              padding-left :0.5rem
+              .address_icon{
+                display :inline-block
+                vertical-align :top
+                position :absolute
+                width :22px
+                height :14px
+                top :-1px
+                left :-4px
+                background :url(../common/image/address.png)no-repeat center
+                background-size :50%
+              }
+            }
+            .price {
+              display: inline-block
+              font-size: 0.26rem
+              height :14px
+              line-height :14px
+              color: #999
+              vertical-align: middle
+              margin-right :1.21rem
+              position :relative
+              padding-left :0.62rem
+              .salary_icon{
+                display :inline-block
+                position :absolute
+                width :26px
+                height :14px
+                line-height :14px
+                top :-0.02rem
+                left :0
+                background :url(../common/image/salary.png)no-repeat center
+                background-size :50%
+              }
+            }
+            .kind {
+              display: inline-block
+              font-size: 0.26rem
+              color: #999
+              vertical-align: middle
+              margin-top :0
+              height :14px
+              line-height :14px
+              position :relative
+              padding-left :0.42rem
+              .kind_icon{
+                display :inline-block
+                position :absolute
+                width :15px
+                height :14px
+                top :0
+                left :0
+                background :url(../common/image/kind_icon.png)no-repeat center
+                background-size :50%
+              }
+            }
+
+        .job-page__header__link{
+          display: block;
+          background: #fff;
+          padding: 0 12px;
+          .inner{
+            padding: 18px 0;
+            border-top: 1px #f4f4f6 solid;
+            display: flex;
+            .column1{
+              .logo_border{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 56px;
+                max-width: 200px;
+                min-width: 56px;
+                margin-right: 12px;
+                border: 1px solid #dddfe3;
+                border-radius: 2px;
+                img{
+                  max-width: 100%;
+                  max-height: 100%;
+                }
+              }
+            }
+            .column2{
+              .company{
+                max-width: 160px;
+                -o-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                margin-top: 5px;
+                font-size: 15px;
+                color: #5c6170;
+              }
+              .status{
+                margin-top: 6px;
+                background-color: #fff;
+                text-align: left;
+                font-size: 13px;
+                line-height: 20px;
+                color: #9a9fac;
+                max-width :4rem
+                overflow :hidden
+                -o-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+            }
+            .column3{
+              margin: auto 0 auto auto;
+              font-size: 16px;
+              color: #bcbfc8;
+              position :relative
+              .arrow_icon{
+                display :inline-block
+                width :10px
+                height :18px
+                background :url(../common/image/Backicon.png)no-repeat center
+                background-size :50%
+                position:absolute
+                top :-5px
+                right :0
+              }
+            }
+          }
+        }
+      .footer
+            position: relative
+            width: 100%
+            bottom: 0
+            left: 0
+            height: 1rem
+            line-height: 1rem
+            footer
+              background: #F7F7F7
+              height: 1rem !important
+              line-height: 1rem !important
               width: 100%
-              height: 100%
-              text-align: center
-              color: #999999
-              font-size: 0.14rem
-              background: url(../common/image/footer_logo.png) no-repeat center
+              .title
+                width: 100%
+                height: 100%
+                text-align: center
+                color: #999999
+                font-size: 0.14rem
+                background: url(../common/image/footer_logo.png) no-repeat center
 
       .model
         position: fixed;
@@ -581,52 +821,97 @@
           z-index: 3000;
           background-size :100%
         }
-  .tips2
-    .el-dialog--small
-      width: 100%
-      height: 7.09rem
-      box-sizing: border-box
-      top: 50% !important
-      margin-top: -3.15em
-      display: none
-      .el-dialog__header
-        position: relative
-        .el-dialog__title
-          position: absolute
-          font-size: 0.28rem
-      .el-dialog__body
-        padding: 0.54rem 0 0 0
-        height: 6.37rem
-        .content
-          text-align: center
-          .img
-            display: inline-block
-            width: 3.70rem
-            height: 3.7rem
-            img
-              width: 100%
-              height: 100%
-          .des
-            margin: 0.46rem 0 0.15rem 0.35rem
-            font-size: 0.24rem
-            color: #475669
+      .mobile_footer{
+        position: fixed;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        height: 1.2rem;
+        bottom :0
+        padding-left: 20px;
+        padding-right: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 3px #bcbfc8;
+        text-align :center
+        padding-bottom :10px
+        padding-top: 7.5px;
+        .post_share{
+          .post_share_button{
+            display: inline-block;
+            vertical-align: top;
+            height: 0.9rem;
+            line-height: 0.9rem;
+            border-radius: 2px;
+            width: 46%;
+            border: 1px solid #5AA2E7 ;
+            background-color: #fff;
+            font-size :14px
+            outline :none
+          }
+          .post_button{
+            display: inline-block;
+            width: 46%;
+            margin-left: 10px;
+            vertical-align: top;
+            height: 0.9rem;
+            line-height: 0.9rem;
+            border-radius: 2px;
+            color :#fff
+            font-size :14px
+            background :#5AA2E7
+            outline :none
+            border :none
+          }
+        }
 
-        .share
-          padding: 0 0.35rem
-          .el-form-item
-            margin-bottom: 0
-            margin-right: 0
-            .el-form-item__content
-              .el-input
-                width: 5rem
-                .el-input__inner
-                  border: 1px solid #5AA2E7
-              .el-button
-                margin-left: -0.4rem
-                span
-                  font-size: 0.28rem
-                &:hover
-                  background: #46BE8A
+
+      }
+    .tips2
+      .el-dialog--small
+        width: 100%
+        height: 7.09rem
+        box-sizing: border-box
+        top: 50% !important
+        margin-top: -3.15em
+        display: none
+        .el-dialog__header
+          position: relative
+          .el-dialog__title
+            position: absolute
+            font-size: 0.28rem
+        .el-dialog__body
+          padding: 0.54rem 0 0 0
+          height: 6.37rem
+          .content
+            text-align: center
+            .img
+              display: inline-block
+              width: 3.70rem
+              height: 3.7rem
+              img
+                width: 100%
+                height: 100%
+            .des
+              margin: 0.46rem 0 0.15rem 0.35rem
+              font-size: 0.24rem
+              color: #475669
+
+          .share
+            padding: 0 0.35rem
+            .el-form-item
+              margin-bottom: 0
+              margin-right: 0
+              .el-form-item__content
+                .el-input
+                  width: 5rem
+                  .el-input__inner
+                    border: 1px solid #5AA2E7
+                .el-button
+                  margin-left: -0.4rem
+                  span
+                    font-size: 0.28rem
+                  &:hover
+                    background: #46BE8A
 
   @media (min-width: 768px) and (max-width: 992px)
     #list_detail

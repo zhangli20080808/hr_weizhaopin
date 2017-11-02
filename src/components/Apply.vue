@@ -7,6 +7,7 @@
           <el-breadcrumb-item class="tips_1">招聘首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/list',query:{ companyId: this.companyId}}" class="tips_2">职位列表
 
+
           </el-breadcrumb-item>
           <el-breadcrumb-item @click="backlist" class="tips_3">职位详情</el-breadcrumb-item>
           <el-breadcrumb-item>申请职位</el-breadcrumb-item>
@@ -18,7 +19,7 @@
           <div class="name visible-xs">申请职位</div>
           <div class="title">{{name}}</div>
           <div class="text">
-            <span class="des">{{getCity(address)}}／{{positionType === 1 ? '全职' : positionType === 2 ? '兼职' : '实习'
+            <span class="des">{{getCity(address)}}/{{positionType === 1 ? '全职' : positionType === 2 ? '兼职' : '实习'
               }}</span><span class="price">{{salaryLow}}k-{{salary}}k</span>
           </div>
           <div class="p_time">发布时间：{{filter(time)}}</div>
@@ -71,11 +72,6 @@
             </el-form-item>
           </el-form>
         </div>
-        <div class="footer">
-          <footer>
-            <div class="title"></div>
-          </footer>
-        </div>
       </div>
 
       <el-dialog
@@ -93,17 +89,14 @@
         </div>
       </el-dialog>
     </div>
-    <div class="footer hidden-xs">
-      <footer>
-        <div class="title"></div>
-      </footer>
-    </div>
+    <footerNav></footerNav>
   </div>
 </template>
 <script>
   import Util from '../common/js/util.js';
   import md5 from 'js-md5';
   import Scroll from './base/scroll.vue'
+  import footerNav from './base/foot'
 
   const ERROR_OK = 0
   export default {
@@ -279,7 +272,7 @@
         })
       },
       filter(item){
-          return item.slice(0,10)
+        return item.slice(0, 10)
       },
       backSec() {
         this.$router.push({
@@ -311,7 +304,8 @@
       this.id = this.$route.params.id
     },
     components: {
-      Scroll
+      Scroll,
+      footerNav
     }
   }
 </script>
@@ -429,13 +423,14 @@
         background: #F7F7F7
         width: 100%
       .title
-        width :100%
+        width: 100%
         height: 100px
         line-height: 100px
         color: #999999
         font-size: 28px
-        margin :0 auto
-        background :url(../common/image/footer_logo.png)no-repeat center
+        margin: 0 auto
+        background: url(../common/image/footer_logo.png) no-repeat center
+
   @media all and (max-width: 767px)
     #apply
       background: #fff
@@ -553,23 +548,6 @@
                   .el-upload-list__item
                     width: 70%
 
-          .footer
-            position :relative
-            width :100%
-            bottom: -0.46rem
-            footer
-              height: 1rem
-              background: #F7F7F7
-              width: 100%
-              line-height: 1px
-
-            .title
-              height: 1rem
-              line-height: 1rem
-              text-align: center
-              color: #999999
-              font-size: 0.14rem
-              background :url(../common/image/footer_logo.png)no-repeat center
       .tips1
         .el-dialog--small
           width: 92%

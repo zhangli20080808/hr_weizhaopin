@@ -31,17 +31,18 @@
       width :100%
       bottom: -0.46rem
       footer
-        height: 1rem
+        height: 0.64rem
         background: #F7F7F7
         width: 100%
-        line-height: 1px
+        line-height: 0.64rem
 
       .title
-        height: 1rem
-        line-height: 1rem
-        text-align: center
-        color: #999999
-        font-size: 0.14rem
-        background :url(../../common/image/footer_logo.png)no-repeat center
+        height: 0.64rem!important
+        line-height: 0.64rem!important
+        text-align: center!important
+        color: #999999!important
+        font-size: 0.14rem!important
+        background :url(../../common/image/footLogo.png)no-repeat center!important
+        background-size :100%!important
 
 </style>

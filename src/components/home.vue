@@ -1,7 +1,6 @@
 <template>
-  <div class="home" v-cloak="" v-show="homeData">
+  <div class="home" v-cloak="" v-if="homeData">
     <!--导航-->
-
     <!--轮播-->
     <div class="main_ad" v-show="homeData.img_list_1">
       <div class="carousel-inner1">
@@ -11,21 +10,26 @@
           <div class="item_text">
             <div class="title">{{homeData.form.title}}
 
+
             </div>
             <div class="des">{{homeData.form.subTitle}}</div>
+            <div class="search-1BHuC hidden-sm hidden-lg">
+              <div class="container-28cVH">
+                <input type="text" class="input-1WRwm" placeholder="搜索职位关键字" v-model="search" @keyup.enter="goSearch">
+                <span class="_1SIiK _13ysA button-1UN4f custom-icon-background-color" @click="goSearch"></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <!--公司简介-->
-    <div class="s_company">
+    <div class="s_company hidden-xs">
       <img class="c_img" v-show="homeData.bigLogo" :src="homeData.bigLogo">
       <div class="text">{{homeData.form.company_name}}</div>
       <p class="text1">{{homeData.form.company_p}}</p>
       <p class="text2">{{homeData.form.company_address}}</p>
       <div class="line"></div>
-
-
       <ul class="icon_list clearfix">
         <li>
           <div class="grid-content bg-purple">
@@ -44,16 +48,41 @@
           </div>
         </li>
       </ul>
-
     </div>
+    <!--公司简介-->
+    <div class="m_s_company visible-xs">
+      <img :src="homeData.bigLogo" class="item-logo" alt="">
+      <div class="item-desc">
+        <h2 class="item-title">{{homeData.form.company_name}}</h2>
+        <p class="item-info">
+          <span class="item-pos">
+            {{homeData.form.company_p}}
+          </span></p>
+        <p class="item-time">{{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}}/{{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}/{{homeData.website}}</p>
+      </div>
+    </div>
+    <!--公司介绍-->
+    <div class="intro_c" id="2F" v-if="homeData.content">
+      <div class="title" v-if="homeData.customName2">
+        <div class="text">{{homeData.customName2}}
 
+          <span class="line hidden-xs"></span>
+        </div>
+      </div>
+
+      <div class="intro_c_con container">
+        <!--<div class="img"></div>-->
+        <div class="intro_text" v-html="homeData.content">
+        </div>
+      </div>
+    </div>
     <!--招聘职位-->
-    <div id="1F" class="s_recruit" v-show="homeData.wzpPositionList">
+    <div id="1F" class="s_recruit hidden-xs" v-show="homeData.wzpPositionList">
       <div class="container">
         <div class="title">
           <div class="text" v-if="homeData.customName1">{{homeData.customName1}}
 
-            <span class="line"></span>
+            <span class="line hidden-xs"></span>
           </div>
         </div>
         <el-row :gutter="20" class="list_content">
@@ -70,21 +99,30 @@
         </el-row>
       </div>
     </div>
+    <!--m招聘职位-->
+    <div class="job-list visible-xs" v-show="homeData.wzpPositionList">
+      <div class="head">
+        <div class="title">{{homeData.customName1}}
 
-    <!--公司介绍-->
-    <div class="intro_c" id="2F" v-if="homeData.content">
-      <div class="title" v-if="homeData.customName2">
-        <div class="text">{{homeData.customName2}}
-
-          <span class="line"></span>
         </div>
       </div>
-
-      <div class="intro_c_con container">
-        <!--<div class="img"></div>-->
-        <div class="intro_text" v-html="homeData.content">
-        </div>
-      </div>
+      <ul>
+        <li class="aggregation" v-for="item in homeData.wzpPositionList">
+          <div class="column" @click="SelectTo(item)">
+            <div class="column1">
+              <div class="aggregation-icon"></div>
+            </div>
+            <div class="column2">
+              <div class="primary">{{item.name}}</div>
+              <div class="summary"><span
+                class="custom-text-theme-color">{{item.recruitmentNum}}</span><span>个职位正在招聘</span></div>
+            </div>
+            <!--<div class="column3">-->
+            <!--<span class="_1SIiK VrnQG"></span>-->
+            <!--</div>-->
+          </div>
+        </li>
+      </ul>
     </div>
     <footerNav></footerNav>
   </div>
@@ -94,6 +132,7 @@
   export default {
     data() {
       return {
+        search:'',
         options: [{
           value: 1,
           label: '0-50'
@@ -145,7 +184,7 @@
           pageNum: 1,
           totalCount: 1
         },
-        posId:0
+        posId: 0
       }
     },
     props: {
@@ -155,8 +194,16 @@
     },
     methods: {
       goSearch() {
-        this.searchDetail()
-
+        localStorage.setItem('search',this.search)
+        this.$router.push({
+          path: `/list`,
+          name: 'List',
+          params: {
+          },
+          query: {
+            companyId: this.companyId,
+          }
+        })
       },
       //获取url参数
       urlParse() {
@@ -179,45 +226,57 @@
       },
       SelectTo(item) {
         this.categoryId = item.categoryId
-        localStorage.setItem('posId',this.categoryId)
-        this.selectSearch(this.categoryId)
-      },
-      selectSearch(item) {
-        var _this = this;
-        var method = "promotionPage/positionList";
-        var param = JSON.stringify({
-          pageNum: _this.config.pageNum,
-          pageSize: _this.config.pageSize,
-          companyId: _this.companyId,
-          categoryId: item,
-          workCity: ''
-        });
-
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            _this.list = res.data.data.positionList
-            _this.$router.push({
-              path: `/list`,
-              name: 'List',
-              params: {
-                list: _this.list,
-                config: _this.config
-              },
-              query: {
-                companyId: _this.companyId,
-              }
-            })
+        localStorage.setItem('posId', this.categoryId)
+//        this.selectSearch(this.categoryId)
+        this.$router.push({
+          path: `/list`,
+          name: 'List',
+          params: {
+          },
+          query: {
+            companyId: this.companyId,
           }
-        }
-        _this.$http(method, param, successd);
+        })
       },
+//      selectSearch(item) {
+//        var _this = this;
+//        var method = "promotionPage/positionList";
+//        var param = JSON.stringify({
+//          pageNum: _this.config.pageNum,
+//          pageSize: _this.config.pageSize,
+//          companyId: _this.companyId,
+//          categoryId: item,
+//          workCity: ''
+//        });
+//
+//        var successd = function (res) {
+//          if (res.data.code == 0) {
+//            _this.list = res.data.data.positionList
+//            _this.$router.push({
+//              path: `/list`,
+//              name: 'List',
+//              params: {
+//                list: _this.list,
+//                config: _this.config
+//              },
+//              query: {
+//                companyId: _this.companyId,
+//              }
+//            })
+//          }
+//        }
+//        _this.$http(method, param, successd);
+//      },
+    },
+    created(){
+      localStorage.setItem('companyId', this.companyId)
     },
     computed: {
       bgStyle() {
         return `background-image:url(${this.homeData.img_list_1})`
       }
     },
-    components:{
+    components: {
       footerNav
     }
   }
@@ -226,7 +285,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus">
   .home {
-    background: #fff
     .main_ad {
       .carousel-inner1 {
         .item {
@@ -348,6 +406,7 @@
     .s_recruit {
       padding-top: 50px
       padding-bottom: 20px
+      background :#fff
       .line {
         width: 100%
         height: 1px
@@ -385,7 +444,7 @@
           margin-bottom: 30px
           border: 1px solid #5AA2E7
           display: flex
-          cursor :pointer
+          cursor: pointer
           &:nth-child(3n) {
             margin-right: 10px
           }
@@ -418,6 +477,8 @@
 
     .intro_c {
       padding-bottom: 60px;
+      padding-top :60px
+      background :#fff
       .title {
         color: #1F2D3D
         font-size: 20px
@@ -480,12 +541,12 @@
   @media all and (max-width: 767px) {
     .home {
       .main_ad {
-        height 2.74rem
+        heigh: 4.72rem
         .carousel-inner1 {
           .item {
             background: url(../common/image/banner.png) no-repeat
             width: 100%
-            height 2.74rem
+            height: 4.72rem
             background-position: center center
             background-size: cover
             position: relative
@@ -496,21 +557,102 @@
             .item_text {
               position: absolute
               width: 100%
-              height: 2rem
+              height: 134px
               top: 50%
               left: 50%
               margin-left: -50%
+              margin-top: -67px
               color: #fff
               text-align: center
-              margin-top: -1rem
-
+              font-size: 0.28rem
               .title {
-                font-size: 0.6rem
-                margin-bottom: 0.44rem
-                margin-top: 0.4rem
+                margin: 0 auto;
+                width: 66.66%;
+                line-height: 24px;
+                font-size: 24px;
+                top: 32.84%;
+                font-weight: bold;
+                word-break: break-word;
+                text-align: center;
+                color: #fff;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
               }
               .des {
-                font-size: 0.24rem
+                margin: 4.379% auto 0;
+                width: 70%;
+                font-size: 14px;
+                line-height: 14px;
+                word-break: break-word;
+                color: #fff;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+              }
+              .search-1BHuC {
+                margin: 0.16rem auto;
+                margin-top: 0.46rem
+                width: 80%;
+                pointer-events: auto;
+              }
+              .container-28cVH {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: box;
+                display: flex;
+                -webkit-box-align: start;
+                -moz-box-align: start;
+                -o-box-align: start;
+                -ms-flex-align: start;
+                -webkit-align-items: flex-start;
+                align-items: flex-start;
+                -webkit-box-pack: distribute;
+                -moz-box-pack: distribute;
+                -o-box-pack: distribute;
+                -ms-flex-pack: distribute;
+                -webkit-justify-content: space-around;
+                justify-content: space-around;
+                -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+                border-radius: 2px;
+                background-color: #fff;
+                .input-1WRwm {
+                  border: 0;
+                  height: 40px;
+                  width: 100%;
+                  padding-left: 0.25rem;
+                  line-height: 20px;
+                  outline: none
+                  color: #333;
+                  &:placeholder {
+                    font-size: 0.28rem;
+                    color: #bcbfc8;
+                  }
+                }
+                ._13ysA {
+                  speak: none;
+                  font-style: normal;
+                  font-weight: normal;
+                  font-variant: normal;
+                  text-transform: none;
+                  line-height: 1;
+                  -webkit-font-smoothing: antialiased;
+                }
+                .button-1UN4f {
+                  height: 40px;
+                  width: 40px;
+                  min-width: 40px;
+                  display: block;
+                  margin: 0;
+                  font-size: 20px;
+                  text-align: center;
+                  line-height: 40px !important;
+                  border-top-left-radius: 0;
+                  border-bottom-left-radius: 0;
+                }
+                .custom-icon-background-color {
+                  background: url(../common/image/search.png) no-repeat center
+                  color: rgba(249, 249, 250, 1);
+                }
               }
             }
           }
@@ -520,7 +662,8 @@
         width: 100%
         text-align: center
         background: #F7F7F7
-        padding-top: 0.3rem
+        margin-top: 0.4rem
+        padding-top: 0
         .c_img {
           width: 1.8rem
           height: 1.8rem
@@ -588,19 +731,60 @@
           }
         }
       }
-      .s_recruit {
-        padding-top: 0.77rem
-        padding-bottom: 0.06rem
+      .m_s_company {
+        padding: 0.28rem
         background: #fff
-        .line {
-          width: 100%
-          height: 1px
-          background: #e0e6ed
+        margin-top: 0.40rem
+        margin-bottom: 0.40rem
+        .item-logo {
+          display: inline-block;
+          float: left;
+          width: 1.07rem;
+          height: 1.07rem;
         }
+        .item-desc {
+          margin-left: 70px;
+          height: 1.07rem;
+          .item-title {
+            font-size: 0.32rem;
+            margin-bottom: 0.12rem;
+            width: 80%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .item-info {
+            margin-bottom: 0.12rem;
+            width: 100%;
+            height: 0.3rem;
+            line-height: 0.3rem;
+            .item-pos {
+              font-size: 0.24rem;
+              float: left;
+              width: 60%;
+              display: inline-block;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              color: #999
+            }
+          }
+          .item-time {
+            font-size: 0.24rem;
+            color: #999
+          }
+        }
+      }
+      .intro_c {
+        padding: 0.32rem 0.24rem;
+        border-radius: 0.02rem;
+        background: #fff;
+        margin-bottom :0.4rem
         .title {
-          color: #1F2D3D
-          font-size: 0.30rem
-          text-align: center
+          color: #090a0b
+          font-size: 0.32rem
+          text-align: left
+          margin-bottom: 0.16rem;
           .text {
             position: relative
             width: 100%
@@ -608,7 +792,80 @@
             line-height: 0.6rem
             display: inline-block
             margin: 0 auto
-            font-size: 0.30rem
+            font-size: 0.32rem
+            font-weight: bold;
+            .line {
+              position: absolute
+              bottom: -0.2rem
+              width: 10%
+              left: 50%
+              display: block
+              height: 0.04rem
+              background: #5AA2E7
+              margin-left: -5%
+            }
+          }
+
+        }
+        .intro_c_con {
+          width: 100%;
+          padding: 0
+          margin-top: 0
+          border: none
+          .intro {
+          }
+          .img {
+            width: 100%
+            height: 212px
+            background: url(../common/image/intro.png) no-repeat center
+            background-size: cover
+          }
+          .intro_text {
+            font-size: 0.28rem
+            color: #475669
+            p {
+              img {
+                max-width: 100% !important
+              }
+            }
+            p {
+              margin-top: 0;
+              font-size: 0.26rem;
+              color: #5c6170;
+              line-height: 2;
+            }
+            p:nth-child(1) {
+              text-indent: 0
+            }
+          }
+        }
+
+      }
+
+      .s_recruit {
+        margin-top: 0.40rem
+        padding-top: 0.32rem;
+        border-radius: 1px;
+        background: #fff;
+        .line {
+          width: 100%
+          height: 1px
+          background: #e0e6ed
+        }
+        .title {
+          color: #090a0b
+          font-size: 0.32rem
+          text-align: left
+          margin-bottom: 0.16rem;
+          .text {
+            position: relative
+            width: 100%
+            height: 0.6rem
+            line-height: 0.6rem
+            display: inline-block
+            margin: 0 auto
+            font-size: 0.32rem
+            font-weight: bold;
             .line {
               position: absolute
               bottom: -0.2rem
@@ -661,66 +918,104 @@
         }
       }
 
-      .intro_c {
-        padding: 0 0.3rem 0.18rem
-        .title {
-          color: #1F2D3D
-          font-size: 0.3rem
-          text-align: center
-          padding: 0.3rem
-          .text {
-            position: relative
-            width: 100%
-            height: 0.6rem
-            line-height: 0.6rem
-            display: inline-block
-            margin: 0 auto
-            font-size: 0.3rem
-            .line {
-              position: absolute
-              bottom: -0.2rem
-              width: 10%
-              left: 50%
-              display: block
-              height: 0.04rem
-              background: #5AA2E7
-              margin-left: -5%
-            }
+      .job-list {
+        padding: 0.32rem 0.24rem;
+        border-radius: 0.02rem;
+        background: #fff;
+        .head {
+          display: -webkit-box;
+          display: -moz-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: box;
+          display: flex;
+          line-height: 16px;
+          padding-bottom: 11px;
+          border-bottom: 1px #f4f4f6 solid;
+          .title {
+            margin-right: auto;
+            font-size: 0.32rem;
+            font-weight: bold;
+            color: #090a0b;
           }
-
         }
-        .intro_c_con {
-          width: 100%;
-          padding: 0.14rem 0.14rem 0.37rem 0.1rem
-          margin-top: 0.45rem
-          border: 1px solid #E0E6ED
-          .intro {
-          }
-          .img {
-            width: 100%
-            height: 212px
-            background: url(../common/image/intro.png) no-repeat center
-            background-size: cover
-          }
-          .intro_text {
-            font-size: 14px
-            color: #475669
-            p {
-              img {
-                width: 100% !important
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          li {
+            height: 72px;
+            margin-top: 16px;
+            background-color: #fff;
+            border: 1px solid #f4f4f6;
+            -webkit-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.15);
+            box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.15);
+            border-radius: 2px;
+            display: block;
+            .column {
+              height: 100%;
+              width: 100%;
+              display: flex;
+              padding: 16px 13px;
+              display: -webkit-box;
+              display: -moz-box;
+              display: -webkit-flex;
+              display: -ms-flexbox;
+              display: box;
+              .column1 {
+                width: 1.04rem;
+                height: 0.8rem;
+                border-radius: 0.04rem;
+                margin-right: 0.16rem;
+                .aggregation-icon {
+                  position: relative;
+                  height: 0.8rem;
+                  width: 1.04rem;
+                  border-radius: 0.04rem;
+                  text-align: center;
+                  line-height: 0.8rem !important;
+                  color: #fff;
+                  font-size: 0.4rem
+                  background: url(../common/image/lsit_icon.png) no-repeat center
+                  background-size: cover
+                }
+              }
+              .column2 {
+                padding-top: 0.08rem
+                .primary {
+                  font-size: 0.30rem;
+                  color: #5c6170;
+                  letter-spacing: 0;
+                  font-weight: bold;
+                  margin-bottom: 0.1rem;
+                }
+                .summary {
+                  font-size: 0.26rem;
+                  color: #00002e;
+                  letter-spacing: 0;
+                  line-height: 20px;
+                  .custom-text-theme-color {
+                    color: #5AA2E7
+                    font-size: 0.30rem
+                  }
+                }
+              }
+              .column3 {
+                color: #bcbfc8;
+                margin-left: auto;
+                line-height: 40px;
+                ._1SIiK {
+                  display: block
+                  background: url(../common/image/Backicon.png) no-repeat center
+                  background-size: cover
+                  width: 10px
+                  height: 18px
+                  float: left
+                }
               }
             }
-            p {
-              line-height: 2
-              text-indent: 30px
-            }
-            p:nth-child(1) {
-              margin-top: 0.16rem
-            }
-
           }
         }
-
       }
 
     }
