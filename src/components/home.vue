@@ -11,6 +11,7 @@
             <div class="title" v-show="homeData.form.title">{{homeData.form.title}}
 
 
+
             </div>
             <div class="des" v-show="homeData.form.subTitle">{{homeData.form.subTitle}}</div>
             <div class="search-1BHuC hidden-sm hidden-lg">
@@ -50,15 +51,16 @@
       </ul>
     </div>
     <!--公司简介-->
-    <div class="m_s_company visible-xs">
+    <div class="m_s_company visible-xs" v-show="homeData">
       <img :src="homeData.bigLogo" class="item-logo" alt="">
       <div class="item-desc">
+        <div class="care">关注</div>
         <h2 class="item-title">{{homeData.form.company_name}}</h2>
         <p class="item-info">
           <span class="item-pos">
             {{homeData.form.company_p}}
           </span></p>
-        <p class="item-time">{{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}}/{{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}/{{homeData.website}}</p>
+        <p class="item-time">{{homeData.website}} | {{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}} | {{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</p>
       </div>
     </div>
     <!--公司介绍-->
@@ -102,8 +104,10 @@
     <!--m招聘职位-->
     <div class="job-list visible-xs" v-show="homeData.wzpPositionList">
       <div class="head">
-        <div class="title">{{homeData.customName1}}
-
+        <div class="title">{{homeData.customName1}}</div>
+        <div class="allR">
+          <span @click="toList">查看全部职位</span>
+          <span class="icon"></span>
         </div>
       </div>
       <ul>
@@ -132,7 +136,7 @@
   export default {
     data() {
       return {
-        search:'',
+        search: '',
         options: [{
           value: 1,
           label: '0-50'
@@ -194,11 +198,11 @@
     },
     methods: {
       goSearch() {
-        localStorage.setItem('search',this.search)
         this.$router.push({
           path: `/list`,
           name: 'List',
           params: {
+            search: this.search
           },
           query: {
             companyId: this.companyId,
@@ -226,26 +230,35 @@
       },
       SelectTo(item) {
         this.categoryId = item.categoryId
+        localStorage.clear()
         localStorage.setItem('posId', this.categoryId)
 //        this.selectSearch(this.categoryId)
         this.$router.push({
           path: `/list`,
           name: 'List',
-          params: {
-          },
+          params: {},
           query: {
             companyId: this.companyId,
           }
         })
       },
-//      selectSearch(item) {
+      toList(){
+        this.$router.push({
+          path: '/list',
+          name: 'List',
+          query: {
+            companyId: this.companyId,
+          }
+        })
+      }
+//      selectSearch() {
 //        var _this = this;
 //        var method = "promotionPage/positionList";
 //        var param = JSON.stringify({
 //          pageNum: _this.config.pageNum,
 //          pageSize: _this.config.pageSize,
 //          companyId: _this.companyId,
-//          categoryId: item,
+//          categoryId: '',
 //          workCity: ''
 //        });
 //
@@ -257,7 +270,6 @@
 //              name: 'List',
 //              params: {
 //                list: _this.list,
-//                config: _this.config
 //              },
 //              query: {
 //                companyId: _this.companyId,
@@ -285,6 +297,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus">
   .home {
+    [v-cloak] {
+      display: none;
+    }
     .main_ad {
       .carousel-inner1 {
         .item {
@@ -406,7 +421,7 @@
     .s_recruit {
       padding-top: 50px
       padding-bottom: 20px
-      background :#fff
+      background: #fff
       .line {
         width: 100%
         height: 1px
@@ -477,8 +492,8 @@
 
     .intro_c {
       padding-bottom: 60px;
-      padding-top :60px
-      background :#fff
+      padding-top: 60px
+      background: #fff
       .title {
         color: #1F2D3D
         font-size: 20px
@@ -520,7 +535,7 @@
           font-size: 16px
           color: #475669
           p {
-            line-height :18px
+            line-height: 18px
             img {
               max-width: 100%
               display: block
@@ -534,6 +549,9 @@
 
   @media all and (max-width: 767px) {
     .home {
+      [v-cloak] {
+        display: none;
+      }
       .main_ad {
         heigh: 4.72rem
         .carousel-inner1 {
@@ -648,7 +666,7 @@
                 .custom-icon-background-color {
                   background: url(../common/image/search.png) no-repeat center
                   color: rgba(249, 249, 250, 1);
-                  background-size :cover
+                  background-size: cover
 
                 }
               }
@@ -743,6 +761,19 @@
         .item-desc {
           margin-left: 70px;
           height: 1.07rem;
+          position :relative
+          .care{
+            display :inline-block
+            font-size :0.26rem
+            color:#9a9fac
+            position :absolute
+            right :8px
+            top :0
+            border :1px solid #999
+            padding :5px
+            border-radius :4px
+            margin-top: 0.25rem;
+          }
           .item-title {
             font-size: 0.32rem;
             margin-bottom: 0.12rem;
@@ -777,7 +808,7 @@
         padding: 0.32rem 0.24rem;
         border-radius: 0.02rem;
         background: #fff;
-        margin-bottom :0.4rem
+        margin-bottom: 0.4rem
         .title {
           color: #090a0b
           font-size: 0.32rem
@@ -934,6 +965,18 @@
             font-size: 0.32rem;
             font-weight: bold;
             color: #090a0b;
+          }
+          .allR {
+            font-size: 0.26rem
+            color: #9a9fac
+            .icon {
+              display: inline-block
+              background: url(../common/image/Backicon.png) no-repeat center
+              width: 10px
+              height: 15px
+              background-size: 50%
+              vertical-align: top
+            }
           }
         }
         ul {

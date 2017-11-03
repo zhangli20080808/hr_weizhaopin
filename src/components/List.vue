@@ -15,6 +15,9 @@
 
 
 
+
+
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
@@ -98,32 +101,29 @@
           </div>
         </div>
       </div>
+      <!--<group>-->
+      <!--&lt;!&ndash;<cell :title="$t('Total')" :value="$t('$1024')"></cell>&ndash;&gt;-->
+      <!--<cell-form-preview :list="list"></cell-form-preview>-->
+      <!--</group>-->
 
-      <Scroll class="list"
-              :data="list"
-              :pullup="pullup"
-              :beforeScroll="beforeScroll"
-              :pulldown="pulldown"
-              @pulldown="loadData"
-              @scrollToEnd="searchMore"
-              v-loading="!list"
-      >
-        <div>
-          <!--<ul class="job-list__list">-->
-          <!--<li class="" v-for="item in list">-->
-          <!--<a class="job-list-item" @click="selectItem(item)">-->
-          <!--<div class="title">{{item.positionName}}</div>-->
-          <!--<div class="details">-->
-          <!--<span class="misc">-->
-          <!--<span class="secondary">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>-->
-          <!--<span class="secondary">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>-->
-          <!--<span class="secondary">发布时间：{{filter(item.posiPublishTime)}}</span>-->
-          <!--</span>-->
-          <!--</div>-->
-          <!--</a>-->
-          <!--</li>-->
-          <!--</ul>-->
-        </div>
+      <Scroller class="list" :list="list" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
+                :scroll-bottom-offst="200">
+        <!--<div>-->
+        <!--<ul class="job-list__list">-->
+        <!--<li class="" v-for="item in list">-->
+        <!--<a class="job-list-item" @click="selectItem(item)">-->
+        <!--<div class="title">{{item.positionName}}</div>-->
+        <!--<div class="details">-->
+        <!--<span class="misc">-->
+        <!--<span class="secondary">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>-->
+        <!--<span class="secondary">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>-->
+        <!--<span class="secondary">发布时间：{{filter(item.posiPublishTime)}}</span>-->
+        <!--</span>-->
+        <!--</div>-->
+        <!--</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
         <!--list-->
         <div class="list_content" v-show="list.length">
           <el-row :gutter="20" class="">
@@ -156,12 +156,12 @@
             </el-pagination>
           </div>
         </div>
-
-      </Scroll>
-      <!--loading-->
-      <div class="loading-container" v-show="!list.length">
-        <loading></loading>
-      </div>
+        <!--<load-more tip="loading"></load-more>-->
+      </Scroller>
+      <!--&lt;!&ndash;loading&ndash;&gt;-->
+      <!--<div class="loading-container" v-show="!list.length">-->
+      <!--<loading></loading>-->
+      <!--</div>-->
     </div>
     <div class="footer hidden-xs">
       <footer>
@@ -174,14 +174,17 @@
 
 
 <script>
-  import Scroll from './base/scroll.vue'
   import allcity from '../common/js/allcity'
   import loading from './base/loading/loading.vue'
+  import {Scroller, Divider, Spinner, XButton, Group, Cell, LoadMore} from 'vux'
+
   export default {
     data() {
       return {
-        pullup: true,
-        pulldown: true,
+        showList1: true,
+        scrollTop: 0,
+        onFetching: false,
+        bottomCount: 20,
         beforeScroll: true,
         logoUrl: '',
         form: {
@@ -190,7 +193,7 @@
         },
         item: [],
         config: {
-          pageSize: 6,
+          pageSize: 9,
           pageNum: 1,
           totalCount: 1
         },
@@ -278,7 +281,6 @@
           categoryId: _this.form.kind,
           workCity: ''
         });
-        console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.list = res.data.data.positionList
@@ -340,40 +342,22 @@
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.list = res.data.data.positionList
-            _this.config.totalCount = res.data.data.count
-            _this.config.pageNum = res.data.data.param.pageNum
-            _this.config.pageSize = res.data.data.param.pageSize
+            console.log(typeof (_this.list))
+            _this._checkMore(res.data.data.positionList)
           }
         }
         _this.$http(method, param, successd);
       },
-      //posId
-      loadCategory(item){
-        this.config.pageNum = 1
-        this.hasMore = true
-        var _this = this;
-        var method = "promotionPage/positionList";
-        var param = JSON.stringify({
-          pageNum: _this.config.pageNum,
-          pageSize: _this.config.pageSize,
-          companyId: _this.companyId,
-          categoryId: item,
-          workCity: ''
-        });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            console.log(res.data)
-            _this.list = _this.list.concat(res.data.data.positionList)
-          }
-        }
-        _this.$http(method, param, successd);
-      },
+
       _checkMore(data){
+        if (!data.length) {
+          this.hasMore = false
+        }
       },
       //职位分类
       getPositionCategoryList() {
         var _this = this;
-        var method = "recruitPosition/getPositionCategoryList";
+        var method = "miniRecruit/getWzpIndexInfo";
         var param = JSON.stringify({
           companyId: this.companyId,
           type: 2
@@ -382,7 +366,7 @@
 
         var successd = function (res) {
           if (res.data.code == 0) {
-            _this.selectK = res.data.data
+            _this.selectK = res.data.data.recruitmentCountList.result
           }
         }
         _this.$http(method, param, successd);
@@ -429,10 +413,6 @@
         this.positionList()
       },
       searchMore(){
-        if (!this.hasMore) {
-          return
-        }
-        console.log('已经到底部了，可以加载数据了')
         this.config.pageNum++
         var _this = this;
         var method = "promotionPage/positionList";
@@ -446,68 +426,73 @@
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.list = _this.list.concat(res.data.data.positionList)
-            _this.config.totalCount = res.data.data.count
-            _this.config.pageNum = res.data.data.param.pageNum
-            _this.config.pageSize = res.data.data.param.pageSize
-          }
-        }
-        _this.$http(method, param, successd);
-      },
-      loadData(){
-        var _this = this;
-        var method = "promotionPage/positionList";
-        var param = JSON.stringify({
-          pageNum: _this.config.pageNum,
-          pageSize: _this.config.pageSize,
-          companyId: _this.companyId,
-          categoryId: '',
-          workCity: ''
-        });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            console.log(res.data.data)
-            _this.list = res.data.data.positionList
           }
         }
         _this.$http(method, param, successd);
       },
       back() {
-        this.$router.back()
-      }
+        this.$router.push({
+          path: '/',
+          name: 'home',
+          query: {
+            companyId: this.companyId,
+          }
+        })
+      },
+      onScrollBottom () {
+        if (this.onFetching) {
+          // do nothing
+          if (this.form.address = '' && this.form.kind) {
+            this.selectOne2()
+          }
+        } else {
+          this.onFetching = true
+          setTimeout(() => {
+            this.bottomCount += 10
+            this.$nextTick(() => {
+              this.$refs.scrollerBottom.reset()
+            })
+            this.onFetching = false
+          }, 2000)
+        }
+      },
+      onScroll (pos) {
+        this.scrollTop = pos.top
+      },
     },
 
     mounted() {
-
+      this.$nextTick(() => {
+        this.$refs.scrollerBottom.reset({top: 0})
+      })
       console.log(this.$route)
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId
       }
-      this.transitionCityLists()
-      this.getPositionCategoryList()
-      if (this.$route.params.searchList) {
-        this.list = this.$route.params.searchList
-        this.config.pageNum = this.$route.params.searchPage.pageNum
-        this.config.pageSize = this.$route.params.searchPage.pageSize
-        this.config.totalCount = this.$route.params.searchPage.totalCount
-        return
-      }
-
-      let posId = localStorage.getItem('posId')
-      this.form.kind = Number(posId)
-      if (this.form.kind) {
-        this.selectSearch()
-      }
-      let search = localStorage.getItem('search')
-      this.Search = search
-      if (this.search) {
+      if (this.$route.params.search) {
+        this.Search = this.$route.params.search
         this.goSearch()
       }
-
-
+      let posId = localStorage.getItem('posId')
+      this.form.kind = Number(posId)
+      if (this.form.kind == 0) {
+        this.form.kind = ''
+        this.selectSearch()
+      } else if (this.form.kind == '' && this.form.address == '') {
+        this.positionList()
+      }
+      this.transitionCityLists()
+      this.getPositionCategoryList()
     },
     components: {
-      Scroll,
-      loading
+      loading,
+      Scroller,
+      Divider,
+      Spinner,
+      XButton,
+      Group,
+      Cell,
+      LoadMore
     }
   }
 </script>
@@ -667,7 +652,7 @@
           width: 100%
           height: 100px
           line-height: 100px
-          color: #5c6170999
+          color: #5c6170 999
           font-size: 28px
           margin: 0 auto
           background: url(../common/image/footer_logo.png) no-repeat center
@@ -681,11 +666,7 @@
       background: #fff
       height: 100%
       width: 100%
-      position: fixed
-      top: 0
-      bottom: 0
-      left: 0
-      right: 0
+      position: relative
       padding-bottom: 0.1rem
       .container {
         padding: 0
@@ -868,7 +849,7 @@
                 height: 1rem
                 line-height: 1rem
                 text-align: center
-                color: #5c6170999
+                color: #5c6170 999
                 font-size: 0.14rem
                 background: url(../common/image/footer_logo.png) no-repeat center
               }

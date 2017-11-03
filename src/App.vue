@@ -204,7 +204,9 @@
       }
     },
     created(){
-      this._getIndexInfo()
+      this.$nextTick(()=>{
+        this._getIndexInfo()
+      })
     }
   }
 </script>

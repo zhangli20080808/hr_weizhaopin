@@ -1,7 +1,7 @@
 <template>
-  <div class="footer">
+  <div class="footer" v-cloak>
     <footer>
-      <div class="title"></div>
+      <a href="https://aijuhr.com"><div class="title"></div></a>
     </footer>
   </div>
 </template>
@@ -29,7 +29,7 @@
     .footer
       position :relative
       width :100%
-      bottom: -0.2rem
+      bottom: 0
       footer
         height: 0.64rem
         background: #F7F7F7

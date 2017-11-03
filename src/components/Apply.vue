@@ -1,6 +1,10 @@
 <template>
   <div id="apply">
-
+    <!--back-->
+    <div class="back hidden-sm hidden-lg">
+      <i class="icon" @click="back"></i>
+      <h2 class="title">推荐简历</h2>
+    </div>
     <div class="container">
       <div class="detail_des hidden-xs hidden-sm">
         <el-breadcrumb separator="/" class="tips">
@@ -14,7 +18,7 @@
         </el-breadcrumb>
       </div>
 
-      <div class="detail_show">
+      <div class="detail_show hidden-xs">
         <div class="content">
           <div class="name visible-xs">申请职位</div>
           <div class="title">{{name}}</div>
@@ -24,6 +28,9 @@
           </div>
           <div class="p_time">发布时间：{{filter(time)}}</div>
         </div>
+      </div>
+      <div class="apply_name visible-xs">
+        申请职位
       </div>
       <div class="apply_post">
         <div class="apply_content">
@@ -40,6 +47,7 @@
                 :on-success="successed"
               >
                 <el-button size="small" type="primary">点击上传</el-button>
+                <div class="tips hidden-sm hidden-lg">仅限于安卓手机</div>
                 <div slot="tip" class="el-upload__tip">支持PDF、HTML、Word等简历格式</div>
               </el-upload>
             </el-form-item>
@@ -291,11 +299,13 @@
           },
           query: {companyId: this.companyId}
         })
+      },
+      back() {
+        this.$router.back()
       }
     },
     created(){
       if (!this.$route.params.item.positionName) {
-        console.log('gsg')
         this.$router.push({
           path: `/list`
         })
@@ -415,6 +425,12 @@
                 .el-upload-list__item
                   .el-icon-close
                     display: block
+                .tips{
+                  display :inline-block
+                  color: red
+                  font-size: 0.26rem
+                  margin-left :0.1rem
+                }
 
     .footer
       footer
@@ -439,6 +455,39 @@
       top: 0
       right: 0
       left: 0
+      .back{
+        position: fixed;
+        left: 0;
+        top :0;
+        right: 0;
+        z-index: 1;
+        height: 1.12rem;
+        padding-left: 20px;
+        padding-right: 20px;
+        background-color: #64b5f6;
+        color: rgba(9, 10, 11, 1);
+        .icon{
+          display: inline-block
+          width :39px
+          height :34px
+          position :absolute
+          left :0.2rem
+          top :0.18rem
+          background :url(../common/image/back.png)no-repeat center
+          background-size :50%
+        }
+        .title{
+          width :100%
+          height: 1.12rem;
+          line-height: 1.12rem;
+          color :#fff
+          font-size :0.34rem
+          margin-left :0.6rem
+        }
+      }
+      .footer
+        footer
+          height :0
       .app_content
         position: fixed
         top: 0
@@ -500,6 +549,11 @@
               font-size: 0.24rem
               color: #99A9BF
               margin-top: 0.5rem
+        .apply_name{
+          padding: 0.46rem
+          font-size: 0.36rem
+          color: #475669
+        }
         .apply_post
           padding: 0.48rem 0 0.24rem 0
           height: 100%

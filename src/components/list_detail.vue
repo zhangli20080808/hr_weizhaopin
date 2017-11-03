@@ -113,8 +113,8 @@
 
     <div class="mobile_footer visible-xs">
       <div class="post_share">
-        <button  @click="share" class="post_share_button">我要分享</button>
-        <button type="primary" @click="join" class="post_button">我要投递</button>
+        <button  @click="share" class="post_share_button">分享职位</button>
+        <button type="primary" @click="join" class="post_button">我要应聘</button>
       </div>
     </div>
     <div v-transfer-dom>
@@ -300,7 +300,13 @@
         this.arrow_tip = false
       },
       back() {
-        this.$router.back()
+        this.$router.push({
+          path: '/list',
+          name: 'List',
+          query: {
+            companyId: this.companyId,
+          }
+        })
       }
     },
     components: {
@@ -810,18 +816,18 @@
         top: 0;
         width: 100%;
         height: 100%;
-        opacity: .5;
-        background: #000;
+        opacity :0.9
+        background: #333;
         z-index: 2000
         .share-arrow{
           position: fixed;
-          width: 2rem;
-          right: 0.8rem;
+          width: 100%;
+          right: 0;
           top: 0;
-          height: 2rem;
-          background: url(../common/image/arrow.png)no-repeat center
+          height: 4rem;
+          background: url(../common/image/tips.png)no-repeat center
           z-index: 3000;
-          background-size :100%
+          background-size :80%
         }
       .mobile_footer{
         position: fixed;
