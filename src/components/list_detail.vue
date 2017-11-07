@@ -266,7 +266,7 @@
       return {
         a: '1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；',
         id: this.$route.params.id,
-        companyId: '',
+        companyId: localStorage.companyId,
         item: {
           positionName: '',
           classifyName: '',
@@ -303,7 +303,8 @@
         this.listenScroll = true
         this._getDetail()
         if (this.$route.query.companyId) {
-          this.companyId = this.$route.query.companyId
+          this.companyId = this.$route.query.companyId;
+          localStorage.companyId=this.companyId;
         }
         if (this.$route.params.id) {
           this.id = this.$route.params.id
@@ -339,6 +340,11 @@
         return item.split(',')[1]
       },
       join() {
+        var self=this;
+        if (document.body.clientWidth<550) {
+          self.$router.push({path:'/addResume',query:{id:this.id}})
+          return;
+        }
         this.$router.push({
           path: `/apply/${this.id}`,
           name: 'apply',
