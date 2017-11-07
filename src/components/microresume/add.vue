@@ -180,7 +180,22 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
     },
     methods:{
       index(){
-        this.interviewResumeInfo=JSON.parse(localStorage.interviewResumeInfo);
+        if (localStorage.interviewResumeInfo) {
+          this.interviewResumeInfo=JSON.parse(localStorage.interviewResumeInfo);
+        } else {
+          this.interviewResumeInfo={
+            positionId:this.$route.query.id,
+            resumeId:null,//简历文件id
+            attachmentIds:null,//附件ids
+            name:'',
+            phone:'',
+            email:'',
+            sex:'',
+            birthday:'',
+            educationHistoryList:[],
+            workHistoryList:[]
+          }
+        }
         this.interviewResumeInfo.positionId=this.$route.query.id;
         if(!(this.interviewResumeInfo&&this.interviewResumeInfo.educationHistoryList.length>0)){
           this.addEducation=true;
@@ -249,7 +264,7 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
           self.toastShow=true;
           return;
         }
-        if(self.isReading&&(!self.value4||self.value4=="")){
+        if(!self.isReading&&(!self.value4||self.value4=="")){
           self.toastText="请选择结束时间";
           self.toastShow=true;
           return;
@@ -285,7 +300,7 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
           self.toastShow=true;
           return;
         }
-        if(self.isWorking&&(!self.endDateStr||self.endDateStr=="")){
+        if(!self.isWorking&&(!self.endDateStr||self.endDateStr=="")){
           self.toastText="请选择结束时间";
           self.toastShow=true;
           return;
