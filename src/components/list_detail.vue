@@ -948,7 +948,7 @@
           right: 0;
           top: 0;
           height: 4rem;
-          background: url(../common/image/tips.png) no-repeat center
+          background: url(https://aijuhr.com/images/yidong/tips.67d28c9.png) no-repeat center
           z-index: 3000;
           background-size: 80%
         }
