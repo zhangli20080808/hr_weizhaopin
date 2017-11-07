@@ -7,13 +7,14 @@
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页
 
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <div class="search_go">
-          <input placeholder="职位关键词" class="search_content" v-model="Search" @keyup.enter="goSearch">
-          <span class="submit" @click="goSearch">搜索</span>
+          <input placeholder="职位关键词" class="search_content" v-model="Search" @keyup.enter="search">
+          <span class="submit" @click="search">搜索</span>
         </div>
       </div>
       <!--职位列表-->
@@ -155,30 +156,35 @@
       </div>
     </div>
     <div class="result hidden-sm hidden-lg">
-      <ul class="job-list__list">
-        <li v-for="item in list" @click="selectItem(item)">
-          <div class="job-list-item">
-            <div class="title">
-              <span class="prior"></span>
-              <span>{{item.positionName}}</span>
-            </div>
-            <div class="details">
+      <scroller lock-x height="-110" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
+
+        <ul class="job-list__list">
+          <li v-for="item in list" @click="selectItem(item)">
+            <div class="job-list-item">
+              <div class="title">
+                <span class="prior"></span>
+                <span>{{item.positionName}}</span>
+              </div>
+              <div class="details">
               <span class="misc">
                 <span class="secondary">{{getCity(item.workCity)}}</span>
                 <span class="secondary">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
                 <span
                   class="secondary">{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>
               </span>
-            </div>
-            <div class="secondary-details">
+              </div>
+              <div class="secondary-details">
               <span class="opened-at">
                 <span>发布时间：</span>
                 <span>{{filter(item.posiPublishTime)}}</span>
               </span>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+          <load-more tip="loading" v-if="showMore "></load-more>
+          <load-more :show-loading="false" tip="暂无更多数据" background-color="#fbf9fe" v-else></load-more>
+        </ul>
+      </scroller>
     </div>
     <div class="footer hidden-xs">
       <footer>
@@ -224,8 +230,6 @@
   import Vue from 'vue'
   import VueScroller from 'vue-scroller'
   Vue.use(VueScroller)
-
-
   import {
     XDialog,
     Scroller,
@@ -241,6 +245,7 @@
   export default {
     data() {
       return {
+        showMore:true,
         pullup: true,
         showList1: true,
         scrollTop: 0,
@@ -258,7 +263,7 @@
         },
         item: '',
         config: {
-          pageSize: 9,
+          pageSize: 6,
           pageNum: 1,
           totalCount: 1
         },
@@ -297,8 +302,7 @@
         companyId: 0,
         list_search: [],
         address: '全部工作地点',
-        workCity: []
-
+        workCity: [],
       }
     },
     methods: {
@@ -333,9 +337,9 @@
       selectKind(item) {
         this.form.kind = item
         if (document.documentElement.clientWidth < 768) {
-            return
-        }else {
-            this.positionList()
+          return
+        } else {
+          this.positionList()
         }
       },
       //处理省市
@@ -383,8 +387,6 @@
         console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log('gsg')
-            console.log(res.data.data)
             _this.list = _this._genResult(res.data.data)
             _this.config.totalCount = res.data.data.count
           }
@@ -455,6 +457,25 @@
         }
         _this.$http(method, param, successd);
       },
+      search(){
+        this.form.address = [];
+        this.form.kind = '';
+        var _this = this;
+        var method = "miniRecruit/searchRecruitPosition";
+        var param = JSON.stringify({
+          companyId: _this.companyId,
+          key: _this.Search,
+          pageNum: _this.config.pageNum,
+          pageSize: _this.config.pageSize,
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            console.log(res.data.data)
+            _this.list = res.data.data.recruitPositionList
+          }
+        }
+        _this.$http(method, param, successd);
+      },
       changePageSize(pageSize) {
         this.config.pageSize = pageSize;
         this.config.pageNum = 1;
@@ -465,8 +486,8 @@
         this.positionList()
       },
       searchMore(){
-        this.config.pageNum++
         var _this = this;
+        _this.config.pageNum++
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
           pageNum: _this.config.pageNum,
@@ -477,15 +498,15 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            var arr = _this._genResult(res.data.data);
-//            _this.list = _this.list.concat(_this._genResult(res.data.data))
+//            var arr = _this._genResult(res.data.data);
+            _this.list = _this.list.concat(_this._genResult(res.data.data))
 //            _this.$set(_this.list,)
-            console.log(_this.list)
-
-            for (var i = 0; i < arr.length; i++) {
-              _this.list.push(arr[i])
-            }
-            console.log(_this._genResult(res.data.data))
+//            console.log(_this.list)
+//
+//            for (var i = 0; i < arr.length; i++) {
+//              _this.list.push(arr[i])
+//            }
+//            console.log(_this._genResult(res.data.data))
             console.log(_this.list)
           }
         }
@@ -520,7 +541,7 @@
       },
       getAllAddress(){
         this.item = []
-        this.form.kind= ''
+        this.form.kind = ''
         this.positionList()
         this.addressAll = false
         this.address = '全部工作地点'
@@ -531,6 +552,26 @@
         this.addressAll = false
         this.address = this.item
       },
+      onScrollBottom () {
+        if (this.onFetching) {
+          // do nothing
+        } else {
+          this.onFetching = true
+          if (this.config.pageSize < this.config.totalCount) {
+            this.config.pageSize += 5
+            this.showMore = true
+            this.positionList()
+          }else{
+              this.showMore = false
+          }
+          setTimeout(() => {
+            this.$nextTick(() => {
+              this.$refs.scrollerBottom.reset()
+            })
+            this.onFetching = false
+          }, 2000)
+        }
+      },
 
     },
     directives: {
@@ -538,7 +579,6 @@
     },
 
     mounted() {
-
 
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId
@@ -554,13 +594,17 @@
       this.form.kind = Number(posId)
       if (this.form.kind !== 0) {
         this.form.name = posName
+        this.showMore = false
         this.positionList()
       } else {
         this.form.kind = ''
         this.positionList()
       }
-      if(this.$route.params.all == ''){
+      if (this.$route.params.all == '') {
         this.positionList()
+      }
+      if (this.$route.params.searchList) {
+        this.Search = this.$route.params.searchList
       }
 
 
@@ -579,7 +623,7 @@
     },
     watch: {
       Search(val){
-        this.goSearch(val)
+          this.goSearch(val)
       }
     }
   }

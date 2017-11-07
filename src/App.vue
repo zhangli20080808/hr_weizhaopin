@@ -90,7 +90,8 @@
           //职位招聘
           wzpPositionList: [],
           //公司介绍
-          content: ''
+          content: '',
+          searchList: ''
         }
       }
     },
@@ -164,34 +165,45 @@
       },
       //首页职位搜索功能
       searchDetail(val) {
-        var _this = this;
-        var method = "miniRecruit/searchRecruitPosition";
-        var param = JSON.stringify({
-          key: val,
-          companyId: _this.companyId,
-          pageNum: 1,
-          pageSize: 9
-        });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            console.log(res.data.data)
-            _this.list = res.data.data.recruitPositionList
-            _this.searchPage = res.data.data.page
-            _this.$router.push({
-              path: `/list`,
-              name: 'List',
-              query: {
-                companyId: _this.companyId,
-              },
-              params: {
-                searchList: _this.list,
-                searchPage: _this.searchPage
-              }
-            })
+        this.searchList = val
+        this.$router.push({
+          path: `/list`,
+          name: 'List',
+          query: {
+            companyId: this.companyId,
+          },
+          params: {
+            searchList: this.searchList
           }
-
-        }
-        _this.$http(method, param, successd);
+        })
+//        var _this = this;
+//        var method = "miniRecruit/searchRecruitPosition";
+//        var param = JSON.stringify({
+//          key: val,
+//          companyId: _this.companyId,
+//          pageNum: 1,
+//          pageSize: 9
+//        });
+//        var successd = function (res) {
+//          if (res.data.code == 0) {
+//            console.log(res.data.data)
+//            _this.list = res.data.data.recruitPositionList
+//            _this.searchPage = res.data.data.page
+//            _this.$router.push({
+//              path: `/list`,
+//              name: 'List',
+//              query: {
+//                companyId: _this.companyId,
+//              },
+//              params: {
+//                searchList: _this.list,
+//                searchPage: _this.searchPage
+//              }
+//            })
+//          }
+//
+//        }
+//        _this.$http(method, param, successd);
       },
       ToHome(val){
         this.$router.push({
@@ -203,7 +215,7 @@
       }
     },
     created(){
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this._getIndexInfo()
       })
     }
@@ -225,23 +237,28 @@
 
   @media all and (max-width: 768px) {
     html {
-     font-size:100px
+      font-size: 100px
     }
+
     body .el-cascader-menus {
       /*top: 166px!important;*/
     }
-    body .el-cascader-menus .el-cascader-menu{
-      min-width: 135px!important;
+
+    body .el-cascader-menus .el-cascader-menu {
+      min-width: 135px !important;
     }
-    body .el-select-dropdown{
+
+    body .el-select-dropdown {
       /*top: 166px!important;*/
-      min-width: 135px!important;
+      min-width: 135px !important;
     }
-    body .choose-kind{
-      font-size:0.28rem;
+
+    body .choose-kind {
+      font-size: 0.28rem;
     }
-    body .choose-kind .weui-dialog{
-      .title{
+
+    body .choose-kind .weui-dialog {
+      .title {
         padding-top: 17px;
         padding-bottom: 17px;
         font-size: 16px;
@@ -249,16 +266,16 @@
         padding-right: 15px;
         font-weight: bold;
         color: #090a0b;
-        text-align :left
-        border-bottom :1px solid  #dddfe3
+        text-align: left
+        border-bottom: 1px solid #dddfe3
 
       }
-      .img-box{
-        padding-left: 15px!important
-        padding-right: 15px!important
-        height :auto!important
-        max-height: 300px!important
-        .btn-kind{
+      .img-box {
+        padding-left: 15px !important
+        padding-right: 15px !important
+        height: auto !important
+        max-height: 300px !important
+        .btn-kind {
           position: relative;
           display: block;
           width: 100%;
@@ -269,10 +286,10 @@
           text-align: left;
           background-color: #fff;
           border-radius: 2px;
-          border :none
-          outline :none
-          span{
-            &:first-child{
+          border: none
+          outline: none
+          span {
+            &:first-child {
               display: inline-block;
               vertical-align: top;
               max-width: 80%;
@@ -280,16 +297,16 @@
           }
         }
       }
-      .vux-close{
-        display :inline-block
+      .vux-close {
+        display: inline-block
         padding-left: 15px;
         padding-right: 15px;
         width: 100%;
         height: 40px;
-        line-height :40px
+        line-height: 40px
         text-align: center;
-        border-top :1px solid  #dddfe3
-        color :#5c6170
+        border-top: 1px solid #dddfe3
+        color: #5c6170
       }
 
     }

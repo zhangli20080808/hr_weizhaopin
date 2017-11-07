@@ -597,15 +597,6 @@
             height: 100%
             overflow: hidden
             padding-bottom: 1.12rem
-            .share-arrow
-              position: fixed;
-              top: 10px;
-              width: 2.66rem;
-              height: 2.42rem;
-              right: 0.34rem;
-              background: url(../common/image/tips.png) no-repeat center
-              background-size: 100%;
-              z-index: 2001;
             .detail_des
               background: #fff
               position: relative
