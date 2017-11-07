@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-cloak>
     <navHeader :homeData="homeData" :seller="seller" @search="searchDetail" :companyId="companyId"
                @toIndex="ToHome"></navHeader>
     <router-view :homeData="homeData"></router-view>
@@ -129,7 +129,6 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data.data)
             _this.seller.logoUrl = res.data.data.wzpCompany.logoUrl
             _this.seller.isSearch = res.data.data.miniRecruit.isSearch === 1 ? true : false
             _this.seller.s_log_back = res.data.data.wzpCompany.companyUrl
@@ -211,8 +210,9 @@
   }
 </script>
 
-<style>
-
+<style lang="stylus" rel="stylesheet/stylus">
+  @import "common/stylus/mixin.styl"
+  @import "common/stylus/base.styl"
   [v-cloak] {
     display: none;
   }
@@ -236,6 +236,62 @@
     body .el-select-dropdown{
       /*top: 166px!important;*/
       min-width: 135px!important;
+    }
+    body .choose-kind{
+      font-size:0.28rem;
+    }
+    body .choose-kind .weui-dialog{
+      .title{
+        padding-top: 17px;
+        padding-bottom: 17px;
+        font-size: 16px;
+        padding-left: 15px;
+        padding-right: 15px;
+        font-weight: bold;
+        color: #090a0b;
+        text-align :left
+        border-bottom :1px solid  #dddfe3
+
+      }
+      .img-box{
+        padding-left: 15px!important
+        padding-right: 15px!important
+        height :auto!important
+        max-height: 300px!important
+        .btn-kind{
+          position: relative;
+          display: block;
+          width: 100%;
+          height: 40px;
+          padding: 0 15px;
+          font-size: 0.28rem;
+          line-height: 40px;
+          text-align: left;
+          background-color: #fff;
+          border-radius: 2px;
+          border :none
+          outline :none
+          span{
+            &:first-child{
+              display: inline-block;
+              vertical-align: top;
+              max-width: 80%;
+            }
+          }
+        }
+      }
+      .vux-close{
+        display :inline-block
+        padding-left: 15px;
+        padding-right: 15px;
+        width: 100%;
+        height: 40px;
+        line-height :40px
+        text-align: center;
+        border-top :1px solid  #dddfe3
+        color :#5c6170
+      }
+
     }
   }
 </style>

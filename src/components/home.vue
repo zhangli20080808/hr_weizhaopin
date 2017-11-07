@@ -51,7 +51,7 @@
       </ul>
     </div>
     <!--公司简介-->
-    <div class="m_s_company visible-xs" v-show="homeData">
+    <div class="m_s_company visible-xs" v-show="homeData" v-cloak>
       <img :src="homeData.bigLogo" class="item-logo" alt="">
       <div class="item-desc">
         <div class="care">关注</div>
@@ -60,7 +60,7 @@
           <span class="item-pos">
             {{homeData.form.company_p}}
           </span></p>
-        <p class="item-time">{{homeData.website}} | {{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}} | {{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</p>
+        <p class="item-time"> {{homeData.form.company_address}}  | {{homeData.website}} | {{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}} | {{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</p>
       </div>
     </div>
     <!--公司介绍-->
@@ -188,7 +188,9 @@
           pageNum: 1,
           totalCount: 1
         },
-        posId: 0
+        posId: 0,
+        categoryName:'',
+        all:[]
       }
     },
     props: {
@@ -230,8 +232,10 @@
       },
       SelectTo(item) {
         this.categoryId = item.categoryId
+        this.categoryName = item.name
         localStorage.clear()
         localStorage.setItem('posId', this.categoryId)
+        localStorage.setItem('posName', this.categoryName)
 //        this.selectSearch(this.categoryId)
         this.$router.push({
           path: `/list`,
@@ -243,12 +247,17 @@
         })
       },
       toList(){
+        localStorage.clear()
         this.$router.push({
           path: '/list',
           name: 'List',
           query: {
             companyId: this.companyId,
+          },
+          params:{
+              all:this.all
           }
+
         })
       }
 //      selectSearch() {
@@ -281,7 +290,10 @@
 //      },
     },
     created(){
-      localStorage.setItem('companyId', this.companyId)
+     setTimeout(()=>{
+       localStorage.setItem('companyId', this.companyId)
+       document.title = this.homeData.form.company_name
+     },20)
     },
     computed: {
       bgStyle() {
@@ -533,7 +545,6 @@
         }
         .intro_text {
           font-size: 16px
-          color: #475669
           p {
             line-height: 18px
             img {

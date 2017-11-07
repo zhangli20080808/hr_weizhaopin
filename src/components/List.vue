@@ -7,17 +7,6 @@
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页
 
-
-
-
-
-
-
-
-
-
-
-
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
@@ -33,7 +22,6 @@
         <i class="icon" @click="back"></i>
         <h2 class="title">在招职位</h2>
       </div>
-
 
       <div class="list-form hidden-xs">
 
@@ -51,8 +39,8 @@
 
           <el-form-item class="form_kind">
             <i class="kind_icon"></i>
-            <el-select v-model="form.kind" placeholder="请选择职位分类" @change="selectKind">
-              <el-option :label="item.name" :value="item.id" v-for="item in selectK" :key="item.id"></el-option>
+            <el-select v-model="form.kind" placeholder="请选择职位分类" @change="selectKind" v-show="selectK">
+              <el-option :label="item.name" :value="item.categoryId" v-for="item in selectK" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item class="all">
@@ -60,71 +48,77 @@
           </el-form-item>
         </el-form>
       </div>
-      <!--搜索-->
-      <div class="job-filter visible-xs">
+      <div class="job-filter hidden-xs hidden-sm hidden-lg">
         <div class="job-filter__row">
           <div class="mobile-text-input job-filter__search-input">
             <div class="mobile-text-input__wrapper text  ">
               <span class="icon icon-search mobile-text-input__icon  "></span>
               <span class="mobile-text-input__label   "></span>
-              <input type="search" class="mobile-text-input__input" placeholder="请输入关键字" v-model="Search"
-                     @keyup.enter="goSearch">
+              <input type="search" class="mobile-text-input__input" placeholder="请输入关键字" v-model="Search">
             </div>
           </div>
         </div>
         <!--下拉查询-->
+        <!--<div class="job-filter__row">-->
+        <!--<div class="list-form">-->
+
+        <!--<el-form ref="form" :model="form" label-width="80px">-->
+
+        <!--<el-form-item class="form_address">-->
+        <!--<i class="address_icon"></i>-->
+        <!--<el-cascader-->
+        <!--:options="workCityLists"-->
+        <!--v-model="form.address"-->
+        <!--@change="change"-->
+        <!--placeholder="请选择地点"-->
+        <!--&gt;</el-cascader>-->
+        <!--</el-form-item>-->
+
+        <!--<el-form-item class="form_kind">-->
+        <!--<i class="kind_icon"></i>-->
+        <!--<el-select v-model="form.kind" placeholder="请选择职位分类" @change="selectKind">-->
+        <!--<el-option :label="item.name" :value="item.id" v-for="item in selectK" :key="item.id"></el-option>-->
+        <!--</el-select>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item class="all">-->
+        <!--<el-button type="primary" @click="findAll" class="hidden-xs">查询所有</el-button>-->
+        <!--</el-form-item>-->
+        <!--</el-form>-->
+        <!--</div>-->
+        <!--</div>-->
+      </div>
+      <div class="job-filter hidden-sm hidden-lg ">
+        <!--搜索-->
         <div class="job-filter__row">
-          <div class="list-form">
+          <div class="mobile-text-input job-filter__search-input">
+            <div class="mobile-text-input__wrapper text  ">
+              <span class="icon icon-search mobile-text-input__icon  "></span>
+              <span class="mobile-text-input__label   "></span>
+              <input type="search" class="mobile-text-input__input" placeholder="请输入关键字" v-model="Search">
+            </div>
+          </div>
+        </div>
 
-            <el-form ref="form" :model="form" label-width="80px">
-
-              <el-form-item class="form_address">
-                <i class="address_icon"></i>
-                <el-cascader
-                  :options="workCityLists"
-                  v-model="form.address"
-                  @change="change"
-                  placeholder="请选择地点"
-                ></el-cascader>
-              </el-form-item>
-
-              <el-form-item class="form_kind">
-                <i class="kind_icon"></i>
-                <el-select v-model="form.kind" placeholder="请选择职位分类" @change="selectKind">
-                  <el-option :label="item.name" :value="item.id" v-for="item in selectK" :key="item.id"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item class="all">
-                <el-button type="primary" @click="findAll" class="hidden-xs">查询所有</el-button>
-              </el-form-item>
-            </el-form>
+        <div class="job-filter__row">
+          <div class="mobile-text-input job-filter__selector">
+            <div class="mobile-text-input__wrapper">
+              <span class="icon address_icon mobile-text-input__icon  "></span>
+              <span class="mobile-text-input__label   "></span>
+              <input type="search" class="mobile-text-input__input" placeholder="" v-model="address" readonly
+                     @click="chooseAll">
+            </div>
+          </div>
+          <div class="mobile-text-input job-filter__selector">
+            <div class="mobile-text-input__wrapper">
+              <span class="icon icon-work mobile-text-input__icon  "></span>
+              <span class="mobile-text-input__label   "></span>
+              <input type="search" class="mobile-text-input__input" placeholder="" v-model="form.name" readonly
+                     @click="choseKind">
+            </div>
           </div>
         </div>
       </div>
-      <!--<group>-->
-      <!--&lt;!&ndash;<cell :title="$t('Total')" :value="$t('$1024')"></cell>&ndash;&gt;-->
-      <!--<cell-form-preview :list="list"></cell-form-preview>-->
-      <!--</group>-->
-
-      <Scroller class="list" :list="list" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
-                :scroll-bottom-offst="200">
-        <!--<div>-->
-        <!--<ul class="job-list__list">-->
-        <!--<li class="" v-for="item in list">-->
-        <!--<a class="job-list-item" @click="selectItem(item)">-->
-        <!--<div class="title">{{item.positionName}}</div>-->
-        <!--<div class="details">-->
-        <!--<span class="misc">-->
-        <!--<span class="secondary">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>-->
-        <!--<span class="secondary">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>-->
-        <!--<span class="secondary">发布时间：{{filter(item.posiPublishTime)}}</span>-->
-        <!--</span>-->
-        <!--</div>-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
-        <!--list-->
+      <div class="list hidden-xs">
         <div class="list_content" v-show="list.length">
           <el-row :gutter="20" class="">
             <el-col :span="8" :xs="24" :sm="12" :md="8" :lg="8" v-for="item in list" :key="item.id"
@@ -132,15 +126,17 @@
               <div class="grid-content bg-purple" @click="selectItem(item)">
                 <div class="title">{{item.positionName}}</div>
                 <div class="text">
-                  <span class="des hidden-xs"><i
-                    class="address_icon"></i>{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
+                  <span
+                    class="des hidden-xs">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
                     }}</span>
-                  <span class="des visible-xs"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
-                  <span class="price"><i
-                    class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
-                  <span class="mp_time visible-xs"><i class="time_icon"></i>{{filter(item.posiPublishTime)}}</span>
+                  <span class="des visible-xs"><i class=""></i>{{getCity(item.workCity)}}</span>
+                  <span class="price">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
+                  <span
+                    class="mp_time visible-xs">{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
+                    }}</span>
                   <p class="p_time hidden-xs">发布时间：{{filter(item.posiPublishTime)}}</p>
                 </div>
+
               </div>
             </el-col>
           </el-row>
@@ -156,17 +152,64 @@
             </el-pagination>
           </div>
         </div>
-        <!--<load-more tip="loading"></load-more>-->
-      </Scroller>
-      <!--&lt;!&ndash;loading&ndash;&gt;-->
-      <!--<div class="loading-container" v-show="!list.length">-->
-      <!--<loading></loading>-->
-      <!--</div>-->
+      </div>
+    </div>
+    <div class="result hidden-sm hidden-lg">
+      <ul class="job-list__list">
+        <li v-for="item in list" @click="selectItem(item)">
+          <div class="job-list-item">
+            <div class="title">
+              <span class="prior"></span>
+              <span>{{item.positionName}}</span>
+            </div>
+            <div class="details">
+              <span class="misc">
+                <span class="secondary">{{getCity(item.workCity)}}</span>
+                <span class="secondary">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
+                <span
+                  class="secondary">{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>
+              </span>
+            </div>
+            <div class="secondary-details">
+              <span class="opened-at">
+                <span>发布时间：</span>
+                <span>{{filter(item.posiPublishTime)}}</span>
+              </span>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
     <div class="footer hidden-xs">
       <footer>
         <div class="title"></div>
       </footer>
+    </div>
+    <!--职能类型-->
+    <div v-transfer-dom>
+      <x-dialog v-model="showScrollBox" class="choose-kind">
+        <p class="title">职能类型</p>
+        <div class="img-box" style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;">
+          <button class="btn-kind" @click="getAll">全部职能类型</button>
+          <button class="btn-kind" v-for="item in selectK" @click="getKind(item)">{{item.name}}</button>
+        </div>
+        <div @click="showScrollBox=false">
+          <span class="vux-close">取消</span>
+        </div>
+      </x-dialog>
+    </div>
+    <!--全部工作地点-->
+    <div v-transfer-dom>
+      <x-dialog v-model="addressAll" class="choose-kind">
+        <p class="title">工作地点 </p>
+        <div class="img-box" style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;">
+          <button class="btn-kind" @click="getAllAddress">全部工作地点</button>
+          <button class="btn-kind" v-for="item in workCity" @click="getAddress(item)">{{item}}</button>
+        </div>
+        <div @click="addressAll=false">
+          <span class="vux-close">取消</span>
+        </div>
+      </x-dialog>
     </div>
   </div>
 
@@ -176,22 +219,44 @@
 <script>
   import allcity from '../common/js/allcity'
   import loading from './base/loading/loading.vue'
-  import {Scroller, Divider, Spinner, XButton, Group, Cell, LoadMore} from 'vux'
+  import scroll from  '../components/base/scroll.vue'
+
+  import Vue from 'vue'
+  import VueScroller from 'vue-scroller'
+  Vue.use(VueScroller)
+
+
+  import {
+    XDialog,
+    Scroller,
+    Divider,
+    Spinner,
+    XButton,
+    Group,
+    Cell,
+    LoadMore,
+    TransferDomDirective as TransferDom
+  } from 'vux'
 
   export default {
     data() {
       return {
+        pullup: true,
         showList1: true,
         scrollTop: 0,
         onFetching: false,
         bottomCount: 20,
         beforeScroll: true,
         logoUrl: '',
+        showScrollBox: false,
+        addressAll: false,
         form: {
           address: [],
-          kind: ''
+          kind: 0,
+          name: '全部职能类型',
+          pKind: 0
         },
-        item: [],
+        item: '',
         config: {
           pageSize: 9,
           pageNum: 1,
@@ -231,7 +296,9 @@
         workCityLists: [],
         companyId: 0,
         list_search: [],
-        hasMore: true
+        address: '全部工作地点',
+        workCity: []
+
       }
     },
     methods: {
@@ -248,45 +315,12 @@
         })
       },
       change(item) {
-        this.item = item
-        this.selectOne()
-      },
-      selectOne() {
-        var _this = this;
-        var method = "promotionPage/positionList";
-        var param = JSON.stringify({
-          pageNum: _this.config.pageNum,
-          pageSize: _this.config.pageSize,
-          companyId: _this.companyId,
-          categoryId: _this.form.kind,
-          workCity: String(_this.item[1])
-        });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            _this.list = res.data.data.positionList
-          }
-        }
-        _this.$http(method, param, successd);
+        console.log(item)
+        this.item = item[1]
+        this.positionList()
       },
       filter(item){
         return item.substr(0, 10)
-      },
-      selectOne2() {
-        var _this = this;
-        var method = "promotionPage/positionList";
-        var param = JSON.stringify({
-          pageNum: _this.config.pageNum,
-          pageSize: _this.config.pageSize,
-          companyId: _this.companyId,
-          categoryId: _this.form.kind,
-          workCity: ''
-        });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            _this.list = res.data.data.positionList
-          }
-        }
-        _this.$http(method, param, successd);
       },
       backIndex() {
         this.$router.push({
@@ -296,8 +330,13 @@
           }
         })
       },
-      selectKind() {
-        this.selectSearch()
+      selectKind(item) {
+        this.form.kind = item
+        if (document.documentElement.clientWidth < 768) {
+            return
+        }else {
+            this.positionList()
+        }
       },
       //处理省市
       transitionCityLists() {
@@ -329,30 +368,35 @@
       },
       //职位列表页
       positionList() {
-        this.hasMore = true
+        if (document.documentElement.clientWidth < 768) {
+          this.config.pageNum = 1
+        }
         var _this = this;
         var method = "promotionPage/positionList";
         var param = JSON.stringify({
           pageNum: _this.config.pageNum,
           pageSize: _this.config.pageSize,
           companyId: _this.companyId,
-          categoryId: '',
-          workCity: ''
+          categoryId: _this.form.kind ? `${_this.form.kind}` : '',
+          workCity: _this.item ? `${_this.item}` : ''
         });
+        console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
-            _this.list = res.data.data.positionList
-            console.log(typeof (_this.list))
-            _this._checkMore(res.data.data.positionList)
+            console.log('gsg')
+            console.log(res.data.data)
+            _this.list = _this._genResult(res.data.data)
+            _this.config.totalCount = res.data.data.count
           }
         }
         _this.$http(method, param, successd);
       },
-
-      _checkMore(data){
-        if (!data.length) {
-          this.hasMore = false
+      _genResult(data){
+        let ret = []
+        if (data.positionList) {
+          ret = ret.concat(data.positionList)
         }
+        return ret
       },
       //职位分类
       getPositionCategoryList() {
@@ -362,8 +406,6 @@
           companyId: this.companyId,
           type: 2
         });
-
-
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.selectK = res.data.data.recruitmentCountList.result
@@ -371,24 +413,37 @@
         }
         _this.$http(method, param, successd);
       },
-      //职位分类下拉搜索
-      selectSearch() {
-        if (this.form.address == '') {
-          this.selectOne2()
-        } else {
-          this.selectOne()
-        }
+      //城市分类
+      getCityList() {
+        var _this = this;
+        var method = "miniRecruit/getRecruitingWorkCityList";
+        var param = JSON.stringify({
+          companyId: this.companyId,
+          type: 2
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            _this.workCity = res.data.data
 
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      //数组去重
+      filterAddress(item){
+        item.forEach((address) => {
+
+        })
       },
       //职位搜索
-      goSearch() {
+      goSearch(val) {
         this.form.address = [];
         this.form.kind = '';
         var _this = this;
         var method = "miniRecruit/searchRecruitPosition";
         var param = JSON.stringify({
           companyId: _this.companyId,
-          key: _this.Search,
+          key: val,
           pageNum: _this.config.pageNum,
           pageSize: _this.config.pageSize,
         });
@@ -396,9 +451,6 @@
           if (res.data.code == 0) {
             console.log(res.data.data)
             _this.list = res.data.data.recruitPositionList
-            _this.config.totalCount = res.data.data.page.totalCount
-            _this.config.pageNum = res.data.data.page.pageNum
-            _this.config.pageSize = res.data.data.page.pageSize
           }
         }
         _this.$http(method, param, successd);
@@ -420,12 +472,21 @@
           pageNum: _this.config.pageNum,
           pageSize: _this.config.pageSize,
           companyId: _this.companyId,
-          categoryId: '',
-          workCity: ''
+          categoryId: _this.form.kind ? `${_this.form.kind}` : '',
+          workCity: _this.item ? `${_this.item}` : ''
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            _this.list = _this.list.concat(res.data.data.positionList)
+            var arr = _this._genResult(res.data.data);
+//            _this.list = _this.list.concat(_this._genResult(res.data.data))
+//            _this.$set(_this.list,)
+            console.log(_this.list)
+
+            for (var i = 0; i < arr.length; i++) {
+              _this.list.push(arr[i])
+            }
+            console.log(_this._genResult(res.data.data))
+            console.log(_this.list)
           }
         }
         _this.$http(method, param, successd);
@@ -439,50 +500,70 @@
           }
         })
       },
-      onScrollBottom () {
-        if (this.onFetching) {
-          // do nothing
-          if (this.form.address = '' && this.form.kind) {
-            this.selectOne2()
-          }
-        } else {
-          this.onFetching = true
-          setTimeout(() => {
-            this.bottomCount += 10
-            this.$nextTick(() => {
-              this.$refs.scrollerBottom.reset()
-            })
-            this.onFetching = false
-          }, 2000)
-        }
+      choseKind(){
+        this.showScrollBox = true
       },
-      onScroll (pos) {
-        this.scrollTop = pos.top
+      chooseAll(){
+        this.addressAll = true
       },
+      getKind(item){
+        this.form.kind = item.categoryId
+        this.form.name = item.name
+        this.positionList()
+        this.showScrollBox = false
+      },
+      getAll(){
+        this.form.kind = ''
+        this.showScrollBox = false
+        this.positionList()
+        this.form.name = '全部职能类型'
+      },
+      getAllAddress(){
+        this.item = []
+        this.form.kind= ''
+        this.positionList()
+        this.addressAll = false
+        this.address = '全部工作地点'
+      },
+      getAddress(item){
+        this.item = item.split(',')[1]
+        this.positionList()
+        this.addressAll = false
+        this.address = this.item
+      },
+
+    },
+    directives: {
+      TransferDom
     },
 
     mounted() {
-      this.$nextTick(() => {
-        this.$refs.scrollerBottom.reset({top: 0})
-      })
-      console.log(this.$route)
+
+
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId
       }
       if (this.$route.params.search) {
         this.Search = this.$route.params.search
-        this.goSearch()
-      }
-      let posId = localStorage.getItem('posId')
-      this.form.kind = Number(posId)
-      if (this.form.kind == 0) {
-        this.form.kind = ''
-        this.selectSearch()
-      } else if (this.form.kind == '' && this.form.address == '') {
-        this.positionList()
       }
       this.transitionCityLists()
       this.getPositionCategoryList()
+      this.getCityList()
+      let posId = localStorage.getItem('posId')
+      let posName = localStorage.getItem('posName')
+      this.form.kind = Number(posId)
+      if (this.form.kind !== 0) {
+        this.form.name = posName
+        this.positionList()
+      } else {
+        this.form.kind = ''
+        this.positionList()
+      }
+      if(this.$route.params.all == ''){
+        this.positionList()
+      }
+
+
     },
     components: {
       loading,
@@ -492,7 +573,14 @@
       XButton,
       Group,
       Cell,
-      LoadMore
+      LoadMore,
+      scroll,
+      XDialog
+    },
+    watch: {
+      Search(val){
+        this.goSearch(val)
+      }
     }
   }
 </script>
@@ -666,7 +754,6 @@
       background: #fff
       height: 100%
       width: 100%
-      position: relative
       padding-bottom: 0.1rem
       .container {
         padding: 0
@@ -725,11 +812,8 @@
         .list {
           background: #fff
           width: 100%;
-          position: fixed
-          top: 3.34rem;
-          right: 0
-          left: 0
-          bottom: 0
+          position: relative
+          height: 100%
           overflow: hidden
           padding-bottom: 0
           .list_content {
@@ -761,18 +845,19 @@
                 .des {
                   display: inline-block
                   float: left
-                  width: 1.7rem
                   font-size: 0.28rem
                   color: #666
                   height: 14px
                   line-height: 14px
-                  margin-right: 0;
+                  padding-left: 0.1rem;
                   vertical-align: middle
                   position: relative
-                  padding-left: 0.5rem
+                  margin-right: 10px;
+                  padding-right: 10px;
                   overflow: hidden;
                   text-overflow: ellipsis;
                   white-space: nowrap;
+                  border-right: 1px solid #f4f4f6;
                   .address_icon {
                     display: inline-block
                     vertical-align: top
@@ -788,15 +873,15 @@
                 .price {
                   display: inline-block
                   float: left
-                  width: 1.6rem
                   font-size: 0.28rem
                   height: 14px
                   line-height: 14px
                   color: #666
                   vertical-align: middle
-                  margin-right: 0
                   position: relative
-                  padding-left: 0.52rem
+                  margin-right: 10px;
+                  padding-right: 10px;
+                  border-right: 1px solid #f4f4f6;
                   .salary_icon {
                     display: inline-block
                     position: absolute
@@ -819,7 +904,10 @@
                   height: 14px
                   line-height: 14px
                   position: relative
-                  padding-left: 0.52rem
+                  margin-right: 10px;
+                  padding-right: 10px;
+                  border-right: 1px solid #f4f4f6;
+
                   .time_icon {
                     display: inline-block
                     position: absolute
@@ -899,7 +987,7 @@
           }
         }
         .job-filter {
-          padding: 0.1rem 0.2rem;
+          padding: 5px 10px;
           background-color: #fff;
           .job-filter__row {
             display: -webkit-box;
@@ -1048,7 +1136,7 @@
                   height: 40px
                   line-height: 40px;
                   color: #9a9fac;
-                  margin-left: -0.10rem;
+                  margin-left: -0.20rem;
                   -webkit-transition: color 0.2s;
                   -moz-transition: color 0.2s;
                   -o-transition: color 0.2s;
@@ -1056,27 +1144,80 @@
                   transition: color 0.2s;
                   background: url(../common/image/search_list.png) no-repeat center
                   background-size: 50%
+                }
+                .address_icon {
+                  display: inline-block
+                  -moz-box-flex: 0;
+                  -o-box-flex: 0;
+                  box-flex: 0;
+                  -webkit-flex: none;
+                  -ms-flex: none;
+                  flex: none;
+                  vertical-align: top;
+                  width: 30px;
+                  font-size: 15px;
+                  height: 40px
+                  line-height: 40px;
+                  color: #9a9fac;
+                  margin-left: -0.10rem;
+                  -webkit-transition: color 0.2s;
+                  -moz-transition: color 0.2s;
+                  -o-transition: color 0.2s;
+                  -ms-transition: color 0.2s;
+                  transition: color 0.2s;
+                  background: url(../common/image/address_city.png) no-repeat center
+                  background-size: 40%
 
                 }
+
+                .icon-work {
+                  display: inline-block
+                  -moz-box-flex: 0;
+                  -o-box-flex: 0;
+                  box-flex: 0;
+                  -webkit-flex: none;
+                  -ms-flex: none;
+                  flex: none;
+                  vertical-align: top;
+                  width: 30px;
+                  font-size: 15px;
+                  height: 40px
+                  line-height: 40px;
+                  color: #9a9fac;
+                  margin-left: -0.10rem;
+                  -webkit-transition: color 0.2s;
+                  -moz-transition: color 0.2s;
+                  -o-transition: color 0.2s;
+                  -ms-transition: color 0.2s;
+                  transition: color 0.2s;
+                  background: url(../common/image/other.png) no-repeat center
+                  background-size: 50%
+
+                }
+
                 .mobile-text-input__label {
                   position: absolute;
-                  width: 80%
-                  left: 30px;
                   top: -2px;
                   margin-top: 0;
-                  font-size: 0.3rem;
-                  height: 0.8rem;
+                  font-size: 15px;
                   color: #9a9fac;
+                  -webkit-transition: all 0.2s;
+                  -moz-transition: all 0.2s;
+                  -o-transition: all 0.2s;
+                  -ms-transition: all 0.2s;
                   transition: all 0.2s;
                   pointer-events: none;
+                  font-size: 15px;
+                  height: 40px;
                 }
                 .mobile-text-input__input {
+                  width: 100%
                   flex: 1;
                   padding: 0;
                   vertical-align: top;
                   border: none;
                   font-size: 0.28rem;
-                  height: 0.8rem;
+                  height: 40px;
                   color: #5c6170;
                   outline: none
                   padding-left: 0.18rem;
@@ -1086,11 +1227,25 @@
                 }
               }
             }
+            .job-filter__selector {
+              -webkit-box-flex: 1;
+              -moz-box-flex: 1;
+              -o-box-flex: 1;
+              box-flex: 1;
+              -webkit-flex: 1;
+              -ms-flex: 1;
+              flex: 1;
+              padding: 0 10px;
+            }
           }
         }
+      }
+      .result {
+        height: 100%
+        overflow: hidden
         .job-list__list {
           margin: 0;
-          padding: 0 12px;
+          padding: 0 26px;
           background: #fff;
           list-style: none;
           .job-list-item {
@@ -1100,10 +1255,15 @@
             .title {
               font-size: 15px;
               font-weight: bold;
-              margin-bottom: 4px;
+              margin-bottom: -18px;
               color: #5c6170;
+              .prior {
+                color: #ff8054;
+              }
             }
             .details {
+              display: inline-box;
+              display: inline-flex;
               width: 100%;
               color: #5c6170;
               .misc {
@@ -1112,8 +1272,17 @@
                 .secondary {
                   margin-right: 10px;
                   padding-right: 10px;
+                  &:not(:last-of-type) {
+                    border-right: 1px solid #f4f4f6;
+                  }
                 }
               }
+            }
+            .secondary-details {
+              margin-top: 10px;
+              font-size: 13px;
+              color: #9a9fac;
+              overflow: hidden;
             }
           }
         }

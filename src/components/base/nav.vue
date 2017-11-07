@@ -60,7 +60,6 @@
       if (this.$route.name !== 'home') {
         this.hiddens = false
       }
-      console.log(this.homeData)
     },
     watch: {
       $route(to, from) {
@@ -145,6 +144,7 @@
             width 40px
             height 40px
             background: url(../../common/image/search.png) no-repeat center
+            background-size :cover
           }
         }
       }

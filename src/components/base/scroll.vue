@@ -69,7 +69,6 @@
         if (this.pullup) {
           this.scroll.on('scrollEnd', () => {
             if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
-                console.log(this.scroll.y)
               this.$emit('scrollToEnd')
             }
           })
@@ -112,10 +111,12 @@
     },
     //这里我们去监听data的变化,// 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
     watch: {
-      data(){
+      data(a,b){
+          console.log(a,b)
         setTimeout(() => {
           this.refresh()
         }, 20)
+
       }
     }
   }

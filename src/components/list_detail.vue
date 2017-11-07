@@ -1,15 +1,12 @@
 <template>
   <div id="list_detail" v-show="item" ref="list">
     <!--back-->
-    <div class=" back hidden-sm hidden-lg">
-      <i class="icon" @click="back"></i>
-      <h2 class="title">职位详情</h2>
-    </div>
-    <div class="container">
+    <div class="container hidden-xs">
       <div>
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
+
 
 
 
@@ -39,6 +36,7 @@
 
 
 
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位详情</el-breadcrumb-item>
           </el-breadcrumb>
@@ -55,8 +53,8 @@
             <div class="p_time">发布时间：{{filterTime(item.posiPublishTime)}}</div>
 
             <div class="post_share">
-              <el-button  type="primary" @click="join">申请职位</el-button>
-              <el-button   @click="share">分享职位</el-button>
+              <el-button type="primary" @click="join">申请职位</el-button>
+              <el-button @click="share">分享职位</el-button>
             </div>
           </div>
         </div>
@@ -67,7 +65,8 @@
           <div class="job-page__others">
             <span class="des"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
             <span class="price"><i class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
-            <span class="kind"><i class="kind_icon"></i>{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
+            <span class="kind"><i
+              class="kind_icon"></i>{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
               }}</span>
           </div>
         </div>
@@ -105,6 +104,121 @@
         </div>
       </div>
     </div>
+    <div class="back hidden-sm hidden-lg">
+      <i class="icon" @click="back"></i>
+      <h2 class="title">职位详情</h2>
+    </div>
+    <div class="detail-wrapper clearfix hidden-sm hidden-lg">
+      <!--内容-->
+      <div class="detail-main">
+        <div class="container">
+          <div>
+            <div class="detail_des hidden-xs hidden-sm">
+              <el-breadcrumb separator="/" class="tips">
+                <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </el-breadcrumb-item>
+                <el-breadcrumb-item
+                  :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
+                  class="tips_2">
+                  职位列表
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </el-breadcrumb-item>
+                <el-breadcrumb-item>职位详情</el-breadcrumb-item>
+              </el-breadcrumb>
+            </div>
+
+            <div class="detail_show hidden-xs" v-show="show">
+              <div class="content">
+                <div class="title">{{item.positionName}}</div>
+                <div class="text">
+            <span
+              class="des">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
+              }}</span><span class="price">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
+                </div>
+                <div class="p_time">发布时间：{{filterTime(item.posiPublishTime)}}</div>
+
+                <div class="post_share">
+                  <el-button type="primary" @click="join">申请职位</el-button>
+                  <el-button @click="share">分享职位</el-button>
+                </div>
+              </div>
+            </div>
+            <div class="job-page__header visible-xs">
+              <div class="job-page__header__title">
+                <span>{{item.positionName}}</span>
+              </div>
+              <div class="job-page__others">
+                <span class="des"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
+                <span class="price"><i class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
+                <span class="kind"><i
+                  class="kind_icon"></i>{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
+                  }}</span>
+              </div>
+            </div>
+            <!--公司-->
+            <div class="job-page__header__link visible-xs">
+              <div class="inner" @click="backIndex">
+                <div class="column1">
+                  <div class="logo_border">
+                    <img :src="homeData.bigLogo" alt="">
+                  </div>
+                </div>
+                <div class="column2">
+                  <div class="company">{{homeData.form.company_name}}</div>
+                  <div class="status">
+                    <span class="custom-icon-text-color">{{homeData.s_log_back}}</span>
+                  </div>
+                </div>
+                <div class="column3">
+                  <span class="arrow_icon"></span>
+                </div>
+              </div>
+            </div>
+            <!--职位描述-->
+            <div class="detail_text">
+              <div class="detail_content">
+                <div class="title" v-show="item">职位描述</div>
+                <el-form>
+                  <el-form-item>
+                    <el-input type="textarea" class="text" v-model="item.positionDesc" readonly
+                              autosize></el-input>
+                  </el-form-item>
+                </el-form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--底部固定区域-->
+    <div class="detail-close"></div>
+
     <div class="footer hidden-xs">
       <footer>
         <div class="title"></div>
@@ -113,18 +227,10 @@
 
     <div class="mobile_footer visible-xs">
       <div class="post_share">
-        <button  @click="share" class="post_share_button">分享职位</button>
+        <button @click="share" class="post_share_button">分享职位</button>
         <button type="primary" @click="join" class="post_button">我要应聘</button>
       </div>
     </div>
-    <div v-transfer-dom>
-      <x-dialog v-model="showDialogStyle" hide-on-blur :dialog-style="{'max-width': '100%', width: '100%', height: '50%', 'background-color': 'transparent'}">
-        <p style="color:#fff;text-align:center;" @click="showDialogStyle = false">
-          <span style="font-size:30px;" class="img"></span>
-        </p>
-      </x-dialog>
-    </div>
-
     <el-dialog
       class="tips2"
       title="扫码分享职位"
@@ -154,11 +260,11 @@
 </template>
 <script>
   import Scroll from './base/scroll2'
-  import {XButton,XDialog,TransferDomDirective as TransferDom } from 'vux'
+  import {XButton, XDialog, TransferDomDirective as TransferDom} from 'vux'
   export default {
     data() {
       return {
-         a:'1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；',
+        a: '1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；',
         id: this.$route.params.id,
         companyId: '',
         item: {
@@ -178,9 +284,9 @@
         eLogo: '',
         show: false,
         arrow_tip: false,
-        model:false,
-        showDialogStyle:false,
-        hiddens:true
+        model: false,
+        showDialogStyle: false,
+        hiddens: true
       }
     },
     props: {
@@ -192,7 +298,7 @@
       TransferDom
     },
     created() {
-      setTimeout(()=>{
+      setTimeout(() => {
         this.probeType = 3
         this.listenScroll = true
         this._getDetail()
@@ -202,12 +308,11 @@
         if (this.$route.params.id) {
           this.id = this.$route.params.id
         }
-        console.log(this.homeData)
         if (this.$route.name !== 'home') {
           this.hiddens = false
 //          document.getElementById('list_detail').style.paddingTop = 0
         }
-      },20)
+      }, 20)
     },
     methods: {
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
@@ -250,7 +355,7 @@
       backIndex() {
         this.$router.push({
           path: `/`,
-          query:{
+          query: {
             companyId: this.companyId,
           }
         })
@@ -318,6 +423,7 @@
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../common/stylus/mixin.styl"
+  @import "../common/stylus/base.styl"
   #list_detail
     .tips2
       .el-dialog--small
@@ -351,7 +457,7 @@
           font-size: 14px
           padding-left: 17px;
       .share
-        padding: 0 0.35rem;
+        padding: 0;
         .el-form-item
           margin-bottom: 0
           margin-right: 0
@@ -433,7 +539,7 @@
                   outline: none
                   border: none
                   .el-textarea__inner
-                    min-height :300px
+                    min-height: 300px
                     border: none !important
                     outline: none !important
           .des_p
@@ -456,7 +562,7 @@
           width: 100%
           height: 100px
           line-height: 100px
-          color: #5c6170999
+          color: #5c6170 999
           font-size: 28px
           margin: 0 auto
           background: url(../common/image/footer_logo.png) no-repeat center
@@ -466,11 +572,324 @@
 
   @media all and (max-width: 767px)
     #list_detail
-      padding-top :1.12rem
-      .back{
+      position: fixed
+      top: 0
+      left: 0
+      overflow: auto
+      width: 100%
+      height: 100%
+      background: #fff
+      padding-top: 1.12rem
+      .detail-wrapper
+        width :100%
+        min-height: 100%
+        .detail-main
+          padding-bottom: 1.28rem
+          .container
+            padding: 0
+            margin: 0
+            height: 100%
+            overflow: hidden
+            padding-bottom: 1.12rem
+            .share-arrow
+              position: fixed;
+              top: 10px;
+              width: 2.66rem;
+              height: 2.42rem;
+              right: 0.34rem;
+              background: url(../common/image/tips.png) no-repeat center
+              background-size: 100%;
+              z-index: 2001;
+            .detail_des
+              background: #fff
+              position: relative
+              height: 52px
+              line-height: 52px
+              border-b-1px(#E5E9F2)
+              margin-top: 20px
+
+              .tips
+                position: absolute
+                left: 23px
+                top: 19px
+                height: 16px
+                line-height: 16px
+                .tips_nav
+                  .icon
+                    display: inline-block
+                    float: left
+                    width: 6px
+                    height: 12px
+                    margin: 0 10px
+                    color: #5AA2E7
+                  .icon1
+                    display: inline-block
+                    float: left
+                    width: 6px
+                    height: 12px
+                    margin: 0 10px
+                    color: #99A9BF
+                  .nav_item
+                    float: left
+                    font-size: 14px
+                    width: 56px
+                    height: 16px
+                    text-align: center
+                    color: #99A9BF
+                    &:nth-child(1), &:nth-child(3)
+                      color: #5AA2E7
+            .detail_show
+              height: 3.16rem
+              background: #fff
+              padding: 0.37rem 0 0.3rem 0.30rem
+              border-bottom: 1px solid #E5E9F2
+              margin-bottom: 0
+
+              .content
+                position: relative
+                .post_share
+                  position: relative
+                  width: 222px
+                  height: 0.8rem
+                  line-height: 0.8rem
+                  left: 0
+                  .weui-btn_mini
+                    display: inline-block
+                    vertical-align: top
+                    background: #5aa2e7
+                  .weui-btn_default
+                    margin-left: 0
+                    display: inline-block
+                    vertical-align: top
+                    margin-top: 0
+                    background: #F8F8F8
+                .title
+                  font-size: 0.28rem
+                  color: #1F2D3D
+                  margin-bottom: 0
+                .text
+                  height: 0.25rem
+                  line-height: 0.25rem
+                  margin-top: 0.25rem
+                  .des
+                    display: inline-block
+                    font-size: 0.24rem
+                    color: #475669
+                    margin-right: 0.36rem
+                    vertical-align: middle
+                  .price
+                    display: inline-block
+                    font-size: 0.26rem
+                    vertical-align: middle
+                    color: #F96868
+                .p_time
+                  height: 0.23rem
+                  line-height: 0.23rem
+                  font-size: 0.24rem
+                  color: #99A9BF
+                  margin-bottom: 0.38rem
+                  margin-top: 0.5rem
+            .detail_text
+              width: 100%;
+              background: #fff;
+              margin-top: 0.4rem
+              padding: 0;
+              .detail_content
+                padding: 0.39rem 0.32rem 0.3rem 0.27rem
+                color: #1F2D3D
+                font-size: 0.28rem
+                .title
+                  font-weight: 500;
+                  margin-bottom: 10px;
+                  border-bottom: 1px solid #f4f4f6;
+                  padding-bottom: 8px;
+                  font-size: 0.3rem;
+                  color: #333;
+                .el-form
+                  .el-form-item
+                    .el-form-item__content
+                      .text
+                        outline: none
+                        border: none
+                        .el-textarea__inner
+                          color: #5c6170 !important
+                          font-size: 0.28rem
+                          line-height: 18px
+                          overflow: hidden
+                          border: none !important
+                          outline: none !important
+                .des_p
+                  width: 100%
+                  background: #fff
+                  border: none
+                  outline: none
+                  height: 8rem
+                  line-height: 2
+                  font-size: 0.28rem
+                  color: #333
+
+            .job-page__header
+              position: relative;
+              padding: 20px 12px 12px;
+              background-color: #fff;
+              border-radius: 1px;
+              .job-page__header__title
+                width: 100%
+                font-size: 0.32rem;
+                font-weight: bold;
+                vertical-align: middle;
+                color: #5c6170;
+              .job-page__others
+                position: relative;
+                font-size: 0.28rem
+                margin-top: 0.3rem;
+                min-height: 20px;
+                color: #5c6170;
+                .des {
+                  display: inline-block
+                  font-size: 0.28rem
+                  color: #666
+                  height: 14px
+                  line-height: 14px
+                  margin-right: 0.4rem
+                  vertical-align: middle
+                  position: relative
+                  padding-left: 0.4rem
+                  .address_icon {
+                    display: inline-block
+                    vertical-align: top
+                    position: absolute
+                    width: 22px
+                    height: 14px
+                    top: -1px
+                    left: -4px
+                    background: url(../common/image/address.png) no-repeat center
+                    background-size: 50%
+                  }
+                }
+                .price {
+                  display: inline-block
+                  font-size: 0.28rem
+                  height: 14px
+                  line-height: 14px
+                  color: #666
+                  vertical-align: middle
+                  margin-right: 0.4rem
+                  position: relative
+                  padding-left: 0.62rem
+                  .salary_icon {
+                    display: inline-block
+                    position: absolute
+                    width: 26px
+                    height: 14px
+                    line-height: 14px
+                    top: -0.02rem
+                    left: 0
+                    background: url(../common/image/salary.png) no-repeat center
+                    background-size: 50%
+                  }
+                }
+                .kind {
+                  display: inline-block
+                  font-size: 0.28rem
+                  color: #666
+                  vertical-align: middle
+                  margin-top: 0
+                  height: 14px
+                  line-height: 14px
+                  position: relative
+                  padding-left: 0.42rem
+                  .kind_icon {
+                    display: inline-block
+                    position: absolute
+                    width: 15px
+                    height: 14px
+                    top: 0
+                    left: 0
+                    background: url(../common/image/kind_icon.png) no-repeat center
+                    background-size: 50%
+                  }
+                }
+
+            .job-page__header__link {
+              display: block;
+              background: #fff;
+              padding: 0 12px;
+              .inner {
+                padding: 18px 0;
+                border-top: 1px #f4f4f6 solid;
+                display: flex;
+                .column1 {
+                  .logo_border {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 56px;
+                    max-width: 200px;
+                    min-width: 56px;
+                    margin-right: 12px;
+                    border: 1px solid #dddfe3;
+                    border-radius: 2px;
+                    img {
+                      width: 1.07rem;
+                      height: 1.07rem;
+                    }
+                  }
+                }
+                .column2 {
+                  .company {
+                    max-width: 160px;
+                    -o-text-overflow: ellipsis;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    margin-top: 5px;
+                    font-size: 15px;
+                    color: #5c6170;
+                  }
+                  .status {
+                    margin-top: 6px;
+                    background-color: #fff;
+                    text-align: left;
+                    font-size: 13px;
+                    line-height: 20px;
+                    color: #9a9fac;
+                    max-width: 4rem
+                    overflow: hidden
+                    -o-text-overflow: ellipsis;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  }
+                }
+                .column3 {
+                  margin: auto 0 auto auto;
+                  font-size: 16px;
+                  color: #bcbfc8;
+                  position: relative
+                  .arrow_icon {
+                    display: inline-block
+                    width: 10px
+                    height: 18px
+                    background: url(../common/image/Backicon.png) no-repeat center
+                    background-size: 50%
+                    position: absolute
+                    top: -5px
+                    right: 0
+                  }
+                }
+              }
+            }
+      .detail-close
+        position :relative
+        width :100%
+        height :32px
+        clear: both
+        font-size :0.32rem
+        background :url(../common/image/footLogo.png)no-repeat center
+        background-size :100%
+      .back {
         position: fixed;
         left: 0;
-        top :0;
+        top: 0;
         right: 0;
         z-index: 1;
         height: 1.12rem;
@@ -478,337 +897,44 @@
         padding-right: 20px;
         background-color: #64b5f6;
         color: rgba(9, 10, 11, 1);
-        .icon{
+        .icon {
           display: inline-block
-          width :39px
-          height :34px
-          position :absolute
-          left :0.2rem
-          top :0.18rem
-          background :url(../common/image/back.png)no-repeat center
-          background-size :50%
+          width: 39px
+          height: 34px
+          position: absolute
+          left: 0.2rem
+          top: 0.18rem
+          background: url(../common/image/back.png) no-repeat center
+          background-size: 50%
         }
-        .title{
-          width :100%
+        .title {
+          width: 100%
           height: 1.12rem;
           line-height: 1.12rem;
-          color :#fff
-          font-size :0.34rem
-          margin-left :0.6rem
+          color: #fff
+          font-size: 0.34rem
+          margin-left: 0.6rem
         }
       }
-      .container
-        padding: 0
-        margin: 0
-        height: 100%
-        overflow: hidden
-        padding-bottom: 1.12rem
-        .share-arrow
-          position: fixed;
-          top: 10px;
-          width: 2.66rem;
-          height: 2.42rem;
-          right: 0.34rem;
-          background: url(../common/image/tips.png) no-repeat center
-          background-size: 100%;
-          z-index: 2001;
-        .detail_des
-          background: #fff
-          position: relative
-          height: 52px
-          line-height: 52px
-          border-b-1px(#E5E9F2)
-          margin-top: 20px
-
-          .tips
-            position: absolute
-            left: 23px
-            top: 19px
-            height: 16px
-            line-height: 16px
-            .tips_nav
-              .icon
-                display: inline-block
-                float: left
-                width: 6px
-                height: 12px
-                margin: 0 10px
-                color: #5AA2E7
-              .icon1
-                display: inline-block
-                float: left
-                width: 6px
-                height: 12px
-                margin: 0 10px
-                color: #99A9BF
-              .nav_item
-                float: left
-                font-size: 14px
-                width: 56px
-                height: 16px
-                text-align: center
-                color: #99A9BF
-                &:nth-child(1), &:nth-child(3)
-                  color: #5AA2E7
-        .detail_show
-          height: 3.16rem
-          background: #fff
-          padding: 0.37rem 0 0.3rem 0.30rem
-          border-bottom: 1px solid #E5E9F2
-          margin-bottom: 0
-
-          .content
-            position: relative
-            .post_share
-              position: relative
-              width: 222px
-              height: 0.8rem
-              line-height: 0.8rem
-              left: 0
-              .weui-btn_mini
-                display: inline-block
-                vertical-align: top
-                background: #5aa2e7
-              .weui-btn_default
-                margin-left: 0
-                display: inline-block
-                vertical-align: top
-                margin-top :0
-                background :#F8F8F8
-            .title
-              font-size: 0.28rem
-              color: #1F2D3D
-              margin-bottom: 0
-            .text
-              height: 0.25rem
-              line-height: 0.25rem
-              margin-top: 0.25rem
-              .des
-                display: inline-block
-                font-size: 0.24rem
-                color: #475669
-                margin-right: 0.36rem
-                vertical-align: middle
-              .price
-                display: inline-block
-                font-size: 0.26rem
-                vertical-align: middle
-                color: #F96868
-            .p_time
-              height: 0.23rem
-              line-height: 0.23rem
-              font-size: 0.24rem
-              color: #99A9BF
-              margin-bottom: 0.38rem
-              margin-top: 0.5rem
-        .detail_text
-          width: 100%;
-          background: #fff;
-          margin-top :0.4rem
-          padding: 0;
-          .detail_content
-            padding: 0.39rem 0.32rem 0.3rem 0.27rem
-            color: #1F2D3D
-            font-size :0.28rem
-            .title
-              font-weight: 500;
-              margin-bottom: 10px;
-              border-bottom: 1px solid #f4f4f6;
-              padding-bottom: 8px;
-              font-size: 0.3rem;
-              color: #333;
-            .el-form
-              .el-form-item
-                .el-form-item__content
-                  .text
-                    outline: none
-                    border: none
-                    .el-textarea__inner
-                      color: #5c6170!important
-                      font-size :0.28rem
-                      line-height :18px
-                      overflow: hidden
-                      border: none !important
-                      outline: none !important
-            .des_p
-              width: 100%
-              background: #fff
-              border: none
-              outline: none
-              height: 8rem
-              line-height: 2
-              font-size: 0.28rem
-              color: #333
-
-        .job-page__header
-          position: relative;
-          padding: 20px 12px 12px;
-          background-color: #fff;
-          border-radius: 1px;
-          .job-page__header__title
-            width: 100%
-            font-size: 0.32rem;
-            font-weight: bold;
-            vertical-align: middle;
-            color: #5c6170;
-          .job-page__others
-            position: relative;
-            font-size :0.28rem
-            margin-top: 0.3rem;
-            min-height: 20px;
-            color: #5c6170;
-            .des {
-              display: inline-block
-              font-size: 0.28rem
-              color: #666
-              height :14px
-              line-height :14px
-              margin-right: 0.4rem
-              vertical-align: middle
-              position :relative
-              padding-left :0.4rem
-              .address_icon{
-                display :inline-block
-                vertical-align :top
-                position :absolute
-                width :22px
-                height :14px
-                top :-1px
-                left :-4px
-                background :url(../common/image/address.png)no-repeat center
-                background-size :50%
-              }
-            }
-            .price {
-              display: inline-block
-              font-size: 0.28rem
-              height :14px
-              line-height :14px
-              color: #666
-              vertical-align: middle
-              margin-right: 0.4rem
-              position :relative
-              padding-left :0.62rem
-              .salary_icon{
-                display :inline-block
-                position :absolute
-                width :26px
-                height :14px
-                line-height :14px
-                top :-0.02rem
-                left :0
-                background :url(../common/image/salary.png)no-repeat center
-                background-size :50%
-              }
-            }
-            .kind {
-              display: inline-block
-              font-size: 0.28rem
-              color: #666
-              vertical-align: middle
-              margin-top :0
-              height :14px
-              line-height :14px
-              position :relative
-              padding-left :0.42rem
-              .kind_icon{
-                display :inline-block
-                position :absolute
-                width :15px
-                height :14px
-                top :0
-                left :0
-                background :url(../common/image/kind_icon.png)no-repeat center
-                background-size :50%
-              }
-            }
-
-        .job-page__header__link{
-          display: block;
-          background: #fff;
-          padding: 0 12px;
-          .inner{
-            padding: 18px 0;
-            border-top: 1px #f4f4f6 solid;
-            display: flex;
-            .column1{
-              .logo_border{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 56px;
-                max-width: 200px;
-                min-width: 56px;
-                margin-right: 12px;
-                border: 1px solid #dddfe3;
-                border-radius: 2px;
-                img{
-                  width: 1.07rem;
-                  height: 1.07rem;
-                }
-              }
-            }
-            .column2{
-              .company{
-                max-width: 160px;
-                -o-text-overflow: ellipsis;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                margin-top: 5px;
-                font-size: 15px;
-                color: #5c6170;
-              }
-              .status{
-                margin-top: 6px;
-                background-color: #fff;
-                text-align: left;
-                font-size: 13px;
-                line-height: 20px;
-                color: #9a9fac;
-                max-width :4rem
-                overflow :hidden
-                -o-text-overflow: ellipsis;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-              }
-            }
-            .column3{
-              margin: auto 0 auto auto;
-              font-size: 16px;
-              color: #bcbfc8;
-              position :relative
-              .arrow_icon{
-                display :inline-block
-                width :10px
-                height :18px
-                background :url(../common/image/Backicon.png)no-repeat center
-                background-size :50%
-                position:absolute
-                top :-5px
-                right :0
-              }
-            }
-          }
-        }
       .footer
-            position: relative
+        position: relative
+        width: 100%
+        bottom: 0
+        left: 0
+        height: 1rem
+        line-height: 1rem
+        footer
+          background: #F7F7F7
+          height: 1rem !important
+          line-height: 1rem !important
+          width: 100%
+          .title
             width: 100%
-            bottom: 0
-            left: 0
-            height: 1rem
-            line-height: 1rem
-            footer
-              background: #F7F7F7
-              height: 1rem !important
-              line-height: 1rem !important
-              width: 100%
-              .title
-                width: 100%
-                height: 100%
-                text-align: center
-                color: #5c6170999
-                font-size: 0.14rem
-                background: url(../common/image/footer_logo.png) no-repeat center
+            height: 100%
+            text-align: center
+            color: #5c6170 999
+            font-size: 0.14rem
+            background: url(../common/image/footer_logo.png) no-repeat center
 
       .model
         position: fixed;
@@ -816,47 +942,47 @@
         top: 0;
         width: 100%;
         height: 100%;
-        opacity :0.9
+        opacity: 0.9
         background: #333;
         z-index: 2000
-        .share-arrow{
+        .share-arrow {
           position: fixed;
           width: 100%;
           right: 0;
           top: 0;
           height: 4rem;
-          background: url(../common/image/tips.png)no-repeat center
+          background: url(../common/image/tips.png) no-repeat center
           z-index: 3000;
-          background-size :80%
+          background-size: 80%
         }
-      .mobile_footer{
+      .mobile_footer {
         position: fixed;
         left: 0;
         right: 0;
         z-index: 100;
         height: 1.2rem;
-        bottom :0
+        bottom: 0
         padding-left: 20px;
         padding-right: 20px;
         background-color: #fff;
         box-shadow: 0 0 3px #bcbfc8;
-        text-align :center
-        padding-bottom :10px
+        text-align: center
+        padding-bottom: 10px
         padding-top: 7.5px;
-        .post_share{
-          .post_share_button{
+        .post_share {
+          .post_share_button {
             display: inline-block;
             vertical-align: top;
             height: 0.9rem;
             line-height: 0.9rem;
             border-radius: 2px;
             width: 46%;
-            border: 1px solid #5AA2E7 ;
+            border: 1px solid #5AA2E7;
             background-color: #fff;
-            font-size :14px
-            outline :none
+            font-size: 14px
+            outline: none
           }
-          .post_button{
+          .post_button {
             display: inline-block;
             width: 46%;
             margin-left: 10px;
@@ -864,16 +990,16 @@
             height: 0.9rem;
             line-height: 0.9rem;
             border-radius: 2px;
-            color :#fff
-            font-size :14px
-            background :#5AA2E7
-            outline :none
-            border :none
+            color: #fff
+            font-size: 14px
+            background: #5AA2E7
+            outline: none
+            border: none
           }
         }
 
-
       }
+
     .tips2
       .el-dialog--small
         width: 100%

@@ -24,6 +24,7 @@ import 'common/stylus/index.styl'
 
 Vue.use(ElementUI)
 
+
 Object.defineProperty(Vue.prototype, '$moment', { value: moment });
 
 
