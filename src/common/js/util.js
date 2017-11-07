@@ -11,14 +11,9 @@ var user = "http://192.168.5.76:8080/hrm"; // 小辉本地
 // var user = "http://192.168.4.195:8080/hrm"; // 天明本地
 
 // var user="http://121.199.182.2:30004/hrm"
-
-<<<<<<< Updated upstream
 // var user = "http://192.168.4.157:8080/hrm";  //鹿丸
-=======
-// var user = "http://192.168.4.157:8060/hrm";  //鹿丸
->>>>>>> Stashed changes
 
-var user = "https://aijuhr.com/hrm"; // 正式
+// var user = "https://aijuhr.com/hrm"; // 正式
 
 
 exports.ukeyNo = false;//U盾的开关,正式:false,开发:true
