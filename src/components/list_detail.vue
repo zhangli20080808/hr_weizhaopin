@@ -939,8 +939,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        opacity: 0.9
-        background: #333;
+        background: rgba(0,0,0,0.8);
         z-index: 2000
         .share-arrow {
           position: fixed;
@@ -948,9 +947,9 @@
           right: 0;
           top: 0;
           height: 4rem;
-          background: url(https://aijuhr.com/images/yidong/tips.67d28c9.png) no-repeat center
+          background: url('https://aijuhr.com/images/yidong/tips.67d28c9.png') no-repeat center;
           z-index: 3000;
-          background-size: 80% auto
+          background-size: 80% auto;
         }
       .mobile_footer {
         position: fixed;
