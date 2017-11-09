@@ -15,6 +15,10 @@ import results from 'components/microresume/results.vue'
 
 Vue.use(Router)
 
+Router.prototype.goBack = function () {
+  this.isBack = true
+  window.history.go(-1)
+}
 export default new Router({
   routes: [
     {

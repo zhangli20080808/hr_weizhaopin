@@ -20,15 +20,12 @@ Vue.use(Methods);
 
 Vue.config.productionTip = false
 
+
 import 'common/stylus/index.styl'
 
 Vue.use(ElementUI)
 
-
 Object.defineProperty(Vue.prototype, '$moment', { value: moment });
-
-
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

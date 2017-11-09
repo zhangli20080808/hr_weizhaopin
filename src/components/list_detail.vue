@@ -108,14 +108,11 @@
       <i class="icon" @click="back"></i>
       <h2 class="title">职位详情</h2>
     </div>
-    <div class="detail-wrapper clearfix hidden-sm hidden-lg">
-      <!--内容-->
-      <div class="detail-main">
-        <div class="container">
-          <div>
-            <div class="detail_des hidden-xs hidden-sm">
-              <el-breadcrumb separator="/" class="tips">
-                <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
+    <div class="container">
+      <div>
+        <div class="detail_des hidden-xs hidden-sm">
+          <el-breadcrumb separator="/" class="tips">
+            <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
 
 
 
@@ -130,10 +127,10 @@
 
 
             </el-breadcrumb-item>
-                <el-breadcrumb-item
-                  :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
-                  class="tips_2">
-                  职位列表
+            <el-breadcrumb-item
+              :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
+              class="tips_2">
+              职位列表
 
 
 
@@ -147,78 +144,73 @@
 
 
 
-                </el-breadcrumb-item>
-                <el-breadcrumb-item>职位详情</el-breadcrumb-item>
-              </el-breadcrumb>
-            </div>
+            </el-breadcrumb-item>
+            <el-breadcrumb-item>职位详情</el-breadcrumb-item>
+          </el-breadcrumb>
+        </div>
 
-            <div class="detail_show hidden-xs" v-show="show">
-              <div class="content">
-                <div class="title">{{item.positionName}}</div>
-                <div class="text">
+        <div class="detail_show hidden-xs" v-show="show">
+          <div class="content">
+            <div class="title">{{item.positionName}}</div>
+            <div class="text">
             <span
               class="des">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
               }}</span><span class="price">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
-                </div>
-                <div class="p_time">发布时间：{{filterTime(item.posiPublishTime)}}</div>
+            </div>
+            <div class="p_time">发布时间：{{filterTime(item.posiPublishTime)}}</div>
 
-                <div class="post_share">
-                  <el-button type="primary" @click="join">申请职位</el-button>
-                  <el-button @click="share">分享职位</el-button>
-                </div>
+            <div class="post_share">
+              <el-button type="primary" @click="join">申请职位</el-button>
+              <el-button @click="share">分享职位</el-button>
+            </div>
+          </div>
+        </div>
+        <div class="job-page__header visible-xs">
+          <div class="job-page__header__title">
+            <span>{{item.positionName}}</span>
+          </div>
+          <div class="job-page__others">
+            <span class="des"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
+            <span class="price"><i class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
+            <span class="kind"><i
+              class="kind_icon"></i>{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
+              }}</span>
+          </div>
+        </div>
+        <!--公司-->
+        <div class="job-page__header__link visible-xs">
+          <div class="inner" @click="backIndex">
+            <div class="column1">
+              <div class="logo_border">
+                <img :src="homeData.bigLogo" alt="">
               </div>
             </div>
-            <div class="job-page__header visible-xs">
-              <div class="job-page__header__title">
-                <span>{{item.positionName}}</span>
-              </div>
-              <div class="job-page__others">
-                <span class="des"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
-                <span class="price"><i class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
-                <span class="kind"><i
-                  class="kind_icon"></i>{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
-                  }}</span>
+            <div class="column2">
+              <div class="company">{{homeData.form.company_name}}</div>
+              <div class="status">
+                <span class="custom-icon-text-color">{{homeData.s_log_back}}</span>
               </div>
             </div>
-            <!--公司-->
-            <div class="job-page__header__link visible-xs">
-              <div class="inner" @click="backIndex">
-                <div class="column1">
-                  <div class="logo_border">
-                    <img :src="homeData.bigLogo" alt="">
-                  </div>
-                </div>
-                <div class="column2">
-                  <div class="company">{{homeData.form.company_name}}</div>
-                  <div class="status">
-                    <span class="custom-icon-text-color">{{homeData.s_log_back}}</span>
-                  </div>
-                </div>
-                <div class="column3">
-                  <span class="arrow_icon"></span>
-                </div>
-              </div>
+            <div class="column3">
+              <span class="arrow_icon"></span>
             </div>
-            <!--职位描述-->
-            <div class="detail_text">
-              <div class="detail_content">
-                <div class="title" v-show="item">职位描述</div>
-                <el-form>
-                  <el-form-item>
-                    <el-input type="textarea" class="text" v-model="item.positionDesc" readonly
-                              autosize></el-input>
-                  </el-form-item>
-                </el-form>
+          </div>
+        </div>
+        <!--职位描述-->
+        <div class="detail_text">
+          <div class="detail_content">
+            <div class="title" v-show="item">职位描述</div>
+            <el-form>
+              <el-form-item>
+                <el-input  type="textarea" class="text" v-model="item.positionDesc" readonly
+                           autosize></el-input>
+              </el-form-item>
+            </el-form>
 
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
-    <!--底部固定区域-->
-    <div class="detail-close"></div>
-
     <div class="footer hidden-xs">
       <footer>
         <div class="title"></div>
@@ -299,6 +291,7 @@
     },
     created() {
       setTimeout(() => {
+          this.s_init()
         this.probeType = 3
         this.listenScroll = true
         this._getDetail()
@@ -313,6 +306,7 @@
           this.hiddens = false
 //          document.getElementById('list_detail').style.paddingTop = 0
         }
+        console.log(this.$route)
       }, 20)
     },
     methods: {
@@ -411,6 +405,7 @@
         this.arrow_tip = false
       },
       back() {
+        this.$router.goBack()
         this.$router.push({
           path: '/list',
           name: 'List',
@@ -418,6 +413,12 @@
             companyId: this.companyId,
           }
         })
+      },
+      s_init: function () {
+        let url = 'https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js'
+        let script = document.createElement('script')
+        script.setAttribute('src', url)
+        document.getElementsByTagName('head')[0].appendChild(script)
       }
     },
     components: {
@@ -586,295 +587,291 @@
       height: 100%
       background: #fff
       padding-top: 1.12rem
-      .detail-wrapper
-        width :100%
-        min-height: 100%
-        .detail-main
-          padding-bottom: 1.28rem
-          .container
-            padding: 0
-            margin: 0
-            height: 100%
-            overflow: hidden
-            padding-bottom: 1.12rem
-            .detail_des
-              background: #fff
-              position: relative
-              height: 52px
-              line-height: 52px
-              border-b-1px(#E5E9F2)
-              margin-top: 20px
+      .container
+        padding: 0
+        margin: 0
+        height: 100%
+        overflow: hidden
+        padding-bottom: 1.12rem
+        .detail_des
+          background: #fff
+          position: relative
+          height: 52px
+          line-height: 52px
+          border-b-1px(#E5E9F2)
+          margin-top: 20px
 
-              .tips
-                position: absolute
-                left: 23px
-                top: 19px
+          .tips
+            position: absolute
+            left: 23px
+            top: 19px
+            height: 16px
+            line-height: 16px
+            .tips_nav
+              .icon
+                display: inline-block
+                float: left
+                width: 6px
+                height: 12px
+                margin: 0 10px
+                color: #5AA2E7
+              .icon1
+                display: inline-block
+                float: left
+                width: 6px
+                height: 12px
+                margin: 0 10px
+                color: #99A9BF
+              .nav_item
+                float: left
+                font-size: 14px
+                width: 56px
                 height: 16px
-                line-height: 16px
-                .tips_nav
-                  .icon
-                    display: inline-block
-                    float: left
-                    width: 6px
-                    height: 12px
-                    margin: 0 10px
-                    color: #5AA2E7
-                  .icon1
-                    display: inline-block
-                    float: left
-                    width: 6px
-                    height: 12px
-                    margin: 0 10px
-                    color: #99A9BF
-                  .nav_item
-                    float: left
-                    font-size: 14px
-                    width: 56px
-                    height: 16px
-                    text-align: center
-                    color: #99A9BF
-                    &:nth-child(1), &:nth-child(3)
-                      color: #5AA2E7
-            .detail_show
-              height: 3.16rem
-              background: #fff
-              padding: 0.37rem 0 0.3rem 0.30rem
-              border-bottom: 1px solid #E5E9F2
+                text-align: center
+                color: #99A9BF
+                &:nth-child(1), &:nth-child(3)
+                  color: #5AA2E7
+        .detail_show
+          height: 3.16rem
+          background: #fff
+          padding: 0.37rem 0 0.3rem 0.30rem
+          border-bottom: 1px solid #E5E9F2
+          margin-bottom: 0
+
+          .content
+            position: relative
+            .post_share
+              position: relative
+              width: 222px
+              height: 0.8rem
+              line-height: 0.8rem
+              left: 0
+              .weui-btn_mini
+                display: inline-block
+                vertical-align: top
+                background: #5aa2e7
+              .weui-btn_default
+                margin-left: 0
+                display: inline-block
+                vertical-align: top
+                margin-top: 0
+                background: #F8F8F8
+            .title
+              font-size: 0.28rem
+              color: #1F2D3D
               margin-bottom: 0
+            .text
+              height: 0.25rem
+              line-height: 0.25rem
+              margin-top: 0.25rem
+              .des
+                display: inline-block
+                font-size: 0.24rem
+                color: #475669
+                margin-right: 0.36rem
+                vertical-align: middle
+              .price
+                display: inline-block
+                font-size: 0.26rem
+                vertical-align: middle
+                color: #F96868
+            .p_time
+              height: 0.23rem
+              line-height: 0.23rem
+              font-size: 0.24rem
+              color: #99A9BF
+              margin-bottom: 0.38rem
+              margin-top: 0.5rem
+        .detail_text
+          width: 100%;
+          background: #fff;
+          margin-top: 0.4rem
+          padding: 0;
+          .detail_content
+            padding: 0.39rem 0.32rem 0.3rem 0.27rem
+            color: #1F2D3D
+            font-size: 0.28rem
+            .title
+              font-weight: 500;
+              margin-bottom: 10px;
+              border-bottom: 1px solid #f4f4f6;
+              padding-bottom: 8px;
+              font-size: 0.3rem;
+              color: #333;
+            .el-form
+              .el-form-item
+                .el-form-item__content
+                  .text
+                    outline: none
+                    border: none
+                    .el-textarea__inner
+                      color: #5c6170 !important
+                      font-size: 0.28rem
+                      line-height: 18px
+                      overflow: hidden
+                      border: none !important
+                      outline: none !important
+            .des_p
+              width: 100%
+              background: #fff
+              border: none
+              outline: none
+              height: 8rem
+              line-height: 2
+              font-size: 0.28rem
+              color: #333
 
-              .content
-                position: relative
-                .post_share
-                  position: relative
-                  width: 222px
-                  height: 0.8rem
-                  line-height: 0.8rem
-                  left: 0
-                  .weui-btn_mini
-                    display: inline-block
-                    vertical-align: top
-                    background: #5aa2e7
-                  .weui-btn_default
-                    margin-left: 0
-                    display: inline-block
-                    vertical-align: top
-                    margin-top: 0
-                    background: #F8F8F8
-                .title
-                  font-size: 0.28rem
-                  color: #1F2D3D
-                  margin-bottom: 0
-                .text
-                  height: 0.25rem
-                  line-height: 0.25rem
-                  margin-top: 0.25rem
-                  .des
-                    display: inline-block
-                    font-size: 0.24rem
-                    color: #475669
-                    margin-right: 0.36rem
-                    vertical-align: middle
-                  .price
-                    display: inline-block
-                    font-size: 0.26rem
-                    vertical-align: middle
-                    color: #F96868
-                .p_time
-                  height: 0.23rem
-                  line-height: 0.23rem
-                  font-size: 0.24rem
-                  color: #99A9BF
-                  margin-bottom: 0.38rem
-                  margin-top: 0.5rem
-            .detail_text
-              width: 100%;
-              background: #fff;
-              margin-top: 0.4rem
-              padding: 0;
-              .detail_content
-                padding: 0.39rem 0.32rem 0.3rem 0.27rem
-                color: #1F2D3D
-                font-size: 0.28rem
-                .title
-                  font-weight: 500;
-                  margin-bottom: 10px;
-                  border-bottom: 1px solid #f4f4f6;
-                  padding-bottom: 8px;
-                  font-size: 0.3rem;
-                  color: #333;
-                .el-form
-                  .el-form-item
-                    .el-form-item__content
-                      .text
-                        outline: none
-                        border: none
-                        .el-textarea__inner
-                          color: #5c6170 !important
-                          font-size: 0.28rem
-                          line-height: 18px
-                          overflow: hidden
-                          border: none !important
-                          outline: none !important
-                .des_p
-                  width: 100%
-                  background: #fff
-                  border: none
-                  outline: none
-                  height: 8rem
-                  line-height: 2
-                  font-size: 0.28rem
-                  color: #333
+        .job-page__header
+          position: relative;
+          padding: 20px 12px 12px;
+          background-color: #fff;
+          border-radius: 1px;
+          .job-page__header__title
+            width: 100%
+            font-size: 0.32rem;
+            font-weight: bold;
+            vertical-align: middle;
+            color: #5c6170;
+          .job-page__others
+            position: relative;
+            font-size: 0.28rem
+            margin-top: 0.3rem;
+            min-height: 20px;
+            color: #5c6170;
+            .des {
+              display: inline-block
+              font-size: 0.28rem
+              color: #666
+              height: 14px
+              line-height: 14px
+              margin-right: 0.4rem
+              vertical-align: middle
+              position: relative
+              padding-left: 0.4rem
+              .address_icon {
+                display: inline-block
+                vertical-align: top
+                position: absolute
+                width: 22px
+                height: 14px
+                top: -1px
+                left: -4px
+                background: url(../common/image/address.png) no-repeat center
+                background-size: 50%
+              }
+            }
+            .price {
+              display: inline-block
+              font-size: 0.28rem
+              height: 14px
+              line-height: 14px
+              color: #666
+              vertical-align: middle
+              margin-right: 0.4rem
+              position: relative
+              padding-left: 0.62rem
+              .salary_icon {
+                display: inline-block
+                position: absolute
+                width: 26px
+                height: 14px
+                line-height: 14px
+                top: -0.02rem
+                left: 0
+                background: url(../common/image/salary.png) no-repeat center
+                background-size: 50%
+              }
+            }
+            .kind {
+              display: inline-block
+              font-size: 0.28rem
+              color: #666
+              vertical-align: middle
+              margin-top: 0
+              height: 14px
+              line-height: 14px
+              position: relative
+              padding-left: 0.42rem
+              .kind_icon {
+                display: inline-block
+                position: absolute
+                width: 15px
+                height: 14px
+                top: 0
+                left: 0
+                background: url(../common/image/kind_icon.png) no-repeat center
+                background-size: 50%
+              }
+            }
 
-            .job-page__header
-              position: relative;
-              padding: 20px 12px 12px;
-              background-color: #fff;
-              border-radius: 1px;
-              .job-page__header__title
-                width: 100%
-                font-size: 0.32rem;
-                font-weight: bold;
-                vertical-align: middle;
-                color: #5c6170;
-              .job-page__others
-                position: relative;
-                font-size: 0.28rem
-                margin-top: 0.3rem;
-                min-height: 20px;
-                color: #5c6170;
-                .des {
-                  display: inline-block
-                  font-size: 0.28rem
-                  color: #666
-                  height: 14px
-                  line-height: 14px
-                  margin-right: 0.4rem
-                  vertical-align: middle
-                  position: relative
-                  padding-left: 0.4rem
-                  .address_icon {
-                    display: inline-block
-                    vertical-align: top
-                    position: absolute
-                    width: 22px
-                    height: 14px
-                    top: -1px
-                    left: -4px
-                    background: url(../common/image/address.png) no-repeat center
-                    background-size: 50%
-                  }
-                }
-                .price {
-                  display: inline-block
-                  font-size: 0.28rem
-                  height: 14px
-                  line-height: 14px
-                  color: #666
-                  vertical-align: middle
-                  margin-right: 0.4rem
-                  position: relative
-                  padding-left: 0.62rem
-                  .salary_icon {
-                    display: inline-block
-                    position: absolute
-                    width: 26px
-                    height: 14px
-                    line-height: 14px
-                    top: -0.02rem
-                    left: 0
-                    background: url(../common/image/salary.png) no-repeat center
-                    background-size: 50%
-                  }
-                }
-                .kind {
-                  display: inline-block
-                  font-size: 0.28rem
-                  color: #666
-                  vertical-align: middle
-                  margin-top: 0
-                  height: 14px
-                  line-height: 14px
-                  position: relative
-                  padding-left: 0.42rem
-                  .kind_icon {
-                    display: inline-block
-                    position: absolute
-                    width: 15px
-                    height: 14px
-                    top: 0
-                    left: 0
-                    background: url(../common/image/kind_icon.png) no-repeat center
-                    background-size: 50%
-                  }
-                }
-
-            .job-page__header__link {
-              display: block;
-              background: #fff;
-              padding: 0 12px;
-              .inner {
-                padding: 18px 0;
-                border-top: 1px #f4f4f6 solid;
+        .job-page__header__link {
+          display: block;
+          background: #fff;
+          padding: 0 12px;
+          .inner {
+            padding: 18px 0;
+            border-top: 1px #f4f4f6 solid;
+            display: flex;
+            .column1 {
+              .logo_border {
                 display: flex;
-                .column1 {
-                  .logo_border {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 56px;
-                    max-width: 200px;
-                    min-width: 56px;
-                    margin-right: 12px;
-                    border: 1px solid #dddfe3;
-                    border-radius: 2px;
-                    img {
-                      width: 1.07rem;
-                      height: 1.07rem;
-                    }
-                  }
-                }
-                .column2 {
-                  .company {
-                    max-width: 160px;
-                    -o-text-overflow: ellipsis;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    margin-top: 5px;
-                    font-size: 15px;
-                    color: #5c6170;
-                  }
-                  .status {
-                    margin-top: 6px;
-                    background-color: #fff;
-                    text-align: left;
-                    font-size: 13px;
-                    line-height: 20px;
-                    color: #9a9fac;
-                    max-width: 4rem
-                    overflow: hidden
-                    -o-text-overflow: ellipsis;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                  }
-                }
-                .column3 {
-                  margin: auto 0 auto auto;
-                  font-size: 16px;
-                  color: #bcbfc8;
-                  position: relative
-                  .arrow_icon {
-                    display: inline-block
-                    width: 10px
-                    height: 18px
-                    background: url(../common/image/Backicon.png) no-repeat center
-                    background-size: 50%
-                    position: absolute
-                    top: -5px
-                    right: 0
-                  }
+                justify-content: center;
+                align-items: center;
+                height: 56px;
+                max-width: 200px;
+                min-width: 56px;
+                margin-right: 12px;
+                border: 1px solid #dddfe3;
+                border-radius: 2px;
+                img {
+                  width: 1.07rem;
+                  height: 1.07rem;
                 }
               }
             }
+            .column2 {
+
+              .company {
+                max-width: 160px;
+                -o-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                margin-top: 10px;
+                font-size: 15px;
+                color: #5c6170;
+              }
+              .status {
+                margin-top: 6px;
+                background-color: #fff;
+                text-align: left;
+                font-size: 13px;
+                line-height: 20px;
+                color: #9a9fac;
+                max-width: 4rem
+                overflow: hidden
+                -o-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+            }
+            .column3 {
+              margin: auto 0 auto auto;
+              font-size: 16px;
+              color: #bcbfc8;
+              position: relative
+              .arrow_icon {
+                display: inline-block
+                width: 10px
+                height: 18px
+                background: url(../common/image/Backicon.png) no-repeat center
+                background-size: 50%
+                position: absolute
+                top: -5px
+                right: 0
+              }
+            }
+          }
+        }
       .detail-close
         position :relative
         width :100%

@@ -1,5 +1,5 @@
 <template>
-  <div class="home" v-cloak="" v-show="homeData">
+  <div class="home" v-show="homeData.form.company_name">
     <!--导航-->
     <!--轮播-->
     <div class="main_ad" v-show="homeData.img_list_1">
@@ -9,8 +9,6 @@
           <!--<img :src="homeData.img_list_1" alt="">-->
           <div class="item_text">
             <div class="title" v-show="homeData.form.title">{{homeData.form.title}}
-
-
 
             </div>
             <div class="des" v-show="homeData.form.subTitle">{{homeData.form.subTitle}}</div>
@@ -24,6 +22,7 @@
         </div>
       </div>
     </div>
+    <split></split>
     <!--公司简介-->
     <div class="s_company hidden-xs">
       <img class="c_img" v-show="homeData.bigLogo" :src="homeData.bigLogo">
@@ -51,21 +50,23 @@
       </ul>
     </div>
     <!--公司简介-->
-    <div class="m_s_company visible-xs" v-show="homeData" v-cloak>
+    <div class="m_s_company hidden-sm hidden-lg" v-show="homeData.form.company_name">
       <img :src="homeData.bigLogo" class="item-logo" alt="">
-      <div class="item-desc">
+      <div class="item-desc" v-show="homeData.form.company_name">
         <div class="care">关注</div>
         <h2 class="item-title">{{homeData.form.company_name}}</h2>
         <p class="item-info">
           <span class="item-pos">
             {{homeData.form.company_p}}
           </span></p>
-        <p class="item-time"> {{homeData.form.company_address}}  | {{homeData.website}} | {{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}} | {{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</p>
+        <p class="item-time">
+          {{homeData.form.company_address}}  | {{homeData.website}} | {{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}} | {{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</p>
       </div>
     </div>
+    <split></split>
     <!--公司介绍-->
-    <div class="intro_c" id="2F" v-if="homeData.content">
-      <div class="title" v-if="homeData.customName2">
+    <div class="intro_c" id="2F" v-show="homeData.content">
+      <div class="title" v-show="homeData.customName2">
         <div class="text">{{homeData.customName2}}
 
           <span class="line hidden-xs"></span>
@@ -78,6 +79,7 @@
         </div>
       </div>
     </div>
+    <split></split>
     <!--招聘职位-->
     <div id="1F" class="s_recruit hidden-xs" v-show="homeData.wzpPositionList">
       <div class="container">
@@ -102,11 +104,11 @@
       </div>
     </div>
     <!--m招聘职位-->
-    <div class="job-list visible-xs" v-show="homeData.wzpPositionList">
-      <div class="head">
+    <div class="job-list hidden-sm hidden-lg">
+      <div class="head" v-show="homeData.customName1">
         <div class="title">{{homeData.customName1}}</div>
         <div class="allR">
-          <span @click="toList">查看全部职位</span>
+          <span @click="toList">{{getAllRecruit}}</span>
           <span class="icon"></span>
         </div>
       </div>
@@ -128,11 +130,12 @@
         </li>
       </ul>
     </div>
-    <footerNav></footerNav>
+    <footerNav v-show="homeData.form.company_name"></footerNav>
   </div>
 </template>
 <script>
   import footerNav from './base/foot'
+  import split from './base/split/split.vue'
   export default {
     data() {
       return {
@@ -189,8 +192,10 @@
           totalCount: 1
         },
         posId: 0,
-        categoryName:'',
-        all:[]
+        categoryName: '',
+        all: [],
+        getAllRecruit: '查看全部职位',
+        showAll:'全部'
       }
     },
     props: {
@@ -200,11 +205,13 @@
     },
     methods: {
       goSearch() {
+        this.all = '全部'
         this.$router.push({
           path: `/list`,
           name: 'List',
           params: {
-            search: this.search
+            search: this.search,
+            all:this.all
           },
           query: {
             companyId: this.companyId,
@@ -240,7 +247,9 @@
         this.$router.push({
           path: `/list`,
           name: 'List',
-          params: {},
+          params: {
+            showAll:this.showAll
+          },
           query: {
             companyId: this.companyId,
           }
@@ -254,8 +263,8 @@
           query: {
             companyId: this.companyId,
           },
-          params:{
-              all:this.all
+          params: {
+            all: this.all
           }
 
         })
@@ -290,10 +299,12 @@
 //      },
     },
     created(){
-     setTimeout(()=>{
-       localStorage.setItem('companyId', this.companyId)
-       document.title = this.homeData.form.company_name
-     },20)
+      setTimeout(() => {
+        this.all = ''
+        localStorage.setItem('companyId', this.companyId)
+        document.title = this.homeData.form.company_name,
+          localStorage.clear()
+      }, 20)
     },
     computed: {
       bgStyle() {
@@ -301,7 +312,8 @@
       }
     },
     components: {
-      footerNav
+      footerNav,
+      split
     }
   }
 </script>
@@ -761,8 +773,6 @@
       .m_s_company {
         padding: 0.28rem
         background: #fff
-        margin-top: 0.40rem
-        margin-bottom: 0.40rem
         .item-logo {
           display: inline-block;
           float: left;
@@ -772,17 +782,17 @@
         .item-desc {
           margin-left: 70px;
           height: 1.07rem;
-          position :relative
-          .care{
-            display :inline-block
-            font-size :0.26rem
-            color:#9a9fac
-            position :absolute
-            right :8px
-            top :0
-            border :1px solid #999
-            padding :5px
-            border-radius :4px
+          position: relative
+          .care {
+            display: inline-block
+            font-size: 0.26rem
+            color: #9a9fac
+            position: absolute
+            right: 8px
+            top: 0
+            border: 1px solid #999
+            padding: 5px
+            border-radius: 4px
             margin-top: 0.25rem;
           }
           .item-title {
@@ -819,7 +829,6 @@
         padding: 0.32rem 0.24rem;
         border-radius: 0.02rem;
         background: #fff;
-        margin-bottom: 0.4rem
         .title {
           color: #090a0b
           font-size: 0.32rem

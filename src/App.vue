@@ -1,26 +1,32 @@
 <template>
-  <div id="app" v-cloak>
+  <div id="app">
     <navHeader :homeData="homeData" :seller="seller" @search="searchDetail" :companyId="companyId"
                @toIndex="ToHome"></navHeader>
-    <router-view :homeData="homeData"></router-view>
-    <!--<footerNav></footerNav>-->
+
+    <transition name="fade" mode=out-in>
+      <router-view :homeData="homeData"></router-view>
+    </transition>
+    <loading v-show="!homeData.form.company_p"></loading>
   </div>
 </template>
 
 <script>
-  //  import navTitle from './components/base/back'
   import navHeader from './components/base/nav'
+  import loading from './components/base/loading/loading.vue'
 
   export default {
     name: 'app',
     data() {
       return {
+        // 默认动态路由变化为slide-right
+        transitionName: 'slide-right',
         seller: {
           logoUrl: '',
           isSearch: false,
           search: '',
           s_log_back: ''
         },
+        all:'',
         companyId: (() => {
           let queryParam = this.urlParse();
           return queryParam.companyId;
@@ -96,9 +102,8 @@
       }
     },
     components: {
-//      navTitle,
       navHeader,
-//      footerNav
+      loading
     },
     methods: {
       //获取url参数
@@ -166,6 +171,7 @@
       //首页职位搜索功能
       searchDetail(val) {
         this.searchList = val
+        this.all = '全部'
         this.$router.push({
           path: `/list`,
           name: 'List',
@@ -173,37 +179,10 @@
             companyId: this.companyId,
           },
           params: {
-            searchList: this.searchList
+            searchList: this.searchList,
+            all:this.all
           }
         })
-//        var _this = this;
-//        var method = "miniRecruit/searchRecruitPosition";
-//        var param = JSON.stringify({
-//          key: val,
-//          companyId: _this.companyId,
-//          pageNum: 1,
-//          pageSize: 9
-//        });
-//        var successd = function (res) {
-//          if (res.data.code == 0) {
-//            console.log(res.data.data)
-//            _this.list = res.data.data.recruitPositionList
-//            _this.searchPage = res.data.data.page
-//            _this.$router.push({
-//              path: `/list`,
-//              name: 'List',
-//              query: {
-//                companyId: _this.companyId,
-//              },
-//              params: {
-//                searchList: _this.list,
-//                searchPage: _this.searchPage
-//              }
-//            })
-//          }
-//
-//        }
-//        _this.$http(method, param, successd);
       },
       ToHome(val){
         this.$router.push({
@@ -217,9 +196,11 @@
     created(){
       this.$nextTick(() => {
         this._getIndexInfo()
+        this.all = ''
       })
     }
   }
+
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
@@ -307,6 +288,17 @@
         text-align: center;
         border-top: 1px solid #dddfe3
         color: #5c6170
+      }
+    }
+
+    #app {
+
+    //动画
+      .fade-enter-active, .fade-leave-active {
+        transform: translateX(-100%);
+      }
+      .fade-enter, .fade-leave-active {
+        transition: all 0.4s ease;
       }
 
     }

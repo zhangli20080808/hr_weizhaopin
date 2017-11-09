@@ -20,6 +20,14 @@
   .loading
     width: 100%
     text-align: center
+    weight:200px;
+    height:400px;
+    position :absolute
+    top :50%
+    left :0
+    right :0
+    bottom :0
+    margin :auto
     .desc
       line-height: 20px
       font-size: $font-size-small

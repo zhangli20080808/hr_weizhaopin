@@ -2,10 +2,18 @@
   <div id="s_list">
     <!--搜索-->
     <div class="container">
+
       <div class="search hidden-xs hidden-sm">
         <div class="detail_des">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页
+
+
+
+
+
+
+
 
 
             </el-breadcrumb-item>
@@ -88,37 +96,7 @@
         <!--</div>-->
         <!--</div>-->
       </div>
-      <div class="job-filter hidden-sm hidden-lg ">
-        <!--搜索-->
-        <div class="job-filter__row">
-          <div class="mobile-text-input job-filter__search-input">
-            <div class="mobile-text-input__wrapper text  ">
-              <span class="icon icon-search mobile-text-input__icon  "></span>
-              <span class="mobile-text-input__label   "></span>
-              <input type="search" class="mobile-text-input__input" placeholder="请输入关键字" v-model="Search">
-            </div>
-          </div>
-        </div>
 
-        <div class="job-filter__row">
-          <div class="mobile-text-input job-filter__selector">
-            <div class="mobile-text-input__wrapper">
-              <span class="icon address_icon mobile-text-input__icon  "></span>
-              <span class="mobile-text-input__label   "></span>
-              <input type="search" class="mobile-text-input__input" placeholder="" v-model="address" readonly
-                     @click="chooseAll">
-            </div>
-          </div>
-          <div class="mobile-text-input job-filter__selector">
-            <div class="mobile-text-input__wrapper">
-              <span class="icon icon-work mobile-text-input__icon  "></span>
-              <span class="mobile-text-input__label   "></span>
-              <input type="search" class="mobile-text-input__input" placeholder="" v-model="form.name" readonly
-                     @click="choseKind">
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="list hidden-xs">
         <div class="list_content" v-show="list.length">
           <el-row :gutter="20" class="">
@@ -156,33 +134,66 @@
       </div>
     </div>
     <div class="result hidden-sm hidden-lg">
-      <scroller lock-x height="-110" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
+      <scroller lock-x height="-100" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
 
         <ul class="job-list__list">
-          <li v-for="item in list" @click="selectItem(item)">
-            <div class="job-list-item">
-              <div class="title">
-                <span class="prior"></span>
-                <span>{{item.positionName}}</span>
+          <div class="job-filter hidden-sm hidden-lg ">
+            <!--搜索-->
+            <div class="job-filter__row">
+              <div class="mobile-text-input job-filter__search-input">
+                <div class="mobile-text-input__wrapper text  ">
+                  <span class="icon icon-search mobile-text-input__icon  "></span>
+                  <span class="mobile-text-input__label   "></span>
+                  <input type="search" class="mobile-text-input__input" placeholder="请输入关键字" v-model="Search">
+                </div>
               </div>
-              <div class="details">
+            </div>
+
+            <div class="job-filter__row">
+              <div class="mobile-text-input job-filter__selector">
+                <div class="mobile-text-input__wrapper">
+                  <span class="icon address_icon mobile-text-input__icon  "></span>
+                  <span class="mobile-text-input__label   "></span>
+                  <input type="text" class="mobile-text-input__input" placeholder="" v-model="address"
+                         onfocus="this.blur()" @click="chooseAll">
+                </div>
+              </div>
+              <div class="mobile-text-input job-filter__selector">
+                <div class="mobile-text-input__wrapper">
+                  <span class="icon icon-work mobile-text-input__icon  "></span>
+                  <span class="mobile-text-input__label   "></span>
+                  <input type="text" class="mobile-text-input__input" placeholder="" v-model="form.name"
+                         onfocus="this.blur()" @click="choseKind">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="contant-list">
+            <li v-for="item in list" @click="selectItem(item)">
+              <div class="job-list-item">
+                <div class="title">
+                  <span class="prior"></span>
+                  <span>{{item.positionName}}</span>
+                </div>
+                <div class="details">
               <span class="misc">
                 <span class="secondary">{{getCity(item.workCity)}}</span>
                 <span class="secondary">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
                 <span
                   class="secondary">{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>
               </span>
-              </div>
-              <div class="secondary-details">
+                </div>
+                <div class="secondary-details">
               <span class="opened-at">
                 <span>发布时间：</span>
                 <span>{{filter(item.posiPublishTime)}}</span>
               </span>
+                </div>
               </div>
-            </div>
-          </li>
+            </li>
+          </div>
           <load-more tip="loading" v-if="showMore "></load-more>
-          <load-more :show-loading="false" tip="暂无更多数据" background-color="#fbf9fe" v-else></load-more>
+          <loading v-show="!list"></loading>
         </ul>
       </scroller>
     </div>
@@ -217,6 +228,14 @@
         </div>
       </x-dialog>
     </div>
+    <!--底部-->
+    <div class="footer hidden-sm hidden-lg">
+      <footer>
+        <a href="https://aijuhr.com">
+          <div class="title"></div>
+        </a>
+      </footer>
+    </div>
   </div>
 
 </template>
@@ -226,10 +245,8 @@
   import allcity from '../common/js/allcity'
   import loading from './base/loading/loading.vue'
   import scroll from  '../components/base/scroll.vue'
+  import footerNav from '../components/base/foot.vue'
 
-  import Vue from 'vue'
-  import VueScroller from 'vue-scroller'
-  Vue.use(VueScroller)
   import {
     XDialog,
     Scroller,
@@ -245,7 +262,7 @@
   export default {
     data() {
       return {
-        showMore:true,
+        showMore: false,
         pullup: true,
         showList1: true,
         scrollTop: 0,
@@ -307,6 +324,8 @@
     },
     methods: {
       selectItem(item) {
+        this.form.kind = localStorage.setItem('cate', item.categoryId)
+        localStorage.setItem('cateName', item.categoryName)
         this.$router.push({
           path: `/list/${item.id}`,
           name: 'listDetail',
@@ -365,6 +384,7 @@
       findAll(){
         this.form.address = []
         this.form.kind = ''
+        this.item = ''
         this.positionList()
       },
       getCity(item){
@@ -387,6 +407,7 @@
         console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
+            console.log(res.data.data)
             _this.list = _this._genResult(res.data.data)
             _this.config.totalCount = res.data.data.count
           }
@@ -485,34 +506,8 @@
         this.config.pageNum = pageNum;
         this.positionList()
       },
-      searchMore(){
-        var _this = this;
-        _this.config.pageNum++
-        var method = "promotionPage/positionList";
-        var param = JSON.stringify({
-          pageNum: _this.config.pageNum,
-          pageSize: _this.config.pageSize,
-          companyId: _this.companyId,
-          categoryId: _this.form.kind ? `${_this.form.kind}` : '',
-          workCity: _this.item ? `${_this.item}` : ''
-        });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-//            var arr = _this._genResult(res.data.data);
-            _this.list = _this.list.concat(_this._genResult(res.data.data))
-//            _this.$set(_this.list,)
-//            console.log(_this.list)
-//
-//            for (var i = 0; i < arr.length; i++) {
-//              _this.list.push(arr[i])
-//            }
-//            console.log(_this._genResult(res.data.data))
-            console.log(_this.list)
-          }
-        }
-        _this.$http(method, param, successd);
-      },
       back() {
+        this.$router.back()
         this.$router.push({
           path: '/',
           name: 'home',
@@ -561,8 +556,8 @@
             this.config.pageSize += 5
             this.showMore = true
             this.positionList()
-          }else{
-              this.showMore = false
+          } else {
+            this.showMore = false
           }
           setTimeout(() => {
             this.$nextTick(() => {
@@ -580,25 +575,35 @@
 
     mounted() {
 
+      let showAll = this.$route.params.showAll
+      let posId = localStorage.getItem('posId')
+      let posName = localStorage.getItem('posName')
+//      let cateName = localStorage.getItem('cateName')
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId
       }
-      if (this.$route.params.search) {
+      if (this.$route.params.search === '' && this.$route.params.all !== '') {
+        this.positionList()
+      } else if (this.$route.params.search) {
         this.Search = this.$route.params.search
       }
       this.transitionCityLists()
       this.getPositionCategoryList()
       this.getCityList()
-      let posId = localStorage.getItem('posId')
-      let posName = localStorage.getItem('posName')
+
       this.form.kind = Number(posId)
       if (this.form.kind !== 0) {
         this.form.name = posName
-        this.showMore = false
         this.positionList()
       } else {
-        this.form.kind = ''
-        this.positionList()
+        let cate = localStorage.getItem('cate')
+        this.form.kind = cate
+        this.form.name = '全部职能类型'
+        if (cate) {
+//          this.form.name = cateName
+          this.positionList()
+
+        }
       }
       if (this.$route.params.all == '') {
         this.positionList()
@@ -606,7 +611,6 @@
       if (this.$route.params.searchList) {
         this.Search = this.$route.params.searchList
       }
-
 
     },
     components: {
@@ -619,11 +623,12 @@
       Cell,
       LoadMore,
       scroll,
-      XDialog
+      XDialog,
+      footerNav
     },
     watch: {
       Search(val){
-          this.goSearch(val)
+        this.goSearch(val)
       }
     }
   }
@@ -798,9 +803,11 @@
       background: #fff
       height: 100%
       width: 100%
-      position :fixed
-      top:0
-      bottom:0
+      position: fixed
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
       padding-bottom: 0.1rem
       .container {
         padding: 0
@@ -1033,101 +1040,111 @@
             margin-left: 0.6rem
           }
         }
-        .job-filter {
-          padding: 5px 10px;
-          background-color: #fff;
-          .job-filter__row {
-            display: -webkit-box;
-            display: -moz-box;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: box;
-            display: flex;
-            .list-form {
-              margin-top: 0.2rem
-              height: 1rem
-              line-height: 1rem
-              .el-form {
-                height: 0.8rem;
-                line-height: 0.8rem;
-                color: #5c6170
-                font-size: 0.28rem
-                background: #fff
-                .form_address {
-                  display: inline-block
-                  width: 50%
-                  float: left
-                  position: relative
-                  .address_icon {
-                    position: absolute
-                    top: 0.08rem
+
+      }
+      .result {
+        height: 100%
+        overflow: hidden
+        .job-list__list {
+          margin: 0;
+          background: #fff;
+          list-style: none;
+          .job-filter {
+            padding: 5px 12px;
+            background-color: #fff;
+            .job-filter__row {
+              display: -webkit-box;
+              display: -moz-box;
+              display: -webkit-flex;
+              display: -ms-flexbox;
+              display: box;
+              display: flex;
+              .list-form {
+                margin-top: 0.2rem
+                height: 1rem
+                line-height: 1rem
+                .el-form {
+                  height: 0.8rem;
+                  line-height: 0.8rem;
+                  color: #5c6170
+                  font-size: 0.28rem
+                  background: #fff
+                  .form_address {
                     display: inline-block
-                    background: url(../common/image/address_city.png) no-repeat center
-                    width: 22px
-                    height: 28px
-                    z-index: 1
-                    background-size: 50%
-                  }
-                  .el-form-item__content {
-                    margin-left: 15px !important
-                    margin-bottom: 0
-                    .el-input {
-                      border-b-1px(#E5E9F2)
-                      .el-input__icon {
-                        display: none
-                      }
-                      .el-input__inner {
-                        border: none;
-                        text-align: center;
-                        line-height: 0.36rem
-                        font-size: 0.28rem
-                        color: #5c6170 !important
-                        &::placeholder {
-                          color: #5c6170
-                          font-size: 0.28rem
-                        }
-                      }
+                    width: 50%
+                    float: left
+                    position: relative
+                    .address_icon {
+                      position: absolute
+                      top: 0.08rem
+                      display: inline-block
+                      background: url(../common/image/address_city.png) no-repeat center
+                      width: 22px
+                      height: 28px
+                      z-index: 1
+                      background-size: 50%
                     }
-                    .el-cascader__label {
-                      padding: 0 10px 0 30px;
-                      color: #5c6170
-                      font-size: 0.28rem
-                    }
-                  }
-                }
-                .form_kind {
-                  display: inline-block
-                  width: 50%
-                  float: right
-                  margin-bottom: 0 !important
-                  position: relative
-                  .kind_icon {
-                    display: inline-block
-                    position: absolute
-                    top: 6px
-                    background: url(../common/image/other.png) no-repeat center
-                    width: 27px
-                    height: 23px
-                    background-size: 50%
-                    z-index: 1
-                  }
-                  .el-form-item__content {
-                    margin-right: 15px !important
-                    .el-select {
-                      border-b-1px(#E5E9F2)
+                    .el-form-item__content {
+                      margin-left: 15px !important
+                      margin-bottom: 0
                       .el-input {
+                        border-b-1px(#E5E9F2)
                         .el-input__icon {
                           display: none
                         }
                         .el-input__inner {
-                          border: none
+                          border: none;
                           text-align: center;
                           line-height: 0.36rem
                           font-size: 0.28rem
                           color: #5c6170 !important
-                          padding-right: 0
                           &::placeholder {
                             color: #5c6170
+                            font-size: 0.28rem
+                          }
+                        }
+                      }
+                      .el-cascader__label {
+                        padding: 0 10px 0 30px;
+                        color: #5c6170
+                        font-size: 0.28rem
+                      }
+                    }
+                  }
+                  .form_kind {
+                    display: inline-block
+                    width: 50%
+                    float: right
+                    margin-bottom: 0 !important
+                    position: relative
+                    .kind_icon {
+                      display: inline-block
+                      position: absolute
+                      top: 6px
+                      background: url(../common/image/other.png) no-repeat center
+                      width: 27px
+                      height: 23px
+                      background-size: 50%
+                      z-index: 1
+                    }
+                    .el-form-item__content {
+                      margin-right: 15px !important
+                      .el-select {
+                        border-b-1px(#E5E9F2)
+                        .el-input {
+                          .el-input__icon {
+                            display: none
+                          }
+                          .el-input__inner {
+                            border: none
+                            text-align: center;
+                            line-height: 0.36rem
+                            font-size: 0.28rem
+                            color: #5c6170 !important
+                            padding-right: 0
+                            &::placeholder {
+                              color: #5c6170
+                            }
                           }
                         }
                       }
@@ -1135,166 +1152,159 @@
                   }
                 }
               }
-            }
 
-            .mobile-text-input {
-              width: 100%;
-              padding: 0 16px;
-              display: inline-block;
-              -webkit-box-sizing: border-box;
-              -moz-box-sizing: border-box;
-              box-sizing: border-box;
-              .mobile-text-input__wrapper {
-                position: relative;
-                display: -webkit-box;
-                display: -moz-box;
-                display: -webkit-flex;
-                display: -ms-flexbox;
-                display: box;
-                display: flex;
-                height: 40px;
-                padding: 0 2px 0 2px;
-                margin-top: 10px;
-                line-height: 40px;
-                font-size: 12px;
-                border-bottom: 1px solid #dddfe3;
-                -webkit-transition: color 0.2s;
-                -moz-transition: color 0.2s;
-                -o-transition: color 0.2s;
-                -ms-transition: color 0.2s;
-                transition: color 0.2s;
-                -webkit-box-align: end;
-                -moz-box-align: end;
-                -o-box-align: end;
-                -ms-flex-align: end;
-                -webkit-align-items: flex-end;
-                align-items: flex-end;
-                .icon-search {
-                  display: inline-block
-                  -moz-box-flex: 0;
-                  -o-box-flex: 0;
-                  box-flex: 0;
-                  -webkit-flex: none;
-                  -ms-flex: none;
-                  flex: none;
-                  vertical-align: top;
-                  width: 30px;
-                  font-size: 15px;
-                  height: 40px
-                  line-height: 40px;
-                  color: #9a9fac;
-                  margin-left: -0.20rem;
-                  -webkit-transition: color 0.2s;
-                  -moz-transition: color 0.2s;
-                  -o-transition: color 0.2s;
-                  -ms-transition: color 0.2s;
-                  transition: color 0.2s;
-                  background: url(../common/image/search_list.png) no-repeat center
-                  background-size: 50%
-                }
-                .address_icon {
-                  display: inline-block
-                  -moz-box-flex: 0;
-                  -o-box-flex: 0;
-                  box-flex: 0;
-                  -webkit-flex: none;
-                  -ms-flex: none;
-                  flex: none;
-                  vertical-align: top;
-                  width: 30px;
-                  font-size: 15px;
-                  height: 40px
-                  line-height: 40px;
-                  color: #9a9fac;
-                  margin-left: -0.10rem;
-                  -webkit-transition: color 0.2s;
-                  -moz-transition: color 0.2s;
-                  -o-transition: color 0.2s;
-                  -ms-transition: color 0.2s;
-                  transition: color 0.2s;
-                  background: url(../common/image/address_city.png) no-repeat center
-                  background-size: 40%
-
-                }
-
-                .icon-work {
-                  display: inline-block
-                  -moz-box-flex: 0;
-                  -o-box-flex: 0;
-                  box-flex: 0;
-                  -webkit-flex: none;
-                  -ms-flex: none;
-                  flex: none;
-                  vertical-align: top;
-                  width: 30px;
-                  font-size: 15px;
-                  height: 40px
-                  line-height: 40px;
-                  color: #9a9fac;
-                  margin-left: -0.10rem;
-                  -webkit-transition: color 0.2s;
-                  -moz-transition: color 0.2s;
-                  -o-transition: color 0.2s;
-                  -ms-transition: color 0.2s;
-                  transition: color 0.2s;
-                  background: url(../common/image/other.png) no-repeat center
-                  background-size: 50%
-
-                }
-
-                .mobile-text-input__label {
-                  position: absolute;
-                  top: -2px;
-                  margin-top: 0;
-                  font-size: 15px;
-                  color: #9a9fac;
-                  -webkit-transition: all 0.2s;
-                  -moz-transition: all 0.2s;
-                  -o-transition: all 0.2s;
-                  -ms-transition: all 0.2s;
-                  transition: all 0.2s;
-                  pointer-events: none;
-                  font-size: 15px;
+              .mobile-text-input {
+                width: 100%;
+                padding: 0 16px;
+                display: inline-block;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                .mobile-text-input__wrapper {
+                  position: relative;
+                  display: -webkit-box;
+                  display: -moz-box;
+                  display: -webkit-flex;
+                  display: -ms-flexbox;
+                  display: box;
+                  display: flex;
                   height: 40px;
-                }
-                .mobile-text-input__input {
-                  width: 100%
-                  flex: 1;
-                  padding: 0;
-                  vertical-align: top;
-                  border: none;
-                  font-size: 0.28rem;
-                  height: 40px;
-                  color: #5c6170;
-                  outline: none
-                  padding-left: 0.18rem;
-                  &::placeholder {
+                  padding: 0 2px 0 2px;
+                  margin-top: 10px;
+                  line-height: 40px;
+                  font-size: 12px;
+                  border-bottom: 1px solid #dddfe3;
+                  -webkit-transition: color 0.2s;
+                  -moz-transition: color 0.2s;
+                  -o-transition: color 0.2s;
+                  -ms-transition: color 0.2s;
+                  transition: color 0.2s;
+                  -webkit-box-align: end;
+                  -moz-box-align: end;
+                  -o-box-align: end;
+                  -ms-flex-align: end;
+                  -webkit-align-items: flex-end;
+                  align-items: flex-end;
+                  .icon-search {
+                    display: inline-block
+                    -moz-box-flex: 0;
+                    -o-box-flex: 0;
+                    box-flex: 0;
+                    -webkit-flex: none;
+                    -ms-flex: none;
+                    flex: none;
+                    vertical-align: top;
+                    width: 30px;
+                    font-size: 15px;
+                    height: 40px
+                    line-height: 40px;
+                    color: #9a9fac;
+                    margin-left: -0.20rem;
+                    -webkit-transition: color 0.2s;
+                    -moz-transition: color 0.2s;
+                    -o-transition: color 0.2s;
+                    -ms-transition: color 0.2s;
+                    transition: color 0.2s;
+                    background: url(../common/image/search_list.png) no-repeat center
+                    background-size: 50%
+                  }
+                  .address_icon {
+                    display: inline-block
+                    -moz-box-flex: 0;
+                    -o-box-flex: 0;
+                    box-flex: 0;
+                    -webkit-flex: none;
+                    -ms-flex: none;
+                    flex: none;
+                    vertical-align: top;
+                    width: 30px;
+                    font-size: 15px;
+                    height: 40px
+                    line-height: 40px;
+                    color: #9a9fac;
+                    margin-left: -0.10rem;
+                    -webkit-transition: color 0.2s;
+                    -moz-transition: color 0.2s;
+                    -o-transition: color 0.2s;
+                    -ms-transition: color 0.2s;
+                    transition: color 0.2s;
+                    background: url(../common/image/address_city.png) no-repeat center
+                    background-size: 40%
+
+                  }
+
+                  .icon-work {
+                    display: inline-block
+                    -moz-box-flex: 0;
+                    -o-box-flex: 0;
+                    box-flex: 0;
+                    -webkit-flex: none;
+                    -ms-flex: none;
+                    flex: none;
+                    vertical-align: top;
+                    width: 30px;
+                    font-size: 15px;
+                    height: 40px
+                    line-height: 40px;
+                    color: #9a9fac;
+                    margin-left: -0.10rem;
+                    -webkit-transition: color 0.2s;
+                    -moz-transition: color 0.2s;
+                    -o-transition: color 0.2s;
+                    -ms-transition: color 0.2s;
+                    transition: color 0.2s;
+                    background: url(../common/image/other.png) no-repeat center
+                    background-size: 50%
+
+                  }
+
+                  .mobile-text-input__label {
+                    position: absolute;
+                    top: -2px;
+                    margin-top: 0;
+                    font-size: 15px;
+                    color: #9a9fac;
+                    -webkit-transition: all 0.2s;
+                    -moz-transition: all 0.2s;
+                    -o-transition: all 0.2s;
+                    -ms-transition: all 0.2s;
+                    transition: all 0.2s;
+                    pointer-events: none;
+                    font-size: 15px;
+                    height: 40px;
+                  }
+                  .mobile-text-input__input {
+                    width: 100%
+                    flex: 1;
+                    padding: 0;
+                    vertical-align: top;
+                    border: none;
+                    font-size: 0.28rem;
+                    height: 40px;
                     color: #5c6170;
+                    outline: none
+                    padding-left: 0.18rem;
+                    &::placeholder {
+                      color: #5c6170;
+                    }
                   }
                 }
               }
-            }
-            .job-filter__selector {
-              -webkit-box-flex: 1;
-              -moz-box-flex: 1;
-              -o-box-flex: 1;
-              box-flex: 1;
-              -webkit-flex: 1;
-              -ms-flex: 1;
-              flex: 1;
-              padding: 0 10px;
+              .job-filter__selector {
+                -webkit-box-flex: 1;
+                -moz-box-flex: 1;
+                -o-box-flex: 1;
+                box-flex: 1;
+                -webkit-flex: 1;
+                -ms-flex: 1;
+                flex: 1;
+                padding: 0 10px;
+              }
             }
           }
-        }
-      }
-      .result {
-        height: 100%
-        overflow: hidden
-        .job-list__list {
-          margin: 0;
-          padding: 0 26px;
-          background: #fff;
-          list-style: none;
+          .contant-list {
+            padding: 0 26px;
+          }
           .job-list-item {
             border-bottom: 1px solid #f4f4f6;
             display: block;
@@ -1334,6 +1344,27 @@
           }
         }
 
+      }
+      .footer {
+        position: fixed
+        width: 100%
+        bottom: 0
+        left: 0
+        footer {
+          height: 0.64rem
+          background: #F7F7F7
+          width: 100%
+          line-height: 0.64rem
+          .title {
+            height: 0.64rem !important
+            line-height: 0.64rem !important
+            text-align: center !important
+            color: #999999 !important
+            font-size: 0.14rem !important
+            background: url(../common/image/footLogo.png) no-repeat center !important
+            background-size: 100% !important
+          }
+        }
       }
     }
   }
