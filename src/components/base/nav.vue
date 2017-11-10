@@ -81,8 +81,7 @@
     }
   }
 </script>
-<style lang="stylus" rel="stylesheet/stylus">
-
+<style lang="stylus" rel="stylesheet/stylus" scoped>
   header {
     height 80px
     line-height 80px

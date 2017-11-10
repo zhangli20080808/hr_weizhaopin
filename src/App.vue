@@ -3,8 +3,8 @@
     <navHeader :homeData="homeData" :seller="seller" @search="searchDetail" :companyId="companyId"
                @toIndex="ToHome"></navHeader>
 
-    <transition name="fade" mode=out-in>
-      <router-view :homeData="homeData"></router-view>
+    <transition :name="transitionName">
+      <router-view :homeData="homeData" class="child-view"></router-view>
     </transition>
     <loading v-show="!homeData.form.company_p"></loading>
   </div>
@@ -18,8 +18,7 @@
     name: 'app',
     data() {
       return {
-        // 默认动态路由变化为slide-right
-        transitionName: 'slide-right',
+        transitionName:'slide-left',
         seller: {
           logoUrl: '',
           isSearch: false,
@@ -198,6 +197,17 @@
         this._getIndexInfo()
         this.all = ''
       })
+    },
+    watch:{
+      $route (to, from) {
+        let isBack = this.$router.isBack
+        if (isBack) {
+          this.transitionName = 'slide-right'
+        } else {
+          this.transitionName = 'slide-left'
+        }
+        this.$router.isBack = false
+      }
     }
   }
 
@@ -293,12 +303,19 @@
 
     #app {
 
-    //动画
-      .fade-enter-active, .fade-leave-active {
-        transform: translateX(-100%);
+      .slide-left-enter, .slide-right-leave-active {
+        opacity: 0;
+        -webkit-transform: translate(50px, 0);
+        transform: translate(50px, 0);
       }
-      .fade-enter, .fade-leave-active {
-        transition: all 0.4s ease;
+      .slide-left-leave-active, .slide-right-enter {
+        opacity: 0;
+        -webkit-transform: translate(-50px, 0);
+        transform: translate(-50px, 0);
+      }
+      .child-view {
+        width:100%;
+        transition: all .8s cubic-bezier(.55,0,.1,1);
       }
 
     }

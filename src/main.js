@@ -6,10 +6,10 @@ import router from './router'
 
 import ElementUI from 'element-ui'
 
+import 'element-ui/lib/theme-default/index.css'
+
 import 'bootstrap/dist/css/bootstrap.css'
 
-
-import 'element-ui/lib/theme-default/index.css'
 
 import 'common/js/index'
 
@@ -25,11 +25,16 @@ import 'common/stylus/index.styl'
 
 Vue.use(ElementUI)
 
+
 Object.defineProperty(Vue.prototype, '$moment', { value: moment });
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+
   template: '<App/>',
-  components: { App }
+  components: { App },
+
 })
+

@@ -10,9 +10,10 @@
           <div class="item_text">
             <div class="title" v-show="homeData.form.title">{{homeData.form.title}}
 
+
             </div>
-            <div class="des" v-show="homeData.form.subTitle">{{homeData.form.subTitle}}</div>
-            <div class="search-1BHuC hidden-sm hidden-lg">
+            <div class="des">{{homeData.form.subTitle}}</div>
+            <div class="search-1BHuC hidden-sm hidden-lg" v-show="homeData.img_list_1">
               <div class="container-28cVH">
                 <input type="text" class="input-1WRwm" placeholder="搜索职位关键字" v-model="search" @keyup.enter="goSearch">
                 <span class="_1SIiK _13ysA button-1UN4f custom-icon-background-color" @click="goSearch"></span>
@@ -134,6 +135,7 @@
   </div>
 </template>
 <script>
+
   import footerNav from './base/foot'
   import split from './base/split/split.vue'
   export default {
@@ -195,7 +197,7 @@
         categoryName: '',
         all: [],
         getAllRecruit: '查看全部职位',
-        showAll:'全部'
+        showAll: '全部'
       }
     },
     props: {
@@ -211,7 +213,7 @@
           name: 'List',
           params: {
             search: this.search,
-            all:this.all
+            all: this.all
           },
           query: {
             companyId: this.companyId,
@@ -248,7 +250,7 @@
           path: `/list`,
           name: 'List',
           params: {
-            showAll:this.showAll
+            showAll: this.showAll
           },
           query: {
             companyId: this.companyId,
@@ -309,6 +311,11 @@
     computed: {
       bgStyle() {
         return `background-image:url(${this.homeData.img_list_1})`
+      },
+      m_show(){
+        if(document.documentElement.clientWidth<768){
+            return false
+        }
       }
     },
     components: {
@@ -319,7 +326,7 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus" scoped>
   .home {
     [v-cloak] {
       display: none;

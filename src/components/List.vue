@@ -16,6 +16,7 @@
 
 
 
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
@@ -173,7 +174,7 @@
               <div class="job-list-item">
                 <div class="title">
                   <span class="prior"></span>
-                  <span>{{item.positionName}}</span>
+                  <span class="text">{{item.positionName}}</span>
                 </div>
                 <div class="details">
               <span class="misc">
@@ -236,6 +237,7 @@
         </a>
       </footer>
     </div>
+    <!--<router-view></router-view>-->
   </div>
 
 </template>
@@ -507,14 +509,16 @@
         this.positionList()
       },
       back() {
-        this.$router.back()
-        this.$router.push({
-          path: '/',
-          name: 'home',
-          query: {
-            companyId: this.companyId,
-          }
-        })
+        this.$router.goBack()
+//        console.log(this.$router)
+//
+//        this.$router.push({
+//          path: '/',
+//          name: 'home',
+//          query: {
+//            companyId: this.companyId,
+//          }
+//        })
       },
       choseKind(){
         this.showScrollBox = true
@@ -561,7 +565,6 @@
           }
           setTimeout(() => {
             this.$nextTick(() => {
-              this.$refs.scrollerBottom.reset()
             })
             this.onFetching = false
           }, 2000)
@@ -629,6 +632,9 @@
     watch: {
       Search(val){
         this.goSearch(val)
+      },
+      $route(to,from){
+
       }
     }
   }
@@ -1316,6 +1322,9 @@
               color: #5c6170;
               .prior {
                 color: #ff8054;
+              }
+              .text {
+                font-weight: bold
               }
             }
             .details {

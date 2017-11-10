@@ -1,7 +1,7 @@
 <template>
-  <div id="list_detail" v-show="item" ref="list">
+  <div id="list_detail" v-show="item.positionName" ref="list">
     <!--back-->
-    <div class="container hidden-xs">
+    <div class="container hidden-xs ">
       <div>
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
@@ -108,7 +108,7 @@
       <i class="icon" @click="back"></i>
       <h2 class="title">职位详情</h2>
     </div>
-    <div class="container">
+    <div class="container hidden-sm hidden-lg">
       <div>
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
@@ -425,6 +425,16 @@
       Scroll,
       XButton,
       XDialog
+    },
+    watch:{
+      $route(to, from) {
+            console.log(to)
+//            if(to.path == `/list/`){
+//                console.log('gsg')
+//            }else {
+//              console.log('23')
+//            }
+        }
     }
   }
 </script>
@@ -591,7 +601,6 @@
         padding: 0
         margin: 0
         height: 100%
-        overflow: hidden
         padding-bottom: 1.12rem
         .detail_des
           background: #fff
@@ -687,6 +696,7 @@
           background: #fff;
           margin-top: 0.4rem
           padding: 0;
+          padding-bottom :1.12rem
           .detail_content
             padding: 0.39rem 0.32rem 0.3rem 0.27rem
             color: #1F2D3D
