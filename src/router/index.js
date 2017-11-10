@@ -12,6 +12,7 @@ import Apply from 'components/Apply'
 import addResume from 'components/microresume/add.vue'
 import preview from 'components/microresume/preview.vue'
 import results from 'components/microresume/results.vue'
+import loginResume from 'components/microresume/loginResume.vue'
 
 Vue.use(Router)
 
@@ -38,7 +39,7 @@ export default new Router({
       component: listDetail
     },
     {
-      path: '/apply/:id',
+      path: '/apply',
       name: 'apply',
       component: Apply
     },
@@ -60,6 +61,11 @@ export default new Router({
       path:'/results',
       name:'results',
       component:results
+    },
+    {
+      path:'/loginResume',
+      name:'loginResume',
+      component:loginResume
     }
   ]
 })

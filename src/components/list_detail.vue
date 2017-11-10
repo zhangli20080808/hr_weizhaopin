@@ -340,14 +340,10 @@
           return;
         }
         this.$router.push({
-          path: `/apply/${this.id}`,
-          name: 'apply',
-          params: {
-            item: this.item,
-            id: this.id
-          },
+          path: "/apply",
           query: {
             companyId: this.companyId,
+            id:this.id
           }
 
         })

@@ -37,7 +37,22 @@
         var self=this;
         console.log(self.$route);
         self.type=self.$route.query.type;
-        self.interviewResumeInfo=JSON.parse(localStorage.interviewResumeInfo);
+        if(localStorage.interviewResumeInfo){
+          self.interviewResumeInfo=JSON.parse(localStorage.interviewResumeInfo);
+        }else{
+          self.interviewResumeInfo={
+            positionId:this.$route.query.id,
+            resumeId:null,//简历文件id
+            attachmentIds:null,//附件ids
+            name:'',
+            phone:'',
+            email:'',
+            sex:'',
+            birthday:'',
+            educationHistoryList:[],
+            workHistoryList:[]
+          }
+        }
       },
       reuturnResume(){
         var self=this;

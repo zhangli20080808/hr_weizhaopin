@@ -116,6 +116,23 @@
       <x-button class="success_resume_btn" @click.native="reuturnResume">返回修改</x-button>
     </div>
     <toast v-model="toastShow" type="text" :text="toastText" position="top" ></toast>
+
+    <div class="second" v-show="type==1">
+      <group label-width="150">
+        <cell title="前程无忧(51job)" is-link @click.native="jobsLogin(5)">
+          <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../../common/image/micresume/qianchengwuyou.png">
+          <p>导入</p>
+        </cell>
+        <cell title="智联招聘" is-link @click.native="jobsLogin(6)">
+          <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../../common/image/micresume/zhilianzhaopin.png">
+          <p>导入</p>
+        </cell>
+        <cell title="拉钩" is-link @click.native="jobsLogin(8)">
+          <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../../common/image/micresume/lagou.png">
+          <p>导入</p>
+        </cell>
+      </group>
+    </div>
   </div>
 </template>
 <script>
@@ -335,6 +352,9 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
       reuturnResume(){
         this.type=2;
         this.headType=1;
+      },
+      jobsLogin(type){
+        this.$router.push({path:'/loginResume',query:{type:type}})
       }
     },
     components:{
@@ -363,12 +383,12 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
 </style>
 <style scoped>
 	.add_resume{padding-bottom: 1.5rem;}
-  .first{height:4.8rem;margin-top:0.5rem;color:#000;}
+  .first{height:4.8rem;margin-top:0.5rem;color:#000;background-color: #fff;padding-top: 0.8rem;}
   .first img{width:1.2rem;height:2rem;display:block;margin:0 auto;font-size:0.28rem;padding-top:0.8rem;}
   .first p{font-size:0.48rem;text-align:center;font-weight:400;margin-top: 20px;}
   .first a{font-size:0.48rem;display:block;text-align: center;margin-top:0.48rem;color:#C7C7CC;}
-
-  .content{}
+  .second{margin-top: 0.5rem;background-color: #fff;}
+  
   .content_header{display: flex;justify-content: center;background-color: #5AA2E7;}
   .content_header li{font-size: 0.28rem;width: 24%;text-align: center;height: 1rem;line-height: 1.2rem;color: rgba(255,255,255,0.6);position: relative;}
   .content_header li i{position:absolute;top:5px;left:50%;margin-left:-9px;}
