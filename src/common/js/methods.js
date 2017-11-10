@@ -6,66 +6,40 @@ export default {
     Vue.prototype.getData = function () {
       console.log('我是插件中的方法');
     }
-    // Vue.prototype.$http = function (method, param, succeed) {
-    //   var self = this;
-    //   // self.fullscreenLoading = true;
-    //   var params = new URLSearchParams();
-    //   params.append("method",method);
-    //   params.append("param",param);
-    //   params.append("sign",md5('method' + method + "param" + param + "ecbao"));
-    //   Axios({
-    //     method: 'post',
-    //     url: Util.url,
-    //     data: params
-    //     // Util.url,
-    //     // 'method=' + method
-    //     // + '&param=' + param
-    //     // + '&sign=' + md5('method' + method + "param" + param + "ecbao")
-    //   }).then(function (res) {
-    //     // self.fullscreenLoading = false;
-    //     if (res.data.code == 0) {
-    //       succeed(res);
-    //     } else {
-    //       // 没有登录
-    //       if(res.data.code == 400){
-    //         location.href = "https://hr.ecbao.cn/login/";
-    //       }else if(res.data.code == 5555){
-    //         self.$router.push('/nopower');
-    //       }
-    //       self.$message({
-    //         message: '操作失败，原因：' + res.data.message,
-    //         type: 'error'
-    //       });
-    //     }
-    //   }).catch(function (err) {
-    //   });
-    // }
-    Vue.prototype.$http = function (method, param, succeed) {
+    Vue.prototype.$http = function (method, param, succeed,errord) {
       var self = this;
-      // self.fullscreenLoading = true;
       Axios.post(Util.url,
         'method=' + method
         + '&param=' + encodeURIComponent(param)
         + '&sign=' + md5('method' + method + "param" + param + "ecbao")
       ).then(function (res) {
-        // self.fullscreenLoading = false;
         if (res.data.code == 0) {
           succeed(res);
         } else {
-          // 没有登录
-          if(res.data.code == 400){
-            location.href = "https://hr.ecbao.cn/login/";
-          }else if(res.data.code == 5555){
-            self.$router.push('/nopower');
-          }
-          self.$message({
-            message: '操作失败，原因：' + res.data.message,
-            type: 'warning'
-          });
+          errord&&errord(res);
         }
       }).catch(function (err) {
       });
     }
+
+    /*
+    *qiya
+    调用climbingResume.do方法专用
+    */
+    Vue.prototype.$resumeHttp = function (param, succeed,errord) {
+      var self = this;
+      Axios.post(Util.loginUrl,
+        'param=' + encodeURIComponent(param)
+      ).then(function (res) {
+        if (res.data.code == 0) {
+          succeed(res);
+        } else {
+          errord&&errord(res);
+        }
+      }).catch(function (err) {
+      });
+    }
+
     Vue.prototype.$date = function (date,type) {
       if (date == "" || date == null) {
         return;
