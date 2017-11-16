@@ -13,7 +13,7 @@
 
 
           </el-breadcrumb-item>
-          <el-breadcrumb-item @click="backlist" class="tips_3">职位详情</el-breadcrumb-item>
+          <el-breadcrumb-item @click.native="backlist" class="tips_3">职位详情</el-breadcrumb-item>
           <el-breadcrumb-item>申请职位</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -45,6 +45,7 @@
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
                 :on-success="successed"
+                :show-file-list="false"
               >
                 <el-button size="small" type="primary">点击上传</el-button>
                 <div class="tips hidden-sm hidden-lg">仅限于安卓手机</div>
@@ -69,9 +70,9 @@
               萨达
             </div> -->
             <el-form-item label="渠道导入" style="clear:both;padding-left:50px;font-size:14px;color:#48576a;width:100%;">
-              <el-button @click.native="loginResume=true;login.type=5"><img src="../common/image/micresume/qianchengwuyou.png" style="height:16px;vertical-align:middle;margin-right:10px" />前程无忧</el-button>
-              <el-button @click.native="loginResume=true;login.type=6"><img src="../common/image/micresume/zhilianzhaopin.png" style="height:16px;vertical-align:middle;margin-right:10px" />智联招聘</el-button>
-              <el-button @click.native="loginResume=true;login.type=8"><img src="../common/image/micresume/lagou.png" style="height:16px;vertical-align:middle;margin-right:10px" />拉勾网</el-button>
+              <el-button @click.native="loginResume=true;login.type=1"><img src="../common/image/micresume/qianchengwuyou.png" style="height:16px;vertical-align:middle;margin-right:10px" />前程无忧</el-button>
+              <el-button @click.native="loginResume=true;login.type=2"><img src="../common/image/micresume/zhilianzhaopin.png" style="height:16px;vertical-align:middle;margin-right:10px" />智联招聘</el-button>
+              <el-button @click.native="loginResume=true;login.type=6"><img src="../common/image/micresume/lagou.png" style="height:16px;vertical-align:middle;margin-right:10px" />拉勾网</el-button>
             </el-form-item>
             <!-- <el-form-item label="姓名" prop="name">
               <el-input v-model="formLabelAlign.name"></el-input>
@@ -93,7 +94,7 @@
         <h1>一分钟创建微简历</h1>
         <el-form label-position="right" label-width="100px" class="clearfix" ref="AddInterviewer">
           <h2 class="resume_title">基本信息</h2>
-          <el-form-item label="姓名" prop="name">
+          <el-form-item label="姓    名" prop="name">
             <el-input v-model="InterviewerInfo.name"></el-input>
           </el-form-item>
           <el-form-item label="性别" prop="name">
@@ -110,7 +111,6 @@
             <el-date-picker
               v-model="InterviewerInfo.birthday"
               type="date"
-              style="width:100%;"
               placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
@@ -224,12 +224,12 @@
         title="登录并导入简历"
         v-model="loginResume"
         size="tiny">
-        <div class="login_icon" :class="{'jobs':login.type==5,'zhilian':login.type==6,'lagou':login.type==8}"></div>
+        <div class="login_icon" :class="{'jobs':login.type==1,'zhilian':login.type==2,'lagou':login.type==6}"></div>
         <div class="login_con"> 
           <el-input v-model="login.account" placeholder="请输入账号" class="user"></el-input>
           <el-input v-model="login.pwd" placeholder="请输入密码" type="password" class="user"></el-input>
-          <el-input v-model="login.email" placeholder="请输入邮箱" class="user" v-if="login.type==6"></el-input>
-          <el-input v-model="login.phone" placeholder="请输入手机号" class="user" v-if="login.type==6"></el-input>
+          <el-input v-model="login.email" placeholder="请输入邮箱" class="user" v-if="login.type==2"></el-input>
+          <el-input v-model="login.phone" placeholder="请输入手机号" class="user" v-if="login.type==2"></el-input>
           <el-button type="primary" class="login_resume_btn" @click.native="loginFun()">确认授权</el-button>
         </div>
         <div class="login_footer">
@@ -268,6 +268,7 @@
   export default {
     data() {
       return {
+        resumeFrom:'1',
         src:'',
         value6:'',
         value7:'',
@@ -310,10 +311,11 @@
         },
         dialogVisible: false,
         params: {
-          param: JSON.stringify({businessId: 14, fId: -1}),
+          param: JSON.stringify({businessId: 14, fId: -1,companyId:this.companyId}),
           sign: md5('method' + "fileUpload/insertFileRecord" + "param" + JSON.stringify({
               businessId: 14,
-              fId: -1
+              fId: -1,
+              companyId:this.companyId
             }) + "ecbao")
         },
 
@@ -350,7 +352,7 @@
           businessId:'14',
           fId:'-1',
           companyId:'',
-          type:'',
+          type:'1',
           phone:'',
           email:''
         }
@@ -372,7 +374,27 @@
         }
       },
       successed(res, file) {
-        this.resumeId = res.data.ids
+        var self=this;
+        self.resumeId = res.data.ids
+        var method="addResume/getResume",
+            param=JSON.stringify({
+              ids:res.data.ids,
+              resumeFrom:10,
+            }),
+            successd=function(res){
+              self.InterviewerInfo.name=res.data.data.InterviewerInfo.name;
+              self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
+              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone;
+              self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
+              self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
+              self.InterviewerInfo.educationHistoryList=res.data.data.EducationHistory;
+              self.InterviewerInfo.workHistoryList=res.data.data.WorkHistory;
+              self.$message({
+                message:'解析简历成功,赶快去投递简历吧..',
+                type:'success'
+              });
+            };
+        self.$http(method,param,successd);
       },
       successed2(res, file) {
         this.attachmentIds.push(res.data.ids)
@@ -563,6 +585,10 @@
         });
         InterviewerInfo.birthday=self.$date(InterviewerInfo.birthday);
         InterviewerInfo.positionId=self.id;
+        InterviewerInfo.attachmentIds=self.attachmentIds.toString();
+        InterviewerInfo.resumeId=self.resumeId.toString();
+        InterviewerInfo.resumeFrom=self.login.type;
+        
         console.log(InterviewerInfo);
         var param=JSON.stringify({interviewResumeInfo:InterviewerInfo}),
             successd=function(res){
@@ -595,14 +621,14 @@
           })
           return
         }
-        if(self.login.email==""&&self.login.type==6){
+        if(self.login.email==""&&self.login.type==2){
           self.$message({
             message:'请输入邮箱',
             type:'error'
           })
           return
         }
-        if(self.login.phone==""&&self.login.type==6){
+        if(self.login.phone==""&&self.login.type==2){
           self.$message({
             message:'请输入手机号',
             type:'error'
@@ -622,6 +648,7 @@
               email:self.login.email
             }),
             successd=function(res){
+              self.loginResume=false;
               self.InterviewerInfo.name=res.data.data.InterviewerInfo.name;
               self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
               self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone;
@@ -745,6 +772,9 @@
         width: 45%;
         float: left;
         height: 36px;
+        .el-input{
+          width:200px;
+        }
       }
     }
   }
@@ -768,6 +798,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../common/stylus/mixin.styl"
   #apply
+    background-color:#f7f7f7;
     .tips1
       .el-dialog--small
         width: 671px;

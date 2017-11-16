@@ -2,7 +2,7 @@
   <div id="loginResume" class="loginResume">
 
     <!-- 智联 -->
-    <div class="login_zhilian" v-if="type==6">
+    <div class="login_zhilian" v-if="type==2">
       <div class="login_icon"></div>
       <div class="login_con">
         <group>
@@ -11,7 +11,7 @@
           <x-input name="emial" placeholder="请输入邮箱" type="email" is-type='email'  v-model="email"></x-input>
           <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone"></x-input>
           <div style="padding:15px;">
-            <x-button type="primary" @click.native="login(6)" class="hrm_primary_btn">确认登录并投递</x-button>
+            <x-button type="primary" @click.native="login(2)" class="hrm_primary_btn">确认登录并投递</x-button>
           </div>
           <div style="padding:15px;" class="login_remake">
             <p>爱聚HR将读取以下资料:</p>
@@ -24,7 +24,7 @@
     </div>
 
 <!-- 51job -->
-    <div class="login_jobs" v-if="type==5">
+    <div class="login_jobs" v-if="type==1">
       <div class="login_icon"></div>
       <div class="login_con">
         <group>
@@ -33,7 +33,7 @@
           <!-- <x-input name="emial" placeholder="请输入邮箱" type="email" is-type='email'  v-model="email"></x-input>
           <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone"></x-input> -->
           <div style="padding:15px;">
-            <x-button type="primary" @click.native="login(5)" class="hrm_primary_btn">确认登录并投递</x-button>
+            <x-button type="primary" @click.native="login(1)" class="hrm_primary_btn">确认登录并投递</x-button>
           </div>
           <div style="padding:15px;" class="login_remake">
             <p>爱聚HR将读取以下资料:</p>
@@ -46,7 +46,7 @@
     </div>
 
     <!-- 拉钩 -->
-    <div class="login_zhilian" v-if="type==8">
+    <div class="login_zhilian" v-if="type==6">
       <div class="login_icon"></div>
       <div class="login_con">
         <group>
@@ -55,7 +55,7 @@
           <!-- <x-input name="emial" placeholder="请输入邮箱" type="email" is-type='email'  v-model="email"></x-input>
           <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone"></x-input> -->
           <div style="padding:15px;">
-            <x-button type="primary" @click.native="login(8)" class="hrm_primary_btn" >确认登录并投递</x-button>
+            <x-button type="primary" @click.native="login(6)" class="hrm_primary_btn" >确认登录并投递</x-button>
           </div>
           <div style="padding:15px;" class="login_remake">
             <p>爱聚HR将读取以下资料:</p>
@@ -97,7 +97,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup } from 'vux
     name:'loginResume',
     data(){
       return{
-        type:5,//登录来源 5,前程无忧;6,智联招聘;8.拉钩
+        type:1,//登录来源 1,前程无忧;2,智联招聘;6.拉钩
         account:'',
         pwd:'',
         vcode:'',
