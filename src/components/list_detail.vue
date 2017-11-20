@@ -720,7 +720,6 @@
             color: #5c6170;
             .prior
               color: #ff8054
-              font-weight: bold;
           .job-page__others
             position: relative;
             font-size: 0.28rem

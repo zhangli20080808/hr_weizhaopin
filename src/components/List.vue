@@ -1320,10 +1320,8 @@
               color: #5c6170;
               .prior {
                 color: #ff8054;
-                font-weight: bold;
               }
               .text {
-                font-weight: bold
               }
             }
             .details {
