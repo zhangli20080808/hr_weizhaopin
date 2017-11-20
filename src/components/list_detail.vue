@@ -93,12 +93,7 @@
         <div class="detail_text">
           <div class="detail_content">
             <div class="title" v-show="item">职位描述</div>
-            <el-form>
-              <el-form-item>
-                <el-input type="textarea" class="text" v-model="item.positionDesc" readonly
-                          autosize></el-input>
-              </el-form-item>
-            </el-form>
+            <div class="text" v-html="item.positionDesc" ></div>
 
           </div>
         </div>
@@ -167,6 +162,7 @@
         </div>
         <div class="job-page__header visible-xs">
           <div class="job-page__header__title">
+            <span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>
             <span>{{item.positionName}}</span>
           </div>
           <div class="job-page__others">
@@ -200,12 +196,13 @@
         <div class="detail_text">
           <div class="detail_content">
             <div class="title" v-show="item">职位描述</div>
-            <el-form>
-              <el-form-item>
-                <el-input  type="textarea" class="text" v-model="item.positionDesc" readonly
-                           autosize></el-input>
-              </el-form-item>
-            </el-form>
+            <!--<el-form>-->
+              <!--<el-form-item>-->
+                <!--<el-input  type="textarea" class="text" v-model="item.positionDesc" readonly-->
+                           <!--autosize></el-input>-->
+              <!--</el-form-item>-->
+            <!--</el-form>-->
+            <div class="text" v-html="item.positionDesc" ></div>
 
           </div>
         </div>
@@ -291,7 +288,6 @@
     },
     created() {
       setTimeout(() => {
-          this.s_init()
         this.probeType = 3
         this.listenScroll = true
         this._getDetail()
@@ -306,7 +302,6 @@
           this.hiddens = false
 //          document.getElementById('list_detail').style.paddingTop = 0
         }
-        console.log(this.$route)
       }, 20)
     },
     methods: {
@@ -320,6 +315,7 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
+              console.log(res.data.data)
             _this.item = res.data.data.positionInfo
             _this.show = true
           }
@@ -339,11 +335,11 @@
           self.$router.push({path:'/addResume',query:{id:this.id}})
           return;
         }
-        this.$router.push({
-          path: "/apply",
+        self.$router.push({
+          path: '/apply',
           query: {
-            companyId: this.companyId,
-            id:this.id
+            companyId: self.companyId,
+            id:self.id
           }
 
         })
@@ -409,28 +405,12 @@
             companyId: this.companyId,
           }
         })
-      },
-      s_init: function () {
-        let url = 'https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js'
-        let script = document.createElement('script')
-        script.setAttribute('src', url)
-        document.getElementsByTagName('head')[0].appendChild(script)
       }
     },
     components: {
       Scroll,
       XButton,
       XDialog
-    },
-    watch:{
-      $route(to, from) {
-            console.log(to)
-//            if(to.path == `/list/`){
-//                console.log('gsg')
-//            }else {
-//              console.log('23')
-//            }
-        }
     }
   }
 </script>
@@ -738,6 +718,9 @@
             font-weight: bold;
             vertical-align: middle;
             color: #5c6170;
+            .prior
+              color: #ff8054
+              font-weight: bold;
           .job-page__others
             position: relative;
             font-size: 0.28rem

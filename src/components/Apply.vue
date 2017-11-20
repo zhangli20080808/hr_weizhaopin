@@ -225,7 +225,7 @@
         v-model="loginResume"
         size="tiny">
         <div class="login_icon" :class="{'jobs':login.type==1,'zhilian':login.type==2,'lagou':login.type==6}"></div>
-        <div class="login_con"> 
+        <div class="login_con">
           <el-input v-model="login.account" placeholder="请输入账号" class="user"></el-input>
           <el-input v-model="login.pwd" placeholder="请输入密码" type="password" class="user"></el-input>
           <el-input v-model="login.email" placeholder="请输入邮箱" class="user" v-if="login.type==2"></el-input>
@@ -588,7 +588,7 @@
         InterviewerInfo.attachmentIds=self.attachmentIds.toString();
         InterviewerInfo.resumeId=self.resumeId.toString();
         InterviewerInfo.resumeFrom=self.login.type;
-        
+
         console.log(InterviewerInfo);
         var param=JSON.stringify({interviewResumeInfo:InterviewerInfo}),
             successd=function(res){

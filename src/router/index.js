@@ -43,10 +43,10 @@ export default new Router({
       name: 'apply',
       component: Apply
     },
-    {
-      path: '*',
-      redirect: '/'
-    },
+    // {
+    //   path: '*',
+    //   redirect: '/'
+    // },
     {
       path:'/addResume',
       name:'addResume',

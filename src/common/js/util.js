@@ -5,8 +5,7 @@
 
 // var user = "http://192.168.5.76:8089/hrm_test"; // 小辉测试本地
 // var user = "http://192.168.5.76:8080/hrm"; // 小辉本地
-// var user = "http://192.168.4.215:8090/hrm"; // 琦玉本地
-// var user = "http://192.168.4.10:8080/hrm"; // 丸子本地
+var user = "http://192.168.4.186:8080/hrm"; // 丸子本地
 // var user = "http://192.168.4.195:8080/hrm"; // 天明本地
 // var user = "http://192.168.4.87:8080/hrm"; // 江流本地
 var user="http://121.199.182.2:30004/hrm" //测试环境
@@ -15,7 +14,7 @@ var user = "https://aijuhr.com/hrm"; // 正式环境
 
 
 exports.ukeyNo = false;//U盾的开关,正式:false,开发:true
-exports.ukeyNo = true;//U盾的开关,正式:false,开发:true
+// exports.ukeyNo = true;//U盾的开关,正式:false,开发:true
 exports.url = user + '/api.do';
 exports.loginUrl=user+'/account/climbingResume.do';//新接口登录
 exports.uploadURLForCommon = user + '/upload.do?method=fileUpload/insertFileRecord';//文件上传公用

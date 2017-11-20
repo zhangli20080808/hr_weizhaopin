@@ -311,11 +311,6 @@
     computed: {
       bgStyle() {
         return `background-image:url(${this.homeData.img_list_1})`
-      },
-      m_show(){
-        if(document.documentElement.clientWidth<768){
-            return false
-        }
       }
     },
     components: {
@@ -1330,3 +1325,4 @@
 
 
 </style>
+

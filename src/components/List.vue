@@ -17,6 +17,7 @@
 
 
 
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
@@ -173,7 +174,7 @@
             <li v-for="item in list" @click="selectItem(item)">
               <div class="job-list-item">
                 <div class="title">
-                  <span class="prior"></span>
+                  <span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>
                   <span class="text">{{item.positionName}}</span>
                 </div>
                 <div class="details">
@@ -188,12 +189,13 @@
               <span class="opened-at">
                 <span>发布时间：</span>
                 <span>{{filter(item.posiPublishTime)}}</span>
+                <span style="margin-left: 10px">浏览次数: &nbsp;{{item.views}}</span>
               </span>
                 </div>
               </div>
             </li>
           </div>
-          <load-more tip="loading" v-if="showMore "></load-more>
+          <load-more tip="loading" v-if="showMore"></load-more>
           <loading v-show="!list"></loading>
         </ul>
       </scroller>
@@ -340,7 +342,6 @@
         })
       },
       change(item) {
-        console.log(item)
         this.item = item[1]
         this.positionList()
       },
@@ -406,10 +407,9 @@
           categoryId: _this.form.kind ? `${_this.form.kind}` : '',
           workCity: _this.item ? `${_this.item}` : ''
         });
-        console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data.data)
+              console.log(res.data)
             _this.list = _this._genResult(res.data.data)
             _this.config.totalCount = res.data.data.count
           }
@@ -474,7 +474,7 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data.data)
+              console.log(res.data.data)
             _this.list = res.data.data.recruitPositionList
           }
         }
@@ -512,13 +512,13 @@
         this.$router.goBack()
 //        console.log(this.$router)
 //
-//        this.$router.push({
-//          path: '/',
-//          name: 'home',
-//          query: {
-//            companyId: this.companyId,
-//          }
-//        })
+        this.$router.push({
+          path: '/',
+          name: 'home',
+          query: {
+            companyId: this.companyId,
+          }
+        })
       },
       choseKind(){
         this.showScrollBox = true
@@ -581,7 +581,7 @@
       let showAll = this.$route.params.showAll
       let posId = localStorage.getItem('posId')
       let posName = localStorage.getItem('posName')
-//      let cateName = localStorage.getItem('cateName')
+      let cateName = localStorage.getItem('cateName')
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId
       }
@@ -603,7 +603,7 @@
         this.form.kind = cate
         this.form.name = '全部职能类型'
         if (cate) {
-//          this.form.name = cateName
+          this.form.name = cateName
           this.positionList()
 
         }
@@ -631,10 +631,8 @@
     },
     watch: {
       Search(val){
+        this.form.name = '全部职能类型'
         this.goSearch(val)
-      },
-      $route(to,from){
-
       }
     }
   }
@@ -1281,7 +1279,6 @@
                   }
                   .mobile-text-input__input {
                     width: 100%
-                    flex: 1;
                     padding: 0;
                     vertical-align: top;
                     border: none;
@@ -1289,6 +1286,7 @@
                     height: 40px;
                     color: #5c6170;
                     outline: none
+                    line-height: 20px;
                     padding-left: 0.18rem;
                     &::placeholder {
                       color: #5c6170;
@@ -1322,6 +1320,7 @@
               color: #5c6170;
               .prior {
                 color: #ff8054;
+                font-weight: bold;
               }
               .text {
                 font-weight: bold
