@@ -16,6 +16,8 @@ import 'common/js/index'
 import moment from 'moment'
 
 import Methods from 'common/js/methods'
+import { WechatPlugin } from 'vux'
+Vue.use(WechatPlugin)
 Vue.use(Methods);
 
 Vue.config.productionTip = false

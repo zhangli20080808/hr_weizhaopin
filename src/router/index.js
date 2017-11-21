@@ -14,6 +14,9 @@ import preview from 'components/microresume/preview.vue'
 import results from 'components/microresume/results.vue'
 import loginResume from 'components/microresume/loginResume.vue'
 
+//微信
+import positionList from 'components/position/positionList';
+
 Vue.use(Router)
 
 Router.prototype.goBack = function () {
@@ -66,6 +69,11 @@ export default new Router({
       path:'/loginResume',
       name:'loginResume',
       component:loginResume
+    },
+    {
+      path:'/positionList',
+      name:'positionList',
+      component:positionList
     }
   ]
 })

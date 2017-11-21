@@ -92,7 +92,7 @@
   </div>
 </template>
 <script>
-import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup } from 'vux';
+import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugin } from 'vux';
   export default {
     name:'loginResume',
     data(){
@@ -115,6 +115,15 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup } from 'vux
       }
     },
     mounted(){
+      console.log(this.$wechat);
+      // this.$wechat.config({
+      //   debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+      //   appId: 'wxffa670a057dee245', // 必填，公众号的唯一标识
+      //   timestamp: new Date(), // 必填，生成签名的时间戳
+      //   nonceStr: 'ecbao', // 必填，生成签名的随机串
+      //   signature: '',// 必填，签名，见附录1
+      //   jsApiList: [] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+      // });
       this.index();
     },
     methods:{
@@ -215,7 +224,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup } from 'vux
         self.$resumeHttp(param,successd,errord);
       }
     },
-    components:{XInput, Group, XButton, Cell,XDialog,XImg,Popup},
+    components:{XInput, Group, XButton, Cell,XDialog,XImg,Popup,WechatPlugin},
     directives: {
       TransferDom
     },

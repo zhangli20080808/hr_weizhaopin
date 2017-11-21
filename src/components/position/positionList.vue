@@ -1,0 +1,199 @@
+<template>
+    <div id="positionList">
+      <scroller lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="100">
+        <div>
+          <x-img :src="picUrl"></x-img>
+          <group gutter="0px">
+            <!-- <p v-for="i in bottomCount">placeholder {{i}}</p> -->
+            <dl class="vux-1px-b position_list" v-for="list in lists" @click="goDetail(list.positionId)" ::key="list.positionId">
+              <dt>
+                <span class="color_F96868" v-if="list.isUrgent==1">[急招]</span>
+                <span>{{list.positionName}}</span>
+                <div class="position_list_right">
+                  <i class="iconfont">&#xe624;</i>
+                  <span>悬赏金额: {{list.rewardAmount}}元</span>
+                </div>
+              </dt>
+              <dd class="position_list_money">
+                <span>{{list.workCity}}/{{list.positionType==1?'全职':list.positionType==2?'兼职':'实习'}}</span>
+                <span>20K-40K</span>
+                <div class="position_list_right">{{list.views}}人看过</div>
+              </dd>
+              <dd class="position_list_date">发布时间:{{list.posiPublishTime}}</dd>
+            </dl>     
+            <load-more tip="loading" v-if="onFetching && nonceStr"></load-more>
+            <load-more :show-loading="false" tip="我是有底线的" background-color="#fbf9fe" v-if="!onFetching || !nonceStr"></load-more>
+            <div class="footer"></div>
+          </group>
+        </div>
+      </scroller>
+    </div>
+</template>
+<script>
+  import { XImg,Group,Cell,Scroller,LoadMore } from 'vux'
+  import util from "../../common/js/util.js";
+  import Axios from 'axios';
+export default {
+  name:'positionList',
+  data(){
+    console.log(util);
+    return{
+      footerFixed:false,
+      pageNum:1,
+      pageSize:10,
+      companyId:this.$route.query.companyId | null,
+      lists:[],
+      picUrl:'https://aijuhr.com/images/yidong/position_list.png',
+      onFetching:false,
+      nonceStr:true,
+      shareOpenId:this.$route.query.shareOpenId,
+      // shareOpenId:'oTNQS0ktYqzINgWc5Z9HK_1b__HA',
+      openId:this.$route.query.openId,
+    }
+  },
+  mounted(){
+    if(this.$route.query.is_auth==0){
+      //没有静默授权成功
+      console.log("授权失败");
+      this.getCode('snsapi_userinfo');
+    }else if(this.$route.query.is_auth==1){
+      //授权成功
+      console.log("授权成功");
+      this.getSignature();
+    }else{
+      console.log("开始请求");
+      this.getCode('snsapi_base');
+    }
+    this.getRecommendPosiList();
+  },
+  methods:{
+    getCode(scope){
+      var self=this;
+      Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&shareOpenId='+self.shareOpenId)
+      .then(function(res){
+        console.log(res);
+        location.href=res.data.code_url;
+      })
+    },
+    getSignature(){
+      var self=this;
+      Axios.post(util.wxSignature,'url='+encodeURIComponent(location.href.split('#')[0]))
+      .then(function(res){
+        self.$wechat.config({
+          debug:true,
+          appId:res.data.appid,
+          timestamp:res.data.timestamp,
+          nonceStr:res.data.noncestr,
+          signature:res.data.signature,
+          jsApiList: [
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'onMenuShareQZone',
+            'hideMenuItems',
+            'showMenuItems',
+            'hideAllNonBaseMenuItem',
+            'showAllNonBaseMenuItem',
+            'translateVoice',
+            'startRecord',
+            'stopRecord',
+            'onVoiceRecordEnd',
+            'playVoice',
+            'onVoicePlayEnd',
+            'pauseVoice',
+            'stopVoice',
+            'uploadVoice',
+            'downloadVoice',
+            'chooseImage',
+            'previewImage',
+            'uploadImage',
+            'downloadImage',
+            'getNetworkType',
+            'openLocation',
+            'getLocation',
+            'hideOptionMenu',
+            'showOptionMenu',
+            'closeWindow',
+            'scanQRCode',
+            'chooseWXPay',
+            'openProductSpecificView',
+            'addCard',
+            'chooseCard',
+            'openCard'
+          ]
+        })
+      })
+    },
+    index(){
+      var self=this;
+      this.$nextTick(function(){
+        var wh = window.innerHeight;
+        var dh = document.getElementById('positionList').clientHeight;
+        if(wh>=dh){
+          self.footerFixed=true;
+        }
+      })
+    },
+    getRecommendPosiList(){
+      var self=this;
+      var method="positionRecommend/getRecommendPosiList",
+          param=JSON.stringify({
+            pageSize:self.pageSize,
+            pageNum:self.pageNum,
+            companyId:self.companyId,
+            type:2,
+          }),
+          successd=function(res){
+            console.log(res);
+            self.lists=res.data.data.positionList;
+            self.picUrl=res.data.data.picUrl;
+            if(res.data.data.count<=self.pageSize){
+              self.nonceStr=false;
+            }
+          };
+      self.$http(method,param,successd);
+    },
+    onScrollBottom () {
+      if (this.onFetching) {
+        // do nothing
+      } else {
+        this.onFetching = true
+        setTimeout(() => {
+          this.pageSize += 10
+          this.getRecommendPosiList();
+          this.$nextTick(() => {
+            this.$refs.scrollerBottom.reset()
+          })
+          this.onFetching = false
+        }, 2000)
+      }
+    },
+    goDetail(positionId){
+      var self=this;
+      self.$router.push({name:'listDetail',params:{id:positionId},query:{companyId:self.companyId}})
+    }
+  },
+  components:{
+    XImg,Group,Cell,Scroller,LoadMore
+  }
+}
+</script>
+<style lang="less">
+    @import '~vux/src/styles/1px.less';
+</style>
+<style scoped>
+@import url(../css/main.css);
+.padding_bottom{padding-bottom: 1.28rem;}
+.position_list{padding: 10px 15px;font-size: 0.32rem;}
+.position_list dt{line-height: 0.5rem;height: 0.5rem;margin-bottom: 10px;}
+.position_list_right{float: right;}
+.position_list_right .iconfont{color:#F2A654;line-height: 0.5rem;}
+.position_list dd{margin-bottom: 10px;}
+.position_list_money{color: #666;}
+.position_list_money .position_list_right{color: #46BE8A;}
+.position_list_date{color: #999;font-size: 0.28rem;}
+.footer{width: 100%;height: 1.28rem;background: url(../images/footLogo.png) no-repeat center center;background-size: 100% auto;}
+.footer_fixed{position: fixed;bottom: 0;}
+</style>
