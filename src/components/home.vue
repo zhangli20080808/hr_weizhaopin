@@ -1,5 +1,6 @@
 <template>
   <div class="home" v-show="homeData.form.company_name">
+
     <!--导航-->
     <!--轮播-->
     <div class="main_ad" v-show="homeData.img_list_1">
@@ -50,6 +51,8 @@
         </li>
       </ul>
     </div>
+    <!--<button @click="push">about</button>-->
+
     <!--公司简介-->
     <div class="m_s_company hidden-sm hidden-lg" v-show="homeData.form.company_name">
       <img :src="homeData.bigLogo" class="item-logo" alt="">
@@ -206,6 +209,11 @@
       }
     },
     methods: {
+        push(){
+            this.$router.push({
+              name:'about'
+            })
+        },
       goSearch() {
         this.all = '全部'
         this.$router.push({

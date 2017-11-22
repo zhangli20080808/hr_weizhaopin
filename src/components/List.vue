@@ -404,6 +404,7 @@
           pageNum: _this.config.pageNum,
           pageSize: _this.config.pageSize,
           companyId: _this.companyId,
+          type:2,
           categoryId: _this.form.kind ? `${_this.form.kind}` : '',
           workCity: _this.item ? `${_this.item}` : ''
         });
