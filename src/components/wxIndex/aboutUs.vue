@@ -115,7 +115,7 @@
                 <div class="slides" style="height: 237px">
                   <swiper :options="swiperOption" ref="mySwiper">
                     <!-- slides -->
-                    <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id">>
+                    <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id">
                       <div class="media" style="height: 150px">
                         <img :src="item.imageUrl" alt="" width="100%" height="100%">
                       </div>
@@ -252,8 +252,7 @@
               WorkTeam:this.WorkTeam
             }
           })
-      },
-
+      }
     },
     created(){
       this.$nextTick(() => {
