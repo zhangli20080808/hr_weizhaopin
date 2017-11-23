@@ -331,10 +331,10 @@
         this.form.kind = localStorage.setItem('cate', item.categoryId)
         localStorage.setItem('cateName', item.categoryName)
         this.$router.push({
-          path: `/list/${item.id}`,
           name: 'listDetail',
           query: {
             companyId: this.companyId,
+            positionId:item.id,
           },
           params: {
             id: item.id

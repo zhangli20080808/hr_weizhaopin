@@ -39,7 +39,7 @@ export default new Router({
       component: List
     },
     {
-      path: '/list/:id',
+      path: '/listDetail',
       name: 'listDetail',
       component: listDetail
     },

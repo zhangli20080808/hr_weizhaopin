@@ -46,7 +46,7 @@
     </div>
 
     <!-- 拉钩 -->
-    <div class="login_zhilian" v-if="type==6">
+    <div class="login_lagou" v-if="type==6">
       <div class="login_icon"></div>
       <div class="login_con">
         <group>

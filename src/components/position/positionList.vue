@@ -15,8 +15,8 @@
                 </div>
               </dt>
               <dd class="position_list_money">
-                <span>{{list.workCity}}/{{list.positionType==1?'全职':list.positionType==2?'兼职':'实习'}}</span>
-                <span>20K-40K</span>
+                <span>{{list.workCitySpilt}}/{{list.positionType==1?'全职':list.positionType==2?'兼职':'实习'}}</span>
+                <span>{{list.positionSalaryLowest}}K-{{list.positionSalaryHighest}}K</span>
                 <div class="position_list_right">{{list.views}}人看过</div>
               </dd>
               <dd class="position_list_date">发布时间:{{list.posiPublishTime}}</dd>
@@ -41,39 +41,53 @@ export default {
       footerFixed:false,
       pageNum:1,
       pageSize:10,
-      companyId:this.$route.query.companyId | null,
+      companyId:this.$route.query.companyId || null,
       lists:[],
       picUrl:'https://aijuhr.com/images/yidong/position_list.png',
       onFetching:false,
       nonceStr:true,
-      shareOpenId:this.$route.query.shareOpenId,
+      shareOpenId:this.$route.query.shareOpenId || null,
       // shareOpenId:'oTNQS0ktYqzINgWc5Z9HK_1b__HA',
-      openId:this.$route.query.openId,
+      openId:this.$route.query.openId || null,
+      imgUrl:'',
+      title:'',
+      desc:'',
     }
   },
   mounted(){
     if(this.$route.query.is_auth==0){
       //没有静默授权成功
-      console.log("授权失败");
+      // console.log("授权失败");
       this.getCode('snsapi_userinfo');
     }else if(this.$route.query.is_auth==1){
       //授权成功
-      console.log("授权成功");
+      // console.log("授权成功");
       this.getSignature();
     }else{
-      console.log("开始请求");
+      // console.log("开始请求");
       this.getCode('snsapi_base');
-      return false;
     }
     this.getRecommendPosiList();
+    this.getShareTitleInfo();
   },
   methods:{
     getCode(scope){
       var self=this;
-      Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&shareOpenId='+self.shareOpenId)
+      Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&shareOpenId='+self.openId)
       .then(function(res){
         console.log(res);
-        location.href=res.data.code_url;
+        if(res.data.userExsitSession==2){
+          location.href=res.data.code_url;
+        }else if(res.data.userExsitSession==1){
+          self.openId=res.data.openId;
+          if(self.shareOpenId=""){
+            self.shareOpenId=self.openId;
+          }
+          self.getSignature();
+          if(self.openId==''){
+            self.$router.push({name:'positionList',query:{companyId:self.companyId,openId:self.openId,shareOpenId:self.shareOpenId}});
+          }
+        }
       })
     },
     getSignature(){
@@ -81,7 +95,7 @@ export default {
       Axios.post(util.wxSignature,'url='+encodeURIComponent(location.href.split('#')[0]))
       .then(function(res){
         self.$wechat.config({
-          debug:true,
+          debug:false,
           appId:res.data.appid,
           timestamp:res.data.timestamp,
           nonceStr:res.data.noncestr,
@@ -128,10 +142,10 @@ export default {
         self.$wechat.ready(function(res){
           //分享给朋友
           self.$wechat.onMenuShareAppMessage({
-            title:'列表名字',
-            desc:'风向描述',
-            link:'',//分享链接
-            imgUrl:'',//分享图标
+            title:self.title,
+            desc:self.desc,
+            link:'https://aijuhr.com/miniRecruit/#/positionList?companyId='+self.companyId+"&shareOpenId="+self.openId,//分享链接
+            imgUrl:self.imgUrl,//分享图标
             type:'',
             dataUrl:'',
             success:function(){
@@ -143,10 +157,10 @@ export default {
           });
           //分享朋友圈
           self.$wechat.onMenuShareTimeline({
-            title:'列表名字',
-            desc:'风向描述',
-            link:'',//分享链接
-            imgUrl:'',//分享图标
+            title:self.title,
+            desc:self.desc,
+            link:'https://aijuhr.com/miniRecruit/#/positionList?companyId='+self.companyId+"&shareOpenId="+self.openId,//分享链接
+            imgUrl:self.imgUrl,//分享图标
             success:function(){
               console.log('分享成功2');
             },
@@ -204,7 +218,19 @@ export default {
     },
     goDetail(positionId){
       var self=this;
-      self.$router.push({name:'listDetail',params:{id:positionId},query:{companyId:self.companyId}})
+      self.$router.push({name:'listDetail',query:{companyId:self.companyId,openId:self.openId,shareOpenId:self.shareOpenId,positionId:positionId}})
+    },
+    //获取分享标题
+    getShareTitleInfo(){
+      var self=this;
+      var method="positionRecommend/getShareTitleInfo",
+          param=JSON.stringify({reqType:1,companyId:self.companyId}),
+          successd=function(res){
+            self.imgUrl=res.data.data.imgUrl;
+            self.title=res.data.data.title;
+            self.desc=res.data.data.desc;
+          };
+      self.$http(method,param,successd);
     }
   },
   components:{
@@ -220,8 +246,8 @@ export default {
 .padding_bottom{padding-bottom: 1.28rem;}
 .position_list{padding: 10px 15px;font-size: 0.32rem;}
 .position_list dt{line-height: 0.5rem;height: 0.5rem;margin-bottom: 10px;}
-.position_list_right{float: right;}
-.position_list_right .iconfont{color:#F2A654;line-height: 0.5rem;}
+.position_list_right{float: right; font-size: 0.28rem;}
+.position_list_right .iconfont{color:#F2A654;line-height: 0.5rem;font-size: 0.28rem;}
 .position_list dd{margin-bottom: 10px;}
 .position_list_money{color: #666;}
 .position_list_money .position_list_right{color: #46BE8A;}

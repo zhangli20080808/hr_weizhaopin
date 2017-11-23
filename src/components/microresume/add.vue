@@ -119,15 +119,15 @@
 
     <div class="second" v-show="type==1">
       <group label-width="150">
-        <cell title="前程无忧(51job)" is-link @click.native="jobsLogin(5)">
+        <cell title="前程无忧(51job)" is-link @click.native="jobsLogin(1)">
           <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../../common/image/micresume/qianchengwuyou.png">
           <p>导入</p>
         </cell>
-        <cell title="智联招聘" is-link @click.native="jobsLogin(6)">
+        <cell title="智联招聘" is-link @click.native="jobsLogin(2)">
           <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../../common/image/micresume/zhilianzhaopin.png">
           <p>导入</p>
         </cell>
-        <cell title="拉钩" is-link @click.native="jobsLogin(8)">
+        <cell title="拉钩" is-link @click.native="jobsLogin(6)">
           <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../../common/image/micresume/lagou.png">
           <p>导入</p>
         </cell>
@@ -189,7 +189,8 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
         },
         professionalValue:['博士','研究生','本科','大专','其他'],
         toastText:'',
-        toastShow:false
+        toastShow:false,
+        shareOpenId:this.$route.query.shareOpenId || null
       }
     },
     mounted(){
@@ -347,7 +348,7 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
       },
       previewResume(){
         this.changeHeadType(4);
-        this.$router.push('/preview');
+        this.$router.push({path:'/preview',query:{shareOpenId:this.shareOpenId}});
       },
       reuturnResume(){
         this.type=2;

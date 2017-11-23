@@ -50,7 +50,8 @@
           sex:null,
           birthday:null,
           educationHistoryList:[],
-          workHistoryList:[]
+          workHistoryList:[],
+          shareOpenId:this.query.shareOpenId
         },
         professional:['博士','研究生','本科','大专','其他'],
       }

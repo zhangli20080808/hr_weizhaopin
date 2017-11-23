@@ -6,37 +6,11 @@
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
-
-
-
-
-
-
-
-
-
-
-
-
-
             </el-breadcrumb-item>
             <el-breadcrumb-item
               :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
               class="tips_2">
               职位列表
-
-
-
-
-
-
-
-
-
-
-
-
-
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位详情</el-breadcrumb-item>
           </el-breadcrumb>
@@ -94,7 +68,6 @@
           <div class="detail_content">
             <div class="title" v-show="item">职位描述</div>
             <div class="text" v-html="item.positionDesc" ></div>
-
           </div>
         </div>
       </div>
@@ -108,37 +81,11 @@
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
-
-
-
-
-
-
-
-
-
-
-
-
-
             </el-breadcrumb-item>
             <el-breadcrumb-item
               :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
               class="tips_2">
               职位列表
-
-
-
-
-
-
-
-
-
-
-
-
-
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位详情</el-breadcrumb-item>
           </el-breadcrumb>
@@ -164,13 +111,19 @@
           <div class="job-page__header__title">
             <span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>
             <span>{{item.positionName}}</span>
+            <div class="position_list_right">
+              <i class="iconfont">&#xe624;</i>
+              <span>悬赏金额: {{item.rewardAmount}}元</span>
+            </div>
           </div>
           <div class="job-page__others">
             <span class="des"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
             <span class="price"><i class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
-            <span class="kind"><i
-              class="kind_icon"></i>{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
-              }}</span>
+            <span class="kind">
+              <i class="kind_icon"></i>
+              {{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}
+            </span>
+            <span class="views_person">{{item.views}}人看过</span>
           </div>
         </div>
         <!--公司-->
@@ -249,13 +202,17 @@
 </template>
 <script>
   import Scroll from './base/scroll2'
-  import {XButton, XDialog, TransferDomDirective as TransferDom} from 'vux'
+  import {XButton, XDialog, TransferDomDirective as TransferDom} from 'vux';
+  import util from "./../common/js/util.js";
+  import Axios from 'axios';
   export default {
     data() {
       return {
-        a: '1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；1. 熟悉web和移动端产品设计；有8年产品经理工作经验，至少独立负责过多款成功的产品；',
-        id: this.$route.params.id,
-        companyId: localStorage.companyId,
+        a: '',
+        positionId: this.$route.query.positionId,
+        companyId: this.$route.query.companyId,
+        shareOpenId: this.$route.query.shareOpenId,
+        openId: this.$route.query.openId,
         item: {
           positionName: '',
           classifyName: '',
@@ -275,7 +232,11 @@
         arrow_tip: false,
         model: false,
         showDialogStyle: false,
-        hiddens: true
+        hiddens: true,
+        title:'',
+        desc:'',
+        imgUrl:'',
+
       }
     },
     props: {
@@ -287,31 +248,176 @@
       TransferDom
     },
     created() {
-      setTimeout(() => {
-        this.probeType = 3
-        this.listenScroll = true
-        this._getDetail()
-        if (this.$route.query.companyId) {
-          this.companyId = this.$route.query.companyId;
-          localStorage.companyId=this.companyId;
+//       setTimeout(() => {
+//         this.probeType = 3
+//         this.listenScroll = true
+//         this._getDetail()
+//         if (this.$route.query.companyId) {
+//           this.companyId = this.$route.query.companyId;
+//           localStorage.companyId=this.companyId;
+//         }
+//         if (this.$route.params.id) {
+//           this.id = this.$route.params.id
+//         }
+//         if (this.$route.name !== 'home') {
+//           this.hiddens = false
+// //          document.getElementById('list_detail').style.paddingTop = 0
+//         }
+//       }, 20)
+        if(this.$route.query.is_auth==0){
+          //没有静默授权成功
+          // console.log("授权失败");
+          this.getCode('snsapi_userinfo');
+        }else if(this.$route.query.is_auth==1){
+          //授权成功
+          // console.log("授权成功");
+          this.getSignature();
+        }else{
+          // console.log("开始请求");
+          this.getCode('snsapi_base');
+          return false;
         }
-        if (this.$route.params.id) {
-          this.id = this.$route.params.id
-        }
-        if (this.$route.name !== 'home') {
-          this.hiddens = false
+    },
+    mounted(){
+      this.probeType = 3
+      this.listenScroll = true
+      this._getDetail()
+      if (this.$route.query.companyId) {
+        this.companyId = this.$route.query.companyId;
+        localStorage.companyId=this.companyId;
+      }
+      if (this.$route.params.id) {
+        this.id = this.$route.params.id
+      }
+      if (this.$route.name !== 'home') {
+        this.hiddens = false
 //          document.getElementById('list_detail').style.paddingTop = 0
-        }
-      }, 20)
+      }
+      this.getShareTitleInfo();
     },
     methods: {
+      //获取微信的code
+      getCode(scope){
+        var self=this;
+        Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&openId='+self.openId+'&positionId='+self.positionId)
+        .then(function(res){
+          console.log(res);
+          if(res.data.userExsitSession==2){
+            location.href=res.data.code_url;
+          }else if(res.data.userExsitSession==1){
+            self.openId=res.data.openId;
+            if(self.shareOpenId=""){
+              self.shareOpenId=self.openId;
+            }
+            self.getSignature();
+            if(self.openId==''){
+              self.$router.push({name:'listDetail',query:{companyId:self.companyId,openId:self.openId,positionId:self.positionId,shareOpenId:self.shareOpenId}});
+            }
+          }
+        })
+      },
+      getSignature(){
+        var self=this;
+        Axios.post(util.wxSignature,'url='+encodeURIComponent(location.href.split('#')[0]))
+        .then(function(res){
+          self.$wechat.config({
+            debug:false,
+            appId:res.data.appid,
+            timestamp:res.data.timestamp,
+            nonceStr:res.data.noncestr,
+            signature:res.data.signature,
+            jsApiList: [
+              'checkJsApi',
+              'onMenuShareTimeline',
+              'onMenuShareAppMessage',
+              'onMenuShareQQ',
+              'onMenuShareWeibo',
+              'onMenuShareQZone',
+              'hideMenuItems',
+              'showMenuItems',
+              'hideAllNonBaseMenuItem',
+              'showAllNonBaseMenuItem',
+              'translateVoice',
+              'startRecord',
+              'stopRecord',
+              'onVoiceRecordEnd',
+              'playVoice',
+              'onVoicePlayEnd',
+              'pauseVoice',
+              'stopVoice',
+              'uploadVoice',
+              'downloadVoice',
+              'chooseImage',
+              'previewImage',
+              'uploadImage',
+              'downloadImage',
+              'getNetworkType',
+              'openLocation',
+              'getLocation',
+              'hideOptionMenu',
+              'showOptionMenu',
+              'closeWindow',
+              'scanQRCode',
+              'chooseWXPay',
+              'openProductSpecificView',
+              'addCard',
+              'chooseCard',
+              'openCard'
+            ]
+          });
+          self.$wechat.ready(function(res){
+            //分享给朋友
+            self.$wechat.onMenuShareAppMessage({
+              title:self.title,
+              desc:self.desc,
+              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&shareOpenId="+self.openId+"&positionId="+self.positionId,//分享链接
+              imgUrl:self.imgUrl,//分享图标
+              type:'',
+              dataUrl:'',
+              success:function(){
+                console.log('分享成功1');
+                self.sharePosition();
+              },
+              cancel: function () { 
+                console.log('用户取消分享后执行的回调函数1');
+              }
+            });
+            //分享朋友圈
+            self.$wechat.onMenuShareTimeline({
+              title:self.title,
+              desc:self.desc,
+              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&shareOpenId="+self.openId+"&positionId="+self.positionId,//分享链接
+              imgUrl:self.imgUrl,//分享图标
+              success:function(){
+                console.log('分享成功2');
+                self.sharePosition();
+              },
+              cancel: function () { 
+                console.log('用户取消分享后执行的回调函数2');
+              }
+            })
+
+          })
+        })
+      },
+      //分享回调
+      sharePosition(){
+        var self=this;
+        var method="positionRecommend/sharePosition",
+            param=JSON.stringify({
+              shareOpenId:self.openId,
+              positionId:self.positionId
+            }),
+            successd=function(res){};
+        self.$http(method,param,successd);
+      },
       //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
       _getDetail() {
 
         var _this = this;
         var method = "promotionPage/positionInfo";
         var param = JSON.stringify({
-          id: _this.id
+          id: _this.positionId
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -332,14 +438,14 @@
       join() {
         var self=this;
         if (document.body.clientWidth<550) {
-          self.$router.push({path:'/addResume',query:{id:this.id}})
+          self.$router.push({path:'/addResume',query:{id:this.positionId,shareOpenId:self.shareOpenId}})
           return;
         }
         self.$router.push({
           path: '/apply',
           query: {
             companyId: self.companyId,
-            id:self.id
+            id:self.positionId
           }
 
         })
@@ -366,7 +472,7 @@
           var _this = this;
           var method = "recruitPosition/sharePosition";
           var param = JSON.stringify({
-            positionId: _this.id
+            positionId: _this.positionId
           });
           var successd = function (res) {
             if (res.data.code == 0) {
@@ -405,6 +511,17 @@
             companyId: this.companyId,
           }
         })
+      },
+      getShareTitleInfo(){
+        var self=this;
+        var method="positionRecommend/getShareTitleInfo",
+            param=JSON.stringify({reqType:2,companyId:self.companyId,positionId:self.positionId}),
+            successd=function(res){
+              self.imgUrl=res.data.data.imgUrl;
+              self.title=res.data.data.title;
+              self.desc=res.data.data.desc;
+            };
+        self.$http(method,param,successd);
       }
     },
     components: {
@@ -1179,3 +1296,10 @@
 
 
 </style>
+<style scoped>
+@import url(./css/main.css);
+.views_person{float: right;color: #46BE8A;}
+.position_list_right{float: right; font-size: 0.28rem;}
+.position_list_right .iconfont{color:#F2A654;font-size: 0.28rem;}
+</style>
+
