@@ -12,6 +12,7 @@
             <div class="title" v-show="homeData.form.title">{{homeData.form.title}}
 
 
+
             </div>
             <div class="des">{{homeData.form.subTitle}}</div>
             <div class="search-1BHuC hidden-sm hidden-lg" v-show="homeData.img_list_1">
@@ -51,7 +52,7 @@
         </li>
       </ul>
     </div>
-    <!--<button @click="push">about</button>-->
+    <button @click="push">about</button>
 
     <!--公司简介-->
     <div class="m_s_company hidden-sm hidden-lg" v-show="homeData.form.company_name">
@@ -209,11 +210,14 @@
       }
     },
     methods: {
-        push(){
-            this.$router.push({
-              name:'about'
-            })
-        },
+      push(){
+        this.$router.push({
+          name: 'about',
+          query: {
+            companyId: this.companyId
+          }
+        })
+      },
       goSearch() {
         this.all = '全部'
         this.$router.push({
@@ -570,7 +574,7 @@
           p {
             line-height: 18px
             img {
-              max-width: 100%
+              width: 100%
               display: block
             }
           }

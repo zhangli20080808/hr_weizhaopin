@@ -17,6 +17,7 @@ import loginResume from 'components/microresume/loginResume.vue'
 //微信
 import positionList from 'components/position/positionList';
 import aboutUs from 'components/wxIndex/aboutUs';
+import teamwork from 'components/wxIndex/teamwork';
 
 Vue.use(Router)
 
@@ -80,6 +81,11 @@ export default new Router({
       path:'/about',
       name:'about',
       component:aboutUs
+    },
+    {
+      path:'/teamwork',
+      name:'teamwork',
+      component:teamwork
     },
 
   ]

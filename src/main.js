@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-default/index.css'
 
 import 'bootstrap/dist/css/bootstrap.css'
 
+import VueAwesomeSwiper from 'vue-awesome-swiper'
 
 import 'common/js/index'
 
@@ -19,6 +20,7 @@ import Methods from 'common/js/methods'
 import { WechatPlugin } from 'vux'
 Vue.use(WechatPlugin)
 Vue.use(Methods);
+Vue.use(VueAwesomeSwiper);
 
 Vue.config.productionTip = false
 
