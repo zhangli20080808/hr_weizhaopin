@@ -5,7 +5,7 @@
           <x-img :src="picUrl"></x-img>
           <group gutter="0px">
             <!-- <p v-for="i in bottomCount">placeholder {{i}}</p> -->
-            <dl class="vux-1px-b position_list" v-for="list in lists" @click="goDetail(list.positionId)" ::key="list.positionId">
+            <dl class="vux-1px-b position_list" v-for="list in lists" @click="goDetail(list.positionId)" :key="list.positionId">
               <dt>
                 <span class="color_F96868" v-if="list.isUrgent==1">[急招]</span>
                 <span>{{list.positionName}}</span>
@@ -63,6 +63,7 @@ export default {
     }else{
       console.log("开始请求");
       this.getCode('snsapi_base');
+      return false;
     }
     this.getRecommendPosiList();
   },
@@ -123,6 +124,37 @@ export default {
             'chooseCard',
             'openCard'
           ]
+        });
+        self.$wechat.ready(function(res){
+          //分享给朋友
+          self.$wechat.onMenuShareAppMessage({
+            title:'列表名字',
+            desc:'风向描述',
+            link:'',//分享链接
+            imgUrl:'',//分享图标
+            type:'',
+            dataUrl:'',
+            success:function(){
+              console.log('分享成功1');
+            },
+            cancel: function () { 
+              console.log('用户取消分享后执行的回调函数1');
+            }
+          });
+          //分享朋友圈
+          self.$wechat.onMenuShareTimeline({
+            title:'列表名字',
+            desc:'风向描述',
+            link:'',//分享链接
+            imgUrl:'',//分享图标
+            success:function(){
+              console.log('分享成功2');
+            },
+            cancel: function () { 
+              console.log('用户取消分享后执行的回调函数2');
+            }
+          })
+
         })
       })
     },
