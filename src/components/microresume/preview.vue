@@ -51,9 +51,9 @@
           birthday:null,
           educationHistoryList:[],
           workHistoryList:[],
-          shareOpenId:this.query.shareOpenId
         },
         professional:['博士','研究生','本科','大专','其他'],
+        shareOpenId:this.$route.query.shareOpenId
       }
     },
     mounted(){
@@ -67,12 +67,12 @@
       },
       sendResume(){
         var self=this;
+        console.log(self.shareOpenId,"shareOpenId")
         var method="recruitPosition/submitInterivewApplicationNew",
-            param=JSON.stringify({interviewResumeInfo:self.interviewResumeInfo}),
+            param=JSON.stringify({interviewResumeInfo:self.interviewResumeInfo,shareOpenId:self.shareOpenId}),
             successd=function (res) {
-                  self.$router.push({path:'/results',query:{type:1}});
+                  self.$router.push({path:'/results',query:{type:res.data.data}});
               };
-              // console.log(document.body.clientWidth);
         self.$http(method,param,successd);
       }
     },

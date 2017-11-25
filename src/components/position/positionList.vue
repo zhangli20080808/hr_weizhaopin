@@ -2,7 +2,7 @@
     <div id="positionList">
       <scroller lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="100">
         <div>
-          <x-img :src="picUrl"></x-img>
+          <x-img :src="picUrl" style="width:100%"></x-img>
           <group gutter="0px">
             <!-- <p v-for="i in bottomCount">placeholder {{i}}</p> -->
             <dl class="vux-1px-b position_list" v-for="list in lists" @click="goDetail(list.positionId)" :key="list.positionId">
@@ -11,7 +11,7 @@
                 <span>{{list.positionName}}</span>
                 <div class="position_list_right">
                   <i class="iconfont">&#xe624;</i>
-                  <span>悬赏金额: {{list.rewardAmount}}元</span>
+                  <span v-if="list.rewardAmount">悬赏金额: {{list.rewardAmount}}元</span>
                 </div>
               </dt>
               <dd class="position_list_money">
@@ -43,7 +43,7 @@ export default {
       pageSize:10,
       companyId:this.$route.query.companyId || null,
       lists:[],
-      picUrl:'https://aijuhr.com/images/yidong/position_list.png',
+      picUrl:'',
       onFetching:false,
       nonceStr:true,
       shareOpenId:this.$route.query.shareOpenId || null,
@@ -65,7 +65,7 @@ export default {
       this.getSignature();
     }else{
       // console.log("开始请求");
-      this.getCode('snsapi_base');
+      this.getCode('snsapi_userinfo');
     }
     this.getRecommendPosiList();
     this.getShareTitleInfo();

@@ -274,7 +274,7 @@
           this.getSignature();
         }else{
           // console.log("开始请求");
-          this.getCode('snsapi_base');
+          this.getCode('snsapi_userinfo');
           return false;
         }
     },
@@ -306,7 +306,7 @@
             location.href=res.data.code_url;
           }else if(res.data.userExsitSession==1){
             self.openId=res.data.openId;
-            if(self.shareOpenId=""){
+            if(self.shareOpenId==""||!self.shareOpenId){
               self.shareOpenId=self.openId;
             }
             self.getSignature();
@@ -438,6 +438,7 @@
       join() {
         var self=this;
         if (document.body.clientWidth<550) {
+          console.info(self.shareOpenId);
           self.$router.push({path:'/addResume',query:{id:this.positionId,shareOpenId:self.shareOpenId}})
           return;
         }
@@ -1074,7 +1075,7 @@
             height: 0.9rem;
             line-height: 0.9rem;
             border-radius: 2px;
-            width: 46%;
+            width: 44%;
             border: 1px solid #5AA2E7;
             background-color: #fff;
             font-size: 14px
@@ -1082,8 +1083,7 @@
           }
           .post_button {
             display: inline-block;
-            width: 46%;
-            margin-left: 10px;
+            width: 44%;
             vertical-align: top;
             height: 0.9rem;
             line-height: 0.9rem;
