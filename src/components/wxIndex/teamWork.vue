@@ -282,5 +282,10 @@
     font-size: 0.34rem;
     margin-left: 0.6rem;
   }
-
+  .teamwork .footer .title{
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    left: 0;
+  }
 </style>
