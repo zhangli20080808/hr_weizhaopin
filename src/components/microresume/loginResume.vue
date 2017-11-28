@@ -115,15 +115,6 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
       }
     },
     mounted(){
-      console.log(this.$wechat);
-      // this.$wechat.config({
-      //   debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-      //   appId: 'wxffa670a057dee245', // 必填，公众号的唯一标识
-      //   timestamp: new Date(), // 必填，生成签名的时间戳
-      //   nonceStr: 'ecbao', // 必填，生成签名的随机串
-      //   signature: '',// 必填，签名，见附录1
-      //   jsApiList: [] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-      // });
       this.index();
     },
     methods:{
@@ -134,8 +125,8 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         if(localStorage.companyId){
           this.companyId=localStorage.companyId;
         }
-        if(localStorage.posId){
-          this.positionId=localStorage.posId;
+        if(localStorage.positionId){
+          this.positionId=localStorage.positionId;
         }
       },
       login(type){
@@ -197,7 +188,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
                       email:res.data.data.InterviewerInfo.email,
                     }
                   }),
-                  successd3=function(res2){
+                  successd2=function(res2){
                     if (res2.data.data==1) {
                       self.$router.push({path:"/results",query:{type:1}});
                     } else {

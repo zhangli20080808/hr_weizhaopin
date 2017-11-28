@@ -355,7 +355,7 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
         this.headType=1;
       },
       jobsLogin(type){
-        this.$router.push({path:'/loginResume',query:{type:type}})
+        this.$router.push({path:'/loginResume',query:{type:type,positionId:self.positionId}})
       }
     },
     components:{

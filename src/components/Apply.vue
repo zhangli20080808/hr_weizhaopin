@@ -212,8 +212,8 @@
         size="small"
       >
         <div class="content">
-          <div class="img">
-
+          <div class="img" style="text-align:center;">
+            <img src="../common/image/micresume/successd.png" alt="">
           </div>
           <div class="title">提交成功</div>
           <div class="des">感谢您的申请，我们将会尽快给您回复</div>

@@ -37,6 +37,7 @@ export default {
   name:'positionList',
   data(){
     console.log(util);
+    localStorage.companyId=this.$route.query.companyId;
     return{
       footerFixed:false,
       pageNum:1,

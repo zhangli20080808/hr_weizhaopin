@@ -207,6 +207,8 @@
   import Axios from 'axios';
   export default {
     data() {
+      localStorage.companyId=this.$route.query.companyId;
+      localStorage.positionId=this.$route.query.positionId;
       return {
         a: '',
         positionId: this.$route.query.positionId,
