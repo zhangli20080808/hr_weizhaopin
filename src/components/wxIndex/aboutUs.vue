@@ -231,7 +231,9 @@
       getCompanyDetail(){
         var _this = this;
         var method = "companyWeb/getCompanyDetail";
-        var param = JSON.stringify({});
+        var param = JSON.stringify({
+          companyId : _this.companyId
+        });
         var successd = function (res) {
           if (res.data.code == 0) {
             console.log(res.data.data)
@@ -257,7 +259,7 @@
     created(){
       this.$nextTick(() => {
         this.getCompanyDetail()
-
+        console.log(this.companyId)
       })
     },
     computed: {

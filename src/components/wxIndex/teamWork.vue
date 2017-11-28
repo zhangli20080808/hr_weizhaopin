@@ -5,8 +5,8 @@
       <i class="icon" @click="back"></i>
       <h2 class="title">我们的团队</h2>
     </div>
-    <div class="cards" v-for="item in WorkTeam">
-      <div class="card-type-1" >
+    <div class="cards" v-for="item in WorkTeam" ref="card">
+      <div class="card-type-1">
         <div class="g-card">
           <div class="template-card">
             <div class="template-complex">
@@ -28,6 +28,7 @@
                       <div class="description">
                         <div class="longtext">
                           {{item.description}}
+
                         </div>
                       </div>
                       <div class="member-list" v-for="list in item.memberList">
@@ -40,7 +41,8 @@
                             <span style="color:#abb4c3">{{list.positionName}}</span>
                           </div>
                           <div class="member-main">
-                           {{list.description}}
+                            {{list.description}}
+
                           </div>
                         </div>
                       </div>
@@ -65,11 +67,11 @@
   export default {
     data(){
       return {
-        companyId:'',
-        WorkTeam:[]
+        companyId: '',
+        WorkTeam: []
       }
     },
-    props:{
+    props: {
       homeData: {
         type: Object
       }
@@ -83,7 +85,7 @@
         var _this = this;
         var method = "companyWeb/getWorkTeamInfo";
         var param = JSON.stringify({
-          companyId:_this.companyId
+          companyId: _this.companyId
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -94,12 +96,13 @@
         _this.$http(method, param, successd);
       },
       back(){
-          this.$router.back()
+        this.$router.back()
       }
     },
     created(){
-      this.$nextTick(()=>{
-          this.getWorkTeam()
+      this.$nextTick(() => {
+        this.companyId = this.$route.query.companyId
+        this.getWorkTeam()
       })
     }
   }
@@ -108,13 +111,13 @@
 
 <style scoped>
   @media all and (max-width: 768px) {
-    .teamwork{
+    .teamwork {
       padding-top: 56px;
     }
   }
 
   .teamwork {
-      width: 100%;
+    width: 100%;
     position: relative;
     z-index: 2;
     background-color: #f1f5f8;
@@ -252,6 +255,7 @@
     color: #787e85;
     line-height: 24px;
   }
+
   .teamwork .back {
     position: fixed;
     left: 0;
@@ -264,6 +268,7 @@
     background-color: #64b5f6;
     color: rgba(9, 10, 11, 1);
   }
+
   .teamwork .back .icon {
     display: inline-block;
     width: 39px;
@@ -274,6 +279,7 @@
     background: url(../../common/image/back.png) no-repeat center;
     background-size: 50%;
   }
+
   .teamwork .back .title {
     width: 100%;
     height: 1.12rem;
@@ -282,7 +288,8 @@
     font-size: 0.34rem;
     margin-left: 0.6rem;
   }
-  .teamwork .footer .title{
+
+  .teamwork .footer .title {
     position: fixed;
     bottom: 0;
     z-index: 100;
