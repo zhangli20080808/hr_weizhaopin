@@ -351,7 +351,9 @@
     left: 50%;
     margin-left: -44px;
     z-index: 1;
-
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 hsla(0, 1%, 84%, .5);
+    border-radius: 50%;
   }
 
   .g-container .company-profile .g-card .header-main .header-icon .icon-image {

@@ -52,7 +52,7 @@
         </li>
       </ul>
     </div>
-    <button @click="push">about</button>
+    <!--<button @click="push">about</button>-->
 
     <!--公司简介-->
     <div class="m_s_company hidden-sm hidden-lg" v-show="homeData.form.company_name">
