@@ -190,7 +190,8 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
         professionalValue:['博士','研究生','本科','大专','其他'],
         toastText:'',
         toastShow:false,
-        shareOpenId:this.$route.query.shareOpenId || null
+        shareOpenId:this.$route.query.shareOpenId || null,
+        positionId:this.$route.query.id
       }
     },
     mounted(){
@@ -347,15 +348,18 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
       	self.interviewResumeInfo.workHistoryList.splice(index,1);
       },
       previewResume(){
+        var self=this;
         this.changeHeadType(4);
-        this.$router.push({path:'/preview',query:{shareOpenId:this.shareOpenId}});
+        this.$router.push({path:'/preview',query:{positionId:self.positionId,shareOpenId:this.shareOpenId}});
       },
       reuturnResume(){
         this.type=2;
         this.headType=1;
       },
       jobsLogin(type){
-        this.$router.push({path:'/loginResume',query:{type:type,positionId:self.positionId}})
+        var self=this;
+        console.log(self.positionId);
+        this.$router.push({path:'/loginResume',query:{type:type,positionId:self.positionId,shareOpenId:this.shareOpenId}})
       }
     },
     components:{

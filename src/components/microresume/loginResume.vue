@@ -107,11 +107,12 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         phone:'',
         email:'',
         showScrollBox:false,
-        positionId:'1',
+        positionId:this.$route.query.positionId,
         src:'https://o5omsejde.qnssl.com/demo/test1.jpg',
         codeShow:false,
         show10:false,
         loginMsg:'账号或密码错误',
+        shareOpenId:this.$route.query.shareOpenId,
       }
     },
     mounted(){
@@ -175,8 +176,9 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
               if(res.data.data.InterviewerInfo.birthday){
                 birthday=self.$date(res.data.data.InterviewerInfo.birthday);
               }
-              var method2="promotionPage/submitInterivewApplicationNew",
+              var method2="recruitPosition/submitInterivewApplicationNew",
                   param2=JSON.stringify({
+                    shareOpenId:self.shareOpenId,
                     interviewResumeInfo:{
                       positionId:self.positionId,
                       resumeId:'',
@@ -186,6 +188,9 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
                       sex:res.data.data.InterviewerInfo.sex,
                       birthday:birthday,
                       email:res.data.data.InterviewerInfo.email,
+                      educationHistoryList:educationHistoryList,
+                      workHistoryList:workHistoryList,
+                      resumeFrom:self.type
                     }
                   }),
                   successd2=function(res2){

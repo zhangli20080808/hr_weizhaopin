@@ -10,7 +10,7 @@
                 <span class="color_F96868" v-if="list.isUrgent==1">[急招]</span>
                 <span>{{list.positionName}}</span>
                 <div class="position_list_right">
-                  <i class="iconfont">&#xe624;</i>
+                  <em></em>
                   <span v-if="list.rewardAmount">悬赏金额: {{list.rewardAmount}}元</span>
                 </div>
               </dt>
@@ -36,6 +36,7 @@
 export default {
   name:'positionList',
   data(){
+    document.getElementsByTagName('title')[0].innerHTML="热招职位";
     console.log(util);
     localStorage.companyId=this.$route.query.companyId;
     return{
@@ -248,7 +249,7 @@ export default {
 .position_list{padding: 10px 15px;font-size: 0.32rem;}
 .position_list dt{line-height: 0.5rem;height: 0.5rem;margin-bottom: 10px;}
 .position_list_right{float: right; font-size: 0.28rem;}
-.position_list_right .iconfont{color:#F2A654;line-height: 0.5rem;font-size: 0.28rem;}
+.position_list_right em{background: url(../images/shangjin.png) no-repeat center center;display: inline-block;width: 25px;height: 25px;}
 .position_list dd{margin-bottom: 10px;}
 .position_list_money{color: #666;}
 .position_list_money .position_list_right{color: #46BE8A;}

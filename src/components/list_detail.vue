@@ -111,10 +111,10 @@
           <div class="job-page__header__title">
             <span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>
             <span>{{item.positionName}}</span>
-            <div class="position_list_right">
+            <!-- <div class="position_list_right">
               <i class="iconfont">&#xe624;</i>
               <span>悬赏金额: {{item.rewardAmount}}元</span>
-            </div>
+            </div> -->
           </div>
           <div class="job-page__others">
             <span class="des"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
