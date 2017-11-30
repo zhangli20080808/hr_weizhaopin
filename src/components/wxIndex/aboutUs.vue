@@ -112,12 +112,12 @@
                 </h3>
                 </div>
                 <!--slide-->
-                <div class="slides" style="height: 237px">
+                <div class="slides" style="height: 237px" @click="teamworkDeatil">
                   <swiper :options="swiperOption" ref="mySwiper">
                     <!-- slides -->
                     <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id">
                       <div class="media" style="height: 150px">
-                        <img :src="item.imageUrl" alt="" width="100%" height="100%">
+                        <img :src="item.imageUrl" alt="" width="100%" height="100%" >
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
@@ -352,7 +352,7 @@
     margin-left: -44px;
     z-index: 1;
     background-color: #fff;
-    box-shadow: 0 2px 4px 0 hsla(0, 1%, 84%, .5);
+    box-shadow: 0 4px 4px 0 hsla(0, 1%, 84%, .5);
     border-radius: 50%;
   }
 
