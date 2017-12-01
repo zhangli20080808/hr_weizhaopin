@@ -29,10 +29,10 @@
       </div>
       <!--职位列表-->
       <!--back-->
-      <div class="back visible-xs  hidden-sm hidden-lg">
+      <!-- <div class="back visible-xs  hidden-sm hidden-lg">
         <i class="icon" @click="back"></i>
         <h2 class="title">在招职位</h2>
-      </div>
+      </div> -->
 
       <div class="list-form hidden-xs">
 
@@ -265,6 +265,7 @@
 
   export default {
     data() {
+      document.title="在招职位";
       return {
         showMore: false,
         pullup: true,

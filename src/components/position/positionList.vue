@@ -2,7 +2,7 @@
     <div id="positionList">
       <scroller lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="100">
         <div>
-          <x-img :src="picUrl" style="width:100%;height:7rem"></x-img>
+          <x-img :src="picUrl" style="width:100%;height:4rem"></x-img>
           <group gutter="0px">
             <!-- <p v-for="i in bottomCount">placeholder {{i}}</p> -->
             <dl class="vux-1px-b position_list" v-for="list in lists" @click="goDetail(list.positionId)" :key="list.positionId">
@@ -75,7 +75,7 @@ export default {
   methods:{
     getCode(scope){
       var self=this;
-      Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&shareOpenId='+self.openId)
+      Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&shareOpenId='+self.shareOpenId)
       .then(function(res){
         console.log(res);
         if(res.data.userExsitSession==2){
@@ -220,7 +220,7 @@ export default {
     },
     goDetail(positionId){
       var self=this;
-      self.$router.push({name:'listDetail',query:{companyId:self.companyId,openId:self.openId,shareOpenId:self.shareOpenId,positionId:positionId}})
+      self.$router.push({name:'listDetail',query:{companyId:self.companyId,openId:self.openId,shareOpenId:self.shareOpenId,positionId:positionId}});
     },
     //获取分享标题
     getShareTitleInfo(){

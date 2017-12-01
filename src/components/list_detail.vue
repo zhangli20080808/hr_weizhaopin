@@ -72,10 +72,10 @@
         </div>
       </div>
     </div>
-    <div class="back hidden-sm hidden-lg">
+    <!-- <div class="back hidden-sm hidden-lg">
       <i class="icon" @click="back"></i>
       <h2 class="title">职位详情</h2>
-    </div>
+    </div> -->
     <div class="container hidden-sm hidden-lg">
       <div>
         <div class="detail_des hidden-xs hidden-sm">
@@ -107,6 +107,7 @@
             </div>
           </div>
         </div>
+        
         <div class="job-page__header visible-xs">
           <div class="job-page__header__title">
             <span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>
@@ -155,7 +156,7 @@
                            <!--autosize></el-input>-->
               <!--</el-form-item>-->
             <!--</el-form>-->
-            <div class="text" v-html="item.positionDesc" style="line-height:20px;"></div>
+            <div class="text" v-html="item.positionDesc" style="line-height:0.4rem;"></div>
 
           </div>
         </div>
@@ -209,6 +210,7 @@
     data() {
       localStorage.companyId=this.$route.query.companyId;
       localStorage.positionId=this.$route.query.positionId;
+      document.title="职位详情";
       return {
         a: '',
         positionId: this.$route.query.positionId,
@@ -301,16 +303,16 @@
       //获取微信的code
       getCode(scope){
         var self=this;
-        Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&openId='+self.openId+'&positionId='+self.positionId)
+        Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&positionId='+self.positionId+'&shareOpenId='+self.shareOpenId)
         .then(function(res){
           console.log(res);
           if(res.data.userExsitSession==2){
             location.href=res.data.code_url;
           }else if(res.data.userExsitSession==1){
             self.openId=res.data.openId;
-            if(self.shareOpenId==""||!self.shareOpenId){
-              self.shareOpenId=self.openId;
-            }
+            // if(self.shareOpenId==""||!self.shareOpenId){
+            //   self.shareOpenId=self.openId;
+            // }
             self.getSignature();
             if(self.openId==''){
               self.$router.push({name:'listDetail',query:{companyId:self.companyId,openId:self.openId,positionId:self.positionId,shareOpenId:self.shareOpenId}});
