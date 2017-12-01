@@ -36,7 +36,7 @@
 export default {
   name:'positionList',
   data(){
-    document.getElementsByTagName('title')[0].innerHTML="热招职位";
+    document.title="人才捕手";
     console.log(util);
     localStorage.companyId=this.$route.query.companyId;
     return{
@@ -82,9 +82,9 @@ export default {
           location.href=res.data.code_url;
         }else if(res.data.userExsitSession==1){
           self.openId=res.data.openId;
-          if(self.shareOpenId=""){
-            self.shareOpenId=self.openId;
-          }
+          // if(self.shareOpenId=""){
+          //   self.shareOpenId=self.openId;
+          // }
           self.getSignature();
           if(self.openId==''){
             self.$router.push({name:'positionList',query:{companyId:self.companyId,openId:self.openId,shareOpenId:self.shareOpenId}});

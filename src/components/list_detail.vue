@@ -76,6 +76,7 @@
       <i class="icon" @click="back"></i>
       <h2 class="title">职位详情</h2>
     </div> -->
+    <scroller>
     <div class="container hidden-sm hidden-lg">
       <div>
         <div class="detail_des hidden-xs hidden-sm">
@@ -162,6 +163,7 @@
         </div>
       </div>
     </div>
+    </scroller>
     <div class="footer hidden-xs">
       <footer>
         <div class="title"></div>
@@ -202,8 +204,8 @@
   </div>
 </template>
 <script>
-  import Scroll from './base/scroll2'
-  import {XButton, XDialog, TransferDomDirective as TransferDom} from 'vux';
+  // import Scroll from './base/scroll2'
+  import {XButton, XDialog, TransferDomDirective as TransferDom,Scroller} from 'vux';
   import util from "./../common/js/util.js";
   import Axios from 'axios';
   export default {
@@ -530,7 +532,7 @@
       }
     },
     components: {
-      Scroll,
+      Scroller,
       XButton,
       XDialog
     }
@@ -694,7 +696,6 @@
       width: 100%
       height: 100%
       background: #fff
-      padding-top: 1.12rem
       .container
         padding: 0
         margin: 0
