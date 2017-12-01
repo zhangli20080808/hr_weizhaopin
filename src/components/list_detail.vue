@@ -155,7 +155,7 @@
                            <!--autosize></el-input>-->
               <!--</el-form-item>-->
             <!--</el-form>-->
-            <div class="text" v-html="item.positionDesc" ></div>
+            <div class="text" v-html="item.positionDesc" style="line-height:20px;"></div>
 
           </div>
         </div>

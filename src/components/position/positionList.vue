@@ -2,7 +2,7 @@
     <div id="positionList">
       <scroller lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="100">
         <div>
-          <x-img :src="picUrl" style="width:100%"></x-img>
+          <x-img :src="picUrl" style="width:100%;height:7rem"></x-img>
           <group gutter="0px">
             <!-- <p v-for="i in bottomCount">placeholder {{i}}</p> -->
             <dl class="vux-1px-b position_list" v-for="list in lists" @click="goDetail(list.positionId)" :key="list.positionId">
@@ -249,7 +249,7 @@ export default {
 .position_list{padding: 10px 15px;font-size: 0.32rem;}
 .position_list dt{line-height: 0.5rem;height: 0.5rem;margin-bottom: 10px;}
 .position_list_right{float: right; font-size: 0.28rem;}
-.position_list_right em{background: url(../images/shangjin.png) no-repeat center center;display: inline-block;width: 25px;height: 25px;}
+.position_list_right em{background: url(../images/shangjin.png) no-repeat center center;display: inline-block;width: 0.3rem;height: 0.3rem;background-size: 100% 100%;vertical-align: middle;line-height: 0.28rem;}
 .position_list dd{margin-bottom: 10px;}
 .position_list_money{color: #666;}
 .position_list_money .position_list_right{color: #46BE8A;}
