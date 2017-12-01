@@ -76,7 +76,7 @@
       <i class="icon" @click="back"></i>
       <h2 class="title">职位详情</h2>
     </div> -->
-    <scroller>
+    <scroller lock-x>
     <div class="container hidden-sm hidden-lg">
       <div>
         <div class="detail_des hidden-xs hidden-sm">
@@ -146,6 +146,9 @@
               <span class="arrow_icon"></span>
             </div>
           </div>
+        </div>
+        <div>
+          <img src="./images/have_bonus.png" alt="">
         </div>
         <!--职位描述-->
         <div class="detail_text">
