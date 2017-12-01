@@ -818,7 +818,6 @@
       .container {
         padding: 0
         margin: 0
-        padding-top: 1.12rem
         .search {
           width: 100%;
           position: relative;

@@ -3,9 +3,9 @@
     <navHeader :homeData="homeData" :seller="seller" @search="searchDetail" :companyId="companyId"
                @toIndex="ToHome"></navHeader>
 
-    <transition :name="transitionName">
-      <router-view :homeData="homeData" class="child-view"></router-view>
-    </transition>
+    <!-- <transition :name="transitionName"> -->
+      <router-view :homeData="homeData" ></router-view>
+    <!-- </transition> -->
     <!-- <loading v-show="!homeData.form.company_p"></loading> -->
   </div>
 </template>
