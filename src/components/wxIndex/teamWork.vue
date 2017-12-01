@@ -89,7 +89,6 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data.data)
             _this.WorkTeam = res.data.data
           }
         }

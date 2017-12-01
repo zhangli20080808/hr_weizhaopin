@@ -13,7 +13,7 @@
           <div class="header-icon"><img :src="preCompanyWebsite.logoUrl" alt="" class="icon-image"></div>
           <div class="header-info">
             <div class="template-company">
-              <h3 class="info-title">{{preCompanyWebsite.name}}</h3>
+              <h3 class="info-title g-oneline-text">{{preCompanyWebsite.name}}</h3>
               <div class="description">{{preCompanyWebsite.slogan}}</div>
             </div>
           </div>
@@ -198,7 +198,7 @@
     },
     methods: {
       app(index){
-        console.log(index);
+        // console.log(index);
 //         this.doShowToast()
       },
       filterTime(item){
@@ -236,7 +236,7 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            console.log(res.data.data)
+            // console.log(res.data.data)
             _this.preCompanyWebsite = res.data.data.CompanyWebsite
             _this.preWorkTeam = res.data.data.WorkTeam
             _this.WorkEnvironment = res.data.data.WorkEnvironment
@@ -259,7 +259,7 @@
     created(){
       this.$nextTick(() => {
         this.getCompanyDetail()
-        console.log(this.companyId)
+        // console.log(this.companyId)
       })
     },
     computed: {
@@ -306,7 +306,6 @@
   .g-container .company-profile {
     position: relative;
     border-radius: 1px;
-    border-bottom: 1px solid white;
   }
 
   .g-container .company-profile .g-card {
@@ -380,6 +379,7 @@
     margin-left: auto;
     margin-right: auto;
     line-height: 1.3;
+    margin-bottom: 10px;
   }
 
   .g-container .company-profile .g-card .header-main .header-info .template-company .description {
@@ -388,6 +388,7 @@
     padding-right: 0.141429rem;
     white-space: pre-line;
     font-size: 14px;
+    color: #abb4c3;
   }
 
   .g-container .cards .g-card {
