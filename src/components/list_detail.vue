@@ -147,8 +147,8 @@
             </div>
           </div>
         </div>
-        <div>
-          <img src="./images/have_bonus.png" alt="">
+        <div class="have_bonus" v-if="item.rewardAmount">
+          <img src="./images/have_bonuss.png" alt="">
         </div>
         <!--职位描述-->
         <div class="detail_text">
@@ -1309,5 +1309,7 @@
 .views_person{float: right;color: #46BE8A;}
 .position_list_right{float: right; font-size: 0.28rem;}
 .position_list_right .iconfont{color:#F2A654;font-size: 0.28rem;}
+.have_bonus{position: absolute;right: 0.5rem;top:3.5rem;width: 1.5rem;height: 1.5rem;}
+.have_bonus img{width: 100%;height: 100%;}
 </style>
 
