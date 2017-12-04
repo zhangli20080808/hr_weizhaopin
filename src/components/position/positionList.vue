@@ -20,7 +20,7 @@
                 <div class="position_list_right">{{list.views}}人看过</div>
               </dd>
               <dd class="position_list_date">发布时间:{{list.posiPublishTime}}</dd>
-            </dl>     
+            </dl>
             <load-more tip="loading" v-if="onFetching && nonceStr"></load-more>
             <load-more :show-loading="false" tip="我是有底线的" background-color="#fbf9fe" v-if="!onFetching || !nonceStr"></load-more>
             <div class="footer"></div>
@@ -153,7 +153,7 @@ export default {
             success:function(){
               console.log('分享成功1');
             },
-            cancel: function () { 
+            cancel: function () {
               console.log('用户取消分享后执行的回调函数1');
             }
           });
@@ -166,7 +166,7 @@ export default {
             success:function(){
               console.log('分享成功2');
             },
-            cancel: function () { 
+            cancel: function () {
               console.log('用户取消分享后执行的回调函数2');
             }
           })

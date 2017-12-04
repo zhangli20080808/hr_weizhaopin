@@ -50,7 +50,8 @@
 
                                     {{item.description}}
 
-                                              </div>
+
+                                  </div>
                                   <div class="gamma-text-cover"></div>
                                 </div>
 
@@ -84,10 +85,11 @@
                     <!-- slides -->
                     <swiper-slide v-for="(item,index) in WorkEnvironment" :key="item.id" @click.native="app(index)">
                       <div class="media" style="height: 150px">
-                        <img :src="item.imageUrl"  alt="" width="100%" height="100%">
+                        <img :src="item.imageUrl" alt="" width="100%" height="100%">
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -117,10 +119,11 @@
                     <!-- slides -->
                     <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id">
                       <div class="media" style="height: 150px">
-                        <img :src="item.imageUrl" alt="" width="100%" height="100%" >
+                        <img :src="item.imageUrl" alt="" width="100%" height="100%">
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
+
 
                       </div>
                     </swiper-slide>
@@ -144,8 +147,8 @@
 
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import footerNav from '../../components/base/foot'
-
-
+  import util from "../../common/js/util.js";
+  import Axios from 'axios';
   export default {
     data(){
       return {
@@ -189,6 +192,13 @@
           // 如果自行设计了插件，那么插件的一些配置相关参数，也应该出现在这个对象中，如下debugger
           debugger: true,
           loop: true,
+          nonceStr: true,
+          shareOpenId:this.$route.query.shareOpenId || null,
+          // shareOpenId:'oTNQS0ktYqzINgWc5Z9HK_1b__HA',
+          openId:this.$route.query.openId || null,
+          imgUrl: '',
+          title: '',
+          desc: '',
         },
         companyId: (() => {
           let queryParam = this.urlParse();
@@ -232,7 +242,7 @@
         var _this = this;
         var method = "companyWeb/getCompanyDetail";
         var param = JSON.stringify({
-          companyId : _this.companyId
+          companyId: _this.companyId
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -246,21 +256,117 @@
         _this.$http(method, param, successd);
       },
       teamworkDeatil(){
-          this.$router.push({
-            name:'teamwork',
-            path:'/teamwork',
-            query:{
-              companyId:this.companyId,
-              WorkTeam:this.WorkTeam
-            }
+        this.$router.push({
+          name: 'teamwork',
+          path: '/teamwork',
+          query: {
+            companyId: this.companyId,
+            WorkTeam: this.WorkTeam
+          }
+        })
+      },
+      //获取分享标题
+      getShareTitleInfo(){
+        var self = this;
+        var method = "positionRecommend/getShareTitleInfo",
+          param = JSON.stringify({reqType: 3, companyId: self.companyId}),
+          successd = function (res) {
+            console.log(res.data.data)
+            self.imgUrl = res.data.data.imgUrl;
+            self.title = res.data.data.title;
+            self.desc = res.data.data.desc;
+            document.title = self.title
+            console.log(document.title)
+          };
+        self.$http(method, param, successd);
+      },
+      getSignature(){
+        var self = this;
+        Axios.post(util.wxSignature, 'url=' + encodeURIComponent(location.href.split('#')[0]))
+          .then(function (res) {
+            self.$wechat.config({
+              debug: false,
+              appId: res.data.appid,
+              timestamp: res.data.timestamp,
+              nonceStr: res.data.noncestr,
+              signature: res.data.signature,
+              jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+                'hideMenuItems',
+                'showMenuItems',
+                'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem',
+                'translateVoice',
+                'startRecord',
+                'stopRecord',
+                'onVoiceRecordEnd',
+                'playVoice',
+                'onVoicePlayEnd',
+                'pauseVoice',
+                'stopVoice',
+                'uploadVoice',
+                'downloadVoice',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'hideOptionMenu',
+                'showOptionMenu',
+                'closeWindow',
+                'scanQRCode',
+                'chooseWXPay',
+                'openProductSpecificView',
+                'addCard',
+                'chooseCard',
+                'openCard'
+              ]
+            });
+            self.$wechat.ready(function (res) {
+              //分享给朋友
+              self.$wechat.onMenuShareAppMessage({
+                title: self.title,
+                desc: self.desc,
+                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId,//分享链接
+                imgUrl: self.imgUrl,//分享图标
+                type: '',
+                dataUrl: '',
+                success: function () {
+                  console.log('分享成功1');
+                },
+                cancel: function () {
+                  console.log('用户取消分享后执行的回调函数1');
+                }
+              });
+              //分享朋友圈
+              self.$wechat.onMenuShareTimeline({
+                title: self.title,
+                desc: self.desc,
+                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId,//分享链接
+                imgUrl: self.imgUrl,//分享图标
+                success: function () {
+                  console.log('分享成功2');
+                },
+                cancel: function () {
+                  console.log('用户取消分享后执行的回调函数2');
+                }
+              })
+
+            })
           })
       }
     },
-    created(){
-      this.$nextTick(() => {
-        this.getCompanyDetail()
-        // console.log(this.companyId)
-      })
+    mounted(){
+        this.getSignature();
+        this.getCompanyDetail();
+        this.getShareTitleInfo();
     },
     computed: {
       bgStyle() {
@@ -277,7 +383,7 @@
 
 </script>
 
-<style scoped >
+<style scoped>
   @import "../../common/stylus/swiper.css";
 
   .g-container {
@@ -366,7 +472,7 @@
   .g-container .company-profile .g-card .header-main .header-info {
     font-style: normal;
     text-align: center;
-     margin-top: 12px;
+    margin-top: 12px;
   }
 
   .g-container .company-profile .g-card .header-main .header-info .template-company {
@@ -503,6 +609,7 @@
     color: #66a4f9;
     margin-bottom: 2px;
   }
+
   .g-container footer {
     position: relative;
     width: 100%;
