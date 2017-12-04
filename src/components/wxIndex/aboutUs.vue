@@ -51,6 +51,7 @@
                                     {{item.description}}
 
 
+
                                   </div>
                                   <div class="gamma-text-cover"></div>
                                 </div>
@@ -90,6 +91,7 @@
                       <div class="title g-oneline-text">
                         {{item.description}}
 
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -123,6 +125,7 @@
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
+
 
 
                       </div>
@@ -193,9 +196,9 @@
           debugger: true,
           loop: true,
           nonceStr: true,
-          shareOpenId:this.$route.query.shareOpenId || null,
+          shareOpenId: this.$route.query.shareOpenId || null,
           // shareOpenId:'oTNQS0ktYqzINgWc5Z9HK_1b__HA',
-          openId:this.$route.query.openId || null,
+          openId: this.$route.query.openId || null,
           imgUrl: '',
           title: '',
           desc: '',
@@ -275,8 +278,7 @@
             self.imgUrl = res.data.data.imgUrl;
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
-            document.title = self.title
-            console.log(document.title)
+            document.title =  self.title;
           };
         self.$http(method, param, successd);
       },
@@ -364,9 +366,9 @@
       }
     },
     mounted(){
-        this.getSignature();
-        this.getCompanyDetail();
-        this.getShareTitleInfo();
+      this.getSignature();
+      this.getCompanyDetail();
+      this.getShareTitleInfo();
     },
     computed: {
       bgStyle() {
