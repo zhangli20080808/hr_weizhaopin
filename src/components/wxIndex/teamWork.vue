@@ -29,6 +29,7 @@
                         <div class="longtext">
                           {{item.description}}
 
+
                         </div>
                       </div>
                       <div class="member-list" v-for="list in item.memberList">
@@ -42,6 +43,7 @@
                           </div>
                           <div class="member-main">
                             {{list.description}}
+
 
                           </div>
                         </div>
@@ -102,6 +104,7 @@
       this.$nextTick(() => {
         this.companyId = this.$route.query.companyId
         this.getWorkTeam()
+
       })
     }
   }

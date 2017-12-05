@@ -15,6 +15,17 @@
             <div class="template-company">
               <h3 class="info-title g-oneline-text">{{preCompanyWebsite.name}}</h3>
               <div class="description">{{preCompanyWebsite.slogan}}</div>
+              <!--<div class="action">-->
+                <!--<div class="g-ghost-btn" @click="goCare"-->
+                     <!--:class="{'social-btn':isCare==1,'g-ghost-white-btn':isCare==0}">-->
+                  <!--<div class="btn-text">-->
+                    <!--{{isCare == 0 ? '已关注' : '关注'}}-->
+
+
+
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
             </div>
           </div>
         </div>
@@ -49,6 +60,9 @@
                                   <div class="gamma-description">
 
                                     {{item.description}}
+
+
+
 
 
 
@@ -92,6 +106,9 @@
                         {{item.description}}
 
 
+
+
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -128,6 +145,9 @@
 
 
 
+
+
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -143,6 +163,20 @@
       </div>
     </div>
     <footerNav></footerNav>
+    <!--关注弹窗-->
+    <div v-transfer-dom class="cares">
+      <x-dialog v-model="careQrcode" class="care-content">
+        <div class="box-inner">
+          gsgs
+          <div class="box-header"></div>
+          <div class="box-body"></div>
+          <!--<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1859350418,3867843756&fm=173&s=A6829547065225C642DD98A20300B003&w=480&h=320&img.JPEG" style="max-width:100%">-->
+        </div>
+        <div @click="careQrcode=false">
+          <span class="vux-close"></span>
+        </div>
+      </x-dialog>
+    </div>
   </div>
 </template>
 
@@ -151,6 +185,10 @@
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import footerNav from '../../components/base/foot'
   import util from "../../common/js/util.js";
+  import {
+    XDialog,
+    TransferDomDirective as TransferDom
+  } from 'vux'
   import Axios from 'axios';
   export default {
     data(){
@@ -207,6 +245,9 @@
           let queryParam = this.urlParse();
           return queryParam.companyId;
         })(),
+        //是否关注 0－关注 1-未关注
+        isCare: 1,
+        careQrcode: false
       }
     },
     methods: {
@@ -278,7 +319,7 @@
             self.imgUrl = res.data.data.imgUrl;
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
-            document.title =  self.title;
+            document.title = self.title;
           };
         self.$http(method, param, successd);
       },
@@ -363,6 +404,14 @@
 
             })
           })
+      },
+      //是否关注
+      goCare(){
+        if (this.isCare == 0) {
+          return
+        }
+        this.careQrcode = true
+
       }
     },
     mounted(){
@@ -378,8 +427,12 @@
     components: {
       swiper,
       swiperSlide,
-      footerNav
-    }
+      footerNav,
+      XDialog
+    },
+    directives: {
+      TransferDom
+    },
 
   }
 
@@ -409,6 +462,52 @@
 
   .header-section {
     position: relative
+  }
+
+  .g-ghost-btn {
+    position: relative;
+    display: inline-block;
+    padding: 10px 3px 11px;
+    margin-bottom: 0;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.2;
+    border-radius: 2px;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #66a4f9;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+
+  .g-ghost-white-btn {
+    width: 110px;
+    background-color: transparent;
+    color: #abb4c3;
+    border-color: #abb4c3;
+  }
+
+  .social-btn {
+    width: 110px;
+    background-color: transparent;
+    border-color: #66a4f9;
+    color: #66a4f9;
+  }
+  /*弹窗*/
+  .cares .care-content{
+  }
+  .cares .care-content .box-inner{
+    height: 279px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #fff;
+    padding: 10px;
   }
 
   .g-container .company-profile {
@@ -497,6 +596,15 @@
     white-space: pre-line;
     font-size: 14px;
     color: #abb4c3;
+  }
+
+  .g-container .company-profile .g-card .header-main .header-info .template-company .action {
+    margin-top: 22px;
+    margin-bottom: 8px;
+  }
+
+  .g-container .company-profile .g-card .header-main .header-info .template-company .action .g-ghost-btn .btn-text {
+    font-size: 13px;
   }
 
   .g-container .cards .g-card {
