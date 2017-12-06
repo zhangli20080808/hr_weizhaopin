@@ -257,22 +257,9 @@
       TransferDom
     },
     created() {
-//       setTimeout(() => {
-//         this.probeType = 3
-//         this.listenScroll = true
-//         this._getDetail()
-//         if (this.$route.query.companyId) {
-//           this.companyId = this.$route.query.companyId;
-//           localStorage.companyId=this.companyId;
-//         }
-//         if (this.$route.params.id) {
-//           this.id = this.$route.params.id
-//         }
-//         if (this.$route.name !== 'home') {
-//           this.hiddens = false
-// //          document.getElementById('list_detail').style.paddingTop = 0
-//         }
-//       }, 20)
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if(isWeixin){
         if(this.$route.query.is_auth==0){
           //没有静默授权成功
           // console.log("授权失败");
@@ -286,6 +273,7 @@
           this.getCode('snsapi_userinfo');
           return false;
         }
+      }
     },
     mounted(){
       this.probeType = 3

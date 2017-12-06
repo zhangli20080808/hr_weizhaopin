@@ -9,6 +9,10 @@ import listDetail from 'components/list_detail'
 
 import Apply from 'components/Apply'
 
+//内部推荐
+import interpolate from 'components/interpolate'
+
+
 import addResume from 'components/microresume/add.vue'
 import preview from 'components/microresume/preview.vue'
 import results from 'components/microresume/results.vue'
@@ -87,6 +91,10 @@ export default new Router({
       name:'teamwork',
       component:teamwork
     },
-
+    {
+      path:'/interpolate',
+      name:'interpolate',
+      component:interpolate
+    }
   ]
 })
