@@ -15,6 +15,17 @@
             <div class="template-company">
               <h3 class="info-title g-oneline-text">{{preCompanyWebsite.name}}</h3>
               <div class="description">{{preCompanyWebsite.slogan}}</div>
+              <!--<div class="action">-->
+                <!--<div class="g-ghost-btn" @click="goCare"-->
+                     <!--:class="{'social-btn':isCare==1,'g-ghost-white-btn':isCare==0}">-->
+                  <!--<div class="btn-text">-->
+                    <!--{{isCare == 0 ? '已关注' : '关注'}}-->
+
+
+
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
             </div>
           </div>
         </div>
@@ -50,7 +61,12 @@
 
                                     {{item.description}}
 
-                                              </div>
+
+
+
+
+
+                                  </div>
                                   <div class="gamma-text-cover"></div>
                                 </div>
 
@@ -84,10 +100,15 @@
                     <!-- slides -->
                     <swiper-slide v-for="(item,index) in WorkEnvironment" :key="item.id" @click.native="app(index)">
                       <div class="media" style="height: 150px">
-                        <img :src="item.imageUrl"  alt="" width="100%" height="100%">
+                        <img :src="item.imageUrl" alt="" width="100%" height="100%">
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
+
+
+
+
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -117,10 +138,15 @@
                     <!-- slides -->
                     <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id">
                       <div class="media" style="height: 150px">
-                        <img :src="item.imageUrl" alt="" width="100%" height="100%" >
+                        <img :src="item.imageUrl" alt="" width="100%" height="100%">
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
+
+
+
+
+
 
                       </div>
                     </swiper-slide>
@@ -137,6 +163,20 @@
       </div>
     </div>
     <footerNav></footerNav>
+    <!--关注弹窗-->
+    <div v-transfer-dom class="cares">
+      <x-dialog v-model="careQrcode" class="care-content">
+        <div class="box-inner">
+          gsgs
+          <div class="box-header"></div>
+          <div class="box-body"></div>
+          <!--<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1859350418,3867843756&fm=173&s=A6829547065225C642DD98A20300B003&w=480&h=320&img.JPEG" style="max-width:100%">-->
+        </div>
+        <div @click="careQrcode=false">
+          <span class="vux-close"></span>
+        </div>
+      </x-dialog>
+    </div>
   </div>
 </template>
 
@@ -144,8 +184,12 @@
 
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import footerNav from '../../components/base/foot'
-
-
+  import util from "../../common/js/util.js";
+  import {
+    XDialog,
+    TransferDomDirective as TransferDom
+  } from 'vux'
+  import Axios from 'axios';
   export default {
     data(){
       return {
@@ -189,11 +233,21 @@
           // 如果自行设计了插件，那么插件的一些配置相关参数，也应该出现在这个对象中，如下debugger
           debugger: true,
           loop: true,
+          nonceStr: true,
+          shareOpenId: this.$route.query.shareOpenId || null,
+          // shareOpenId:'oTNQS0ktYqzINgWc5Z9HK_1b__HA',
+          openId: this.$route.query.openId || null,
+          imgUrl: '',
+          title: '',
+          desc: '',
         },
         companyId: (() => {
           let queryParam = this.urlParse();
           return queryParam.companyId;
         })(),
+        //是否关注 0－关注 1-未关注
+        isCare: 1,
+        careQrcode: false
       }
     },
     methods: {
@@ -232,7 +286,7 @@
         var _this = this;
         var method = "companyWeb/getCompanyDetail";
         var param = JSON.stringify({
-          companyId : _this.companyId
+          companyId: _this.companyId
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -246,21 +300,124 @@
         _this.$http(method, param, successd);
       },
       teamworkDeatil(){
-          this.$router.push({
-            name:'teamwork',
-            path:'/teamwork',
-            query:{
-              companyId:this.companyId,
-              WorkTeam:this.WorkTeam
-            }
+        this.$router.push({
+          name: 'teamwork',
+          path: '/teamwork',
+          query: {
+            companyId: this.companyId,
+            WorkTeam: this.WorkTeam
+          }
+        })
+      },
+      //获取分享标题
+      getShareTitleInfo(){
+        var self = this;
+        var method = "positionRecommend/getShareTitleInfo",
+          param = JSON.stringify({reqType: 3, companyId: self.companyId}),
+          successd = function (res) {
+            console.log(res.data.data)
+            self.imgUrl = res.data.data.imgUrl;
+            self.title = res.data.data.title;
+            self.desc = res.data.data.desc;
+            document.title = self.title;
+          };
+        self.$http(method, param, successd);
+      },
+      getSignature(){
+        var self = this;
+        Axios.post(util.wxSignature, 'url=' + encodeURIComponent(location.href.split('#')[0]))
+          .then(function (res) {
+            self.$wechat.config({
+              debug: false,
+              appId: res.data.appid,
+              timestamp: res.data.timestamp,
+              nonceStr: res.data.noncestr,
+              signature: res.data.signature,
+              jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+                'hideMenuItems',
+                'showMenuItems',
+                'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem',
+                'translateVoice',
+                'startRecord',
+                'stopRecord',
+                'onVoiceRecordEnd',
+                'playVoice',
+                'onVoicePlayEnd',
+                'pauseVoice',
+                'stopVoice',
+                'uploadVoice',
+                'downloadVoice',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'hideOptionMenu',
+                'showOptionMenu',
+                'closeWindow',
+                'scanQRCode',
+                'chooseWXPay',
+                'openProductSpecificView',
+                'addCard',
+                'chooseCard',
+                'openCard'
+              ]
+            });
+            self.$wechat.ready(function (res) {
+              //分享给朋友
+              self.$wechat.onMenuShareAppMessage({
+                title: self.title,
+                desc: self.desc,
+                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId,//分享链接
+                imgUrl: self.imgUrl,//分享图标
+                type: '',
+                dataUrl: '',
+                success: function () {
+                  console.log('分享成功1');
+                },
+                cancel: function () {
+                  console.log('用户取消分享后执行的回调函数1');
+                }
+              });
+              //分享朋友圈
+              self.$wechat.onMenuShareTimeline({
+                title: self.title,
+                desc: self.desc,
+                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId,//分享链接
+                imgUrl: self.imgUrl,//分享图标
+                success: function () {
+                  console.log('分享成功2');
+                },
+                cancel: function () {
+                  console.log('用户取消分享后执行的回调函数2');
+                }
+              })
+
+            })
           })
+      },
+      //是否关注
+      goCare(){
+        if (this.isCare == 0) {
+          return
+        }
+        this.careQrcode = true
+
       }
     },
-    created(){
-      this.$nextTick(() => {
-        this.getCompanyDetail()
-        // console.log(this.companyId)
-      })
+    mounted(){
+      this.getSignature();
+      this.getCompanyDetail();
+      this.getShareTitleInfo();
     },
     computed: {
       bgStyle() {
@@ -270,14 +427,18 @@
     components: {
       swiper,
       swiperSlide,
-      footerNav
-    }
+      footerNav,
+      XDialog
+    },
+    directives: {
+      TransferDom
+    },
 
   }
 
 </script>
 
-<style scoped >
+<style scoped>
   @import "../../common/stylus/swiper.css";
 
   .g-container {
@@ -301,6 +462,52 @@
 
   .header-section {
     position: relative
+  }
+
+  .g-ghost-btn {
+    position: relative;
+    display: inline-block;
+    padding: 10px 3px 11px;
+    margin-bottom: 0;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.2;
+    border-radius: 2px;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #66a4f9;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+
+  .g-ghost-white-btn {
+    width: 110px;
+    background-color: transparent;
+    color: #abb4c3;
+    border-color: #abb4c3;
+  }
+
+  .social-btn {
+    width: 110px;
+    background-color: transparent;
+    border-color: #66a4f9;
+    color: #66a4f9;
+  }
+  /*弹窗*/
+  .cares .care-content{
+  }
+  .cares .care-content .box-inner{
+    height: 279px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #fff;
+    padding: 10px;
   }
 
   .g-container .company-profile {
@@ -366,7 +573,7 @@
   .g-container .company-profile .g-card .header-main .header-info {
     font-style: normal;
     text-align: center;
-     margin-top: 12px;
+    margin-top: 12px;
   }
 
   .g-container .company-profile .g-card .header-main .header-info .template-company {
@@ -389,6 +596,15 @@
     white-space: pre-line;
     font-size: 14px;
     color: #abb4c3;
+  }
+
+  .g-container .company-profile .g-card .header-main .header-info .template-company .action {
+    margin-top: 22px;
+    margin-bottom: 8px;
+  }
+
+  .g-container .company-profile .g-card .header-main .header-info .template-company .action .g-ghost-btn .btn-text {
+    font-size: 13px;
   }
 
   .g-container .cards .g-card {
@@ -503,6 +719,7 @@
     color: #66a4f9;
     margin-bottom: 2px;
   }
+
   .g-container footer {
     position: relative;
     width: 100%;
