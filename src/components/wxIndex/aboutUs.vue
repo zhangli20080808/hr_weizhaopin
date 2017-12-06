@@ -15,14 +15,11 @@
             <div class="template-company">
               <h3 class="info-title g-oneline-text">{{preCompanyWebsite.name}}</h3>
               <div class="description">{{preCompanyWebsite.slogan}}</div>
-              <!--<div class="action">-->
+              <!--<div class="action" v-if="isAuthorization==0">-->
                 <!--<div class="g-ghost-btn" @click="goCare"-->
                      <!--:class="{'social-btn':isCare==1,'g-ghost-white-btn':isCare==0}">-->
                   <!--<div class="btn-text">-->
                     <!--{{isCare == 0 ? '已关注' : '关注'}}-->
-
-
-
                   <!--</div>-->
                 <!--</div>-->
               <!--</div>-->
@@ -60,6 +57,7 @@
                                   <div class="gamma-description">
 
                                     {{item.description}}
+
 
 
 
@@ -109,6 +107,7 @@
 
 
 
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -148,6 +147,7 @@
 
 
 
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -167,10 +167,15 @@
     <div v-transfer-dom class="cares">
       <x-dialog v-model="careQrcode" class="care-content">
         <div class="box-inner">
-          gsgs
-          <div class="box-header"></div>
-          <div class="box-body"></div>
-          <!--<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1859350418,3867843756&fm=173&s=A6829547065225C642DD98A20300B003&w=480&h=320&img.JPEG" style="max-width:100%">-->
+          <div class="box-header">
+            <span class="close iconfont" @click="careQrcode=false">&#xe612;</span>
+          </div>
+          <div class="box-body">
+            <div class="follow">
+              <img class="img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1859350418,3867843756&fm=173&s=A6829547065225C642DD98A20300B003&w=480&h=320&img.JPEG" style="max-width:100%">
+              <span class="text">长按关注</span>
+            </div>
+          </div>
         </div>
         <div @click="careQrcode=false">
           <span class="vux-close"></span>
@@ -247,7 +252,8 @@
         })(),
         //是否关注 0－关注 1-未关注
         isCare: 1,
-        careQrcode: false
+        careQrcode: false,
+        isAuthorization: 0
       }
     },
     methods: {
@@ -315,7 +321,6 @@
         var method = "positionRecommend/getShareTitleInfo",
           param = JSON.stringify({reqType: 3, companyId: self.companyId}),
           successd = function (res) {
-            console.log(res.data.data)
             self.imgUrl = res.data.data.imgUrl;
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
@@ -440,7 +445,7 @@
 
 <style scoped>
   @import "../../common/stylus/swiper.css";
-
+  @import "../../components/css/main.css";
   .g-container {
     position: relative;
     z-index: 2;
@@ -499,16 +504,43 @@
     border-color: #66a4f9;
     color: #66a4f9;
   }
+
   /*弹窗*/
-  .cares .care-content{
-  }
-  .cares .care-content .box-inner{
-    height: 279px;
+
+  .cares .care-content .box-inner {
     overflow: hidden;
     border-radius: 4px;
     background: #fff;
     padding: 10px;
   }
+  .cares .care-content .box-inner .box-header{
+    position: relative;
+    min-height: 16px;
+  }
+  .cares .care-content .box-inner .box-body{
+    text-align: center;
+    padding-top: 16px;
+    margin-bottom: 20px;
+    color: #787e85;
+  }
+  .cares .care-content .box-inner .box-body .follow{
+    position: relative;
+    overflow: hidden;
+  }
+  .cares .care-content .box-inner .box-body .follow .img{
+    width: 100%;
+    height: auto;
+  }
+  .cares .care-content .box-inner .box-body .follow .text{
+    font-size: 14px;
+  }
+  .cares .care-content .box-inner .box-header .close{
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 18px;
+  }
+
 
   .g-container .company-profile {
     position: relative;
@@ -764,5 +796,10 @@
     width: 100%;
     height: 100%;
     background-color: #f2f2f2;
+  }
+</style>
+<style>
+  #aboutUs .cares .care-content .weui-dialog{
+    max-width: 251px!important;
   }
 </style>

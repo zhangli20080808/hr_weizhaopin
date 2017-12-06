@@ -825,7 +825,7 @@
             .item-pos {
               font-size: 0.24rem;
               float: left;
-              width: 60%;
+              width: 80%;
               display: inline-block;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -893,9 +893,9 @@
             }
             p {
               margin-top: 0;
-              font-size: 0.26rem;
+              font-size: 0.28rem;
               color: #5c6170;
-              line-height: 18px;
+              line-height: 20px;
             }
             p:nth-child(1) {
               text-indent: 0
