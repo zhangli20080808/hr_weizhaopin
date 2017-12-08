@@ -123,6 +123,10 @@
       .nav_search {
         .search {
           .search_content {
+            position :absolute
+            display :inline-block
+            right :0
+            top :20px
             width 230px
             height 40px
             border: 1px solid #C0CCDA

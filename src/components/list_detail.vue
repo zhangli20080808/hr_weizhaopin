@@ -108,7 +108,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="job-page__header visible-xs">
           <div class="job-page__header__title">
             <span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>
@@ -375,7 +375,7 @@
                 console.log('分享成功1');
                 self.sharePosition();
               },
-              cancel: function () { 
+              cancel: function () {
                 console.log('用户取消分享后执行的回调函数1');
               }
             });
@@ -389,7 +389,7 @@
                 console.log('分享成功2');
                 self.sharePosition();
               },
-              cancel: function () { 
+              cancel: function () {
                 console.log('用户取消分享后执行的回调函数2');
               }
             })
@@ -416,6 +416,7 @@
         var param = JSON.stringify({
           id: _this.positionId
         });
+        console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
               console.log(res.data.data)
@@ -1046,7 +1047,8 @@
           right: 0;
           top: 0;
           height: 4rem;
-          background: url('https://aijuhr.com/images/yidong/tips.67d28c9.png') no-repeat center;
+          /*background: url('https://aijuhr.com/images/yidong/tips.67d28c9.png') no-repeat center;*/
+          background: url('https://aijuhr.com/images/yidong/sharePng.png') no-repeat center;
           z-index: 3000;
           background-size: 80% auto;
         }

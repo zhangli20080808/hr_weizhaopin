@@ -329,8 +329,6 @@
     },
     methods: {
       selectItem(item) {
-        this.form.kind = localStorage.setItem('cate', item.categoryId)
-        localStorage.setItem('cateName', item.categoryName)
         this.$router.push({
           name: 'listDetail',
           query: {
@@ -341,6 +339,12 @@
             id: item.id
           }
         })
+        if (!this.$route.params.all) {
+            return
+        }else {
+          this.form.kind = localStorage.setItem('cate', item.categoryId)
+          localStorage.setItem('cateName', item.categoryName)
+        }
       },
       change(item) {
         this.item = item[1]
@@ -411,7 +415,6 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-              console.log(res.data)
             _this.list = _this._genResult(res.data.data)
             _this.config.totalCount = res.data.data.count
           }
@@ -529,6 +532,7 @@
         this.addressAll = true
       },
       getKind(item){
+          localStorage.clear()
         this.form.kind = item.categoryId
         this.form.name = item.name
         this.positionList()
@@ -580,6 +584,7 @@
 
     mounted() {
 
+        console.log(this.$route)
       let showAll = this.$route.params.showAll
       let posId = localStorage.getItem('posId')
       let posName = localStorage.getItem('posName')
@@ -610,7 +615,7 @@
 
         }
       }
-      if (this.$route.params.all == '') {
+      if (!this.$route.params.all) {
         this.positionList()
       }
       if (this.$route.params.searchList) {
