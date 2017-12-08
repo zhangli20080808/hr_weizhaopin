@@ -4,9 +4,9 @@
       <p>员工认证后即可以以公司推荐人身份分享职位给好友，获得相应奖励！</p>
     <!-- 拉钩 -->
         <group>
-          <x-input name="username" placeholder="您的企业邮箱" :border-intent="false" v-model="email"></x-input>
+          <x-input name="username" placeholder="您的企业邮箱(绑定后不可修改)" :border-intent="false" v-model="email"></x-input>
           <x-input name="password" placeholder="您的姓名" v-model="name"></x-input>
-          <div style="padding:15px;">
+          <div style="padding:10px;margin-top:0.2rem;">
             <x-button type="primary" @click.native="verification()" class="hrm_primary_btn" >身份验证</x-button>
           </div>
         </group>
@@ -42,6 +42,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
   export default {
     name:'loginResume',
     data(){
+        document.title="身份验证"
       return{
           type: '',
           companyId: '',
@@ -82,7 +83,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
             error = (res)=> {
                 console.log(res);
             }
-        this.$http(methods, param,successd,error);
+        // this.$http(methods, param,successd,error);
       },
     },
     components:{XInput, Group, XButton, Cell,XDialog,XImg,Popup,WechatPlugin},
@@ -138,8 +139,8 @@ a{
     padding: 0 20px;
 }
 #interpolate button.weui-btn, input.weui-btn{
-    margin:10px 5% 15px;
-    width: 90%;
+    /* margin:10px 5% 15px;
+    width: 90%; */
 }
 #interpolate .vueCloseWrap{
     position: absolute;
@@ -150,7 +151,7 @@ a{
     border: none;
 }
 #interpolate .weui-cell{
-    padding: 10px 0;
+    /* padding: 10px 0; */
     margin: 0 10px;
     border-bottom: 1px solid #D9D9D9;
 }

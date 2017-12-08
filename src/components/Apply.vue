@@ -355,7 +355,8 @@
           type:'1',
           phone:'',
           email:''
-        }
+        },
+        resumeUrl:''
       }
     },
 
@@ -389,6 +390,7 @@
               self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
               self.InterviewerInfo.educationHistoryList=res.data.data.EducationHistory;
               self.InterviewerInfo.workHistoryList=res.data.data.WorkHistory;
+              self.resumeUrl=res.data.data.InterviewerInfo.resumeUrl;
               self.$message({
                 message:'解析简历成功,赶快去投递简历吧..',
                 type:'success'
@@ -588,6 +590,7 @@
         InterviewerInfo.attachmentIds=self.attachmentIds.toString();
         InterviewerInfo.resumeId=self.resumeId.toString();
         InterviewerInfo.resumeFrom=self.login.type;
+        InterviewerInfo.resumeUrl=self.resumeUrl;
 
         console.log(InterviewerInfo);
         var param=JSON.stringify({interviewResumeInfo:InterviewerInfo}),

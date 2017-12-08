@@ -190,7 +190,8 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
                       email:res.data.data.InterviewerInfo.email,
                       educationHistoryList:educationHistoryList,
                       workHistoryList:workHistoryList,
-                      resumeFrom:self.type
+                      resumeFrom:self.type,
+                      resumeUrl:res.data.data.InterviewerInfo.resumeUrl
                     }
                   }),
                   successd2=function(res2){
