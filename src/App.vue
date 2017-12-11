@@ -160,6 +160,7 @@
             _this.homeData.website = res.data.data.wzpCompany.domain
 
             _this.homeData.content = res.data.data.wzpCompany.description
+            document.title =  _this.homeData.form.company_name
           }
         }
         _this.$http(method, param, successd);

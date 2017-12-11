@@ -316,7 +316,6 @@
       setTimeout(() => {
         this.all = ''
         localStorage.setItem('companyId', this.companyId)
-        document.title = this.homeData.form.company_name,
           localStorage.clear()
       }, 20)
     },

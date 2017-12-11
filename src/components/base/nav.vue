@@ -130,7 +130,6 @@
             width 230px
             height 40px
             border: 1px solid #C0CCDA
-            position: relative
             outline: none
             color: #99A9BF
             font-size: 12px
