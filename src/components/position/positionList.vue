@@ -23,7 +23,7 @@
             </dl>
             <load-more tip="loading" v-if="onFetching && nonceStr"></load-more>
             <load-more :show-loading="false" tip="我是有底线的" background-color="#fbf9fe" v-if="!onFetching || !nonceStr"></load-more>
-            <div class="footer"></div>
+            <div class="footer" @click="goAiju"></div>
           </group>
         </div>
       </scroller>
@@ -234,6 +234,9 @@ export default {
             self.desc=res.data.data.desc;
           };
       self.$http(method,param,successd);
+    },
+    goAiju(){
+      location.href="https://aijuhr.com";
     }
   },
   components:{

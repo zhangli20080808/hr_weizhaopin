@@ -436,15 +436,16 @@
       join() {
         var self=this;
         if (document.body.clientWidth<550) {
-          console.info(self.shareOpenId);
-          self.$router.push({path:'/addResume',query:{id:this.positionId,shareOpenId:self.shareOpenId}})
+          self.$router.push({path:'/addResume',query:{id:this.positionId,shareOpenId:self.shareOpenId,recomType:2,companyId:self.companyId}})
           return;
         }
         self.$router.push({
           path: '/apply',
           query: {
             companyId: self.companyId,
-            id:self.positionId
+            id:self.positionId,
+            shareOpenId:self.shareOpenId,
+            recomType:2
           }
 
         })

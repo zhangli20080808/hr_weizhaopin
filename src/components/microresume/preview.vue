@@ -53,7 +53,8 @@
           workHistoryList:[],
         },
         professional:['博士','研究生','本科','大专','其他'],
-        shareOpenId:this.$route.query.shareOpenId
+        shareOpenId:this.$route.query.shareOpenId,
+        recomType:this.$route.query.recomType
       }
     },
     mounted(){
@@ -69,7 +70,11 @@
         var self=this;
         console.log(self.shareOpenId,"shareOpenId")
         var method="recruitPosition/submitInterivewApplicationNew",
-            param=JSON.stringify({interviewResumeInfo:self.interviewResumeInfo,shareOpenId:self.shareOpenId}),
+            param=JSON.stringify({
+              interviewResumeInfo:self.interviewResumeInfo,
+              shareOpenId:self.shareOpenId,
+              recomType:self.recomType
+            }),
             successd=function (res) {
                   self.$router.push({path:'/results',query:{type:res.data.data}});
               };

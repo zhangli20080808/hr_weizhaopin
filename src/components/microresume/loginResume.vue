@@ -113,6 +113,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         show10:false,
         loginMsg:'账号或密码错误',
         shareOpenId:this.$route.query.shareOpenId,
+        recomType:this.$route.query.recomType
       }
     },
     mounted(){

@@ -191,7 +191,7 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
         professionalValue:['博士','研究生','本科','大专','其他'],
         toastText:'',
         toastShow:false,
-        shareOpenId:this.$route.query.shareOpenId || null,
+        shareOpenId:this.$route.query.shareOpenId,
         positionId:this.$route.query.id,
         recomType:this.$route.query.recomType
       }
@@ -352,8 +352,8 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
       },
       previewResume(){
         var self=this;
-        this.changeHeadType(4);
-        this.$router.push({path:'/preview',query:{positionId:self.positionId,shareOpenId:this.shareOpenId}});
+        self.changeHeadType(4);
+        self.$router.push({path:'/preview',query:{positionId:self.positionId,shareOpenId:self.shareOpenId,recomType:self.recomType}});
       },
       reuturnResume(){
         this.type=2;
@@ -361,8 +361,7 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
       },
       jobsLogin(type){
         var self=this;
-        console.log(self.positionId);
-        this.$router.push({path:'/loginResume',query:{type:type,positionId:self.positionId,shareOpenId:this.shareOpenId}})
+        self.$router.push({path:'/loginResume',query:{type:type,positionId:self.positionId,shareOpenId:self.shareOpenId,recomType:self.recomType}})
       }
     },
     components:{
