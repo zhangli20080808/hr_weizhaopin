@@ -75,7 +75,7 @@ export default {
   methods:{
     getCode(scope){
       var self=this;
-      Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&shareOpenId='+self.shareOpenId)
+      Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&shareOpenId='+self.shareOpenId+'&recomType=2')
       .then(function(res){
         console.log(res);
         if(res.data.userExsitSession==2){
@@ -192,6 +192,7 @@ export default {
             pageNum:self.pageNum,
             companyId:self.companyId,
             type:2,
+            recomType:2
           }),
           successd=function(res){
             console.log(res);

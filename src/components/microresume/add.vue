@@ -140,6 +140,7 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
   export default {
     name:'add',
     data(){
+      
       return{
         type:'1',
         headType:'1',
@@ -191,10 +192,12 @@ import { XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPi
         toastText:'',
         toastShow:false,
         shareOpenId:this.$route.query.shareOpenId || null,
-        positionId:this.$route.query.id
+        positionId:this.$route.query.id,
+        recomType:this.$route.query.recomType
       }
     },
     mounted(){
+      document.title="创建简历";
       this.index();
     },
     methods:{

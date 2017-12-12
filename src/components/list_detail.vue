@@ -296,7 +296,7 @@
       //获取微信的code
       getCode(scope){
         var self=this;
-        Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&positionId='+self.positionId+'&shareOpenId='+self.shareOpenId)
+        Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&positionId='+self.positionId+'&shareOpenId='+self.shareOpenId+'&recomType=2')
         .then(function(res){
           console.log(res);
           if(res.data.userExsitSession==2){
