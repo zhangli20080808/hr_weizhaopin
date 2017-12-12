@@ -1048,7 +1048,7 @@
           top: 0;
           height: 4rem;
           /*background: url('https://aijuhr.com/images/yidong/tips.67d28c9.png') no-repeat center;*/
-          background: url('https://aijuhr.com/images/yidong/sharePng.png') no-repeat center;
+          background: url('https://aijuhr.com/images/yidong/shareRed.png') no-repeat center;
           z-index: 3000;
           background-size: 80% auto;
         }
