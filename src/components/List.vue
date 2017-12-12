@@ -124,7 +124,13 @@
         </div>
       </div>
     </div>
-    <div class="result hidden-sm hidden-lg" v-if="list.length">
+    <div class="footer hidden-xs">
+      <footer>
+        <div class="title"></div>
+      </footer>
+    </div>
+
+    <div class="result hidden-sm hidden-lg">
       <scroller lock-x height="-38" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
 
         <ul class="job-list__list">
@@ -159,7 +165,7 @@
               </div>
             </div>
           </div>
-          <div class="contant-list">
+          <div class="contant-list" v-if="list.length">
             <li v-for="item in list" @click="selectItem(item)">
               <div class="job-list-item">
                 <div class="title">
@@ -188,11 +194,6 @@
           <loading v-show="!list"></loading>
         </ul>
       </scroller>
-    </div>
-    <div class="footer hidden-xs">
-      <footer>
-        <div class="title"></div>
-      </footer>
     </div>
     <!--职能类型-->
     <div v-transfer-dom>
