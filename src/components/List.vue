@@ -7,17 +7,6 @@
         <div class="detail_des">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页
-
-
-
-
-
-
-
-
-
-
-
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
@@ -135,8 +124,8 @@
         </div>
       </div>
     </div>
-    <div class="result hidden-sm hidden-lg">
-      <scroller lock-x height="-32" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
+    <div class="result hidden-sm hidden-lg" v-if="list.length">
+      <scroller lock-x height="-38" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
 
         <ul class="job-list__list">
           <div class="job-filter hidden-sm hidden-lg ">
@@ -207,7 +196,7 @@
     </div>
     <!--职能类型-->
     <div v-transfer-dom>
-      <x-dialog v-model="showScrollBox" class="choose-kind">
+      <x-dialog v-model="showScrollBox" class="choose-kind" v-if="selectK">
         <p class="title">职能类型</p>
         <div class="img-box" style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;">
           <button class="btn-kind" @click="getAll">全部职能类型</button>
@@ -220,7 +209,7 @@
     </div>
     <!--全部工作地点-->
     <div v-transfer-dom>
-      <x-dialog v-model="addressAll" class="choose-kind">
+      <x-dialog v-model="addressAll" class="choose-kind" v-if="addressAll">
         <p class="title">工作地点 </p>
         <div class="img-box" style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;">
           <button class="btn-kind" @click="getAllAddress">全部工作地点</button>
@@ -240,6 +229,7 @@
       </footer>
     </div>
     <!--<router-view></router-view>-->
+    <loading v-show="!list.length"></loading>
   </div>
 
 </template>
@@ -584,7 +574,8 @@
 
     mounted() {
 
-        console.log(this.$route)
+    this.$nextTick(()=>{
+      console.log(this.$route)
       let showAll = this.$route.params.showAll
       let posId = localStorage.getItem('posId')
       let posName = localStorage.getItem('posName')
@@ -597,8 +588,8 @@
       } else if (this.$route.params.search) {
         this.Search = this.$route.params.search
       }
-      this.transitionCityLists()
       this.getPositionCategoryList()
+      this.transitionCityLists()
       this.getCityList()
 
       this.form.kind = Number(posId)
@@ -621,6 +612,7 @@
       if (this.$route.params.searchList) {
         this.Search = this.$route.params.searchList
       }
+    })
 
     },
     components: {
@@ -811,7 +803,7 @@
 
   @media all and (max-width: 767px) {
     #s_list {
-      background: #fff
+      background: #f1f5f8
       height: 100%
       width: 100%
       position: fixed
@@ -1057,10 +1049,10 @@
         overflow: hidden
         .job-list__list {
           margin: 0;
-          background: #fff;
+          background: #f1f5f8;
           list-style: none;
           .job-filter {
-            padding: 5px 12px;
+            padding: 5px 12px 18px 12px;
             background-color: #fff;
             .job-filter__row {
               display: -webkit-box;
@@ -1313,12 +1305,14 @@
             }
           }
           .contant-list {
-            padding: 0 26px;
+            background :#f1f5f8;
           }
           .job-list-item {
-            border-bottom: 1px solid #f4f4f6;
+            /*border-bottom: 1px solid #f4f4f6;*/
             display: block;
-            padding: 12px 0;
+            padding: 12px 26px;
+            background: #ffffff;
+            margin :8px 0;
             .title {
               font-size: 15px;
               font-weight: bold;
@@ -1328,6 +1322,7 @@
                 color: #ff8054;
               }
               .text {
+                font-weight:bold;
               }
             }
             .details {

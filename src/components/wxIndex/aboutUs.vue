@@ -324,7 +324,6 @@
             self.imgUrl = res.data.data.imgUrl;
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
-            document.title = self.title;
           };
         self.$http(method, param, successd);
       },
@@ -419,10 +418,12 @@
 
       }
     },
-    mounted(){
-      this.getSignature();
-      this.getCompanyDetail();
-      this.getShareTitleInfo();
+    created(){
+        this.$nextTick(()=>{
+          this.getSignature();
+          this.getCompanyDetail();
+          this.getShareTitleInfo();
+        })
     },
     computed: {
       bgStyle() {

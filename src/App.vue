@@ -6,7 +6,7 @@
     <!-- <transition :name="transitionName"> -->
       <router-view :homeData="homeData" ></router-view>
     <!-- </transition> -->
-    <!-- <loading v-show="!homeData.form.company_p"></loading> -->
+     <!--<loading v-show="!homeData.form.company_p"></loading>-->
   </div>
 </template>
 
@@ -40,6 +40,7 @@
           num: 0,
           kindt: 0,
           website: '',
+          companyName:'',
           options: [{
             value: 1,
             label: '0-50'
@@ -154,13 +155,13 @@
             _this.homeData.form.company_p = res.data.data.wzpCompany.companyValues
             _this.homeData.form.company_address = res.data.data.wzpCompany.address
             _this.homeData.form.company_name = res.data.data.wzpCompany.name
+            _this.homeData.companyName = res.data.data.wzpCompany.name
 //
             _this.homeData.num = res.data.data.wzpCompany.dimensions
             _this.homeData.kindt = res.data.data.wzpCompany.status
             _this.homeData.website = res.data.data.wzpCompany.domain
 
             _this.homeData.content = res.data.data.wzpCompany.description
-            document.title =  _this.homeData.form.company_name
           }
         }
         _this.$http(method, param, successd);

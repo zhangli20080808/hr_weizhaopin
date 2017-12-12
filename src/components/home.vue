@@ -1,6 +1,7 @@
 <template>
-  <div class="home" v-show="homeData.form.company_name">
+  <div class="home">
 
+  <div v-if="companyName">
     <!--导航-->
     <!--轮播-->
     <div class="main_ad" v-show="homeData.img_list_1">
@@ -137,11 +138,15 @@
     </div>
     <footerNav v-show="homeData.form.company_name"></footerNav>
   </div>
+    <loading v-show="!companyName"></loading>
+  </div>
 </template>
 <script>
 
   import footerNav from './base/foot'
   import split from './base/split/split.vue'
+  import loading from './base/loading/loading.vue'
+
   export default {
     data() {
       return {
@@ -201,7 +206,8 @@
         categoryName: '',
         all: [],
         getAllRecruit: '查看全部职位',
-        showAll: '全部'
+        showAll: '全部',
+        companyName:''
       }
     },
     props: {
@@ -282,41 +288,32 @@
           }
 
         })
-      }
-//      selectSearch() {
-//        var _this = this;
-//        var method = "promotionPage/positionList";
-//        var param = JSON.stringify({
-//          pageNum: _this.config.pageNum,
-//          pageSize: _this.config.pageSize,
-//          companyId: _this.companyId,
-//          categoryId: '',
-//          workCity: ''
-//        });
-//
-//        var successd = function (res) {
-//          if (res.data.code == 0) {
-//            _this.list = res.data.data.positionList
-//            _this.$router.push({
-//              path: `/list`,
-//              name: 'List',
-//              params: {
-//                list: _this.list,
-//              },
-//              query: {
-//                companyId: _this.companyId,
-//              }
-//            })
-//          }
-//        }
-//        _this.$http(method, param, successd);
-//      },
+      },
+      //微招聘首页信息
+      _getIndexInfo() {
+        var _this = this;
+        var method = "miniRecruit/getWzpIndexInfo";
+        var param = JSON.stringify({
+          companyId: _this.companyId,
+          type: 2
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+              console.log(res.data.data)
+            _this.companyName = res.data.data.wzpCompany.name
+            document.title = _this.companyName
+          }
+        }
+        _this.$http(method, param, successd);
+      },
     },
     created(){
       setTimeout(() => {
         this.all = ''
         localStorage.setItem('companyId', this.companyId)
+        this._getIndexInfo()
           localStorage.clear()
+
       }, 20)
     },
     computed: {
@@ -326,7 +323,8 @@
     },
     components: {
       footerNav,
-      split
+      split,
+      loading
     }
   }
 </script>

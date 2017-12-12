@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="homeData.companyName">
     <header class="hidden-xs hidden-sm ">
       <nav class="navbar navbar-sample" role="navigation">
         <div class="container">

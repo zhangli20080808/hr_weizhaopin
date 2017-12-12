@@ -58,8 +58,14 @@
       </div>
     </div>
 
+    <div class="footer">
+      <footer>
+        <a href="https://aijuhr.com">
+          <div class="title"></div>
+        </a>
+      </footer>
+    </div>
 
-    <footerNav></footerNav>
   </div>
 </template>
 
@@ -68,6 +74,7 @@
 
   export default {
     data(){
+      document.title = '我们的团队';
       return {
         companyId: '',
         WorkTeam: []
@@ -104,23 +111,27 @@
       this.$nextTick(() => {
         this.companyId = this.$route.query.companyId
         this.getWorkTeam()
-
       })
+    },
+    mounted(){
+
     }
   }
 
 </script>
 
-<style scoped>
+<style lang="stylus" rel="stylesheet/stylus" scoped>
   @media all and (max-width: 768px) {
     .teamwork {
       padding-top: 56px;
+      margin-bottom :32px
     }
   }
-
+  .cards-border {
+    border :none!important
+  }
   .teamwork {
     width: 100%;
-    position: relative;
     z-index: 2;
     background-color: #f1f5f8;
     border: 0;
@@ -274,12 +285,13 @@
   .teamwork .back .icon {
     display: inline-block;
     width: 39px;
-    height: 34px;
+    height: 1.12rem;
     position: absolute;
     left: 0.2rem;
-    top: 0.18rem;
+    top: 50%;
+    margin-top: -0.56rem;
     background: url(../../common/image/back.png) no-repeat center;
-    background-size: 50%;
+    background-size: 46%;
   }
 
   .teamwork .back .title {
@@ -291,10 +303,23 @@
     margin-left: 0.6rem;
   }
 
-  .teamwork .footer .title {
-    position: fixed;
-    bottom: 0;
-    z-index: 100;
-    left: 0;
-  }
+  .teamwork
+    .footer
+      position: fixed
+      width: 100%
+      bottom: 0
+      z-index :100
+      footer
+        height: 0.64rem
+        background: #F7F7F7
+        width: 100%
+        line-height: 0.64rem
+      .title
+        height: 0.64rem !important
+        line-height: 0.64rem !important
+        text-align: center !important
+        color: #999999 !important
+        font-size: 0.14rem !important
+        background: url(../../common/image/footLogo.png) no-repeat center !important
+        background-size: 100% !important
 </style>
