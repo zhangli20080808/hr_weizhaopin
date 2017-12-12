@@ -383,6 +383,7 @@
               resumeFrom:10,
             }),
             successd=function(res){
+              console.log(res.data.data.InterviewerInfo.resumeUrl,"resumeUrl");
               self.InterviewerInfo.name=res.data.data.InterviewerInfo.name;
               self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
               self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone;
@@ -659,6 +660,7 @@
               self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
               self.InterviewerInfo.educationHistoryList=res.data.data.EducationHistory;
               self.InterviewerInfo.workHistoryList=res.data.data.WorkHistory;
+              self.resumeUrl=res.data.data.InterviewerInfo.resumeUrl;
             },
             errored=function(res){
               if(res.data.code==1){
