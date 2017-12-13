@@ -197,9 +197,9 @@
     </div>
     <!--职能类型-->
     <div v-transfer-dom>
-      <x-dialog v-model="showScrollBox" class="choose-kind" v-if="selectK">
+      <x-dialog v-model="showScrollBox" class="choose-kind">
         <p class="title">职能类型</p>
-        <div class="img-box" style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;">
+        <div class="img-box" v-if="selectK.length" style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;">
           <button class="btn-kind" @click="getAll">全部职能类型</button>
           <button class="btn-kind" v-for="item in selectK" @click="getKind(item)">{{item.name}}</button>
         </div>
@@ -210,9 +210,9 @@
     </div>
     <!--全部工作地点-->
     <div v-transfer-dom>
-      <x-dialog v-model="addressAll" class="choose-kind" v-if="addressAll">
+      <x-dialog v-model="addressAll" class="choose-kind">
         <p class="title">工作地点 </p>
-        <div class="img-box" style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;">
+        <div class="img-box" v-if="workCity.length" style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;" >
           <button class="btn-kind" @click="getAllAddress">全部工作地点</button>
           <button class="btn-kind" v-for="item in workCity" @click="getAddress(item)">{{item}}</button>
         </div>
@@ -238,7 +238,7 @@
 
 <script>
   import allcity from '../common/js/allcity'
-  import loading from './base/loading/loading.vue'
+  import loading from './base/loading/loading2.vue'
   import scroll from  '../components/base/scroll.vue'
   import footerNav from '../components/base/foot.vue'
 
@@ -416,8 +416,17 @@
         let ret = []
         if (data.positionList) {
           ret = ret.concat(data.positionList)
+//          ret.sort(this.compareSore('isUrgent'))
         }
         return ret
+      },
+      //急招排序
+      compareSore(prop){
+          return function (a,b) {
+            let value1 = a[prop]
+            let value2 = b[prop]
+            return value1 <value2
+          }
       },
       //职位分类
       getPositionCategoryList() {
@@ -534,6 +543,7 @@
         this.showScrollBox = false
         this.positionList()
         this.form.name = '全部职能类型'
+        localStorage.clear()
       },
       getAllAddress(){
         this.item = []
@@ -541,6 +551,7 @@
         this.positionList()
         this.addressAll = false
         this.address = '全部工作地点'
+        localStorage.clear()
       },
       getAddress(item){
         this.item = item.split(',')[1]
@@ -555,8 +566,8 @@
           this.onFetching = true
           if (this.config.pageSize < this.config.totalCount) {
             this.config.pageSize += 5
-            this.showMore = true
             this.positionList()
+            this.showMore = true
           } else {
             this.showMore = false
           }
@@ -590,8 +601,8 @@
         this.Search = this.$route.params.search
       }
       this.getPositionCategoryList()
-      this.transitionCityLists()
       this.getCityList()
+      this.transitionCityLists()
 
       this.form.kind = Number(posId)
       if (this.form.kind !== 0) {

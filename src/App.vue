@@ -141,8 +141,8 @@
 
 
             _this.homeData.s_log_back = res.data.data.wzpCompany.companyUrl
-            _this.homeData.img_list = res.data.data.fileInfoList
-            _this.homeData.img_list_1 = res.data.data.fileInfoList[0].url
+            _this.homeData.img_list_1 = res.data.data.fileInfoList ? res.data.data.fileInfoList[0].url : _this.imageUrl3
+
             _this.homeData.content = res.data.data.wzpCompany.description
             _this.homeData.bigLogo = res.data.data.wzpCompany.companyHeadImg
             _this.homeData.wzpPositionList = res.data.data.recruitmentCountList.result

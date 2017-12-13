@@ -76,8 +76,8 @@
       <i class="icon" @click="back"></i>
       <h2 class="title">职位详情</h2>
     </div> -->
-    <scroller lock-x>
-    <div class="container hidden-sm hidden-lg">
+    <scroller lock-x class="hidden-sm hidden-lg">
+    <div class="container ">
       <div>
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
@@ -673,7 +673,7 @@
           width: 100%
           height: 100px
           line-height: 100px
-          color: #5c6170 999
+          color: #5c6170
           font-size: 28px
           margin: 0 auto
           background: url(../common/image/footer_logo.png) no-repeat center
@@ -789,7 +789,7 @@
           background: #fff;
           margin-top: 0.4rem
           padding: 0;
-          padding-bottom :1.12rem
+          padding-bottom :0.4rem
           .detail_content
             padding: 0.39rem 0.32rem 0.3rem 0.27rem
             color: #1F2D3D

@@ -321,9 +321,11 @@
         var method = "positionRecommend/getShareTitleInfo",
           param = JSON.stringify({reqType: 3, companyId: self.companyId}),
           successd = function (res) {
+            console.log(res.data)
             self.imgUrl = res.data.data.imgUrl;
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
+            document.title = res.data.data.companyName
           };
         self.$http(method, param, successd);
       },

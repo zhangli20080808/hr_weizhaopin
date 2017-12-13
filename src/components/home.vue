@@ -138,14 +138,14 @@
     </div>
     <footerNav v-show="homeData.form.company_name"></footerNav>
   </div>
-    <loading v-show="!companyName"></loading>
+    <loading v-if="!companyName"></loading>
   </div>
 </template>
 <script>
 
   import footerNav from './base/foot'
   import split from './base/split/split.vue'
-  import loading from './base/loading/loading.vue'
+  import loading from './base/loading/loading2.vue'
 
   export default {
     data() {
