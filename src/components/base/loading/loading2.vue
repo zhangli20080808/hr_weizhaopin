@@ -1,8 +1,10 @@
 <template>
   <div class="mask">
-    <div class="spinner">
-      <div class="dot1"></div>
-      <div class="dot2"></div>
+    <div class="mask-content">
+      <div class="spinner">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -12,16 +14,13 @@
 </script>
 <style scoped rel="stylesheet/stylus">
   .spinner {
+    margin: 100px auto;
     width: 40px;
     height: 40px;
     position: relative;
     text-align: center;
     -webkit-animation: sk-rotate 2.0s infinite linear;
     animation: sk-rotate 2.0s infinite linear;
-    left: 50%;
-    top: 50%;
-    margin-left: -20px;
-    margin-top: -20px;
   }
 
   .dot1,
@@ -89,6 +88,15 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, .4);
     z-index: 2000;
+  }
+  .mask .mask-content{
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -150px;
   }
 
 </style>

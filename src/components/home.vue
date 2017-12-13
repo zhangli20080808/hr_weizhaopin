@@ -1,144 +1,144 @@
 <template>
   <div class="home">
 
-  <div v-if="companyName">
-    <!--导航-->
-    <!--轮播-->
-    <div class="main_ad" v-show="homeData.img_list_1">
-      <div class="carousel-inner1">
-        <!--我们的data属性来保存我们要的数据,没有任何功能-->
-        <div class="item " :style="bgStyle">
-          <!--<img :src="homeData.img_list_1" alt="">-->
-          <div class="item_text">
-            <div class="title" v-show="homeData.form.title">{{homeData.form.title}}
+    <div v-show="companyName">
+      <!--导航-->
+      <!--轮播-->
+      <div class="main_ad" v-show="homeData.img_list_1">
+        <div class="carousel-inner1">
+          <!--我们的data属性来保存我们要的数据,没有任何功能-->
+          <div class="item " :style="bgStyle">
+            <!--<img :src="homeData.img_list_1" alt="">-->
+            <div class="item_text">
+              <div class="title" v-show="homeData.form.title">{{homeData.form.title}}
 
 
 
-            </div>
-            <div class="des">{{homeData.form.subTitle}}</div>
-            <div class="search-1BHuC hidden-sm hidden-lg" v-show="homeData.img_list_1">
-              <div class="container-28cVH">
-                <input type="text" class="input-1WRwm" placeholder="搜索职位关键字" v-model="search" @keyup.enter="goSearch">
-                <span class="_1SIiK _13ysA button-1UN4f custom-icon-background-color" @click="goSearch"></span>
+              </div>
+              <div class="des">{{homeData.form.subTitle}}</div>
+              <div class="search-1BHuC hidden-sm hidden-lg" v-show="homeData.img_list_1">
+                <div class="container-28cVH">
+                  <input type="text" class="input-1WRwm" placeholder="搜索职位关键字" v-model="search" @keyup.enter="goSearch">
+                  <span class="_1SIiK _13ysA button-1UN4f custom-icon-background-color" @click="goSearch"></span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <split></split>
-    <!--公司简介-->
-    <div class="s_company hidden-xs">
-      <img class="c_img" v-show="homeData.bigLogo" :src="homeData.bigLogo">
-      <div class="text">{{homeData.form.company_name}}</div>
-      <p class="text1">{{homeData.form.company_p}}</p>
-      <p class="text2">{{homeData.form.company_address}}</p>
-      <div class="line"></div>
-      <ul class="icon_list clearfix">
-        <li>
-          <div class="grid-content bg-purple">
-            <i class="icon1"></i><span>{{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}}</span>
-          </div>
-        </li>
-        <li>
-          <div class="grid-content bg-purple-light">
-            <i
-              class="icon2"></i><span>{{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</span>
-          </div>
-        </li>
-        <li>
-          <div class="grid-content bg-purple">
-            <i class="icon3"></i><span>{{homeData.website}}</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <!--<button @click="push">about</button>-->
-
-    <!--公司简介-->
-    <div class="m_s_company hidden-sm hidden-lg" v-show="homeData.form.company_name">
-      <img :src="homeData.bigLogo" class="item-logo" alt="">
-      <div class="item-desc" v-show="homeData.form.company_name">
-        <div class="care">关注</div>
-        <h2 class="item-title">{{homeData.form.company_name}}</h2>
-        <p class="item-info">
-          <span class="item-pos">
-            {{homeData.form.company_p}}
-          </span></p>
-        <p class="item-time">
-          {{homeData.form.company_address}}  | {{homeData.website}} | {{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}} | {{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</p>
+      <split></split>
+      <!--公司简介-->
+      <div class="s_company hidden-xs">
+        <img class="c_img" v-show="homeData.bigLogo" :src="homeData.bigLogo">
+        <div class="text">{{homeData.form.company_name}}</div>
+        <p class="text1">{{homeData.form.company_p}}</p>
+        <p class="text2">{{homeData.form.company_address}}</p>
+        <div class="line"></div>
+        <ul class="icon_list clearfix">
+          <li>
+            <div class="grid-content bg-purple">
+              <i class="icon1"></i><span>{{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}}</span>
+            </div>
+          </li>
+          <li>
+            <div class="grid-content bg-purple-light">
+              <i
+                class="icon2"></i><span>{{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</span>
+            </div>
+          </li>
+          <li>
+            <div class="grid-content bg-purple">
+              <i class="icon3"></i><span>{{homeData.website}}</span>
+            </div>
+          </li>
+        </ul>
       </div>
-    </div>
-    <split></split>
-    <!--公司介绍-->
-    <div class="intro_c" id="2F" v-show="homeData.content">
-      <div class="title" v-show="homeData.customName2">
-        <div class="text">{{homeData.customName2}}
+      <!--<button @click="push">about</button>-->
 
-          <span class="line hidden-xs"></span>
+      <!--公司简介-->
+      <div class="m_s_company hidden-sm hidden-lg" v-show="homeData.form.company_name">
+        <img :src="homeData.bigLogo" class="item-logo" alt="">
+        <div class="item-desc" v-show="homeData.form.company_name">
+          <div class="care">关注</div>
+          <h2 class="item-title">{{homeData.form.company_name}}</h2>
+          <p class="item-info">
+            <span class="item-pos">
+              {{homeData.form.company_p}}
+            </span></p>
+          <p class="item-time">
+            {{homeData.form.company_address}}  | {{homeData.website}} | {{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}} | {{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</p>
         </div>
       </div>
-
-      <div class="intro_c_con container">
-        <!--<div class="img"></div>-->
-        <div class="intro_text" v-html="homeData.content">
-        </div>
-      </div>
-    </div>
-    <split></split>
-    <!--招聘职位-->
-    <div id="1F" class="s_recruit hidden-xs" v-show="homeData.wzpPositionList">
-      <div class="container">
-        <div class="title">
-          <div class="text" v-if="homeData.customName1">{{homeData.customName1}}
+      <split></split>
+      <!--公司介绍-->
+      <div class="intro_c" id="2F" v-show="homeData.content">
+        <div class="title" v-show="homeData.customName2">
+          <div class="text">{{homeData.customName2}}
 
             <span class="line hidden-xs"></span>
           </div>
         </div>
-        <el-row :gutter="20" class="list_content">
-          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in homeData.wzpPositionList"
-                  :key="item.categoryId">
-            <div class="grid-content bg-purple" @click="SelectTo(item)">
-              <div class="content">
-                <p class="des">{{item.name}}</p>
-                <span class="text">在招职位</span>
-                <span class="num">{{item.recruitmentNum}}</span>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-    <!--m招聘职位-->
-    <div class="job-list hidden-sm hidden-lg">
-      <div class="head" v-show="homeData.customName1">
-        <div class="title">{{homeData.customName1}}</div>
-        <div class="allR">
-          <span @click="toList">{{getAllRecruit}}</span>
-          <span class="icon"></span>
+
+        <div class="intro_c_con container">
+          <!--<div class="img"></div>-->
+          <div class="intro_text" v-html="homeData.content">
+          </div>
         </div>
       </div>
-      <ul>
-        <li class="aggregation" v-for="item in homeData.wzpPositionList">
-          <div class="column" @click="SelectTo(item)">
-            <div class="column1">
-              <div class="aggregation-icon"></div>
+      <split></split>
+      <!--招聘职位-->
+      <div id="1F" class="s_recruit hidden-xs" v-show="homeData.wzpPositionList">
+        <div class="container">
+          <div class="title">
+            <div class="text" v-if="homeData.customName1">{{homeData.customName1}}
+
+              <span class="line hidden-xs"></span>
             </div>
-            <div class="column2">
-              <div class="primary">{{item.name}}</div>
-              <div class="summary"><span
-                class="custom-text-theme-color">{{item.recruitmentNum}}</span><span>个职位正在招聘</span></div>
-            </div>
-            <!--<div class="column3">-->
-            <!--<span class="_1SIiK VrnQG"></span>-->
-            <!--</div>-->
           </div>
-        </li>
-      </ul>
+          <el-row :gutter="20" class="list_content">
+            <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in homeData.wzpPositionList"
+                    :key="item.categoryId">
+              <div class="grid-content bg-purple" @click="SelectTo(item)">
+                <div class="content">
+                  <p class="des">{{item.name}}</p>
+                  <span class="text">在招职位</span>
+                  <span class="num">{{item.recruitmentNum}}</span>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
+      <!--m招聘职位-->
+      <div class="job-list hidden-sm hidden-lg">
+        <div class="head" v-show="homeData.customName1">
+          <div class="title">{{homeData.customName1}}</div>
+          <div class="allR">
+            <span @click="toList">{{getAllRecruit}}</span>
+            <span class="icon"></span>
+          </div>
+        </div>
+        <ul>
+          <li class="aggregation" v-for="item in homeData.wzpPositionList">
+            <div class="column" @click="SelectTo(item)">
+              <div class="column1">
+                <div class="aggregation-icon"></div>
+              </div>
+              <div class="column2">
+                <div class="primary">{{item.name}}</div>
+                <div class="summary"><span
+                  class="custom-text-theme-color">{{item.recruitmentNum}}</span><span>个职位正在招聘</span></div>
+              </div>
+              <!--<div class="column3">-->
+              <!--<span class="_1SIiK VrnQG"></span>-->
+              <!--</div>-->
+            </div>
+          </li>
+        </ul>
+      </div>
+      <footerNav v-show="homeData.form.company_name"></footerNav>
     </div>
-    <footerNav v-show="homeData.form.company_name"></footerNav>
-  </div>
-    <loading v-if="!companyName"></loading>
+    <loading v-show="!companyName"></loading>
   </div>
 </template>
 <script>

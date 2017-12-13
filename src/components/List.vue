@@ -165,7 +165,7 @@
               </div>
             </div>
           </div>
-          <div class="contant-list" v-if="list.length">
+          <div class="contant-list" v-show="list.length">
             <li v-for="item in list" @click="selectItem(item)">
               <div class="job-list-item">
                 <div class="title">
