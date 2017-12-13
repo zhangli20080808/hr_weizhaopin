@@ -177,7 +177,6 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
               if(res.data.data.InterviewerInfo.birthday){
                 birthday=self.$date(res.data.data.InterviewerInfo.birthday);
               }
-              console.log(res.data.data.InterviewerInfo.resumeUrl,"resumeUrl");
               var method2="recruitPosition/submitInterivewApplicationNew",
                   param2=JSON.stringify({
                     shareOpenId:self.shareOpenId,
@@ -193,9 +192,9 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
                       educationHistoryList:educationHistoryList,
                       workHistoryList:workHistoryList,
                       resumeFrom:self.type,
-                      resumeUrl:res.data.data.InterviewerInfo.resumeUrl,
-                      recomType:self.recomType
-                    }
+                      resumeUrl:res.data.data.InterviewerInfo.resumeUrl
+                    },
+                    recomType:self.recomType
                   }),
                   successd2=function(res2){
                     if (res2.data.data==1) {
