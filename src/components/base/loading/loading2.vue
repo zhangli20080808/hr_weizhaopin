@@ -2,8 +2,11 @@
   <div class="mask">
     <div class="mask-content">
       <div class="spinner">
-        <div class="dot1"></div>
-        <div class="dot2"></div>
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
       </div>
     </div>
   </div>
@@ -15,69 +18,56 @@
 <style scoped rel="stylesheet/stylus">
   .spinner {
     margin: 100px auto;
-    width: 40px;
-    height: 40px;
-    position: relative;
+    width: 50px;
+    height: 60px;
     text-align: center;
-    -webkit-animation: sk-rotate 2.0s infinite linear;
-    animation: sk-rotate 2.0s infinite linear;
+    font-size: 10px;
   }
 
-  .dot1,
-  .dot2 {
-    width: 60%;
-    height: 60%;
+  .spinner > div {
+    background-color: #5aa2e7;
+    height: 100%;
+    width: 6px;
     display: inline-block;
-    position: absolute;
-    top: 0;
-    background-color: #fff;
-    border-radius: 100%;
-    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-    animation: sk-bounce 2.0s infinite ease-in-out;
+
+    -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+    animation: stretchdelay 1.2s infinite ease-in-out;
   }
 
-  .dot2 {
-    top: auto;
-    bottom: 0;
+  .spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+  }
+
+  .spinner .rect3 {
     -webkit-animation-delay: -1.0s;
     animation-delay: -1.0s;
   }
 
-  @-webkit-keyframes sk-rotate {
-    100% {
-      -webkit-transform: rotate(360deg)
-    }
+  .spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
   }
 
-  @keyframes sk-rotate {
-    100% {
-      transform: rotate(360deg);
-      -webkit-transform: rotate(360deg)
-    }
+  .spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
   }
 
-  @-webkit-keyframes sk-bounce {
-    0%,
-    100% {
-      -webkit-transform: scale(0.0)
-    }
-    50% {
-      -webkit-transform: scale(1.0)
-    }
+  @-webkit-keyframes stretchdelay {
+    0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+    20% { -webkit-transform: scaleY(1.0) }
   }
 
-  @keyframes sk-bounce {
-    0%,
-    100% {
-      transform: scale(0.0);
-      -webkit-transform: scale(0.0);
-    }
-    50% {
-      transform: scale(1.0);
-      -webkit-transform: scale(1.0);
-    }
+  @keyframes stretchdelay {
+    0%, 40%, 100% {
+      transform: scaleY(0.4);
+      -webkit-transform: scaleY(0.4);
+    }  20% {
+         transform: scaleY(1.0);
+         -webkit-transform: scaleY(1.0);
+       }
   }
-
 
 
   .mask {
@@ -86,7 +76,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .4);
+    background-color: #fff;
     z-index: 2000;
   }
   .mask .mask-content{
