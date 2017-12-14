@@ -15,14 +15,14 @@
             <div class="template-company">
               <h3 class="info-title g-oneline-text">{{preCompanyWebsite.name}}</h3>
               <div class="description">{{preCompanyWebsite.slogan}}</div>
-              <div class="action" v-if="isAuthorization!=0">
-                <div class="g-ghost-btn" @click="goCare"
-                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
-                  <div class="btn-text">
-                    {{isAuthorization == 1 ? '已关注' : '关注'}}
-                  </div>
-                </div>
-              </div>
+              <!--<div class="action" v-if="isAuthorization!=0">-->
+                <!--<div class="g-ghost-btn" @click="goCare"-->
+                     <!--:class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">-->
+                  <!--<div class="btn-text">-->
+                    <!--{{isAuthorization == 1 ? '已关注' : '关注'}}-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
             </div>
           </div>
         </div>
@@ -301,18 +301,18 @@
         var successd = function (res) {
           if (res.data.code == 0) {
             // console.log(res.data.data)
-            if(res.data.data.codeUrl == ''){
-              _this.isAuthorization = res.data.data.subcribeMap.subcribeStatus
-              _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl
+//            if(res.data.data.codeUrl == ''){
+//              _this.isAuthorization = res.data.data.subcribeMap.subcribeStatus
+//              _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl
               _this.preCompanyWebsite = res.data.data.CompanyWebsite
               _this.preWorkTeam = res.data.data.WorkTeam
               _this.WorkEnvironment = res.data.data.WorkEnvironment
               _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
-            }else {
-              _this.careHref = res.data.data.codeUrl
-              _this.careHref = ""
-              window.location.href = _this.careHref
-            }
+//            }else {
+//              _this.careHref = res.data.data.codeUrl
+//              _this.careHref = ""
+//              window.location.href = _this.careHref
+//            }
           }
         }
         _this.$http(method, param, successd);

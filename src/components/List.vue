@@ -90,7 +90,7 @@
       </div>
 
       <div class="list hidden-xs">
-        <div class="list_content" v-show="list.length">
+        <div class="list_content">
           <el-row :gutter="20" class="">
             <el-col :span="8" :xs="24" :sm="12" :md="8" :lg="8" v-for="item in list" :key="item.id"
             >
@@ -192,7 +192,7 @@
             </li>
           </div>
           <load-more tip="loading" v-if="showMore"></load-more>
-          <div class="noTips" v-show="!listShow&&list.length==''">
+          <div class="noTips" v-show="!list||(list&&list.length==0)||listShow">
             <div class="imgTips">
               <div class="img"></div>
               <div class="text">未搜索到相关职位</div>
@@ -238,7 +238,7 @@
       </footer>
     </div>
     <!--<router-view></router-view>-->
-    <loading v-show="listShow&&!list"></loading>
+    <loading v-show="listShow"></loading>
 
   </div>
 
@@ -325,7 +325,8 @@
         companyId: 0,
         list_search: [],
         workCity: [],
-        listShow:true
+        listShow:true,
+        listShow_1:true
       }
     },
     methods: {
@@ -420,7 +421,7 @@
               console.log(res.data)
             _this.listShow = false
             _this.list = _this._genResult(res.data.data)
-            _this.config.totalCount = res.data.data.count
+            _this.config.totalCount = res.data.data.count||0;
           }
         }
         _this.$http(method, param, successd);
@@ -430,6 +431,8 @@
         if (data.positionList) {
           ret = ret.concat(data.positionList)
 //          ret.sort(this.compareSore('isUrgent'))
+        }else {
+            this.listShow_1 = false
         }
         return ret
       },
@@ -541,8 +544,6 @@
         this.addressAll = true
       },
       getKind(item){
-//        this.categoryId = item.categoryId
-//        this.categoryName = item.name
         this.form.kind = item.categoryId
         this.form.name = item.name
         localStorage.setItem('posId',  this.form.kind)
@@ -557,7 +558,7 @@
         this.showScrollBox = false
         this.positionList()
         this.form.name = '全部职能类型'
-//        localStorage.clear()
+        localStorage.removeItem('posId')
       },
       getAllAddress(){
         this.item = []
@@ -565,6 +566,7 @@
         this.listShow = true;
         this.positionList()
         this.addressAll = false
+        localStorage.removeItem('cityName')
 
       },
       getAddress(item){
@@ -622,6 +624,7 @@
           this.form.name = posName
           if(cityName){
             this.form.item = cityName
+            this.item = cityName
           }
           this.positionList()
         } else {
@@ -666,7 +669,8 @@
 //        this.form.name = '全部职能类型'
         localStorage.setItem('searchVal', val)
         this.goSearch(val)
-      }
+      },
+
     }
   }
 </script>
