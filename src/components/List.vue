@@ -7,6 +7,7 @@
         <div class="detail_des">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/' ,query:{ companyId: this.companyId}}" class="tips_1">招聘首页
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位列表</el-breadcrumb-item>
           </el-breadcrumb>
@@ -131,7 +132,7 @@
     </div>
 
     <div class="result hidden-sm hidden-lg">
-      <scroller lock-x height="-38" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
+      <scroller lock-x height="-38" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" style="height: 100%">
 
         <ul class="job-list__list">
           <div class="job-filter hidden-sm hidden-lg ">
@@ -151,7 +152,7 @@
                 <div class="mobile-text-input__wrapper">
                   <span class="icon address_icon mobile-text-input__icon  "></span>
                   <span class="mobile-text-input__label   "></span>
-                  <input type="text" class="mobile-text-input__input" placeholder="" v-model="address"
+                  <input type="text" class="mobile-text-input__input" placeholder="" v-model="form.item"
                          onfocus="this.blur()" @click="chooseAll">
                 </div>
               </div>
@@ -165,7 +166,7 @@
               </div>
             </div>
           </div>
-          <div class="contant-list" v-show="list.length">
+          <div class="contant-list" v-show="list">
             <li v-for="item in list" @click="selectItem(item)">
               <div class="job-list-item">
                 <div class="title">
@@ -191,7 +192,12 @@
             </li>
           </div>
           <load-more tip="loading" v-if="showMore"></load-more>
-          <loading v-show="!list"></loading>
+          <div class="noTips" v-show="!listShow&&list.length==''">
+            <div class="imgTips">
+              <div class="img"></div>
+              <div class="text">未搜索到相关职位</div>
+            </div>
+          </div>
         </ul>
       </scroller>
     </div>
@@ -199,7 +205,8 @@
     <div v-transfer-dom>
       <x-dialog v-model="showScrollBox" class="choose-kind">
         <p class="title">职能类型</p>
-        <div class="img-box" v-if="selectK.length" style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;">
+        <div class="img-box"
+             style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;">
           <button class="btn-kind" @click="getAll">全部职能类型</button>
           <button class="btn-kind" v-for="item in selectK" @click="getKind(item)">{{item.name}}</button>
         </div>
@@ -212,7 +219,8 @@
     <div v-transfer-dom>
       <x-dialog v-model="addressAll" class="choose-kind">
         <p class="title">工作地点 </p>
-        <div class="img-box" v-if="workCity.length" style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;" >
+        <div class="img-box"
+             style="height:100px;padding:15px 0;overflow:scroll;-webkit-overflow-scrolling:touch;">
           <button class="btn-kind" @click="getAllAddress">全部工作地点</button>
           <button class="btn-kind" v-for="item in workCity" @click="getAddress(item)">{{item}}</button>
         </div>
@@ -230,7 +238,8 @@
       </footer>
     </div>
     <!--<router-view></router-view>-->
-    <loading v-show="!list.length"></loading>
+    <loading v-show="listShow&&!list"></loading>
+
   </div>
 
 </template>
@@ -256,7 +265,7 @@
 
   export default {
     data() {
-      document.title="在招职位";
+      document.title = "在招职位";
       return {
         showMore: false,
         pullup: true,
@@ -272,7 +281,8 @@
           address: [],
           kind: 0,
           name: '全部职能类型',
-          pKind: 0
+          pKind: 0,
+          item:'全部工作地点'
         },
         item: '',
         config: {
@@ -314,8 +324,8 @@
         workCityLists: [],
         companyId: 0,
         list_search: [],
-        address: '全部工作地点',
         workCity: [],
+        listShow:true
       }
     },
     methods: {
@@ -324,15 +334,16 @@
           name: 'listDetail',
           query: {
             companyId: this.companyId,
-            positionId:item.id,
+            positionId: item.id,
           },
           params: {
             id: item.id
           }
         })
         if (!this.$route.params.all) {
-            return
-        }else {
+          return
+        } else {
+            alert('gs')
           this.form.kind = localStorage.setItem('cate', item.categoryId)
           localStorage.setItem('cateName', item.categoryName)
         }
@@ -400,12 +411,14 @@
           pageNum: _this.config.pageNum,
           pageSize: _this.config.pageSize,
           companyId: _this.companyId,
-          type:2,
+          type: 2,
           categoryId: _this.form.kind ? `${_this.form.kind}` : '',
           workCity: _this.item ? `${_this.item}` : ''
         });
         var successd = function (res) {
           if (res.data.code == 0) {
+              console.log(res.data)
+            _this.listShow = false
             _this.list = _this._genResult(res.data.data)
             _this.config.totalCount = res.data.data.count
           }
@@ -422,11 +435,11 @@
       },
       //急招排序
       compareSore(prop){
-          return function (a,b) {
-            let value1 = a[prop]
-            let value2 = b[prop]
-            return value1 <value2
-          }
+        return function (a, b) {
+          let value1 = a[prop]
+          let value2 = b[prop]
+          return value1 < value2
+        }
       },
       //职位分类
       getPositionCategoryList() {
@@ -459,16 +472,11 @@
         }
         _this.$http(method, param, successd);
       },
-      //数组去重
-      filterAddress(item){
-        item.forEach((address) => {
-
-        })
-      },
       //职位搜索
       goSearch(val) {
         this.form.address = [];
         this.form.kind = '';
+        this.listShow = true;
         var _this = this;
         var method = "miniRecruit/searchRecruitPosition";
         var param = JSON.stringify({
@@ -481,6 +489,7 @@
           if (res.data.code == 0) {
               console.log(res.data.data)
             _this.list = res.data.data.recruitPositionList
+            _this.listShow = false;
           }
         }
         _this.$http(method, param, successd);
@@ -532,32 +541,38 @@
         this.addressAll = true
       },
       getKind(item){
-          localStorage.clear()
+//        this.categoryId = item.categoryId
+//        this.categoryName = item.name
         this.form.kind = item.categoryId
         this.form.name = item.name
+        localStorage.setItem('posId',  this.form.kind)
+        localStorage.setItem('posName', this.form.name)
+
         this.positionList()
         this.showScrollBox = false
       },
       getAll(){
         this.form.kind = ''
+        this.listShow = true;
         this.showScrollBox = false
         this.positionList()
         this.form.name = '全部职能类型'
-        localStorage.clear()
+//        localStorage.clear()
       },
       getAllAddress(){
         this.item = []
-        this.form.kind = ''
+        this.form.item = '全部工作地点'
+        this.listShow = true;
         this.positionList()
         this.addressAll = false
-        this.address = '全部工作地点'
-        localStorage.clear()
+
       },
       getAddress(item){
         this.item = item.split(',')[1]
+        localStorage.setItem('cityName',this.item)
         this.positionList()
+        this.form.item = this.item
         this.addressAll = false
-        this.address = this.item
       },
       onScrollBottom () {
         if (this.onFetching) {
@@ -586,45 +601,51 @@
 
     mounted() {
 
-    this.$nextTick(()=>{
-      console.log(this.$route)
-      let showAll = this.$route.params.showAll
-      let posId = localStorage.getItem('posId')
-      let posName = localStorage.getItem('posName')
-      let cateName = localStorage.getItem('cateName')
-      if (this.$route.query.companyId) {
-        this.companyId = this.$route.query.companyId
-      }
-      if (this.$route.params.search === '' && this.$route.params.all !== '') {
-        this.positionList()
-      } else if (this.$route.params.search) {
-        this.Search = this.$route.params.search
-      }
-      this.getPositionCategoryList()
-      this.getCityList()
-      this.transitionCityLists()
-
-      this.form.kind = Number(posId)
-      if (this.form.kind !== 0) {
-        this.form.name = posName
-        this.positionList()
-      } else {
-        let cate = localStorage.getItem('cate')
-        this.form.kind = cate
-        this.form.name = '全部职能类型'
-        if (cate) {
-          this.form.name = cateName
-          this.positionList()
-
+      this.$nextTick(() => {
+        console.log(this.$route)
+        let posId = localStorage.getItem('posId')
+        let posName = localStorage.getItem('posName')
+        let cateName = localStorage.getItem('cateName')
+        let searchVal = localStorage.getItem('searchVal')
+        let cityName = localStorage.getItem('cityName')
+        if (this.$route.query.companyId) {
+          this.companyId = this.$route.query.companyId
         }
-      }
-      if (!this.$route.params.all) {
-        this.positionList()
-      }
-      if (this.$route.params.searchList) {
-        this.Search = this.$route.params.searchList
-      }
-    })
+
+        this.getPositionCategoryList()
+        this.getCityList()
+        this.transitionCityLists()
+
+        this.form.kind = Number(posId)
+        if (this.form.kind !== 0) {
+
+          this.form.name = posName
+          if(cityName){
+            this.form.item = cityName
+          }
+          this.positionList()
+        } else {
+          let cate = localStorage.getItem('cate')
+          this.form.kind = cate
+//          this.form.name = '全部职能类型'
+          if (cate) {
+            this.form.name = cateName
+            this.positionList()
+          }
+        }
+        if (this.$route.params.search === '' && this.$route.params.all !== '') {
+          this.positionList()
+        } else if (this.$route.params.search) {
+          this.Search = this.$route.params.search
+        }else if(searchVal){
+          this.Search = searchVal
+        }else if(!this.$route.params.all){
+          this.positionList()
+        }else if(this.$route.params){}
+        if (this.$route.params.searchList) {
+          this.Search = this.$route.params.searchList
+        }
+      })
 
     },
     components: {
@@ -642,7 +663,8 @@
     },
     watch: {
       Search(val){
-        this.form.name = '全部职能类型'
+//        this.form.name = '全部职能类型'
+        localStorage.setItem('searchVal', val)
         this.goSearch(val)
       }
     }
@@ -1317,14 +1339,33 @@
             }
           }
           .contant-list {
-            background :#f1f5f8;
+            background: #f1f5f8;
+          }
+          .noTips{
+            .imgTips{
+              margin-top: 56px
+              .img{
+                display :block
+                width :130px
+                height :130px;
+                background :url("../common/image/noResult.png")no-repeat center
+                background-size :60%
+                margin:0 auto
+              }
+            }
+            .text{
+              font-size :0.28rem
+              color:#99a9bf
+              text-align :center
+              margin-top :0.2rem
+            }
           }
           .job-list-item {
             /*border-bottom: 1px solid #f4f4f6;*/
             display: block;
             padding: 12px 26px;
             background: #ffffff;
-            margin :8px 0;
+            margin: 8px 0;
             .title {
               font-size: 15px;
               font-weight: bold;
@@ -1334,7 +1375,7 @@
                 color: #ff8054;
               }
               .text {
-                font-weight:bold;
+                font-weight: bold;
               }
             }
             .details {

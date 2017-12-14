@@ -15,14 +15,14 @@
             <div class="template-company">
               <h3 class="info-title g-oneline-text">{{preCompanyWebsite.name}}</h3>
               <div class="description">{{preCompanyWebsite.slogan}}</div>
-              <!--<div class="action" v-if="isAuthorization==0">-->
-                <!--<div class="g-ghost-btn" @click="goCare"-->
-                     <!--:class="{'social-btn':isCare==1,'g-ghost-white-btn':isCare==0}">-->
-                  <!--<div class="btn-text">-->
-                    <!--{{isCare == 0 ? '已关注' : '关注'}}-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
+              <div class="action" v-if="isAuthorization!=0">
+                <div class="g-ghost-btn" @click="goCare"
+                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
+                  <div class="btn-text">
+                    {{isAuthorization == 1 ? '已关注' : '关注'}}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -172,7 +172,7 @@
           </div>
           <div class="box-body">
             <div class="follow">
-              <img class="img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1859350418,3867843756&fm=173&s=A6829547065225C642DD98A20300B003&w=480&h=320&img.JPEG" style="max-width:100%">
+              <img class="img" :src="officilQrcodeUrl" style="max-width:100%">
               <span class="text">长按关注</span>
             </div>
           </div>
@@ -250,10 +250,14 @@
           let queryParam = this.urlParse();
           return queryParam.companyId;
         })(),
-        //是否关注 0－关注 1-未关注
-        isCare: 1,
+        // //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
+        subcribeMap: {
+          subcribeStatus:''
+        },
         careQrcode: false,
-        isAuthorization: 0
+        //企业公众号二维码url
+        officilQrcodeUrl:'',
+        isAuthorization:1
       }
     },
     methods: {
@@ -297,10 +301,18 @@
         var successd = function (res) {
           if (res.data.code == 0) {
             // console.log(res.data.data)
-            _this.preCompanyWebsite = res.data.data.CompanyWebsite
-            _this.preWorkTeam = res.data.data.WorkTeam
-            _this.WorkEnvironment = res.data.data.WorkEnvironment
-            _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
+            if(res.data.data.codeUrl == ''){
+              _this.isAuthorization = res.data.data.subcribeMap.subcribeStatus
+              _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl
+              _this.preCompanyWebsite = res.data.data.CompanyWebsite
+              _this.preWorkTeam = res.data.data.WorkTeam
+              _this.WorkEnvironment = res.data.data.WorkEnvironment
+              _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
+            }else {
+              _this.careHref = res.data.data.codeUrl
+              _this.careHref = ""
+              window.location.href = _this.careHref
+            }
           }
         }
         _this.$http(method, param, successd);
@@ -413,11 +425,10 @@
       },
       //是否关注
       goCare(){
-        if (this.isCare == 0) {
+        if (this.isAuthorization == 1) {
           return
         }
         this.careQrcode = true
-
       }
     },
     created(){
@@ -456,6 +467,7 @@
     border: 0;
     outline: 0;
   }
+
 
   .g-oneline-text {
     white-space: nowrap;
@@ -531,8 +543,10 @@
     overflow: hidden;
   }
   .cares .care-content .box-inner .box-body .follow .img{
-    width: 100%;
-    height: auto;
+    display: block;
+    width: 4.6rem;
+    height: 4.6rem;
+    margin: 0 auto;
   }
   .cares .care-content .box-inner .box-body .follow .text{
     font-size: 14px;
