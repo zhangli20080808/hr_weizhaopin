@@ -12,6 +12,8 @@ import Apply from 'components/Apply'
 //内部推荐
 import interpolate from 'components/interpolate'
 
+//场景H5
+import sceneh5 from 'components/sceneh5';
 
 import addResume from 'components/microresume/add.vue'
 import preview from 'components/microresume/preview.vue'
@@ -22,6 +24,8 @@ import loginResume from 'components/microresume/loginResume.vue'
 import positionList from 'components/position/positionList';
 import aboutUs from 'components/wxIndex/aboutUs';
 import teamwork from 'components/wxIndex/teamwork';
+
+
 
 Vue.use(Router)
 
@@ -95,6 +99,11 @@ export default new Router({
       path:'/interpolate',
       name:'interpolate',
       component:interpolate
+    },
+    {
+      path:'/sceneh5',
+      name:'sceneh5',
+      component:sceneh5
     }
   ]
 })
