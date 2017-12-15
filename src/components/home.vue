@@ -1,7 +1,7 @@
 <template>
   <div class="home">
 
-    <div v-if="title">
+    <div v-if="companyName">
       <!--导航-->
       <!--轮播-->
       <div class="main_ad" v-show="homeData.img_list_1">
@@ -136,7 +136,7 @@
       </div>
       <footerNav v-show="homeData.form.company_name"></footerNav>
     </div>
-    <loading v-show="!title"></loading>
+    <loading v-show="!companyName"></loading>
   </div>
 </template>
 <script>
@@ -365,7 +365,6 @@
               self.$wechat.onMenuShareAppMessage({
                 title: self.title,
                 desc: self.desc,
-//                link: 'https://aijuhr.com/miniRecruit/#/?companyId=' + self.companyId,//分享链接
                 link: 'https://aijuhr.com/miniRecruit/#/?companyId=' + self.companyId,//分享链接
                 imgUrl: self.imgUrl,//分享图标
                 type: '',

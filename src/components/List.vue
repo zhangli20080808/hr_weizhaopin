@@ -396,6 +396,7 @@
         this.form.address = []
         this.form.kind = ''
         this.item = ''
+        localStorage.clear()
         this.positionList()
       },
       getCity(item){

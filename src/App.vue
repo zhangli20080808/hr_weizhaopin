@@ -6,7 +6,6 @@
     <!-- <transition :name="transitionName"> -->
       <router-view :homeData="homeData" ></router-view>
     <!-- </transition> -->
-     <!--<loading v-show="!homeData.form.company_p"></loading>-->
   </div>
 </template>
 
