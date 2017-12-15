@@ -306,8 +306,8 @@
             self.imgUrl = res.data.data.imgUrl;
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
-//            self.companyName = res.data.data.companyName
-            document.title =  self.title
+            self.companyName = res.data.data.companyName
+            document.title =  self.companyName
           };
         self.$http(method, param, successd);
       },
@@ -365,6 +365,7 @@
               self.$wechat.onMenuShareAppMessage({
                 title: self.title,
                 desc: self.desc,
+//                link: 'https://aijuhr.com/miniRecruit/#/?companyId=' + self.companyId,//分享链接
                 link: 'https://aijuhr.com/miniRecruit/#/?companyId=' + self.companyId,//分享链接
                 imgUrl: self.imgUrl,//分享图标
                 type: '',

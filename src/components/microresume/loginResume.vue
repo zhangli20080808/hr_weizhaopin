@@ -23,27 +23,27 @@
       </div>
     </div>
 
-<!-- 51job -->
-    <div class="login_jobs" v-if="type==1">
-      <div class="login_icon"></div>
-      <div class="login_con">
-        <group>
-          <x-input name="username" placeholder="请输入账号" :border-intent="false" v-model="account"></x-input>
-          <x-input name="password" placeholder="请输入密码" type="password"  v-model="pwd"></x-input>
-          <!-- <x-input name="emial" placeholder="请输入邮箱" type="email" is-type='email'  v-model="email"></x-input>
-          <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone"></x-input> -->
-          <div style="padding:15px;">
-            <x-button type="primary" @click.native="login(1)" class="hrm_primary_btn">确认登录并投递</x-button>
+    <!-- 51job -->
+        <div class="login_jobs" v-if="type==1">
+          <div class="login_icon"></div>
+          <div class="login_con">
+            <group>
+              <x-input name="username" placeholder="请输入账号" :border-intent="false" v-model="account"></x-input>
+              <x-input name="password" placeholder="请输入密码" type="password"  v-model="pwd"></x-input>
+              <!-- <x-input name="emial" placeholder="请输入邮箱" type="email" is-type='email'  v-model="email"></x-input>
+              <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone"></x-input> -->
+              <div style="padding:15px;">
+                <x-button type="primary" @click.native="login(1)" class="hrm_primary_btn">确认登录并投递</x-button>
+              </div>
+              <div style="padding:15px;" class="login_remake">
+                <p>爱聚HR将读取以下资料:</p>
+                <p>1、完整档案：包括项目经历、教育背景等 </p>
+                <p>2、账户的邮箱、电话等联系方式  </p>
+                <p>3、个人基本信息和通讯地址 </p>
+              </div>
+            </group>
           </div>
-          <div style="padding:15px;" class="login_remake">
-            <p>爱聚HR将读取以下资料:</p>
-            <p>1、完整档案：包括项目经历、教育背景等 </p>
-            <p>2、账户的邮箱、电话等联系方式  </p>
-            <p>3、个人基本信息和通讯地址 </p>
-          </div>
-        </group>
-      </div>
-    </div>
+        </div>
 
     <!-- 拉钩 -->
     <div class="login_lagou" v-if="type==6">
@@ -88,7 +88,7 @@
         <div class="position-vertical-demo">{{loginMsg}}</div>
       </popup>
     </div>
-      
+
   </div>
 </template>
 <script>

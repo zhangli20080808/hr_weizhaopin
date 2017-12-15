@@ -2,7 +2,7 @@
   <div id="add_resume" class="add_resume">
     <div v-show="type==1">
       <div class="createText"><span class="text">创建个人简历</span></div>
-      <div class="first"  @click="go(2)">
+      <div class="first" @click="go(2)">
         <div class="resume_icon"></div>
         <div class="resume_text">一分钟创建微简历</div>
       </div>
@@ -21,9 +21,9 @@
                                                                                   v-if="headType>4"></i></li>
       </ul>
       <!--基本信息-->
-      <div v-if="headType==1">
-        <group :label-width="labelWidth">
-          <x-input title="姓名" v-model="interviewResumeInfo.name"></x-input>
+      <div v-if="headType==1" class="baseInfo">
+        <group :label-width="labelWidth" class="baseInfoTitle">
+          <x-input title="姓名" v-model="interviewResumeInfo.name" class="baseInfoName"></x-input>
           <!-- <cell is-link @click.native="showPopup = true"  :value="value2" title="生日"></cell> -->
           <datetime v-model="interviewResumeInfo.birthday" title="生日" :min-year="1970" :max-year="2010"></datetime>
           <popup-picker title="性别" :data="sexArr" v-model="sexValue" show-name value-text-align="left"></popup-picker>
@@ -35,12 +35,12 @@
         </flexbox>
       </div>
       <!-- 联系方式 -->
-      <div v-if="headType==2">
-        <group :label-width="labelWidth">
+      <div v-if="headType==2" class="baseInfo">
+        <group :label-width="labelWidth" class="baseInfoTitle">
           <x-input title="邮  箱" name="email" placeholder="请输入邮箱地址" is-type="email"
-                   v-model="interviewResumeInfo.email"></x-input>
+                   v-model="interviewResumeInfo.email" class="baseInfoName"></x-input>
           <x-input title='手机号码' v-model="interviewResumeInfo.phone" mask="999 9999 9999" :max="13"
-                   is-type="china-mobile" placeholder="请输入手机号码"></x-input>
+                   is-type="china-mobile" placeholder="请输入手机号码" class="baseInfoName"></x-input>
         </group>
         <flexbox class="position_bottom" :gutter="15">
           <flexbox-item>
@@ -52,17 +52,18 @@
         </flexbox>
       </div>
       <!-- 教育经历 -->
-      <div v-if="headType==3">
+      <div v-if="headType==3" class="baseInfo">
         <group label-width="100%" v-for="(educationHistory,index) in interviewResumeInfo.educationHistoryList"
-               :key="educationHistory.startDateStr">
+               :key="educationHistory.startDateStr" class="baseInfoTitle">
           <cell :title="educationHistory.startDateStr+'  至  '+educationHistory.endDateStr"
                 v-if="educationHistory.isReading==0"><i class="el-icon-delete color_F96868"
                                                         @click="removeEducationSave(index)"></i></cell>
           <cell :title="educationHistory.startDateStr+'  至今'" v-else><i class="el-icon-delete color_F96868"
                                                                         @click="removeEducationSave(index)"></i></cell>
           <p class="side">
-            {{educationHistory.graduateSchool}}&nbsp;&nbsp;{{professionalValue[educationHistory.educationLev - 1]}}<br/>{{educationHistory.major}}
+            {{educationHistory.graduateSchool}}&nbsp;&nbsp;{{professionalValue[educationHistory.educationLev - 1]}}
           </p>
+          <p class="slide">{{educationHistory.major}}</p>
           <!-- <ul class="slide vux-1px-b" v-for="educationHistory in interviewResumeInfo.educationHistoryList">
             <li style="color:#475669;"><span class="margin_right_10">{{educationHistory.startDateStr}}</span>至<span class="margin_left_10">{{educationHistory.isReading==1?'今':educationHistory.endDateStr}}</span></li>
             <li><span class="margin_right_10">{{educationHistory.graduateSchool}}</span><span>{{professional[educationHistory.educationLev-1]}}</span></li>
@@ -95,9 +96,9 @@
         </flexbox>
       </div>
       <!-- 工作经历 -->
-      <div v-if="headType==4">
+      <div v-if="headType==4" class="baseInfo">
         <group label-width="100%" v-for="(workHistory,index) in interviewResumeInfo.workHistoryList"
-               :key="workHistory.startDateStr">
+               :key="workHistory.startDateStr" class="baseInfoTitle">
           <cell :title="workHistory.startDateStr+'  至  '+workHistory.endDateStr" v-if="workHistory.isWorking==0"><i
             class="el-icon-delete color_F96868" @click="removeExperienceSave(index)"></i></cell>
           <cell :title="workHistory.startDateStr+'  至今'" v-else><i class="el-icon-delete color_F96868"
@@ -142,41 +143,22 @@
     </div>
     <toast v-model="toastShow" type="text" :text="toastText" position="top"></toast>
 
-    <!--<div class="second" v-show="type==1">-->
-      <!--<group label-width="150">-->
-        <!--<cell title="前程无忧(51job)" is-link @click.native="jobsLogin(1)">-->
-          <!--<img slot="icon" width="20" style="display:block;margin-right:5px;"-->
-               <!--src="../../common/image/micresume/qianchengwuyou.png">-->
-          <!--<p>导入</p>-->
-        <!--</cell>-->
-        <!--<cell title="智联招聘" is-link @click.native="jobsLogin(2)">-->
-          <!--<img slot="icon" width="20" style="display:block;margin-right:5px;"-->
-               <!--src="../../common/image/micresume/zhilianzhaopin.png">-->
-          <!--<p>导入</p>-->
-        <!--</cell>-->
-        <!--<cell title="拉钩" is-link @click.native="jobsLogin(6)">-->
-          <!--<img slot="icon" width="20" style="display:block;margin-right:5px;"-->
-               <!--src="../../common/image/micresume/lagou.png">-->
-          <!--<p>导入</p>-->
-        <!--</cell>-->
-      <!--</group>-->
-    <!--</div>-->
-    <div v-show="type==1"  class="second">
-        <div class="second_1" @click="jobsLogin(1)">
-          <div class="second_icon"></div>
-          <div class="second_text">前程无忧（51job)</div>
-          <div class="second_join"><span class="text">导入</span></div>
-        </div>
-        <div class="second_2" @click="jobsLogin(2)">
-          <div class="second_icon"></div>
-          <div class="second_text">智联招聘</div>
-          <div class="second_join"><span class="text">导入</span></div>
-        </div>
-        <div class="second_3" @click="jobsLogin(6)">
-          <div class="second_icon"></div>
-          <div class="second_text">拉勾网</div>
-          <div class="second_join"><span class="text">导入</span></div>
-        </div>
+    <div v-show="type==1" class="second">
+      <div class="second_1" @click="jobsLogin(1)">
+        <div class="second_icon"></div>
+        <div class="second_text">前程无忧（51job)</div>
+        <div class="second_join"><span class="text">导入</span></div>
+      </div>
+      <div class="second_2" @click="jobsLogin(2)">
+        <div class="second_icon"></div>
+        <div class="second_text">智联招聘</div>
+        <div class="second_join"><span class="text">导入</span></div>
+      </div>
+      <div class="second_3" @click="jobsLogin(6)">
+        <div class="second_icon"></div>
+        <div class="second_text">拉勾网</div>
+        <div class="second_join"><span class="text">导入</span></div>
+      </div>
     </div>
   </div>
 </template>
@@ -460,122 +442,131 @@
   @import "../../common/stylus/mixin.styl"
 
   .add_resume {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    .createText{
-      background :#F8F8FC;
-      padding :0.28rem 0 0.25rem 0.3rem;
-      .text{
-        display :block;
+    padding-bottom: 1.12rem;
+    .createText {
+      background: #F8F8FC;
+      padding: 0.28rem 0 0.25rem 0.3rem;
+      .text {
+        display: block;
         vertical-align: middle;
-        font-size :0.28rem;
-        color :#666;
+        font-size: 0.28rem;
+        color: #666;
       }
     }
-    .second{
-      .second_1{
-        display :flex;
-        align-items :center
+    .second {
+      .second_1 {
+        display: flex;
+        align-items: center
         padding: 0.32rem 0.32rem 0.32rem 0.3rem;
-        position :relative;
+        position: relative;
         border-t-1px(#E5E5E5)
-        .second_icon{
+        .second_icon {
           width: 0.72rem;
-          height :0.72rem;
-          margin-right :20px;
+          height: 0.72rem;
+          margin-right: 20px;
           color: #000;
-          background :url(../images/resum_1.png)no-repeat center;
-          background-size :cover
+          background: url(../images/resum_1.png) no-repeat center;
+          background-size: cover
         }
-        .second_text{
-          font-size :0.32rem;
+        .second_text {
+          font-size: 0.32rem;
         }
-        .second_join{
-          flex :1;
-          .text{
-            display :block;
-            float :right;
-            width :1.49rem;
-            height :0.64rem;
-            border :1px solid #DDDDDD;
-            font-size :0.32rem;
-            color :#000;
+        .second_join {
+          flex: 1;
+          .text {
+            display: block;
+            float: right;
+            width: 1.49rem;
+            height: 0.64rem;
+            border: 1px solid #DDDDDD;
+            font-size: 0.32rem;
+            color: #000;
             text-align: center;
             line-height: 0.64rem;
           }
         }
 
       }
-      .second_2{
-        display :flex;
-        align-items :center
+      .second_2 {
+        display: flex;
+        align-items: center
         padding: 0.32rem 0.32rem 0.32rem 0.3rem;
-        position :relative;
+        position: relative;
         border-b-1px(#E5E5E5)
-        border-top :1px solid #E5E5E5;
-        .second_icon{
+        border-top: 1px solid #E5E5E5;
+        .second_icon {
           width: 0.72rem;
-          height :0.72rem;
-          margin-right :20px;
+          height: 0.72rem;
+          margin-right: 20px;
           color: #000;
-          background :url(../images/resum_2.png)no-repeat center;
-          background-size :cover
+          background: url(../images/resum_2.png) no-repeat center;
+          background-size: cover
         }
-        .second_text{
-          font-size :0.32rem;
+        .second_text {
+          font-size: 0.32rem;
         }
-        .second_join{
-          flex :1;
-          .text{
-            display :block;
-            float :right;
-            width :1.49rem;
-            height :0.64rem;
-            border :1px solid #DDDDDD;
-            font-size :0.32rem;
-            color :#000;
+        .second_join {
+          flex: 1;
+          .text {
+            display: block;
+            float: right;
+            width: 1.49rem;
+            height: 0.64rem;
+            border: 1px solid #DDDDDD;
+            font-size: 0.32rem;
+            color: #000;
             text-align: center;
             line-height: 0.64rem;
           }
         }
 
       }
-      .second_3{
-        display :flex;
-        align-items :center
+      .second_3 {
+        display: flex;
+        align-items: center
         padding: 0.32rem 0.32rem 0.32rem 0.3rem;
-        position :relative;
+        position: relative;
         border-b-1px(#E5E5E5)
 
-        .second_icon{
+        .second_icon {
           width: 0.72rem;
-          height :0.72rem;
-          margin-right :20px;
+          height: 0.72rem;
+          margin-right: 20px;
           color: #000;
-          background :url(../images/resum_4.png)no-repeat center;
-          background-size :cover
+          background: url(../images/resum_4.png) no-repeat center;
+          background-size: cover
         }
-        .second_text{
-          font-size :0.32rem;
+        .second_text {
+          font-size: 0.32rem;
         }
-        .second_join{
-          flex :1;
-          .text{
-            display :block;
-            float :right;
-            width :1.49rem;
-            height :0.64rem;
-            border :1px solid #DDDDDD;
-            font-size :0.32rem;
-            color :#000;
+        .second_join {
+          flex: 1;
+          .text {
+            display: block;
+            float: right;
+            width: 1.49rem;
+            height: 0.64rem;
+            border: 1px solid #DDDDDD;
+            font-size: 0.32rem;
+            color: #000;
             text-align: center;
             line-height: 0.64rem;
           }
         }
 
+      }
+    }
+    .content {
+      .baseInfo {
+        .baseInfoTitle {
+          .baseInfoName {
+            .weui-cell__hd {
+              .weui-label {
+                font-size: 0.28rem !important
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -686,6 +677,11 @@
     position: fixed;
     bottom: 10px;
     padding: 0 15px;
+    .vux-flexbox-item {
+      .weui-btn {
+        font-size: 0.28rem
+      }
+    }
   }
 
   .add_resume .last_step {
@@ -738,11 +734,12 @@
 
     width: 0.76rem;
     height: 0.76rem;
-    background: url(../images/resum_3.png)no-repeat center;
+    background: url(../images/resum_3.png) no-repeat center;
     background-size: cover;
     margin-right: 0.4rem;
   }
-  .resume_text{
+
+  .resume_text {
     font-size: 0.32rem;
   }
 
@@ -754,52 +751,164 @@
     font-size: 0.5rem;
   }
 </style>
-<style>
-  .add_resume .weui-switch:focus {
-    outline: none;
-    outline-offset: 0
-  }
+<style lang="stylus" rel="stylesheet/stylus">
+  #add_resume {
+    .content {
+      .weui-cell {
+        padding: 17px 15px !important;
+      }
+      .baseInfo {
+        .baseInfoTitle {
+          :before {
+            border-top: none;
+          }
+          :after {
+            border-bottom: none;
+          }
+          .vux-no-group-title {
+            :before {
+              border-top: none !important
+            }
+          }
+          .baseInfoName {
+            .weui-cell__hd {
+              .weui-label {
+                font-size: 0.28rem !important;
+              }
+            }
+            .weui-cell__primary {
+              border-bottom: 1px solid #ccc
+              .weui-input {
+                font-size: 0.28rem !important
+                margin-bottom: 8px;
+              }
+            }
+          }
+          .weui-cell_access {
+            p {
+              font-size: 0.28rem;
+            }
+          }
+          .vux-datetime-value {
+            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            height: 33px;
+            .vux-cell-value {
+              display: inline-block;
+              margin-bottom: 0.2rem;
+              font-size: 0.28rem;
+              color: #000;
+              font-weight: 200;
+            }
+          }
+          .vux-cell-box {
+            .weui-cell_access {
+              .weui-cell__hd {
+                .weui-label {
+                  font-size: 0.28rem;
+                }
+              }
+              .vux-cell-primary {
+                .vux-popup-picker-select {
+                  .vux-cell-value {
+                    font-size: 0.28rem;
+                    color: #000;
+                    font-weight: 200;
+                  }
+                }
+              }
+            }
+          }
+        }
+        .vux-no-group-title {
+          font-size: 0.28rem;
+          color :#000;
+          .weui-cell_access {
+            .vux-datetime-value {
+              .vux-cell-value {
+                font-size: 0.28rem;
+                font-weight: 200;
+                color: #000;
+              }
+            }
+          }
+          .vux-x-input {
+            .weui-cell__primary {
+              .weui-input {
+                &::placeholder {
+                  color :#999!important
+                  }
+                }
+              }
+            }
+          .vux-cell-box{
+            .weui-cell{
+              .vux-cell-primary{
+                .vux-popup-picker-select{
+                  .vux-cell-value{
+                    color :#000
+                  }
+                }
+              }
+            }
+          }
+          }
+        }
+      }
+    }
 
-  .add_resume a:hover {
-    color: #000;
-    text-decoration: none;
-  }
+    .add_resume .weui-switch:focus {
+      outline: none;
+      outline-offset: 0
+    }
 
-  .add_resume .color_F96868 {
-    color: #F96868;
-  }
+    .add_resume a:hover {
+      color: #000;
+      text-decoration: none;
+    }
 
-  .add_resume .weui-btn {
-    border-radius: 4px;
-  }
+    .add_resume .color_F96868 {
+      color: #F96868;
+    }
 
-  .add_resume .weui-cell__ft {
-    text-align: left;
-  }
+    .add_resume .weui-btn {
+      border-radius: 4px;
+    }
 
-  .margin_left_10 {
-    margin-left: 10px
-  }
+    .add_resume .weui-cell__ft {
+      text-align: left;
+      color :#000
+    }
+    /*  .add_resume .weui-cell__ft .weui-icon{
+        position: absolute;
+        display: block;
+        top: 23px;
+        right: 15px;
+      }*/
 
-  .margin_right_10 {
-    margin-right: 10px
-  }
+    .margin_left_10 {
+      margin-left: 10px
+    }
 
-  @font-face {
-    font-family: 'iconfont';  /* project id 184183 */
-    src: url('//at.alicdn.com/t/font_ipkuz640wtf647vi.eot');
-    src: url('//at.alicdn.com/t/font_ipkuz640wtf647vi.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_ipkuz640wtf647vi.woff') format('woff'),
-    url('//at.alicdn.com/t/font_ipkuz640wtf647vi.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_ipkuz640wtf647vi.svg#iconfont') format('svg');
-  }
+    .margin_right_10 {
+      margin-right: 10px
+    }
 
-  .iconfont {
-    font-family: "iconfont" !important;
-    font-size: 18px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-stroke-width: 0.2px;
-    -moz-osx-font-smoothing: grayscale;
-  }
+    @font-face {
+      font-family: 'iconfont';  /* project id 184183 */
+      src: url('//at.alicdn.com/t/font_ipkuz640wtf647vi.eot');
+      src: url('//at.alicdn.com/t/font_ipkuz640wtf647vi.eot?#iefix') format('embedded-opentype'),
+        url('//at.alicdn.com/t/font_ipkuz640wtf647vi.woff') format('woff'),
+        url('//at.alicdn.com/t/font_ipkuz640wtf647vi.ttf') format('truetype'),
+        url('//at.alicdn.com/t/font_ipkuz640wtf647vi.svg#iconfont') format('svg');
+    }
+
+    .iconfont {
+      font-family: "iconfont" !important;
+      font-size: 18px;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-stroke-width: 0.2px;
+      -moz-osx-font-smoothing: grayscale;
+    }
 </style>

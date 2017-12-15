@@ -419,6 +419,10 @@
         var successd = function (res) {
           if (res.data.code == 0) {
               console.log(res.data)
+            if(_this.onFetching){
+            }else {
+              _this.showMore = false
+            }
             _this.listShow = false
             _this.list = _this._genResult(res.data.data)
             _this.config.totalCount = res.data.data.count||0;
@@ -583,8 +587,8 @@
           this.onFetching = true
           if (this.config.pageSize < this.config.totalCount) {
             this.config.pageSize += 5
-            this.positionList()
             this.showMore = true
+            this.positionList()
           } else {
             this.showMore = false
           }
