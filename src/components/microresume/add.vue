@@ -798,7 +798,6 @@
               margin-bottom: 0.2rem;
               font-size: 0.28rem;
               color: #000;
-              font-weight: 200;
             }
           }
           .vux-cell-box {
@@ -813,7 +812,6 @@
                   .vux-cell-value {
                     font-size: 0.28rem;
                     color: #000;
-                    font-weight: 200;
                   }
                 }
               }
@@ -827,7 +825,6 @@
             .vux-datetime-value {
               .vux-cell-value {
                 font-size: 0.28rem;
-                font-weight: 200;
                 color: #000;
               }
             }
