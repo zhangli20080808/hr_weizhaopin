@@ -326,7 +326,14 @@
         list_search: [],
         workCity: [],
         listShow:true,
-        listShow_1:true
+        listShow_1:true,
+        nonceStr: true,
+        shareOpenId: this.$route.query.shareOpenId || null,
+        // shareOpenId:'oTNQS0ktYqzINgWc5Z9HK_1b__HA',
+        openId: this.$route.query.openId || null,
+        imgUrl: '',
+        title: '',
+        desc: ''
       }
     },
     methods: {
@@ -600,6 +607,103 @@
           }, 2000)
         }
       },
+      //获取分享标题
+      getShareTitleInfo(){
+        var self = this;
+        var method = "positionRecommend/getShareTitleInfo",
+          param = JSON.stringify({reqType: 3, companyId: self.companyId}),
+          successd = function (res) {
+            console.log(res.data)
+            self.imgUrl = res.data.data.imgUrl;
+            self.title = res.data.data.title;
+            self.desc = res.data.data.desc;
+            self.companyName = res.data.data.companyName
+            document.title =  self.companyName
+          };
+        self.$http(method, param, successd);
+      },
+      getSignature(){
+        var self = this;
+        Axios.post(util.wxSignature, 'url=' + encodeURIComponent(location.href.split('#')[0]))
+          .then(function (res) {
+            self.$wechat.config({
+              debug: false,
+              appId: res.data.appid,
+              timestamp: res.data.timestamp,
+              nonceStr: res.data.noncestr,
+              signature: res.data.signature,
+              jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+                'hideMenuItems',
+                'showMenuItems',
+                'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem',
+                'translateVoice',
+                'startRecord',
+                'stopRecord',
+                'onVoiceRecordEnd',
+                'playVoice',
+                'onVoicePlayEnd',
+                'pauseVoice',
+                'stopVoice',
+                'uploadVoice',
+                'downloadVoice',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'hideOptionMenu',
+                'showOptionMenu',
+                'closeWindow',
+                'scanQRCode',
+                'chooseWXPay',
+                'openProductSpecificView',
+                'addCard',
+                'chooseCard',
+                'openCard'
+              ]
+            });
+            self.$wechat.ready(function (res) {
+              //分享给朋友
+              self.$wechat.onMenuShareAppMessage({
+                title: self.title,
+                desc: self.desc,
+                link: 'https://aijuhr.com/miniRecruit/#/?companyId=' + self.companyId,//分享链接
+                imgUrl: self.imgUrl,//分享图标
+                type: '',
+                dataUrl: '',
+                success: function () {
+                  console.log('分享成功1');
+                },
+                cancel: function () {
+                  console.log('用户取消分享后执行的回调函数1');
+                }
+              });
+              //分享朋友圈
+              self.$wechat.onMenuShareTimeline({
+                title: self.title,
+                desc: self.desc,
+                link: 'https://aijuhr.com/miniRecruit/#/?companyId=' + self.companyId,//分享链接
+                imgUrl: self.imgUrl,//分享图标
+                success: function () {
+                  console.log('分享成功2');
+                },
+                cancel: function () {
+                  console.log('用户取消分享后执行的回调函数2');
+                }
+              })
+
+            })
+          })
+      },
 
     },
     directives: {
@@ -610,6 +714,8 @@
 
       this.$nextTick(() => {
         console.log(this.$route)
+        this.getSignature();
+        this.getShareTitleInfo();
         let posId = localStorage.getItem('posId')
         let posName = localStorage.getItem('posName')
         let cateName = localStorage.getItem('cateName')
