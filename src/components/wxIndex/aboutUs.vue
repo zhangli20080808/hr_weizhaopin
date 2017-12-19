@@ -271,10 +271,7 @@
         //企业公众号二维码url
         officilQrcodeUrl: '',
         isAuthorization: 1,
-        code: (() => {
-          let queryParam = this.urlParse();
-          return queryParam.code;
-        })
+        code:''
       }
     },
     methods: {
@@ -443,12 +440,21 @@
           return
         }
         this.careQrcode = true
+      },
+      getCode(){
+        let queryParam = this.urlParse();
+        if(!queryParam.code){
+          return
+        }
+        this.code = queryParam.code
+        return this.code;
       }
     },
     created(){
       this.$nextTick(() => {
-        this.getSignature();
+        this.getCode()
         this.getCompanyDetail();
+        this.getSignature();
         this.getShareTitleInfo();
       })
     },
