@@ -779,7 +779,7 @@
             .weui-cell__primary {
               border-bottom: 1px solid #ccc
               .weui-input {
-                font-size: 0.28rem !important
+                font-size: 0.32rem !important
                 margin-bottom: 8px;
               }
             }
@@ -810,7 +810,7 @@
               .vux-cell-primary {
                 .vux-popup-picker-select {
                   .vux-cell-value {
-                    font-size: 0.28rem;
+                    font-size: 0.32rem;
                     color: #000;
                   }
                 }
@@ -824,7 +824,7 @@
           .weui-cell_access {
             .vux-datetime-value {
               .vux-cell-value {
-                font-size: 0.28rem;
+                font-size: 0.32rem;
                 color: #000;
               }
             }
@@ -832,8 +832,10 @@
           .vux-x-input {
             .weui-cell__primary {
               .weui-input {
+                font-size :0.32rem!important
                 &::placeholder {
                   color :#999!important
+                  font-size :0.28rem!important
                   }
                 }
               }
@@ -844,6 +846,7 @@
                 .vux-popup-picker-select{
                   .vux-cell-value{
                     color :#000
+                    font-size :0.32rem!important
                   }
                 }
               }

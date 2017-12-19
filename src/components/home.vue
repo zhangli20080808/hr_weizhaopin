@@ -26,7 +26,7 @@
           </div>
         </div>
       </div>
-      <split></split>
+      <split v-if="homeData.form.company_name"></split>
       <!--公司简介-->
       <div class="s_company hidden-xs">
         <img class="c_img" v-show="homeData.bigLogo" :src="homeData.bigLogo">
@@ -67,7 +67,7 @@
             {{homeData.form.company_address}}  | {{homeData.website}} | {{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}} | {{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</p>
         </div>
       </div>
-      <split></split>
+      <split v-if="homeData.form.company_name"></split>
       <!--公司介绍-->
       <div class="intro_c" id="2F" v-if="companyName">
         <div class="title">
@@ -83,7 +83,7 @@
           </div>
         </div>
       </div>
-      <split></split>
+      <split v-if="homeData.form.company_name"></split>
       <!--招聘职位-->
       <div id="1F" class="s_recruit hidden-xs" v-show="homeData.wzpPositionList">
         <div class="container">
@@ -982,7 +982,7 @@
               margin-top: 0;
               font-size: 0.28rem;
               color: #5c6170;
-              line-height: 20px;
+              line-height: 22px;
             }
             p:nth-child(1) {
               text-indent: 0

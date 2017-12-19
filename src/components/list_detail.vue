@@ -787,7 +787,6 @@
         .detail_text
           width: 100%;
           background: #fff;
-          margin-top: 0.4rem
           padding: 0;
           padding-bottom :0.4rem
           .detail_content
