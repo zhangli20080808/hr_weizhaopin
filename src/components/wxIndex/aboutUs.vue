@@ -22,6 +22,7 @@
                     {{isAuthorization == 1 ? '已关注' : '关注'}}
 
 
+
                   </div>
                 </div>
               </div>
@@ -59,6 +60,7 @@
                                   <div class="gamma-description">
 
                                     {{item.description}}
+
 
 
 
@@ -114,6 +116,7 @@
 
 
 
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -147,6 +150,7 @@
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
+
 
 
 
@@ -258,6 +262,7 @@
           let queryParam = this.urlParse();
           return queryParam.companyId;
         })(),
+
         // //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
         subcribeMap: {
           subcribeStatus: ''
@@ -265,7 +270,11 @@
         careQrcode: false,
         //企业公众号二维码url
         officilQrcodeUrl: '',
-        isAuthorization: 1
+        isAuthorization: 1,
+        code: (() => {
+          let queryParam = this.urlParse();
+          return queryParam.code;
+        })
       }
     },
     methods: {
@@ -304,7 +313,8 @@
         var _this = this;
         var method = "weixin/getCompanyWebDetail";
         var param = {
-          companyId: _this.companyId
+          companyId: _this.companyId,
+          code: _this.code
         };
         var successd = function (res) {
           if (res.data.codeUrl == '') {
