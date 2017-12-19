@@ -15,14 +15,16 @@
             <div class="template-company">
               <h3 class="info-title g-oneline-text">{{preCompanyWebsite.name}}</h3>
               <div class="description">{{preCompanyWebsite.slogan}}</div>
-              <!--<div class="action" v-if="isAuthorization!=0">-->
-                <!--<div class="g-ghost-btn" @click="goCare"-->
-                     <!--:class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">-->
-                  <!--<div class="btn-text">-->
-                    <!--{{isAuthorization == 1 ? '已关注' : '关注'}}-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
+              <div class="action" v-if="isAuthorization!==0">
+                <div class="g-ghost-btn" @click="goCare"
+                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
+                  <div class="btn-text">
+                    {{isAuthorization == 1 ? '已关注' : '关注'}}
+
+
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -57,6 +59,8 @@
                                   <div class="gamma-description">
 
                                     {{item.description}}
+
+
 
 
 
@@ -108,6 +112,8 @@
 
 
 
+
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -141,6 +147,8 @@
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
+
+
 
 
 
@@ -252,12 +260,12 @@
         })(),
         // //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
         subcribeMap: {
-          subcribeStatus:''
+          subcribeStatus: ''
         },
         careQrcode: false,
         //企业公众号二维码url
-        officilQrcodeUrl:'',
-        isAuthorization:1
+        officilQrcodeUrl: '',
+        isAuthorization: 1
       }
     },
     methods: {
@@ -294,28 +302,24 @@
       //查询微官网
       getCompanyDetail(){
         var _this = this;
-        var method = "companyWeb/getCompanyDetail";
-        var param = JSON.stringify({
+        var method = "weixin/getCompanyWebDetail";
+        var param = {
           companyId: _this.companyId
-        });
+        };
         var successd = function (res) {
-          if (res.data.code == 0) {
-            // console.log(res.data.data)
-//            if(res.data.data.codeUrl == ''){
-//              _this.isAuthorization = res.data.data.subcribeMap.subcribeStatus
-//              _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl
-              _this.preCompanyWebsite = res.data.data.CompanyWebsite
-              _this.preWorkTeam = res.data.data.WorkTeam
-              _this.WorkEnvironment = res.data.data.WorkEnvironment
-              _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
-//            }else {
-//              _this.careHref = res.data.data.codeUrl
-//              _this.careHref = ""
-//              window.location.href = _this.careHref
-//            }
+          if (res.data.codeUrl == '') {
+            _this.preCompanyWebsite = res.data.CompanyWebsite
+            _this.preWorkTeam = res.data.WorkTeam
+            _this.WorkEnvironment = res.data.WorkEnvironment
+            _this.preCompanyMemorabilia = res.data.CompanyMemorabilia
+            _this.isAuthorization = res.data.subcribeMap.subcribeStatus
+            _this.officilQrcodeUrl = res.data.officilQrcodeUrl
+          } else {
+            _this.careHref = res.data.codeUrl
+            location.href = _this.careHref
           }
         }
-        _this.$http(method, param, successd);
+        _this.$webHttp(method, param, successd);
       },
       teamworkDeatil(){
         this.$router.push({
@@ -432,11 +436,11 @@
       }
     },
     created(){
-        this.$nextTick(()=>{
-          this.getSignature();
-          this.getCompanyDetail();
-          this.getShareTitleInfo();
-        })
+      this.$nextTick(() => {
+        this.getSignature();
+        this.getCompanyDetail();
+        this.getShareTitleInfo();
+      })
     },
     computed: {
       bgStyle() {
@@ -460,6 +464,7 @@
 <style scoped>
   @import "../../common/stylus/swiper.css";
   @import "../../components/css/main.css";
+
   .g-container {
     position: relative;
     z-index: 2;
@@ -467,7 +472,6 @@
     border: 0;
     outline: 0;
   }
-
 
   .g-oneline-text {
     white-space: nowrap;
@@ -528,36 +532,41 @@
     background: #fff;
     padding: 10px;
   }
-  .cares .care-content .box-inner .box-header{
+
+  .cares .care-content .box-inner .box-header {
     position: relative;
     min-height: 16px;
   }
-  .cares .care-content .box-inner .box-body{
+
+  .cares .care-content .box-inner .box-body {
     text-align: center;
     padding-top: 16px;
     margin-bottom: 20px;
     color: #787e85;
   }
-  .cares .care-content .box-inner .box-body .follow{
+
+  .cares .care-content .box-inner .box-body .follow {
     position: relative;
     overflow: hidden;
   }
-  .cares .care-content .box-inner .box-body .follow .img{
+
+  .cares .care-content .box-inner .box-body .follow .img {
     display: block;
     width: 4.6rem;
     height: 4.6rem;
     margin: 0 auto;
   }
-  .cares .care-content .box-inner .box-body .follow .text{
+
+  .cares .care-content .box-inner .box-body .follow .text {
     font-size: 14px;
   }
-  .cares .care-content .box-inner .box-header .close{
+
+  .cares .care-content .box-inner .box-header .close {
     position: absolute;
     right: 0;
     top: 0;
     font-size: 18px;
   }
-
 
   .g-container .company-profile {
     position: relative;
@@ -816,7 +825,7 @@
   }
 </style>
 <style>
-  #aboutUs .cares .care-content .weui-dialog{
-    max-width: 251px!important;
+  #aboutUs .cares .care-content .weui-dialog {
+    max-width: 251px !important;
   }
 </style>

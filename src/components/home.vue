@@ -4,13 +4,13 @@
     <div v-if="companyName">
       <!--导航-->
       <!--轮播-->
-      <div class="main_ad" v-show="homeData.img_list_1">
+      <div class="main_ad">
         <div class="carousel-inner1">
           <!--我们的data属性来保存我们要的数据,没有任何功能-->
           <div class="item " :style="bgStyle">
             <!--<img :src="homeData.img_list_1" alt="">-->
             <div class="item_text">
-              <div class="title" v-show="homeData.form.title">{{homeData.form.title}}
+              <div class="title">{{homeData.form.title}}
 
 
 
@@ -54,7 +54,7 @@
         </ul>
       </div>
       <!--公司简介-->
-      <div class="m_s_company hidden-sm hidden-lg" v-if="homeData.form.company_name">
+      <div class="m_s_company hidden-sm hidden-lg">
         <img :src="homeData.bigLogo" class="item-logo" alt="">
         <div class="item-desc" v-show="homeData.form.company_name">
           <div class="care">关注</div>
@@ -69,8 +69,8 @@
       </div>
       <split></split>
       <!--公司介绍-->
-      <div class="intro_c" id="2F" v-show="homeData.content">
-        <div class="title" v-show="homeData.customName2">
+      <div class="intro_c" id="2F" v-if="companyName">
+        <div class="title">
           <div class="text">{{homeData.customName2}}
 
             <span class="line hidden-xs"></span>
@@ -720,10 +720,13 @@
                 text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
               }
               .search-1BHuC {
-                margin: 0.16rem auto;
-                margin-top: 0.46rem
                 width: 80%;
                 pointer-events: auto;
+                position: absolute;
+                display: block;
+                margin-left: -40%;
+                bottom: 10px;
+                left: 50%;
               }
               .container-28cVH {
                 display: -webkit-box;

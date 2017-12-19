@@ -129,6 +129,19 @@ export default {
       }
       return date;
     })
+
+    // 获取webDetail
+    Vue.prototype.$webHttp=function(method,param,succeed) {
+      var self = this;
+      Axios({
+        method: 'post',
+        url: Util.url.split("/api.do").join("")+'/'+method + '.do',
+        params: param,
+      }).then(function (res) {
+          succeed(res)
+      }).catch(function (err) {
+      });
+    }
     //头像过滤器
     Vue.filter("portrait",function(value){
       console.log(typeof value);
