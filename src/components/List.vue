@@ -250,6 +250,8 @@
   import loading from './base/loading/loading2.vue'
   import scroll from  '../components/base/scroll.vue'
   import footerNav from '../components/base/foot.vue'
+  import util from "../common/js/util.js";
+  import Axios from 'axios';
 
   import {
     XDialog,
@@ -351,7 +353,6 @@
         if (!this.$route.params.all) {
           return
         } else {
-            alert('gs')
           this.form.kind = localStorage.setItem('cate', item.categoryId)
           localStorage.setItem('cateName', item.categoryName)
         }
@@ -611,14 +612,11 @@
       getShareTitleInfo(){
         var self = this;
         var method = "positionRecommend/getShareTitleInfo",
-          param = JSON.stringify({reqType: 3, companyId: self.companyId}),
+          param = JSON.stringify({reqType: 1, companyId: self.companyId}),
           successd = function (res) {
-            console.log(res.data)
             self.imgUrl = res.data.data.imgUrl;
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
-            self.companyName = res.data.data.companyName
-            document.title =  self.companyName
           };
         self.$http(method, param, successd);
       },
@@ -676,7 +674,7 @@
               self.$wechat.onMenuShareAppMessage({
                 title: self.title,
                 desc: self.desc,
-                link: 'https://aijuhr.com/miniRecruit/#/?companyId=' + self.companyId,//分享链接
+                link: 'https://aijuhr.com/miniRecruit/#/list?companyId=' + self.companyId,//分享链接
                 imgUrl: self.imgUrl,//分享图标
                 type: '',
                 dataUrl: '',
@@ -691,7 +689,7 @@
               self.$wechat.onMenuShareTimeline({
                 title: self.title,
                 desc: self.desc,
-                link: 'https://aijuhr.com/miniRecruit/#/?companyId=' + self.companyId,//分享链接
+                link: 'https://aijuhr.com/miniRecruit/#/list?companyId=' + self.companyId,//分享链接
                 imgUrl: self.imgUrl,//分享图标
                 success: function () {
                   console.log('分享成功2');
