@@ -112,7 +112,8 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         codeShow:false,
         show10:false,
         loginMsg:'账号或密码错误',
-        shareOpenId:this.$route.query.shareOpenId,
+        shareFansId:this.$route.query.shareFansId,
+        fansId:this.$route.query.fansId,
         recomType:this.$route.query.recomType
       }
     },
@@ -180,6 +181,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
               var method2="recruitPosition/submitInterivewApplicationNew",
                   param2=JSON.stringify({
                     shareOpenId:self.shareOpenId,
+                    fansId:self.fansId,
                     interviewResumeInfo:{
                       positionId:self.positionId,
                       resumeId:'',

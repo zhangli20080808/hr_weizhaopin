@@ -235,7 +235,8 @@
         professionalValue: ['博士', '研究生', '本科', '大专', '其他'],
         toastText: '',
         toastShow: false,
-        shareOpenId: this.$route.query.shareOpenId,
+        shareFansId: this.$route.query.shareFansId,
+        fansId:this.$route.query.fansId,
         positionId: this.$route.query.id,
         recomType: this.$route.query.recomType
       }
@@ -399,7 +400,12 @@
         self.changeHeadType(4);
         self.$router.push({
           path: '/preview',
-          query: {positionId: self.positionId, shareOpenId: self.shareOpenId, recomType: self.recomType}
+          query: {
+            positionId: self.positionId, 
+            shareFansId: self.shareFansId, 
+            recomType: self.recomType,
+            fansId:self.fansId
+          }
         });
       },
       reuturnResume(){
@@ -410,7 +416,13 @@
         var self = this;
         self.$router.push({
           path: '/loginResume',
-          query: {type: type, positionId: self.positionId, shareOpenId: self.shareOpenId, recomType: self.recomType}
+          query: {
+            type: type, 
+            positionId: self.positionId, 
+            shareFansId: self.shareFansId, 
+            recomType: self.recomType,
+            fansId:self.fansId
+          }
         })
       }
     },
