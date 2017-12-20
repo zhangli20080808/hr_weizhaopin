@@ -180,7 +180,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
               }
               var method2="recruitPosition/submitInterivewApplicationNew",
                   param2=JSON.stringify({
-                    shareOpenId:self.shareOpenId,
+                    shareFansId:self.shareFansId,
                     fansId:self.fansId,
                     interviewResumeInfo:{
                       positionId:self.positionId,
