@@ -447,8 +447,9 @@
     },
   }
 </script>
-<style lang="less">
+<style lang="less" scoped>
   @import '~vux/src/styles/1px.less';
+
 </style>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   @import "../../common/stylus/mixin.styl"
@@ -676,13 +677,18 @@
     line-height: 0.2rem;
   }
 
-  .add_resume .btn:active {
+  .add_resume .btn:focus {
+    outline: none;
+  }
+  
+  .add_resume .btn:hover {
     color: #fff;
     background-color: #5AA2E7;
   }
 
-  .add_resume .btn:focus {
-    outline: none;
+  .add_resume .btn:active {
+    color: #fff;
+    background-color: #5AA2E7;
   }
 
   .position_bottom {
