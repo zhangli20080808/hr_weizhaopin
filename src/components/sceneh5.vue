@@ -4,61 +4,118 @@
             <p>Your browser does not support the canvas element</p>  
         </canvas> 
       <div class="wrap">
-           <swiper :options="swiperOption" ref="mySwiper" id="swiper">
-                <!-- slides -->
-                <swiper-slide>
-                    <img class="title" src="../components/images/bgh5.1.png" alt="">
-                    <img class="ship" src="../components/images/ship.png" alt="">
-                </swiper-slide>
-                 <swiper-slide>
-                    <div class="companyIntro">
-                        <img src="../components/images/intro.png" class="intro" alt="公司简介">
-                        <div class="content">
-                            <div>
-                                电商宝（杭州爱聚科技有限公司），是一家专门从事电商企业数据产品开发的科技创新公司，创始团队组建于2012年。我们诞生在信息社会从IT走向DT（Data technology），从电商单一渠道、粗放经营走向电商全渠道精细化经营的背景下，着眼数据技术，立足电商经营数据，立志成为一家世界级中小微企业软件及数据服务公司。
-　　公司研发的电商宝产品目前基于淘宝、天猫、京东、唯品会、当当、1688、速卖通、亚马逊等30余个国内外电商平台，主打产品涵盖功能模块：财务管理、订单管理、商品管理、进销存管理、OA企业管理、HRM管理等，日处理近一个亿的订单数据，经营数据处理及管理能力业界领先。</div>
-                        　 <img src="../components/images/go.png" class="introImg" alt="公司简介">
-                        </div>　
-                    </div>
-                </swiper-slide>
-                 <swiper-slide>
-                    <img class="title" src="../components/images/bgh5.1.png" alt="">
-                    <img class="ship" src="../components/images/ship.png" alt="">
-                </swiper-slide>
-                
-                <!-- Optional controls -->
-                <!-- <div class="swiper-pagination" slot="pagination"></div> -->
-                <!--<div class="swiper-button-prev" slot="button-prev"></div>-->
-                <div class="swiper-button-next" slot="button-next">
-                    <img src="../components/images/go.png" alt="">
+        <Swiper id="swiper" :interval="2000" :height="height100"  direction="vertical" :show-dots="false" v-model="swiper_index" @on-index-change="swiper_onIndexChange">
+            <swiper-item>
+                <img class="title" src="../components/images/bgh5.1.png" alt="">
+                <img class="ship" src="../components/images/ship.png" alt="">
+            </swiper-item>
+             <swiper-item>
+                 <div class="companyIntro">
+                    <img src="../components/images/intro.png" class="intro" alt="公司简介">
+                    <div class="content">
+                        <div> 电商宝（杭州爱聚科技有限公司），是一家专门从事电商企业数据产品开发的科技创新公司，创始团队组建于2012年。我们诞生在信息社会从IT走向DT（Data technology），从电商单一渠道、粗放经营走向电商全渠道精细化经营的背景下，</div>
+                    　  <img src="../components/images/go.png" class="introImg" alt="公司简介">
+                    </div>　
                 </div>
-            </swiper>
+             </swiper-item>
+              <swiper-item>
+                 <div class="companyIntro">
+                    <img src="../components/images/position.png" class="intro" alt="在招职位">
+                    <div class="content">
+                        <ul>
+                            <li>
+                                <div class="positionName">行政/和人力资源行政副总裁...</div>
+                                <div class="positionIntroduce">杭州/全职 20k-40k</div>
+                                <img  class="details" src="../components/images/details.png" alt="详情">
+                            </li>
+                            <li>
+                                <div class="positionName">行政/和人力资源行政副总裁...</div>
+                                <div class="positionIntroduce">杭州/全职 20k-40k</div>
+                                <img  class="details" src="../components/images/details.png" alt="详情">
+                            </li>
+                            <li>
+                                <div class="positionName">行政/和人力资源行政副总裁...</div>
+                                <div class="positionIntroduce">杭州/全职 20k-40k</div>
+                                <img  class="details" src="../components/images/details.png" alt="详情">
+                            </li>
+                        </ul>
+                    </div>　
+                </div>
+             </swiper-item>
+              <swiper-item>
+                 <div class="positionDetial">
+                    <img src="../components/images/position.png" class="intro" alt="在招职位">
+                    <div class="content">
+                        <div class="header">
+                            <div class="title">
+                                <span>[急招]</span>
+                                最多12个字最多12个字最多
+                            </div>
+                             <div class="headerContent">
+                                <span><i class="iconfont">&#xe618;</i>杭州市</span>
+                                <span><i class="iconfont">&#xe610;</i>8K-12K</span>
+                                <span><i class="iconfont">&#xe631;</i> 全职</span>
+                                <span>99人看过</span>
+                            </div>
+                            <div class="middle">
+                                 <img src="../components/images/position.png" class="logo" alt="在招职位">
+                                <div class="middleRight">
+                                    <p>公司名称</p>
+                                    <p>www.aiju.ecbao.cm</p>
+                                </div>
+                                <div class="rightUrl"></div>
+                            </div>
+                            <div class="detial">
+                                <div class="detialTitle">职位描述</div>
+                                <p>职位描述：</p>
+                            </div>
+                        </div>
+                    </div>　
+                    <div class="btn">
+                        <img src="../components/images/btnLeft.png" alt="">
+                        <img src="../components/images/btnRight.png" alt="">
+                    </div>
+                </div>
+             </swiper-item>
+             <swiper-item>
+                 <div class="companyDetial">
+                    <img src="../components/images/1.png" class="topLeft" alt="公司简介">
+                    <div class="content">
+                        <p>等你加我啊!</p>
+                        <p>下面是我的联系方式</p>
+                        <ul>
+                            <li>
+                                <img src="../components/images/2.png" alt="">
+                                <p>杭州西湖区文一西路与崇义路交叉口公元里7幢6楼</p>
+                            </li>
+                            <li>
+                                <img src="../components/images/3.png" alt="">
+                                <p>057-67988898</p>
+                            </li>
+                            <li>
+                                <img src="../components/images/4.png" alt="">
+                                <p>266277728@qq.com</p>
+                            </li>
+                        </ul>
+                    </div>　
+                    <img class="imgBtm" src="../components/images/boat.png" alt="">
+                </div>
+             </swiper-item>
+        </Swiper>
       </div>
   </div>
 </template>
 
 
 <script>
-import {swiper, swiperSlide} from 'vue-awesome-swiper'
+// import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import allcity from "../common/js/allcity";
 import loading from "./base/loading/loading.vue";
 import scroll from "../components/base/scroll.vue";
 import footerNav from "../components/base/foot.vue";
 import imgSrc2 from "../components/images/bgh5.2.png";
 import imgSrc3 from "../components/images/bgh5.3.png";
-
-
-import {
-  XDialog,
-  Scroller,
-  Divider,
-  Spinner,
-  XButton,
-  Group,
-  Cell,
-  LoadMore,
-  TransferDomDirective as TransferDom
-} from "vux";
+import { Swiper, GroupTitle, SwiperItem, XButton, Divider,  XDialog,Scroller } from 'vux'
 
 const FPS = 30;
 const SECONDS_BETWEEN_FRAMES = 1 / FPS;
@@ -66,9 +123,9 @@ const SECONDS_BETWEEN_FRAMES = 1 / FPS;
 var bg0 = new Image();
 
 var x = 0;
-const RATE = 50 * SECONDS_BETWEEN_FRAMES;
-var WIDTH = 414;
-var HEIGHT = 736;
+const RATE = 10 * SECONDS_BETWEEN_FRAMES;
+var WIDTH;//414
+var HEIGHT;//376
 
 var canvas;
 var canvasBuffer;
@@ -79,32 +136,26 @@ export default {
   data() {
     document.title = "团队";
     return {
+        swiper_index: 0,
         imgSrc: imgSrc2,
-       swiperOption: {//以下配置不懂的，可以去swiper官网看api，链接http://www.swiper.com.cn/api/
-          // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，<br>　　　　　　　　假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
-          // notNextTick: true,
-          // swiper configs 所有的配置同swiper官方api配置
-          autoplay: false,
-          direction: 'vertical',
-          grabCursor: false,
-          setWrapperSize: true,///在Wrapper上添加等于slides相加的宽高
-        //   autoHeight: true,
-        //   pagination: '.swiper-pagination',
-        //   paginationClickable: false,
-          prevButton: '.swiper-button-prev',//上一张
-          nextButton: '.swiper-button-next',//下一张
-          mousewheelControl: false,
-          // 如果自行设计了插件，那么插件的一些配置相关参数，也应该出现在这个对象中，如下debugger
-          debugger: true,
-          loop: false,
-     
-        },
+        height100:0,
+        timer: '',
+
     };
   },
   methods: {
-      alla(){
-alert(1)
-      },
+    swiper_onIndexChange(index){
+        if(index == 0){
+            this.imgSrc = imgSrc2
+        }else{
+            this.imgSrc = imgSrc3
+        }
+        clearInterval(this.timer);
+            clearInterval(this.timer);
+            this.timer = setInterval(() =>{
+                this.animation(), SECONDS_BETWEEN_FRAMES
+            })
+    },
      resize_canvas(){
         canvas = document.getElementById("canvas");
         if (canvas.width  < window.innerWidth)
@@ -130,8 +181,9 @@ alert(1)
             contextBuffer = canvasBuffer.getContext("2d");
             context.clearRect(0, 0, canvas.width, canvas.height);
             contextBuffer.clearRect(0, 0, canvasBuffer.width, canvasBuffer.height);
-
-            setInterval(() =>{
+            x = 0;
+            
+            this.timer = setInterval(() =>{
                 this.animation(), SECONDS_BETWEEN_FRAMES
         })
     })},
@@ -167,27 +219,13 @@ alert(1)
       }
     }
   },
-  directives: {
-    TransferDom
-  },
-
   mounted() {
     this.init();
     var self = this;
-    
+    self.height100=window.innerHeight+"px";
   },
   components: {
-    loading,
-    Scroller,
-    Divider,
-    Spinner,
-    XButton,
-    Group,
-    Cell,
-    LoadMore,
-    scroll,
-    XDialog,
-    footerNav
+    loading, Scroller, Swiper, GroupTitle, SwiperItem,
   },
   watch: {
 
@@ -199,7 +237,9 @@ alert(1)
   }
 };
 </script>
-
+<style>
+@import url(css/main.css);
+</style>
 <style lang="stylus" rel="stylesheet/stylus">
 @import '../common/stylus/mixin.styl';
 
@@ -229,6 +269,42 @@ html, body, #app, #h5, .wrap {
         }
 }
 
+@keyframes earthmove {
+        from {
+                -webkit-transform: translateX(0) rotate(0);
+                transform: translateX(0) rotate(0)
+        }
+
+        to {
+                -webkit-transform: translateX(0) rotate(2turn);
+                transform: translateX(0) rotate(2turn)
+        }
+}
+
+@-moz-keyframes earthmove {
+        from {
+                -webkit-transform: translateX(0) rotate(0);
+                transform: translateX(0) rotate(0)
+        }
+
+        to {
+                -webkit-transform: translateX(0) rotate(2turn);
+                transform: translateX(0) rotate(2turn)
+        }
+}
+
+@-webkit-keyframes earthmove {
+        from {
+                -webkit-transform: translateX(0) rotate(0);
+                transform: translateX(0) rotate(0)
+        }
+
+        to {
+                -webkit-transform: translateX(0) rotate(2turn);
+                transform: translateX(0) rotate(2turn)
+        }
+}
+
 .wrap {
     position:fixed;
     top :0;
@@ -250,9 +326,9 @@ html, body, #app, #h5, .wrap {
                 width: 1rem;
             }
         }
-        .swiper-wrapper{
+        .vux-swiper{
             height: 100%;
-            .swiper-slide{
+            .vux-swiper-item{
                 height: 100%;
                 .ship{
                     position :relative;
@@ -268,7 +344,7 @@ html, body, #app, #h5, .wrap {
                     top: 1.5rem;
                 }
                 .companyIntro{
-                    background : url(../components/images/bgh5.3.png)no-repeat center top;
+                    // background : url(../components/images/bgh5.3.png)no-repeat center top;
                     height : 100%;
                     display: flex;
                     flex-direction: column;
@@ -282,11 +358,164 @@ html, body, #app, #h5, .wrap {
                     .content{
                         width : 90%;
                         height : auto;
+                        background: #fff;
                         max-height: 70%;
                         border-radius: 10px;
                         border: 2px solid #23FFC9;
                         font-size: 14px;
                         line-height: 25px;
+                        overflow: auto;
+                        padding: 15px;
+                        ul{
+                            font-size:14px;
+                            position: relative;
+                            li{
+                                border-b-1px(rgba(229,229,229,0.5));
+                                margin-bottom: .3rem;
+                                padding-bottom: .2rem;
+                                .positionName{
+                                    color:rgba(31,45,61,1);
+                                }
+                                .positionIntroduce{
+                                    color:rgba(102,102,102,1);
+                                }
+                                .details{
+                                    width: 1.0rem;
+                                    float: right;
+                                    top: -0.7rem;
+                                    position: relative;
+                                }                               
+                            }
+                        }
+                    }
+                   
+                }
+                .companyDetial{
+                    position: reletive;
+                    font-size: 14px;
+                    .topLeft{
+                        width: 30%;
+                        margin: 1rem 0 0 .5rem;
+                    }
+                    .content{
+                        width : 65%;
+                        height : 6rem;
+                        background: #fff;
+                        border-radius: 10px;
+                        border: 2px solid #23FFC9;
+                        font-size: 14px;
+                        line-height: 25px;
+                        overflow: auto;
+                        padding: 15px; 
+                        float: right;
+                        margin-right: .4rem;
+                        margin-top: -0.5rem;
+                        ul{
+                            margin-top: .2rem;
+                            overflow: hidden;
+                            li{
+                                float: left;
+                                margin-bottom: 0.4rem;
+                                img{
+                                    width: .6rem;
+                                    position: relative;
+                                    top: 0.2rem;
+                                }
+                                p{
+                                    display: inline-block;
+                                    max-width: 80%;
+                                    vertical-align: middle;
+                                }
+                            }
+                        }
+                        
+                    }
+                    .imgBtm{
+                        width: 55%;
+                        position: absolute;
+                        bottom: -2rem;
+                        margin-left: -14%;
+                        animation: earthmove 45s infinite;
+                    }
+                }
+                .positionDetial{
+                    text-align: center;
+                    font-size:14px;
+                    .intro{
+                        margin: .5rem 0 .4rem;
+                        width: 25%;
+                    }
+                    .content{
+                        text-align: left;
+                        width : 90%;
+                        height : 8.8rem;
+                        background: #fff;
+                        max-height: 70%;
+                        border-radius: 10px;
+                        border: 2px solid #23FFC9;
+                        font-size: 14px;
+                        line-height: 25px;
+                        overflow: auto;
+                        padding: 15px;
+                        margin-left: 5%;
+                        .header{
+                            .title{
+                                color: #1F2D3D;
+                                span{
+                                    color: #FF8A66;
+                                    
+                                }
+                            }
+                            .headerContent{
+                                span{
+                                    margin-right: .3rem;
+                                    display: inline-block;
+                                    &:nth-child(4){
+                                        color: #46BE8A;
+                                        float: right;
+                                        margin-right: 0;
+                                    }
+                                }
+                            }
+                            .middle{
+                                position: relative;
+                                padding: 0.23rem;
+                                border-top: 1px solid #E5E5E5;
+                                border-bottom: 1px solid #E5E5E5;
+                                margin: .2rem 0;
+                                .logo{
+                                    width : 1.5rem;
+                                    vertical-align : middle;
+                                }
+                                .middleRight{
+                                    display: inline-block;
+                                    margin-left: 0.25rem;
+                                }
+                                .rightUrl{
+                                    width: 7px;
+                                    height: 7px;
+                                    border-top: 2px solid #BCBFC8;
+                                    border-right: 2px solid #BCBFC8;
+                                    transform: rotate(45deg);
+                                    position: absolute;
+                                    right: .25rem;
+                                    bottom: .25rem;
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
+                    .btn{
+                        margin-top: .62rem;
+                        img{
+                            width: 30%;
+                            float: left;
+                            margin-left: .3rem;
+                              &:nth-child(2){
+                                float: right;
+                                margin-right: .3rem; 
+                              }
+                        }
                     }
                 }
             }
