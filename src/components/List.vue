@@ -618,6 +618,7 @@
             self.imgUrl = res.data.data.imgUrl;
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
+            self.getSignature();
           };
         self.$http(method, param, successd);
       },
@@ -723,7 +724,6 @@
           console.log(this.companyId)
         }
         this.getShareTitleInfo();
-        this.getSignature();
         this.getPositionCategoryList()
         this.getCityList()
         this.transitionCityLists()

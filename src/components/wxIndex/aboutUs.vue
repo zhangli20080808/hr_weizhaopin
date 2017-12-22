@@ -348,7 +348,8 @@
             self.imgUrl = res.data.data.imgUrl;
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
-            document.title = res.data.data.companyName
+            document.title = res.data.data.companyName;
+            self.getSignature();
           };
         self.$http(method, param, successd);
       },
@@ -455,7 +456,6 @@
         this.getCode()
         this.getCompanyDetail();
         this.getShareTitleInfo();
-        this.getSignature();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
       })

@@ -260,19 +260,7 @@
       var ua = navigator.userAgent.toLowerCase();
       var isWeixin = ua.indexOf('micromessenger') != -1;
       if(isWeixin){
-        if(this.$route.query.is_auth==0){
-          //没有静默授权成功
-          // console.log("授权失败");
-          this.getCode('snsapi_userinfo');
-        }else if(this.$route.query.is_auth==1){
-          //授权成功
-          // console.log("授权成功");
-          this.getSignature();
-        }else{
-          // console.log("开始请求");
-          this.getCode('snsapi_userinfo');
-          return false;
-        }
+        this.getSignature();
       }
     },
     mounted(){
@@ -293,26 +281,6 @@
       this.getShareTitleInfo();
     },
     methods: {
-      //获取微信的code
-      getCode(scope){
-        var self=this;
-        Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&positionId='+self.positionId+'&shareOpenId='+self.shareOpenId+'&recomType=2')
-        .then(function(res){
-          console.log(res);
-          if(res.data.userExsitSession==2){
-            location.href=res.data.code_url;
-          }else if(res.data.userExsitSession==1){
-            self.openId=res.data.openId;
-            // if(self.shareOpenId==""||!self.shareOpenId){
-            //   self.shareOpenId=self.openId;
-            // }
-            self.getSignature();
-            if(self.openId==''){
-              self.$router.push({name:'listDetail',query:{companyId:self.companyId,openId:self.openId,positionId:self.positionId,shareOpenId:self.shareOpenId}});
-            }
-          }
-        })
-      },
       getSignature(){
         var self=this;
         Axios.post(util.wxSignature,'url='+encodeURIComponent(location.href.split('#')[0]))
@@ -367,7 +335,7 @@
             self.$wechat.onMenuShareAppMessage({
               title:self.title,
               desc:self.desc,
-              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&shareOpenId="+self.openId+"&positionId="+self.positionId,//分享链接
+              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&positionId="+self.positionId,//分享链接
               imgUrl:self.imgUrl,//分享图标
               type:'',
               dataUrl:'',
@@ -383,7 +351,7 @@
             self.$wechat.onMenuShareTimeline({
               title:self.title,
               desc:self.desc,
-              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&shareOpenId="+self.openId+"&positionId="+self.positionId,//分享链接
+              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&positionId="+self.positionId,//分享链接
               imgUrl:self.imgUrl,//分享图标
               success:function(){
                 console.log('分享成功2');
