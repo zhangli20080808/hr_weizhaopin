@@ -436,7 +436,7 @@
       join() {
         var self=this;
         if (document.body.clientWidth<550) {
-          self.$router.push({path:'/addResume',query:{id:this.positionId,shareOpenId:self.shareOpenId,recomType:2,companyId:self.companyId}})
+          self.$router.push({path:'/addResume',query:{id:this.positionId,companyId:self.companyId}})
           return;
         }
         self.$router.push({
@@ -444,8 +444,6 @@
           query: {
             companyId: self.companyId,
             id:self.positionId,
-            shareOpenId:self.shareOpenId,
-            recomType:2
           }
 
         })

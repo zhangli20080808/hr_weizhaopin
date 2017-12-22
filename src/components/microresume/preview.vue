@@ -57,6 +57,7 @@
         fansId:this.$route.query.fansId,
         recomType:this.$route.query.recomType,
         btnLoading:false,
+        companyId:this.$route.query.companyId,
       }
     },
     mounted(){
@@ -83,10 +84,11 @@
               fansId:self.fansId
             }),
             successd=function (res) {
-                self.$router.push({path:'/results',query:{type:res.data.data}});
+                self.$router.push({path:'/results',query:{type:res.data.data,companyId:self.companyId,fansId:self.fansId}});
             },
             c=function(res){
               self.btnLoading=false;
+              alert("投递失败,请联系分享人");
             };
         self.$http(method,param,successd,c);
       }

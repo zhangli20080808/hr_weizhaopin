@@ -238,7 +238,8 @@
         shareFansId: this.$route.query.shareFansId,
         fansId:this.$route.query.fansId,
         positionId: this.$route.query.id,
-        recomType: this.$route.query.recomType
+        recomType: this.$route.query.recomType,
+        companyId:this.$route.query.companyId,
       }
     },
     mounted(){
@@ -404,7 +405,8 @@
             positionId: self.positionId, 
             shareFansId: self.shareFansId, 
             recomType: self.recomType,
-            fansId:self.fansId
+            fansId:self.fansId,
+            companyId:self.companyId
           }
         });
       },
@@ -421,7 +423,8 @@
             positionId: self.positionId, 
             shareFansId: self.shareFansId, 
             recomType: self.recomType,
-            fansId:self.fansId
+            fansId:self.fansId,
+            companyId:self.companyId
           }
         })
       }

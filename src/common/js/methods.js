@@ -3,10 +3,6 @@ import Util from '../js/util.js';
 import md5 from 'js-md5';
 export default {
   install(Vue, options) {
-    Vue.prototype.getData = function () {
-      console.log('我是插件中的方法');
-    }
-
     Vue.prototype.$http = function (method, param, succeed,errord) {
       var self = this;
       Axios.post(Util.url,
