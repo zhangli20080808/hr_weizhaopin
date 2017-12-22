@@ -6,7 +6,6 @@
     <!-- <transition :name="transitionName"> -->
       <router-view :homeData="homeData" ></router-view>
     <!-- </transition> -->
-     <!--<loading v-show="!homeData.form.company_p"></loading>-->
   </div>
 </template>
 
@@ -141,8 +140,8 @@
 
 
             _this.homeData.s_log_back = res.data.data.wzpCompany.companyUrl
-            _this.homeData.img_list = res.data.data.fileInfoList
-            _this.homeData.img_list_1 = res.data.data.fileInfoList[0].url
+            _this.homeData.img_list_1 = res.data.data.fileInfoList ? res.data.data.fileInfoList[0].url : _this.imageUrl3
+
             _this.homeData.content = res.data.data.wzpCompany.description
             _this.homeData.bigLogo = res.data.data.wzpCompany.companyHeadImg
             _this.homeData.wzpPositionList = res.data.data.recruitmentCountList.result
@@ -301,6 +300,7 @@
         border-top: 1px solid #dddfe3
         color: #5c6170
       }
+
     }
 
     #app {
@@ -319,7 +319,46 @@
         width:100%;
         transition: all .8s cubic-bezier(.55,0,.1,1);
       }
-
+    }
+    /*弹窗*/
+    .cares{
+      .care-content{
+        .box-inner{
+          overflow: hidden;
+          border-radius: 4px;
+          background: #fff;
+          padding: 10px;
+          .box-header{
+            position: relative;
+            min-height: 16px;
+            .close{
+              position: absolute;
+              right: 0;
+              top: 0;
+              font-size: 18px;
+            }
+          }
+          .box-body{
+            text-align: center;
+            padding-top: 16px;
+            margin-bottom: 20px;
+            color: #787e85;
+            .follow{
+              position: relative;
+              overflow: hidden;
+              .img{
+                display: block;
+                width: 4.6rem;
+                height: 4.6rem;
+                margin: 0 auto;
+              }
+              .text{
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
     }
   }
 </style>

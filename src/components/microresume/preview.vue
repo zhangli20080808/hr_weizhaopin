@@ -29,7 +29,7 @@
         <li>{{workHistory.position}}</li>
       </ul>
       <div style="padding:15px">
-        <x-button class="btn" @click.native="sendResume">立即投递</x-button>
+        <x-button class="btn" @click.native="sendResume" :show-loading="btnLoading">立即投递</x-button>
       </div>
     </group>
   </div>
@@ -53,8 +53,11 @@
           workHistoryList:[],
         },
         professional:['博士','研究生','本科','大专','其他'],
-        shareOpenId:this.$route.query.shareOpenId,
-        recomType:this.$route.query.recomType
+        shareFansId:this.$route.query.shareFansId,
+        fansId:this.$route.query.fansId,
+        recomType:this.$route.query.recomType,
+        btnLoading:false,
+        companyId:this.$route.query.companyId,
       }
     },
     mounted(){
@@ -68,17 +71,26 @@
       },
       sendResume(){
         var self=this;
-        console.log(self.shareOpenId,"shareOpenId")
+        if(self.btnLoading){
+          return
+        }else{
+          self.btnLoading=true;
+        }
         var method="recruitPosition/submitInterivewApplicationNew",
             param=JSON.stringify({
               interviewResumeInfo:self.interviewResumeInfo,
-              shareOpenId:self.shareOpenId,
-              recomType:self.recomType
+              shareFansId:self.shareFansId,
+              recomType:self.recomType,
+              fansId:self.fansId
             }),
             successd=function (res) {
-                  self.$router.push({path:'/results',query:{type:res.data.data}});
-              };
-        self.$http(method,param,successd);
+                self.$router.push({path:'/results',query:{type:res.data.data,companyId:self.companyId,fansId:self.fansId}});
+            },
+            c=function(res){
+              self.btnLoading=false;
+              alert("投递失败,请联系分享人");
+            };
+        self.$http(method,param,successd,c);
       }
     },
     components:{

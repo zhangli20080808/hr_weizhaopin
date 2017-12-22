@@ -1,151 +1,184 @@
 <template>
   <div class="home">
 
-  <div v-if="companyName">
-    <!--导航-->
-    <!--轮播-->
-    <div class="main_ad" v-show="homeData.img_list_1">
-      <div class="carousel-inner1">
-        <!--我们的data属性来保存我们要的数据,没有任何功能-->
-        <div class="item " :style="bgStyle">
-          <!--<img :src="homeData.img_list_1" alt="">-->
-          <div class="item_text">
-            <div class="title" v-show="homeData.form.title">{{homeData.form.title}}
+    <div v-show="companyName">
+      <!--导航-->
+      <!--轮播-->
+      <div class="main_ad">
+        <div class="carousel-inner1">
+          <!--我们的data属性来保存我们要的数据,没有任何功能-->
+          <div class="item " :style="bgStyle">
+            <!--<img :src="homeData.img_list_1" alt="">-->
+            <div class="item_text">
+              <div class="title">{{homeData.form.title}}
 
 
 
-            </div>
-            <div class="des">{{homeData.form.subTitle}}</div>
-            <div class="search-1BHuC hidden-sm hidden-lg" v-show="homeData.img_list_1">
-              <div class="container-28cVH">
-                <input type="text" class="input-1WRwm" placeholder="搜索职位关键字" v-model="search" @keyup.enter="goSearch">
-                <span class="_1SIiK _13ysA button-1UN4f custom-icon-background-color" @click="goSearch"></span>
+
+
+
+              </div>
+              <div class="des">{{homeData.form.subTitle}}</div>
+              <div class="search-1BHuC hidden-sm hidden-lg" v-show="homeData.img_list_1">
+                <div class="container-28cVH">
+                  <input type="text" class="input-1WRwm" placeholder="搜索职位关键字" v-model="search" @keyup.enter="goSearch">
+                  <span class="_1SIiK _13ysA button-1UN4f custom-icon-background-color" @click="goSearch"></span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <split></split>
-    <!--公司简介-->
-    <div class="s_company hidden-xs">
-      <img class="c_img" v-show="homeData.bigLogo" :src="homeData.bigLogo">
-      <div class="text">{{homeData.form.company_name}}</div>
-      <p class="text1">{{homeData.form.company_p}}</p>
-      <p class="text2">{{homeData.form.company_address}}</p>
-      <div class="line"></div>
-      <ul class="icon_list clearfix">
-        <li>
-          <div class="grid-content bg-purple">
-            <i class="icon1"></i><span>{{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}}</span>
-          </div>
-        </li>
-        <li>
-          <div class="grid-content bg-purple-light">
-            <i
-              class="icon2"></i><span>{{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</span>
-          </div>
-        </li>
-        <li>
-          <div class="grid-content bg-purple">
-            <i class="icon3"></i><span>{{homeData.website}}</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <!--<button @click="push">about</button>-->
-
-    <!--公司简介-->
-    <div class="m_s_company hidden-sm hidden-lg" v-show="homeData.form.company_name">
-      <img :src="homeData.bigLogo" class="item-logo" alt="">
-      <div class="item-desc" v-show="homeData.form.company_name">
-        <div class="care">关注</div>
-        <h2 class="item-title">{{homeData.form.company_name}}</h2>
-        <p class="item-info">
-          <span class="item-pos">
-            {{homeData.form.company_p}}
-          </span></p>
-        <p class="item-time">
-          {{homeData.form.company_address}}  | {{homeData.website}} | {{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}} | {{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</p>
+      <split v-if="homeData.form.company_name"></split>
+      <!--公司简介-->
+      <div class="s_company hidden-xs">
+        <img class="c_img" v-show="homeData.bigLogo" :src="homeData.bigLogo">
+        <div class="text">{{homeData.form.company_name}}</div>
+        <p class="text1">{{homeData.form.company_p}}</p>
+        <p class="text2">{{homeData.form.company_address}}</p>
+        <div class="line"></div>
+        <ul class="icon_list clearfix">
+          <li>
+            <div class="grid-content bg-purple">
+              <i class="icon1"></i><span>{{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}}</span>
+            </div>
+          </li>
+          <li>
+            <div class="grid-content bg-purple-light">
+              <i
+                class="icon2"></i><span>{{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</span>
+            </div>
+          </li>
+          <li>
+            <div class="grid-content bg-purple">
+              <i class="icon3"></i><span>{{homeData.website}}</span>
+            </div>
+          </li>
+        </ul>
       </div>
-    </div>
-    <split></split>
-    <!--公司介绍-->
-    <div class="intro_c" id="2F" v-show="homeData.content">
-      <div class="title" v-show="homeData.customName2">
-        <div class="text">{{homeData.customName2}}
-
-          <span class="line hidden-xs"></span>
+      <!--公司简介-->
+      <div class="m_s_company hidden-sm hidden-lg">
+        <img :src="homeData.bigLogo" class="item-logo" alt="">
+        <div class="item-desc" v-show="homeData.form.company_name">
+          <div class="care" v-if="isAuthorization!==0" :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
+            <div class="g-ghost-btn" @click="goCare">
+              <div class="btn-text">
+                {{isAuthorization == 1 ? '已关注' : '关注'}}
+              </div>
+            </div>
+          </div>
+          <!--<div class="care">{{isAuthorization == 1 ? '已关注' : '关注'}}</div>-->
+          <h2 class="item-title">{{homeData.form.company_name}}</h2>
+          <p class="item-info">
+            <span class="item-pos">
+              {{homeData.form.company_p}}
+            </span></p>
+          <p class="item-time">
+            {{homeData.form.company_address}}  | {{homeData.website}} | {{options[homeData.num - 1] ? options[homeData.num - 1].label : ''}} | {{s_options[homeData.kindt - 1] ? s_options[homeData.kindt - 1].label : ''}}</p>
         </div>
       </div>
-
-      <div class="intro_c_con container">
-        <!--<div class="img"></div>-->
-        <div class="intro_text" v-html="homeData.content">
-        </div>
-      </div>
-    </div>
-    <split></split>
-    <!--招聘职位-->
-    <div id="1F" class="s_recruit hidden-xs" v-show="homeData.wzpPositionList">
-      <div class="container">
+      <split v-if="homeData.form.company_name"></split>
+      <!--公司介绍-->
+      <div class="intro_c" id="2F" v-if="companyName">
         <div class="title">
-          <div class="text" v-if="homeData.customName1">{{homeData.customName1}}
+          <div class="text">{{homeData.customName2}}
 
             <span class="line hidden-xs"></span>
           </div>
         </div>
-        <el-row :gutter="20" class="list_content">
-          <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in homeData.wzpPositionList"
-                  :key="item.categoryId">
-            <div class="grid-content bg-purple" @click="SelectTo(item)">
-              <div class="content">
-                <p class="des">{{item.name}}</p>
-                <span class="text">在招职位</span>
-                <span class="num">{{item.recruitmentNum}}</span>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-    <!--m招聘职位-->
-    <div class="job-list hidden-sm hidden-lg">
-      <div class="head" v-show="homeData.customName1">
-        <div class="title">{{homeData.customName1}}</div>
-        <div class="allR">
-          <span @click="toList">{{getAllRecruit}}</span>
-          <span class="icon"></span>
+
+        <div class="intro_c_con container">
+          <!--<div class="img"></div>-->
+          <div class="intro_text" v-html="homeData.content">
+          </div>
         </div>
       </div>
-      <ul>
-        <li class="aggregation" v-for="item in homeData.wzpPositionList">
-          <div class="column" @click="SelectTo(item)">
-            <div class="column1">
-              <div class="aggregation-icon"></div>
+      <split v-if="homeData.form.company_name"></split>
+      <!--招聘职位-->
+      <div id="1F" class="s_recruit hidden-xs" v-show="homeData.wzpPositionList">
+        <div class="container">
+          <div class="title">
+            <div class="text" v-if="homeData.customName1">{{homeData.customName1}}
+
+              <span class="line hidden-xs"></span>
             </div>
-            <div class="column2">
-              <div class="primary">{{item.name}}</div>
-              <div class="summary"><span
-                class="custom-text-theme-color">{{item.recruitmentNum}}</span><span>个职位正在招聘</span></div>
-            </div>
-            <!--<div class="column3">-->
-            <!--<span class="_1SIiK VrnQG"></span>-->
-            <!--</div>-->
           </div>
-        </li>
-      </ul>
+          <el-row :gutter="20" class="list_content">
+            <el-col :span="8" :xs="12" :sm="8" :md="8" :lg="8" v-for="item in homeData.wzpPositionList"
+                    :key="item.categoryId">
+              <div class="grid-content bg-purple" @click="SelectTo(item)">
+                <div class="content">
+                  <p class="des">{{item.name}}</p>
+                  <span class="text">在招职位</span>
+                  <span class="num">{{item.recruitmentNum}}</span>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
+      <!--m招聘职位-->
+      <div class="job-list hidden-sm hidden-lg">
+        <div class="head" v-show="homeData.customName1">
+          <div class="title">{{homeData.customName1}}</div>
+          <div class="allR">
+            <span @click="toList">{{getAllRecruit}}</span>
+            <span class="icon"></span>
+          </div>
+        </div>
+        <ul>
+          <li class="aggregation" v-for="item in homeData.wzpPositionList">
+            <div class="column" @click="SelectTo(item)">
+              <div class="column1">
+                <div class="aggregation-icon"></div>
+              </div>
+              <div class="column2">
+                <div class="primary">{{item.name}}</div>
+                <div class="summary"><span
+                  class="custom-text-theme-color">{{item.recruitmentNum}}</span><span>个职位正在招聘</span></div>
+              </div>
+              <!--<div class="column3">-->
+              <!--<span class="_1SIiK VrnQG"></span>-->
+              <!--</div>-->
+            </div>
+          </li>
+        </ul>
+      </div>
+      <footerNav v-show="homeData.form.company_name"></footerNav>
     </div>
-    <footerNav v-show="homeData.form.company_name"></footerNav>
-  </div>
     <loading v-show="!companyName"></loading>
+    <!--关注弹窗-->
+    <div v-transfer-dom class="cares">
+      <x-dialog v-model="careQrcode" class="care-content">
+        <div class="box-inner">
+          <div class="box-header">
+            <span class="close iconfont" @click="careQrcode=false">&#xe612;</span>
+          </div>
+          <div class="box-body">
+            <div class="follow">
+              <img class="img" :src="officilQrcodeUrl" style="max-width:100%">
+              <span class="text">长按关注</span>
+            </div>
+          </div>
+        </div>
+        <div @click="careQrcode=false">
+          <span class="vux-close"></span>
+        </div>
+      </x-dialog>
+    </div>
   </div>
 </template>
 <script>
 
   import footerNav from './base/foot'
   import split from './base/split/split.vue'
-  import loading from './base/loading/loading.vue'
+  import loading from './base/loading/loading2.vue'
+  import util from "../common/js/util.js";
+  import Axios from 'axios';
+  import {
+    XDialog,
+    TransferDomDirective as TransferDom
+  } from 'vux'
 
   export default {
     data() {
@@ -207,7 +240,25 @@
         all: [],
         getAllRecruit: '查看全部职位',
         showAll: '全部',
-        companyName:''
+        companyName: '',
+        nonceStr: true,
+        shareOpenId: this.$route.query.shareOpenId || null,
+        // shareOpenId:'oTNQS0ktYqzINgWc5Z9HK_1b__HA',
+        openId: this.$route.query.openId || null,
+        imgUrl: '',
+        title: '',
+        desc: '',
+        //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
+        subcribeMap: {
+          subcribeStatus: ''
+        },
+        careQrcode: false,
+        //企业公众号二维码url
+        officilQrcodeUrl: '',
+        isAuthorization: 0,
+        code: '',
+        careHref: '',
+        redirectUri: ''
       }
     },
     props: {
@@ -216,6 +267,38 @@
       }
     },
     methods: {
+      //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值
+      getCodeUrl(){
+        var _this = this;
+        var method = "subscribeWeChat/getCodeUrl";
+        var param = JSON.stringify({
+          type: 2,
+          companyId: _this.companyId,
+          redirectUri: 'https://aijuhr.com/miniRecruit/#/?companyId=' + _this.companyId + '',
+          code:_this.code
+        });
+        var successd = function (res) {
+          if (res.data.data.codeUrl == '') {
+
+          } else {
+            location.href = res.data.data.codeUrl
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      toCare(){
+
+        var _this = this;
+        var method = "subscribeWeChat/subscribeCompanyWeChat";
+        var param = JSON.stringify({
+          type: 2, companyId: _this.companyId, code: _this.code
+        });
+        var successd = function (res) {
+          _this.isAuthorization = res.data.data.subcribeStatus
+          _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl
+        }
+        _this.$http(method, param, successd);
+      },
       push(){
         this.$router.push({
           name: 'about',
@@ -289,32 +372,135 @@
 
         })
       },
-      //微招聘首页信息
-      _getIndexInfo() {
-        var _this = this;
-        var method = "miniRecruit/getWzpIndexInfo";
-        var param = JSON.stringify({
-          companyId: _this.companyId,
-          type: 2
-        });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-              console.log(res.data.data)
-            _this.companyName = res.data.data.wzpCompany.name
-            document.title = _this.companyName
-          }
+      //获取分享标题
+      getShareTitleInfo(){
+        var self = this;
+        var method = "positionRecommend/getShareTitleInfo",
+          param = JSON.stringify({reqType: 3, companyId: self.companyId}),
+          successd = function (res) {
+            console.log(res.data)
+            self.imgUrl = res.data.data.imgUrl;
+            self.title = res.data.data.title;
+            self.desc = res.data.data.desc;
+            self.companyName = res.data.data.companyName
+            document.title = self.companyName;
+            self.getSignature();
+          };
+        self.$http(method, param, successd);
+      },
+      getSignature(){
+        var self = this;
+        Axios.post(util.wxSignature, 'url=' + encodeURIComponent(location.href.split('#')[0]))
+          .then(function (res) {
+            self.$wechat.config({
+              debug: false,
+              appId: res.data.appid,
+              timestamp: res.data.timestamp,
+              nonceStr: res.data.noncestr,
+              signature: res.data.signature,
+              jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+                'hideMenuItems',
+                'showMenuItems',
+                'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem',
+                'translateVoice',
+                'startRecord',
+                'stopRecord',
+                'onVoiceRecordEnd',
+                'playVoice',
+                'onVoicePlayEnd',
+                'pauseVoice',
+                'stopVoice',
+                'uploadVoice',
+                'downloadVoice',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'hideOptionMenu',
+                'showOptionMenu',
+                'closeWindow',
+                'scanQRCode',
+                'chooseWXPay',
+                'openProductSpecificView',
+                'addCard',
+                'chooseCard',
+                'openCard'
+              ]
+            });
+            self.$wechat.ready(function (res) {
+              //分享给朋友
+              self.$wechat.onMenuShareAppMessage({
+                title: self.title,
+                desc: self.desc,
+                link: 'https://aijuhr.com/miniRecruit/#/?companyId=' + self.companyId,//分享链接
+                imgUrl: self.imgUrl,//分享图标
+                type: '',
+                dataUrl: '',
+                success: function () {
+                  console.log('分享成功1');
+                },
+                cancel: function () {
+                  console.log('用户取消分享后执行的回调函数1');
+                }
+              });
+              //分享朋友圈
+              self.$wechat.onMenuShareTimeline({
+                title: self.title,
+                desc: self.desc,
+                link: 'https://aijuhr.com/miniRecruit/#/?companyId=' + self.companyId,//分享链接
+                imgUrl: self.imgUrl,//分享图标
+                success: function () {
+                  console.log('分享成功2');
+                },
+                cancel: function () {
+                  console.log('用户取消分享后执行的回调函数2');
+                }
+              })
+
+            })
+          })
+      },
+      getCompanyId(){
+        let queryParam = this.urlParse();
+        this.companyId = queryParam.companyId
+        return this.companyId;
+      },
+      getCode(){
+        let queryParam = this.urlParse();
+
+        this.code = queryParam.code
+        return this.code;
+      },
+      goCare(){
+        if (this.isAuthorization == 1) {
+          return
         }
-        _this.$http(method, param, successd);
+        this.careQrcode = true
       },
     },
     created(){
-      setTimeout(() => {
-        this.all = ''
-        localStorage.setItem('companyId', this.companyId)
-        this._getIndexInfo()
-          localStorage.clear()
+      this.$nextTick(() => {
 
-      }, 20)
+        this.getCode()
+        this.getCodeUrl()
+        this.toCare()
+        this.getShareTitleInfo();
+        this.all = ''
+        // this.getSignature();
+        window.scrollTo(0, 1);
+        window.scrollTo(0, 0);
+        localStorage.clear()
+      })
     },
     computed: {
       bgStyle() {
@@ -324,13 +510,19 @@
     components: {
       footerNav,
       split,
+      XDialog,
       loading
+    },
+    directives: {
+      TransferDom
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../components/css/main.css";
+
   .home {
     [v-cloak] {
       display: none;
@@ -633,10 +825,13 @@
                 text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
               }
               .search-1BHuC {
-                margin: 0.16rem auto;
-                margin-top: 0.46rem
                 width: 80%;
                 pointer-events: auto;
+                position: absolute;
+                display: block;
+                margin-left: -40%;
+                bottom: 10px;
+                left: 50%;
               }
               .container-28cVH {
                 display: -webkit-box;
@@ -801,7 +996,6 @@
             position: absolute
             right: 8px
             top: 0
-            border: 1px solid #999
             padding: 5px
             border-radius: 4px
             margin-top: 0.25rem;
@@ -892,7 +1086,7 @@
               margin-top: 0;
               font-size: 0.28rem;
               color: #5c6170;
-              line-height: 20px;
+              line-height: 22px;
             }
             p:nth-child(1) {
               text-indent: 0
@@ -1089,6 +1283,59 @@
         }
       }
 
+      /*弹窗*/
+      .cares {
+        .care-content {
+          .box-inner {
+            overflow: hidden;
+            border-radius: 4px;
+            background: #fff;
+            padding: 10px;
+            .box-header {
+              position: relative;
+              min-height: 16px;
+              .close {
+                position: absolute;
+                right: 0;
+                top: 0;
+                font-size: 18px;
+              }
+            }
+            .box-body {
+              text-align: center;
+              padding-top: 16px;
+              margin-bottom: 20px;
+              color: #787e85;
+              .follow {
+                position: relative;
+                overflow: hidden;
+                .img {
+                  display: block;
+                  width: 4.6rem;
+                  height: 4.6rem;
+                  margin: 0 auto;
+                }
+                .text {
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+        }
+      }
+      .g-ghost-white-btn {
+        background-color: transparent;
+        color: #abb4c3;
+        border-color: #abb4c3;
+        border: 1px solid #abb4c3
+      }
+
+      .social-btn {
+        background-color: transparent;
+        border-color: #66a4f9!important;
+        color: #66a4f9!important;
+        border: 1px solid #66a4f9!important;
+      }
     }
   }
 

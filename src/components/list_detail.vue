@@ -76,8 +76,8 @@
       <i class="icon" @click="back"></i>
       <h2 class="title">职位详情</h2>
     </div> -->
-    <scroller lock-x>
-    <div class="container hidden-sm hidden-lg">
+    <scroller lock-x class="hidden-sm hidden-lg">
+    <div class="container ">
       <div>
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
@@ -259,26 +259,12 @@
     created() {
       var ua = navigator.userAgent.toLowerCase();
       var isWeixin = ua.indexOf('micromessenger') != -1;
-      if(isWeixin){
-        if(this.$route.query.is_auth==0){
-          //没有静默授权成功
-          // console.log("授权失败");
-          this.getCode('snsapi_userinfo');
-        }else if(this.$route.query.is_auth==1){
-          //授权成功
-          // console.log("授权成功");
-          this.getSignature();
-        }else{
-          // console.log("开始请求");
-          this.getCode('snsapi_userinfo');
-          return false;
-        }
-      }
     },
     mounted(){
       this.probeType = 3
       this.listenScroll = true
-      this._getDetail()
+      this._getDetail();
+      // this.getSignature();
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId;
         localStorage.companyId=this.companyId;
@@ -288,31 +274,10 @@
       }
       if (this.$route.name !== 'home') {
         this.hiddens = false
-//          document.getElementById('list_detail').style.paddingTop = 0
       }
       this.getShareTitleInfo();
     },
     methods: {
-      //获取微信的code
-      getCode(scope){
-        var self=this;
-        Axios.post(util.wxUrl,'companyId='+self.companyId+'&scope='+scope+'&positionId='+self.positionId+'&shareOpenId='+self.shareOpenId+'&recomType=2')
-        .then(function(res){
-          console.log(res);
-          if(res.data.userExsitSession==2){
-            location.href=res.data.code_url;
-          }else if(res.data.userExsitSession==1){
-            self.openId=res.data.openId;
-            // if(self.shareOpenId==""||!self.shareOpenId){
-            //   self.shareOpenId=self.openId;
-            // }
-            self.getSignature();
-            if(self.openId==''){
-              self.$router.push({name:'listDetail',query:{companyId:self.companyId,openId:self.openId,positionId:self.positionId,shareOpenId:self.shareOpenId}});
-            }
-          }
-        })
-      },
       getSignature(){
         var self=this;
         Axios.post(util.wxSignature,'url='+encodeURIComponent(location.href.split('#')[0]))
@@ -367,7 +332,7 @@
             self.$wechat.onMenuShareAppMessage({
               title:self.title,
               desc:self.desc,
-              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&shareOpenId="+self.openId+"&positionId="+self.positionId,//分享链接
+              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&positionId="+self.positionId,//分享链接
               imgUrl:self.imgUrl,//分享图标
               type:'',
               dataUrl:'',
@@ -383,7 +348,7 @@
             self.$wechat.onMenuShareTimeline({
               title:self.title,
               desc:self.desc,
-              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&shareOpenId="+self.openId+"&positionId="+self.positionId,//分享链接
+              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&positionId="+self.positionId,//分享链接
               imgUrl:self.imgUrl,//分享图标
               success:function(){
                 console.log('分享成功2');
@@ -436,7 +401,7 @@
       join() {
         var self=this;
         if (document.body.clientWidth<550) {
-          self.$router.push({path:'/addResume',query:{id:this.positionId,shareOpenId:self.shareOpenId,recomType:2,companyId:self.companyId}})
+          self.$router.push({path:'/addResume',query:{id:this.positionId,companyId:self.companyId}})
           return;
         }
         self.$router.push({
@@ -444,8 +409,6 @@
           query: {
             companyId: self.companyId,
             id:self.positionId,
-            shareOpenId:self.shareOpenId,
-            recomType:2
           }
 
         })
@@ -520,6 +483,7 @@
               self.imgUrl=res.data.data.imgUrl;
               self.title=res.data.data.title;
               self.desc=res.data.data.desc;
+              self.getSignature();
             };
         self.$http(method,param,successd);
       },
@@ -673,7 +637,7 @@
           width: 100%
           height: 100px
           line-height: 100px
-          color: #5c6170 999
+          color: #5c6170
           font-size: 28px
           margin: 0 auto
           background: url(../common/image/footer_logo.png) no-repeat center
@@ -787,11 +751,10 @@
         .detail_text
           width: 100%;
           background: #fff;
-          margin-top: 0.4rem
           padding: 0;
-          padding-bottom :1.12rem
+          padding-bottom :0.4rem
           .detail_content
-            padding: 0.39rem 0.32rem 0.3rem 0.27rem
+            padding: 0.2rem 0.32rem 0.3rem 0.27rem
             color: #1F2D3D
             font-size: 0.28rem
             .title

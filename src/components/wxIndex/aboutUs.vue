@@ -1,7 +1,7 @@
 <template>
 
   <!--模板-->
-  <div class="g-container" id="aboutUs" v-show="preCompanyWebsite.logoUrl">
+  <div class="g-container" id="aboutUs">
     <div class="company-profile">
       <div class="g-card profile-header">
         <!--banner-->
@@ -15,14 +15,17 @@
             <div class="template-company">
               <h3 class="info-title g-oneline-text">{{preCompanyWebsite.name}}</h3>
               <div class="description">{{preCompanyWebsite.slogan}}</div>
-              <!--<div class="action" v-if="isAuthorization==0">-->
-                <!--<div class="g-ghost-btn" @click="goCare"-->
-                     <!--:class="{'social-btn':isCare==1,'g-ghost-white-btn':isCare==0}">-->
-                  <!--<div class="btn-text">-->
-                    <!--{{isCare == 0 ? '已关注' : '关注'}}-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
+              <div class="action" v-if="isAuthorization!==0">
+                <div class="g-ghost-btn" @click="goCare"
+                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
+                  <div class="btn-text">
+                    {{isAuthorization == 1 ? '已关注' : '关注'}}
+
+
+
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -57,6 +60,9 @@
                                   <div class="gamma-description">
 
                                     {{item.description}}
+
+
+
 
 
 
@@ -108,6 +114,9 @@
 
 
 
+
+
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -148,6 +157,9 @@
 
 
 
+
+
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -168,11 +180,11 @@
       <x-dialog v-model="careQrcode" class="care-content">
         <div class="box-inner">
           <div class="box-header">
-            <span class="close iconfont" @click="careQrcode=false">&#xe612;</span>
+            <span class="close" @click="careQrcode=false">x</span>
           </div>
           <div class="box-body">
             <div class="follow">
-              <img class="img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1859350418,3867843756&fm=173&s=A6829547065225C642DD98A20300B003&w=480&h=320&img.JPEG" style="max-width:100%">
+              <img class="img" :src="officilQrcodeUrl" style="max-width:100%">
               <span class="text">长按关注</span>
             </div>
           </div>
@@ -250,10 +262,16 @@
           let queryParam = this.urlParse();
           return queryParam.companyId;
         })(),
-        //是否关注 0－关注 1-未关注
-        isCare: 1,
+
+        // //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
+        subcribeMap: {
+          subcribeStatus: ''
+        },
         careQrcode: false,
-        isAuthorization: 0
+        //企业公众号二维码url
+        officilQrcodeUrl: '',
+        isAuthorization: 1,
+        code:''
       }
     },
     methods: {
@@ -290,20 +308,25 @@
       //查询微官网
       getCompanyDetail(){
         var _this = this;
-        var method = "companyWeb/getCompanyDetail";
-        var param = JSON.stringify({
-          companyId: _this.companyId
-        });
+        var method = "weixin/getCompanyWebDetail";
+        var param = {
+          companyId: _this.companyId,
+          code: _this.code
+        };
         var successd = function (res) {
-          if (res.data.code == 0) {
-            // console.log(res.data.data)
-            _this.preCompanyWebsite = res.data.data.CompanyWebsite
-            _this.preWorkTeam = res.data.data.WorkTeam
-            _this.WorkEnvironment = res.data.data.WorkEnvironment
-            _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
+          if (res.data.codeUrl == '') {
+            _this.preCompanyWebsite = res.data.CompanyWebsite
+            _this.preWorkTeam = res.data.WorkTeam
+            _this.WorkEnvironment = res.data.WorkEnvironment
+            _this.preCompanyMemorabilia = res.data.CompanyMemorabilia
+            _this.isAuthorization = res.data.subcribeMap.subcribeStatus
+            _this.officilQrcodeUrl = res.data.subcribeMap.officilQrcodeUrl
+          } else {
+            _this.careHref = res.data.codeUrl
+            location.href = _this.careHref
           }
         }
-        _this.$http(method, param, successd);
+        _this.$webHttp(method, param, successd);
       },
       teamworkDeatil(){
         this.$router.push({
@@ -321,9 +344,12 @@
         var method = "positionRecommend/getShareTitleInfo",
           param = JSON.stringify({reqType: 3, companyId: self.companyId}),
           successd = function (res) {
+            console.log(res.data)
             self.imgUrl = res.data.data.imgUrl;
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
+            document.title = res.data.data.companyName;
+            self.getSignature();
           };
         self.$http(method, param, successd);
       },
@@ -411,19 +437,28 @@
       },
       //是否关注
       goCare(){
-        if (this.isCare == 0) {
+        if (this.isAuthorization == 1) {
           return
         }
         this.careQrcode = true
-
+      },
+      getCode(){
+        let queryParam = this.urlParse();
+        if(!queryParam.code){
+          return
+        }
+        this.code = queryParam.code
+        return this.code;
       }
     },
     created(){
-        this.$nextTick(()=>{
-          this.getSignature();
-          this.getCompanyDetail();
-          this.getShareTitleInfo();
-        })
+      this.$nextTick(() => {
+        this.getCode()
+        this.getCompanyDetail();
+        this.getShareTitleInfo();
+        window.scrollTo(0, 1);
+        window.scrollTo(0, 0);
+      })
     },
     computed: {
       bgStyle() {
@@ -447,6 +482,7 @@
 <style scoped>
   @import "../../common/stylus/swiper.css";
   @import "../../components/css/main.css";
+
   .g-container {
     position: relative;
     z-index: 2;
@@ -514,34 +550,45 @@
     background: #fff;
     padding: 10px;
   }
-  .cares .care-content .box-inner .box-header{
+
+  .cares .care-content .box-inner .box-header {
     position: relative;
     min-height: 16px;
   }
-  .cares .care-content .box-inner .box-body{
+
+  .cares .care-content .box-inner .box-body {
     text-align: center;
     padding-top: 16px;
     margin-bottom: 20px;
     color: #787e85;
   }
-  .cares .care-content .box-inner .box-body .follow{
+
+  .cares .care-content .box-inner .box-body .follow {
     position: relative;
     overflow: hidden;
   }
-  .cares .care-content .box-inner .box-body .follow .img{
-    width: 100%;
-    height: auto;
-  }
-  .cares .care-content .box-inner .box-body .follow .text{
-    font-size: 14px;
-  }
-  .cares .care-content .box-inner .box-header .close{
-    position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 18px;
+
+  .cares .care-content .box-inner .box-body .follow .img {
+    display: block;
+    width: 4.6rem;
+    height: 4.6rem;
+    margin: 0 auto;
   }
 
+  .cares .care-content .box-inner .box-body .follow .text {
+    font-size: 14px;
+  }
+
+  .cares .care-content .box-inner .box-header .close {
+    position: absolute;
+    display: block;
+    right: 0;
+    top: 0;
+    font-size: 25px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
 
   .g-container .company-profile {
     position: relative;
@@ -578,7 +625,7 @@
 
   .g-container .company-profile .g-card .header-main {
     padding-top: 44px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
   }
 
   .g-container .company-profile .g-card .header-main .header-icon {
@@ -632,7 +679,7 @@
   }
 
   .g-container .company-profile .g-card .header-main .header-info .template-company .action {
-    margin-top: 22px;
+    margin-top: 10px;
     margin-bottom: 8px;
   }
 
@@ -800,7 +847,7 @@
   }
 </style>
 <style>
-  #aboutUs .cares .care-content .weui-dialog{
-    max-width: 251px!important;
+  #aboutUs .cares .care-content .weui-dialog {
+    max-width: 251px !important;
   }
 </style>

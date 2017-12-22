@@ -11,7 +11,7 @@
   @media all and (max-width: 767px) {
     .split {
       width: 100%;
-      height: 0.4rem;
+      height: 0.32rem;
       background: #f2f2f5;
     }
   }

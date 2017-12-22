@@ -74,7 +74,6 @@
 
   export default {
     data(){
-      document.title = '我们的团队';
       return {
         companyId: '',
         WorkTeam: []
@@ -111,10 +110,8 @@
       this.$nextTick(() => {
         this.companyId = this.$route.query.companyId
         this.getWorkTeam()
+        document.title = '我们的团队'
       })
-    },
-    mounted(){
-
     }
   }
 

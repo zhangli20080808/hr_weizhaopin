@@ -3,10 +3,6 @@ import Util from '../js/util.js';
 import md5 from 'js-md5';
 export default {
   install(Vue, options) {
-    Vue.prototype.getData = function () {
-      console.log('我是插件中的方法');
-    }
-
     Vue.prototype.$http = function (method, param, succeed,errord) {
       var self = this;
       Axios.post(Util.url,
@@ -129,6 +125,19 @@ export default {
       }
       return date;
     })
+
+    // 获取webDetail
+    Vue.prototype.$webHttp=function(method,param,succeed) {
+      var self = this;
+      Axios({
+        method: 'post',
+        url: Util.url.split("/api.do").join("")+'/'+method + '.do',
+        params: param,
+      }).then(function (res) {
+          succeed(res)
+      }).catch(function (err) {
+      });
+    }
     //头像过滤器
     Vue.filter("portrait",function(value){
       console.log(typeof value);
