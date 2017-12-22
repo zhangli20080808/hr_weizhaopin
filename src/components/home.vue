@@ -383,7 +383,8 @@
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
             self.companyName = res.data.data.companyName
-            document.title = self.companyName
+            document.title = self.companyName;
+            self.getSignature();
           };
         self.$http(method, param, successd);
       },
@@ -495,7 +496,7 @@
         this.toCare()
         this.getShareTitleInfo();
         this.all = ''
-        this.getSignature();
+        // this.getSignature();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
         localStorage.clear()

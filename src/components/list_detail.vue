@@ -259,14 +259,12 @@
     created() {
       var ua = navigator.userAgent.toLowerCase();
       var isWeixin = ua.indexOf('micromessenger') != -1;
-      if(isWeixin){
-        this.getSignature();
-      }
     },
     mounted(){
       this.probeType = 3
       this.listenScroll = true
-      this._getDetail()
+      this._getDetail();
+      // this.getSignature();
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId;
         localStorage.companyId=this.companyId;
@@ -276,7 +274,6 @@
       }
       if (this.$route.name !== 'home') {
         this.hiddens = false
-//          document.getElementById('list_detail').style.paddingTop = 0
       }
       this.getShareTitleInfo();
     },
@@ -486,6 +483,7 @@
               self.imgUrl=res.data.data.imgUrl;
               self.title=res.data.data.title;
               self.desc=res.data.data.desc;
+              self.getSignature();
             };
         self.$http(method,param,successd);
       },
