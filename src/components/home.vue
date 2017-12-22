@@ -374,7 +374,6 @@
       },
       //获取分享标题
       getShareTitleInfo(){
-        localStorage.getItem('')
         var self = this;
         var method = "positionRecommend/getShareTitleInfo",
           param = JSON.stringify({reqType: 3, companyId: self.companyId}),
@@ -490,14 +489,15 @@
     },
     created(){
       this.$nextTick(() => {
-        window.scrollTo(0, 1);
-        window.scrollTo(0, 0);
+
         this.getCode()
         this.getCodeUrl()
         this.toCare()
         this.getShareTitleInfo();
         this.all = ''
         this.getSignature();
+        window.scrollTo(0, 1);
+        window.scrollTo(0, 0);
         localStorage.clear()
       })
     },

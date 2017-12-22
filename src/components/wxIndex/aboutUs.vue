@@ -452,12 +452,12 @@
     },
     created(){
       this.$nextTick(() => {
-        window.scrollTo(0, 1);
-        window.scrollTo(0, 0);
         this.getCode()
         this.getCompanyDetail();
-        this.getSignature();
         this.getShareTitleInfo();
+        this.getSignature();
+        window.scrollTo(0, 1);
+        window.scrollTo(0, 0);
       })
     },
     computed: {

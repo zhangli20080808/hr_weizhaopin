@@ -324,7 +324,7 @@
         }],
         Search: '',
         workCityLists: [],
-        companyId: 0,
+        companyId: '',
         list_search: [],
         workCity: [],
         listShow:true,
@@ -614,6 +614,7 @@
         var method = "positionRecommend/getShareTitleInfo",
           param = JSON.stringify({reqType: 1, companyId: self.companyId}),
           successd = function (res) {
+            console.log(res.data.data)
             self.imgUrl = res.data.data.imgUrl;
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
@@ -712,8 +713,6 @@
 
       this.$nextTick(() => {
         console.log(this.$route)
-        this.getSignature();
-        this.getShareTitleInfo();
         let posId = localStorage.getItem('posId')
         let posName = localStorage.getItem('posName')
         let cateName = localStorage.getItem('cateName')
@@ -721,8 +720,10 @@
         let cityName = localStorage.getItem('cityName')
         if (this.$route.query.companyId) {
           this.companyId = this.$route.query.companyId
+          console.log(this.companyId)
         }
-
+        this.getShareTitleInfo();
+        this.getSignature();
         this.getPositionCategoryList()
         this.getCityList()
         this.transitionCityLists()
