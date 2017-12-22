@@ -1,7 +1,7 @@
 <template>
 
   <!--模板-->
-  <div class="g-container" id="aboutUs" v-show="preCompanyWebsite.logoUrl">
+  <div class="g-container" id="aboutUs">
     <div class="company-profile">
       <div class="g-card profile-header">
         <!--banner-->
@@ -180,7 +180,7 @@
       <x-dialog v-model="careQrcode" class="care-content">
         <div class="box-inner">
           <div class="box-header">
-            <span class="close iconfont" @click="careQrcode=false">&#xe612;</span>
+            <span class="close" @click="careQrcode=false">x</span>
           </div>
           <div class="box-body">
             <div class="follow">
@@ -320,6 +320,7 @@
             _this.WorkEnvironment = res.data.WorkEnvironment
             _this.preCompanyMemorabilia = res.data.CompanyMemorabilia
             _this.isAuthorization = res.data.subcribeMap.subcribeStatus
+            _this.isAuthorization = 1
             _this.officilQrcodeUrl = res.data.subcribeMap.officilQrcodeUrl
           } else {
             _this.careHref = res.data.codeUrl
@@ -452,6 +453,8 @@
     },
     created(){
       this.$nextTick(() => {
+        window.scrollTo(0, 1);
+        window.scrollTo(0, 0);
         this.getCode()
         this.getCompanyDetail();
         this.getSignature();
@@ -579,9 +582,13 @@
 
   .cares .care-content .box-inner .box-header .close {
     position: absolute;
+    display: block;
     right: 0;
     top: 0;
-    font-size: 18px;
+    font-size: 25px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
   }
 
   .g-container .company-profile {
@@ -619,7 +626,7 @@
 
   .g-container .company-profile .g-card .header-main {
     padding-top: 44px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
   }
 
   .g-container .company-profile .g-card .header-main .header-icon {
@@ -673,7 +680,7 @@
   }
 
   .g-container .company-profile .g-card .header-main .header-info .template-company .action {
-    margin-top: 22px;
+    margin-top: 10px;
     margin-bottom: 8px;
   }
 

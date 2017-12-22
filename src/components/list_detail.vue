@@ -790,7 +790,7 @@
           padding: 0;
           padding-bottom :0.4rem
           .detail_content
-            padding: 0.39rem 0.32rem 0.3rem 0.27rem
+            padding: 0.2rem 0.32rem 0.3rem 0.27rem
             color: #1F2D3D
             font-size: 0.28rem
             .title

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
 
-    <div v-if="companyName">
+    <div v-show="companyName">
       <!--导航-->
       <!--轮播-->
       <div class="main_ad">
@@ -11,6 +11,9 @@
             <!--<img :src="homeData.img_list_1" alt="">-->
             <div class="item_text">
               <div class="title">{{homeData.form.title}}
+
+
+
 
 
 
@@ -57,7 +60,14 @@
       <div class="m_s_company hidden-sm hidden-lg">
         <img :src="homeData.bigLogo" class="item-logo" alt="">
         <div class="item-desc" v-show="homeData.form.company_name">
-          <div class="care">关注</div>
+          <div class="care" v-if="isAuthorization!==0" :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
+            <div class="g-ghost-btn" @click="goCare">
+              <div class="btn-text">
+                {{isAuthorization == 1 ? '已关注' : '关注'}}
+              </div>
+            </div>
+          </div>
+          <!--<div class="care">{{isAuthorization == 1 ? '已关注' : '关注'}}</div>-->
           <h2 class="item-title">{{homeData.form.company_name}}</h2>
           <p class="item-info">
             <span class="item-pos">
@@ -137,6 +147,25 @@
       <footerNav v-show="homeData.form.company_name"></footerNav>
     </div>
     <loading v-show="!companyName"></loading>
+    <!--关注弹窗-->
+    <div v-transfer-dom class="cares">
+      <x-dialog v-model="careQrcode" class="care-content">
+        <div class="box-inner">
+          <div class="box-header">
+            <span class="close iconfont" @click="careQrcode=false">&#xe612;</span>
+          </div>
+          <div class="box-body">
+            <div class="follow">
+              <img class="img" :src="officilQrcodeUrl" style="max-width:100%">
+              <span class="text">长按关注</span>
+            </div>
+          </div>
+        </div>
+        <div @click="careQrcode=false">
+          <span class="vux-close"></span>
+        </div>
+      </x-dialog>
+    </div>
   </div>
 </template>
 <script>
@@ -146,6 +175,10 @@
   import loading from './base/loading/loading2.vue'
   import util from "../common/js/util.js";
   import Axios from 'axios';
+  import {
+    XDialog,
+    TransferDomDirective as TransferDom
+  } from 'vux'
 
   export default {
     data() {
@@ -207,14 +240,25 @@
         all: [],
         getAllRecruit: '查看全部职位',
         showAll: '全部',
-        companyName:'',
+        companyName: '',
         nonceStr: true,
         shareOpenId: this.$route.query.shareOpenId || null,
         // shareOpenId:'oTNQS0ktYqzINgWc5Z9HK_1b__HA',
         openId: this.$route.query.openId || null,
         imgUrl: '',
         title: '',
-        desc: ''
+        desc: '',
+        //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
+        subcribeMap: {
+          subcribeStatus: ''
+        },
+        careQrcode: false,
+        //企业公众号二维码url
+        officilQrcodeUrl: '',
+        isAuthorization: 0,
+        code: '',
+        careHref: '',
+        redirectUri: ''
       }
     },
     props: {
@@ -223,6 +267,38 @@
       }
     },
     methods: {
+      //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值
+      getCodeUrl(){
+        var _this = this;
+        var method = "subscribeWeChat/getCodeUrl";
+        var param = JSON.stringify({
+          type: 2,
+          companyId: _this.companyId,
+          redirectUri: 'https://aijuhr.com/miniRecruit/#/?companyId=' + _this.companyId + '',
+          code:_this.code
+        });
+        var successd = function (res) {
+          if (res.data.data.codeUrl == '') {
+
+          } else {
+            location.href = res.data.data.codeUrl
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      toCare(){
+
+        var _this = this;
+        var method = "subscribeWeChat/subscribeCompanyWeChat";
+        var param = JSON.stringify({
+          type: 2, companyId: _this.companyId, code: _this.code
+        });
+        var successd = function (res) {
+          _this.isAuthorization = res.data.data.subcribeStatus
+          _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl
+        }
+        _this.$http(method, param, successd);
+      },
       push(){
         this.$router.push({
           name: 'about',
@@ -298,6 +374,7 @@
       },
       //获取分享标题
       getShareTitleInfo(){
+        localStorage.getItem('')
         var self = this;
         var method = "positionRecommend/getShareTitleInfo",
           param = JSON.stringify({reqType: 3, companyId: self.companyId}),
@@ -307,7 +384,7 @@
             self.title = res.data.data.title;
             self.desc = res.data.data.desc;
             self.companyName = res.data.data.companyName
-            document.title =  self.companyName
+            document.title = self.companyName
           };
         self.$http(method, param, successd);
       },
@@ -393,13 +470,34 @@
             })
           })
       },
+      getCompanyId(){
+        let queryParam = this.urlParse();
+        this.companyId = queryParam.companyId
+        return this.companyId;
+      },
+      getCode(){
+        let queryParam = this.urlParse();
+
+        this.code = queryParam.code
+        return this.code;
+      },
+      goCare(){
+        if (this.isAuthorization == 1) {
+          return
+        }
+        this.careQrcode = true
+      },
     },
     created(){
-      this.$nextTick(()=>{
-        this.all = ''
-        localStorage.setItem('companyId', this.companyId)
-        this.getSignature();
+      this.$nextTick(() => {
+        window.scrollTo(0, 1);
+        window.scrollTo(0, 0);
+        this.getCode()
+        this.getCodeUrl()
+        this.toCare()
         this.getShareTitleInfo();
+        this.all = ''
+        this.getSignature();
         localStorage.clear()
       })
     },
@@ -411,13 +509,19 @@
     components: {
       footerNav,
       split,
+      XDialog,
       loading
+    },
+    directives: {
+      TransferDom
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../components/css/main.css";
+
   .home {
     [v-cloak] {
       display: none;
@@ -891,7 +995,6 @@
             position: absolute
             right: 8px
             top: 0
-            border: 1px solid #999
             padding: 5px
             border-radius: 4px
             margin-top: 0.25rem;
@@ -1179,6 +1282,59 @@
         }
       }
 
+      /*弹窗*/
+      .cares {
+        .care-content {
+          .box-inner {
+            overflow: hidden;
+            border-radius: 4px;
+            background: #fff;
+            padding: 10px;
+            .box-header {
+              position: relative;
+              min-height: 16px;
+              .close {
+                position: absolute;
+                right: 0;
+                top: 0;
+                font-size: 18px;
+              }
+            }
+            .box-body {
+              text-align: center;
+              padding-top: 16px;
+              margin-bottom: 20px;
+              color: #787e85;
+              .follow {
+                position: relative;
+                overflow: hidden;
+                .img {
+                  display: block;
+                  width: 4.6rem;
+                  height: 4.6rem;
+                  margin: 0 auto;
+                }
+                .text {
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+        }
+      }
+      .g-ghost-white-btn {
+        background-color: transparent;
+        color: #abb4c3;
+        border-color: #abb4c3;
+        border: 1px solid #abb4c3
+      }
+
+      .social-btn {
+        background-color: transparent;
+        border-color: #66a4f9!important;
+        color: #66a4f9!important;
+        border: 1px solid #66a4f9!important;
+      }
     }
   }
 

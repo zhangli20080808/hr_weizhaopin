@@ -300,6 +300,7 @@
         border-top: 1px solid #dddfe3
         color: #5c6170
       }
+
     }
 
     #app {
@@ -318,7 +319,46 @@
         width:100%;
         transition: all .8s cubic-bezier(.55,0,.1,1);
       }
-
+    }
+    /*弹窗*/
+    .cares{
+      .care-content{
+        .box-inner{
+          overflow: hidden;
+          border-radius: 4px;
+          background: #fff;
+          padding: 10px;
+          .box-header{
+            position: relative;
+            min-height: 16px;
+            .close{
+              position: absolute;
+              right: 0;
+              top: 0;
+              font-size: 18px;
+            }
+          }
+          .box-body{
+            text-align: center;
+            padding-top: 16px;
+            margin-bottom: 20px;
+            color: #787e85;
+            .follow{
+              position: relative;
+              overflow: hidden;
+              .img{
+                display: block;
+                width: 4.6rem;
+                height: 4.6rem;
+                margin: 0 auto;
+              }
+              .text{
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
     }
   }
 </style>

@@ -132,7 +132,7 @@
     </div>
 
     <div class="result hidden-sm hidden-lg">
-      <scroller lock-x height="-38" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" style="height: 100%">
+      <scroller lock-x height="-38" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" style="height: 94%">
 
         <ul class="job-list__list">
           <div class="job-filter hidden-sm hidden-lg ">
