@@ -6,6 +6,7 @@
       <div class="wrap">
         <Swiper id="swiper" :interval="2000" :height="height100"  direction="vertical" :show-dots="false" v-model="swiper_index" @on-index-change="swiper_onIndexChange">
             <swiper-item>
+                <div class="theme">{{ h5.theme }}</div>
                 <img class="title" src="../components/images/bgh5.1.png" alt="">
                 <img class="ship" src="../components/images/ship.png" alt="">
             </swiper-item>
@@ -13,8 +14,8 @@
                  <div class="companyIntro">
                     <img src="../components/images/intro.png" class="intro" alt="公司简介">
                     <div class="content">
-                        <div> 电商宝（杭州爱聚科技有限公司），是一家专门从事电商企业数据产品开发的科技创新公司，创始团队组建于2012年。我们诞生在信息社会从IT走向DT（Data technology），从电商单一渠道、粗放经营走向电商全渠道精细化经营的背景下，</div>
-                    　  <img src="../components/images/go.png" class="introImg" alt="公司简介">
+                         <div v-html="h5.companyDescription"></div>
+                        <img :src="h5.companyImageUrl" class="introImg">
                     </div>　
                 </div>
              </swiper-item>
@@ -23,7 +24,12 @@
                     <img src="../components/images/position.png" class="intro" alt="在招职位">
                     <div class="content">
                         <ul>
-                            <li>
+                            <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click=toDetial(item)>
+                                <div class="positionName">{{item.positionName}}</div>
+                                <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
+                                <img  class="details" src="../components/images/details.png" alt="详情">
+                            </li>
+                            <!-- <li>
                                 <div class="positionName">行政/和人力资源行政副总裁...</div>
                                 <div class="positionIntroduce">杭州/全职 20k-40k</div>
                                 <img  class="details" src="../components/images/details.png" alt="详情">
@@ -37,12 +43,12 @@
                                 <div class="positionName">行政/和人力资源行政副总裁...</div>
                                 <div class="positionIntroduce">杭州/全职 20k-40k</div>
                                 <img  class="details" src="../components/images/details.png" alt="详情">
-                            </li>
+                            </li> -->
                         </ul>
                     </div>　
                 </div>
              </swiper-item>
-              <swiper-item>
+              <!-- <swiper-item>
                  <div class="positionDetial">
                     <img src="../components/images/position.png" class="intro" alt="在招职位">
                     <div class="content">
@@ -76,7 +82,7 @@
                         <img src="../components/images/btnRight.png" alt="">
                     </div>
                 </div>
-             </swiper-item>
+             </swiper-item> -->
              <swiper-item>
                  <div class="companyDetial">
                     <img src="../components/images/1.png" class="topLeft" alt="公司简介">
@@ -86,15 +92,15 @@
                         <ul>
                             <li>
                                 <img src="../components/images/2.png" alt="">
-                                <p>杭州西湖区文一西路与崇义路交叉口公元里7幢6楼</p>
+                                <p>{{ h5.companyAddress }}</p>
                             </li>
                             <li>
                                 <img src="../components/images/3.png" alt="">
-                                <p>057-67988898</p>
+                                <p>{{ h5.activityPhone }}</p>
                             </li>
                             <li>
                                 <img src="../components/images/4.png" alt="">
-                                <p>266277728@qq.com</p>
+                                <p> {{ h5.activityEmail }}</p>
                             </li>
                         </ul>
                     </div>　
@@ -105,7 +111,6 @@
       </div>
   </div>
 </template>
-
 
 <script>
 // import {swiper, swiperSlide} from 'vue-awesome-swiper'
@@ -140,10 +145,34 @@ export default {
         imgSrc: imgSrc2,
         height100:0,
         timer: '',
-
+        weActivityId: '',
+        companyId: '',
+        positionList: '',
+        value3: '',
+        data: {},
+        h5: {
+            theme: '',
+            recruitingPositionList: '',
+            titleDescription: '',
+            companyAddress: '',
+            activityEmail: '',
+            companyDescription: '',
+            companyImageUrl: '',
+            companyImageId: '',
+            activityPhone: ''
+        }
     };
   },
   methods: {
+    toDetial(item){
+        this.$router.push({
+            name: 'listDetail',
+            query: {
+                companyId: this.companyId,
+                positionId:item.id,
+            }
+    })
+    },
     swiper_onIndexChange(index){
         if(index == 0){
             this.imgSrc = imgSrc2
@@ -182,7 +211,6 @@ export default {
             context.clearRect(0, 0, canvas.width, canvas.height);
             contextBuffer.clearRect(0, 0, canvasBuffer.width, canvasBuffer.height);
             x = 0;
-            
             this.timer = setInterval(() =>{
                 this.animation(), SECONDS_BETWEEN_FRAMES
         })
@@ -205,22 +233,42 @@ export default {
         contextBuffer.drawImage(image, left, 0, d0, HEIGHT, dx, dy, d0, HEIGHT);
         contextBuffer.drawImage(image, 0, 0, d1, HEIGHT,dx + d0,dy, d1,HEIGHT);
       } else {
-        contextBuffer.drawImage(
-          image,
-          left,
-          0,
-          WIDTH,
-          HEIGHT,
-          dx,
-          dy,
-          WIDTH,
-          HEIGHT
+        contextBuffer.drawImage(image,left,0,WIDTH,HEIGHT,dx,dy,WIDTH,HEIGHT
         );
       }
+    },
+    getRoute (){
+        this.companyId = this.$route.query.companyId;
+        this.weActivityId = this.$route.query.weActivityId;
+        console.log(this.weActivityId)
+        console.log(this.$route)
+        this.getWeActivityInfo();
+        
+    },
+      getWeActivityInfo(){//查询微活动具体信息
+      var self=this;
+      var method="weRecruitActivity/getWeActivityInfo",
+          param=JSON.stringify({
+            weActivityId:self.weActivityId
+          }),
+          successd=function(res){
+            var recruitActivity = res.data.data.recruitActivity;
+            self.h5.recruitingPositionList=res.data.data.recruitingPositionList;
+            console.log(self.h5.recruitingPositionList)
+            self.h5.theme = recruitActivity.theme;
+            self.h5.titleDescription = recruitActivity.titleDescription;
+            self.h5.companyAddress = recruitActivity.companyAddress;
+            self.h5.activityEmail = recruitActivity.activityEmail;
+            self.h5.companyDescription = recruitActivity.companyDescription;
+            self.h5.companyImageUrl = recruitActivity.companyImageUrl;
+            self.h5.activityPhone = recruitActivity.activityPhone;
+          };
+      self.$http(method,param,successd);
     }
   },
   mounted() {
     this.init();
+    this.getRoute();
     var self = this;
     self.height100=window.innerHeight+"px";
   },
@@ -231,10 +279,17 @@ export default {
 
   },
   computed: {
-      swiper(){
-          return this.$refs.mySwiper.swiper
-      }
-  }
+   
+  },
+    filters: {  
+    workCityFilter: function (value) {  
+      return value.split(',')[1] || value.split(',')[0];
+    },  
+    positionTypeFilter: (value)=> {
+      var arr = [,'全职', '兼职', '实习']
+      return arr[value]
+    }
+  } 
 };
 </script>
 <style>
@@ -330,6 +385,18 @@ html, body, #app, #h5, .wrap {
             height: 100%;
             .vux-swiper-item{
                 height: 100%;
+                .theme{
+                    color: #4BE0AB;
+                    font-size: 20px;
+                    text-align: center;
+                    position: absolute;
+                    top: 190px;
+                    left: 50%;
+                    width: 276px;
+                    transform: translate(-50%);
+                    word-break:break-all;
+                    font-weight: 600;
+                }
                 .ship{
                     position :relative;
                     width : 70%;
@@ -357,7 +424,7 @@ html, body, #app, #h5, .wrap {
                     }
                     .content{
                         width : 90%;
-                        height : auto;
+                        height : 100%;
                         background: #fff;
                         max-height: 70%;
                         border-radius: 10px;
@@ -366,6 +433,9 @@ html, body, #app, #h5, .wrap {
                         line-height: 25px;
                         overflow: auto;
                         padding: 15px;
+                        .introImg{
+                            width: 100%;
+                        }
                         ul{
                             font-size:14px;
                             position: relative;
@@ -414,7 +484,6 @@ html, body, #app, #h5, .wrap {
                             margin-top: .2rem;
                             overflow: hidden;
                             li{
-                                float: left;
                                 margin-bottom: 0.4rem;
                                 img{
                                     width: .6rem;
