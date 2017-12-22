@@ -320,7 +320,6 @@
             _this.WorkEnvironment = res.data.WorkEnvironment
             _this.preCompanyMemorabilia = res.data.CompanyMemorabilia
             _this.isAuthorization = res.data.subcribeMap.subcribeStatus
-            _this.isAuthorization = 1
             _this.officilQrcodeUrl = res.data.subcribeMap.officilQrcodeUrl
           } else {
             _this.careHref = res.data.codeUrl
