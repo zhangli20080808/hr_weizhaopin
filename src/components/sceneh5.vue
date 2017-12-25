@@ -4,11 +4,13 @@
             <p>Your browser does not support the canvas element</p>  
         </canvas> 
       <div class="wrap">
+        <img class="nextPage" @click="nextPage()" src="../components/images/nextButton.png" alt="">
         <Swiper id="swiper" :interval="2000" :height="height100"  direction="vertical" :show-dots="false" v-model="swiper_index" @on-index-change="swiper_onIndexChange">
             <swiper-item>
                 <div class="theme">{{ h5.theme }}</div>
                 <img class="title" src="../components/images/bgh5.1.png" alt="">
                 <img class="ship" src="../components/images/ship.png" alt="">
+                <img class="bird" src="../components/images/go.png"  alt="">
             </swiper-item>
              <swiper-item>
                  <div class="companyIntro">
@@ -160,18 +162,23 @@ export default {
             companyImageUrl: '',
             companyImageId: '',
             activityPhone: ''
-        }
+        },
+        title: '',
+        desc:'',
+        link: '',
+        imgUrl: ''
     };
   },
   methods: {
     toDetial(item){
+        clearInterval(this.timer)
         this.$router.push({
             name: 'listDetail',
             query: {
                 companyId: this.companyId,
                 positionId:item.id,
             }
-    })
+        })
     },
     swiper_onIndexChange(index){
         if(index == 0){
@@ -211,6 +218,7 @@ export default {
             context.clearRect(0, 0, canvas.width, canvas.height);
             contextBuffer.clearRect(0, 0, canvasBuffer.width, canvasBuffer.height);
             x = 0;
+            clearInterval(this.timer)
             this.timer = setInterval(() =>{
                 this.animation(), SECONDS_BETWEEN_FRAMES
         })
@@ -237,6 +245,12 @@ export default {
         );
       }
     },
+    nextPage(){
+        alert(1)
+        if(this.swiper_index <= 3){
+            this.swiper_index++
+        }
+    },
     getRoute (){
         this.companyId = this.$route.query.companyId;
         this.weActivityId = this.$route.query.weActivityId;
@@ -254,7 +268,6 @@ export default {
           successd=function(res){
             var recruitActivity = res.data.data.recruitActivity;
             self.h5.recruitingPositionList=res.data.data.recruitingPositionList;
-            console.log(self.h5.recruitingPositionList)
             self.h5.theme = recruitActivity.theme;
             self.h5.titleDescription = recruitActivity.titleDescription;
             self.h5.companyAddress = recruitActivity.companyAddress;
@@ -264,7 +277,44 @@ export default {
             self.h5.activityPhone = recruitActivity.activityPhone;
           };
       self.$http(method,param,successd);
-    }
+    },
+      getSignature(){
+      var self=this;
+        self.$wechat.ready(function(res){
+          //分享给朋友
+          self.$wechat.onMenuShareAppMessage({
+            title:self.h5.theme,
+            desc:self.h5.titleDescription,
+            // link:'https://aijuhr.com/wx/dist/#/wx/interpolateDetail?companyId='+self.companyId+"&shareOpenId="+self.shareOpenId+"&positionId="+self.positionId+"&empId="+self.empId,//分享链接
+            link: '',
+            imgUrl:'https://aijuhr.com/images/yidong/h5.png',//分享图标
+            type:'',
+            dataUrl:'',
+            success:function(){
+              console.log('分享成功1');
+            },
+            cancel: function () {
+              console.log('用户取消分享后执行的回调函数1');
+            }
+          });
+          //分享朋友圈
+          self.$wechat.onMenuShareTimeline({
+            title:self.h5.theme,
+            desc:self.h5.titleDescription,
+            // link:'https://aijuhr.com/wx/dist/#/wx/interpolateDetail?companyId='+self.companyId+"&shareOpenId="+self.shareOpenId+"&positionId="+self.positionId+"&empId="+self.empId,//分享链接
+            link: '',
+            imgUrl:'https://aijuhr.com/images/yidong/h5.png',//分享图标
+            type:'',
+            dataUrl:'',
+            success:function(){
+              console.log('分享成功2');
+            },
+            cancel: function () {
+              console.log('用户取消分享后执行的回调函数2');
+            }
+          })
+      })
+    },
   },
   mounted() {
     this.init();
@@ -303,11 +353,11 @@ html, body, #app, #h5, .wrap {
     height: 100%;
 }
 
-@-webkit-keyframes rock-boat {
+@keyframes rock-boat {
 	50%  { -webkit-transform: rotate(-5deg) translateY(-10px); }
 }
 
-@-webkit-keyframes buttonNext {
+@keyframes buttonNext {
         0% {
                 transform: translateY(0px);
                 opacity: 0
@@ -336,27 +386,17 @@ html, body, #app, #h5, .wrap {
         }
 }
 
-@-moz-keyframes earthmove {
-        from {
-                -webkit-transform: translateX(0) rotate(0);
-                transform: translateX(0) rotate(0)
+@keyframes bird-fly {
+        0% {
+                transform: translateY(0px);
         }
 
-        to {
-                -webkit-transform: translateX(0) rotate(2turn);
-                transform: translateX(0) rotate(2turn)
-        }
-}
-
-@-webkit-keyframes earthmove {
-        from {
-                -webkit-transform: translateX(0) rotate(0);
-                transform: translateX(0) rotate(0)
+        40% {
+                transform: translateY(12px);
         }
 
-        to {
-                -webkit-transform: translateX(0) rotate(2turn);
-                transform: translateX(0) rotate(2turn)
+        100% {
+                transform: translateY(0);
         }
 }
 
@@ -366,6 +406,14 @@ html, body, #app, #h5, .wrap {
     left :0;
     width : 100%;
     height :100%;
+    .nextPage{
+        position: absolute;
+        width: 20px;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: bird-fly 2s ease-in-out infinite;
+    }
     #swiper{
         width :100%;
         height: 100%;
@@ -397,6 +445,13 @@ html, body, #app, #h5, .wrap {
                     word-break:break-all;
                     font-weight: 600;
                 }
+                .bird{
+                    position: absolute;
+                    right: 3%;
+                    top: 42%;
+                    width: 25%;
+                    animation: bird-fly 2s ease-in-out infinite;
+                }
                 .ship{
                     position :relative;
                     width : 70%;
@@ -418,7 +473,6 @@ html, body, #app, #h5, .wrap {
                     align-items : center;
                     .intro{
                         width : 25%;
-                        height : 0.4rem;
                         margin-top: 0.4rem;
                         margin-bottom: 0.4rem;
                     }

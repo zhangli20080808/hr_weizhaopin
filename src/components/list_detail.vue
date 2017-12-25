@@ -278,7 +278,7 @@
       this.getShareTitleInfo();
     },
     methods: {
-      getSignature(){
+      getSignature(){//获取签名
         var self=this;
         Axios.post(util.wxSignature,'url='+encodeURIComponent(location.href.split('#')[0]))
         .then(function(res){
@@ -448,11 +448,9 @@
         } else {
           this.model = true
           this.arrow_tip = true
-
         }
       },
       copyLink(){
-
         var self = this;
         document.getElementById("copyLinkInput").children[0].select();
         document.execCommand("Copy");
@@ -475,7 +473,7 @@
           }
         })
       },
-      getShareTitleInfo(){
+      getShareTitleInfo(){//获取分享参数
         var self=this;
         var method="positionRecommend/getShareTitleInfo",
             param=JSON.stringify({reqType:2,companyId:self.companyId,positionId:self.positionId}),
