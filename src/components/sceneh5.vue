@@ -4,7 +4,7 @@
             <p>Your browser does not support the canvas element</p>  
         </canvas> 
       <div class="wrap">
-        <img class="nextPage" @click="nextPage()" src="../components/images/nextButton.png" alt="">
+        <img class="nextPage" @click="nextPageGo()" src="../components/images/nextButton.png" alt="">
         <Swiper id="swiper" :interval="2000" :height="height100"  direction="vertical" :show-dots="false" v-model="swiper_index" @on-index-change="swiper_onIndexChange">
             <swiper-item>
                 <div class="theme">{{ h5.theme }}</div>
@@ -26,7 +26,7 @@
                     <img src="../components/images/position.png" class="intro" alt="在招职位">
                     <div class="content">
                         <ul>
-                            <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click=toDetial(item)>
+                            <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
                                 <div class="positionName">{{item.positionName}}</div>
                                 <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
                                 <img  class="details" src="../components/images/details.png" alt="详情">
@@ -245,8 +245,7 @@ export default {
         );
       }
     },
-    nextPage(){
-        alert(1)
+    nextPageGo(){
         if(this.swiper_index <= 3){
             this.swiper_index++
         }
@@ -254,10 +253,7 @@ export default {
     getRoute (){
         this.companyId = this.$route.query.companyId;
         this.weActivityId = this.$route.query.weActivityId;
-        console.log(this.weActivityId)
-        console.log(this.$route)
         this.getWeActivityInfo();
-        
     },
       getWeActivityInfo(){//查询微活动具体信息
       var self=this;
@@ -325,13 +321,7 @@ export default {
   components: {
     loading, Scroller, Swiper, GroupTitle, SwiperItem,
   },
-  watch: {
-
-  },
-  computed: {
-   
-  },
-    filters: {  
+  filters: {  
     workCityFilter: function (value) {  
       return value.split(',')[1] || value.split(',')[0];
     },  
@@ -411,6 +401,7 @@ html, body, #app, #h5, .wrap {
         width: 20px;
         bottom: 30px;
         left: 50%;
+        z-index :4;
         transform: translateX(-50%);
         animation: bird-fly 2s ease-in-out infinite;
     }
