@@ -8,45 +8,53 @@
         <Swiper id="swiper" :interval="2000" :height="height100"  direction="vertical" :show-dots="false" v-model="swiper_index" @on-index-change="swiper_onIndexChange">
             <swiper-item>
                 <div class="theme">{{ h5.theme }}</div>
-                <img class="title" src="../components/images/bgh5.1.png" alt="">
+                <img class="title" src="../components/images/bgh5.1_01.png" alt="">
+                <img class="title1" src="../components/images/bgh5.1_03.png" alt="">
                 <img class="ship" src="../components/images/ship.png" alt="">
                 <img class="bird" src="../components/images/go.png"  alt="">
             </swiper-item>
              <swiper-item>
                  <div class="companyIntro">
                     <img src="../components/images/intro.png" class="intro" alt="公司简介">
-                    <div class="content">
-                         <div v-html="h5.companyDescription"></div>
-                        <img :src="h5.companyImageUrl" class="introImg">
-                    </div>　
+                    <!-- <scroll @scroll="scroll" -->
+                            <!-- :listen-scroll="listenScroll" :probe-type="probeType" class="list" ref="list"> -->
+                        <div class="content">
+                            <div v-html="h5.companyDescription"></div>
+                            <img v-show="h5.companyImageUrl" :src="h5.companyImageUrl" class="introImg">
+                        </div>　
+                    <!-- </scroll> -->
                 </div>
              </swiper-item>
               <swiper-item>
                  <div class="companyIntro">
                     <img src="../components/images/position.png" class="intro" alt="在招职位">
                     <div class="content">
-                        <ul>
+                        <!-- <scroll @scroll="scroll" :data ="h5.recruitingPositionList"
+                            :listen-scroll="listenScroll" :probe-type="probeType" class="list" ref="list">
+                          <ul>
                             <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
                                 <div class="positionName">{{item.positionName}}</div>
                                 <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
                                 <img  class="details" src="../components/images/details.png" alt="详情">
                             </li>
-                            <!-- <li>
-                                <div class="positionName">行政/和人力资源行政副总裁...</div>
-                                <div class="positionIntroduce">杭州/全职 20k-40k</div>
+                            </ul>
+                        </scroll> -->
+                        <scroller lock-x :scrollbar-x="false" :scrollbar-y="false">
+                             <ul>
+                                <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
+                                    <div class="positionName">{{item.positionName}}</div>
+                                    <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
+                                    <img  class="details" src="../components/images/details.png" alt="详情">
+                                </li>
+                             </ul>
+                        </scroller>
+                        <!-- <ul>
+                            <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
+                                <div class="positionName">{{item.positionName}}</div>
+                                <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
                                 <img  class="details" src="../components/images/details.png" alt="详情">
                             </li>
-                            <li>
-                                <div class="positionName">行政/和人力资源行政副总裁...</div>
-                                <div class="positionIntroduce">杭州/全职 20k-40k</div>
-                                <img  class="details" src="../components/images/details.png" alt="详情">
-                            </li>
-                            <li>
-                                <div class="positionName">行政/和人力资源行政副总裁...</div>
-                                <div class="positionIntroduce">杭州/全职 20k-40k</div>
-                                <img  class="details" src="../components/images/details.png" alt="详情">
-                            </li> -->
-                        </ul>
+                        </ul> -->
                     </div>　
                 </div>
              </swiper-item>
@@ -118,11 +126,13 @@
 // import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import allcity from "../common/js/allcity";
 import loading from "./base/loading/loading.vue";
-import scroll from "../components/base/scroll.vue";
+// import scroll from "../components/base/scroll.vue";
+import Scroll from './base/scroll2'
 import footerNav from "../components/base/foot.vue";
 import imgSrc2 from "../components/images/bgh5.2.png";
 import imgSrc3 from "../components/images/bgh5.3.png";
 import { Swiper, GroupTitle, SwiperItem, XButton, Divider,  XDialog,Scroller } from 'vux'
+  // import Scroll from './base/scroll2'
 
 const FPS = 30;
 const SECONDS_BETWEEN_FRAMES = 1 / FPS;
@@ -145,7 +155,7 @@ export default {
     return {
         swiper_index: 0,
         imgSrc: imgSrc2,
-        height100:0,
+        height100:'0',
         timer: '',
         weActivityId: '',
         companyId: '',
@@ -154,7 +164,7 @@ export default {
         data: {},
         h5: {
             theme: '',
-            recruitingPositionList: '',
+            recruitingPositionList: [],
             titleDescription: '',
             companyAddress: '',
             activityEmail: '',
@@ -241,9 +251,12 @@ export default {
         contextBuffer.drawImage(image, left, 0, d0, HEIGHT, dx, dy, d0, HEIGHT);
         contextBuffer.drawImage(image, 0, 0, d1, HEIGHT,dx + d0,dy, d1,HEIGHT);
       } else {
-        contextBuffer.drawImage(image,left,0,WIDTH,HEIGHT,dx,dy,WIDTH,HEIGHT
-        );
+        contextBuffer.drawImage(image,left,0,WIDTH,HEIGHT,dx,dy,WIDTH,HEIGHT);
       }
+    },
+    scroll(pos) {
+        console.log(pos)
+      this.scrollY = pos.y
     },
     nextPageGo(){
         if(this.swiper_index <= 3){
@@ -259,7 +272,9 @@ export default {
       var self=this;
       var method="weRecruitActivity/getWeActivityInfo",
           param=JSON.stringify({
-            weActivityId:self.weActivityId
+            weActivityId:self.weActivityId,
+            type: 2,
+            companyId: self.companyId
           }),
           successd=function(res){
             var recruitActivity = res.data.data.recruitActivity;
@@ -318,8 +333,12 @@ export default {
     var self = this;
     self.height100=window.innerHeight+"px";
   },
+  created() {
+    this.probeType = 3
+    this.listenScroll = true
+  },
   components: {
-    loading, Scroller, Swiper, GroupTitle, SwiperItem,
+    loading, Scroller, Swiper, GroupTitle, SwiperItem, Scroll
   },
   filters: {  
     workCityFilter: function (value) {  
@@ -389,7 +408,13 @@ html, body, #app, #h5, .wrap {
                 transform: translateY(0);
         }
 }
-
+#canvas{
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+}
 .wrap {
     position:fixed;
     top :0;
@@ -444,17 +469,23 @@ html, body, #app, #h5, .wrap {
                     animation: bird-fly 2s ease-in-out infinite;
                 }
                 .ship{
-                    position :relative;
+                    position :absolute;
                     width : 70%;
-                    bottom: 5rem;
+                    bottom: 2rem;
                     left : 15%;
                     -webkit-animation: rock-boat 3s ease-in-out infinite;
                 }
                 >.title{
                     width: 70%;
                     left: 15%;
-                    position: relative;
+                    position: absolute;
                     top: 1.5rem;
+                }
+                >.title1{
+                    width: 70%;
+                    left: 15%;
+                    position: absolute;
+                    bottom: 1rem;
                 }
                 .companyIntro{
                     // background : url(../components/images/bgh5.3.png)no-repeat center top;
@@ -528,6 +559,7 @@ html, body, #app, #h5, .wrap {
                         ul{
                             margin-top: .2rem;
                             overflow: hidden;
+                            overflow-scrolling : touch;
                             li{
                                 margin-bottom: 0.4rem;
                                 img{
