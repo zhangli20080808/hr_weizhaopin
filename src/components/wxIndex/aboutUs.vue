@@ -2,7 +2,7 @@
 
   <!--模板-->
   <div class="g-container" id="aboutUs">
-    <div class="company-profile">
+    <div class="company-profile" v-show="preCompanyWebsite.name">
       <div class="g-card profile-header">
         <!--banner-->
         <div class="header-section banner">
@@ -23,6 +23,8 @@
 
 
 
+
+
                   </div>
                 </div>
               </div>
@@ -39,9 +41,10 @@
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h3 class="gm-card-title">
-                    发展历程
-                </h3>
+                  <h2 class="gm-card-title vux-1px-b">
+                    <span class="pos_ware"></span>
+                    <span class="text">发展历程</span>
+                  </h2>
                 </div>
                 <!--slide-->
                 <div class="vertical-list">
@@ -60,6 +63,8 @@
                                   <div class="gamma-description">
 
                                     {{item.description}}
+
+
 
 
 
@@ -94,28 +99,21 @@
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h3 class="gm-card-title">
-                    办公环境
-                </h3>
+                  <h2 class="gm-card-title vux-1px-b">
+                    <span class="env_img"></span>
+                    <span class="text">办公环境</span>
+                  </h2>
                 </div>
                 <!--slide-->
-                <div class="slides" style="height: 237px">
+                <div class="slides" style="height: 239px">
                   <swiper :options="swiperOption2" ref="mySwiper">
                     <!-- slides -->
                     <swiper-slide v-for="(item,index) in WorkEnvironment" :key="item.id" @click.native="app(index)">
-                      <div class="media" style="height: 150px">
+                      <div class="media" style="height: 180px">
                         <img :src="item.imageUrl" alt="" width="100%" height="100%">
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
-
-
-
-
-
-
-
-
 
                       </div>
                     </swiper-slide>
@@ -131,34 +129,30 @@
         </div>
       </div>
       <div class="card-type-3">
-        <div class="g-card">
+        <div class="g-card" style="margin-bottom: 0">
           <div class="template-card">
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h3 class="gm-card-title" @click="teamworkDeatil">
-                    我们的团队
-                </h3>
+                  <h2 class="gm-card-title vux-1px-b">
+                    <span class="team_icon"></span>
+                    <span class="text">我们的团队</span>
+                    <div class="allR">
+                      <span class="info" @click="teamworkDeatil">查看更多信息</span>
+                      <span class="icon"></span>
+                    </div>
+                  </h2>
                 </div>
                 <!--slide-->
-                <div class="slides" style="height: 237px" @click="teamworkDeatil">
+                <div class="slides" style="height: 239px" @click="teamworkDeatil">
                   <swiper :options="swiperOption" ref="mySwiper">
                     <!-- slides -->
                     <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id">
-                      <div class="media" style="height: 150px">
+                      <div class="media" style="height: 180px">
                         <img :src="item.imageUrl" alt="" width="100%" height="100%">
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
-
-
-
-
-
-
-
-
-
 
                       </div>
                     </swiper-slide>
@@ -174,7 +168,13 @@
         </div>
       </div>
     </div>
-    <footerNav></footerNav>
+    <div class="footer_icon">
+      <div class="img_detail"></div>
+    </div>
+    <div class="about_online">
+      <div class="us" :class="{'activeColor':active}">关于我们</div>
+      <div class="online_p" @click="getPosition">在招职位</div>
+    </div>
     <!--关注弹窗-->
     <div v-transfer-dom class="cares">
       <x-dialog v-model="careQrcode" class="care-content">
@@ -219,7 +219,7 @@
           // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，<br>　　　　　　　　假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
           notNextTick: true,
           // swiper configs 所有的配置同swiper官方api配置
-          autoplay: 3000,
+          autoplay: true,
           direction: 'horizontal',
           grabCursor: false,
           setWrapperSize: true,
@@ -257,6 +257,7 @@
           imgUrl: '',
           title: '',
           desc: '',
+          lists: []
         },
         companyId: (() => {
           let queryParam = this.urlParse();
@@ -271,7 +272,8 @@
         //企业公众号二维码url
         officilQrcodeUrl: '',
         isAuthorization: 1,
-        code:''
+        code: '',
+        active: true
       }
     },
     methods: {
@@ -444,11 +446,33 @@
       },
       getCode(){
         let queryParam = this.urlParse();
-        if(!queryParam.code){
+        if (!queryParam.code) {
           return
         }
         this.code = queryParam.code
         return this.code;
+      },
+      //
+      getWeWebsitePosition(){
+        var self = this;
+        var method = "companyWeb/getWeWebsitePosition",
+          param = JSON.stringify({type: 2}),
+          successd = function (res) {
+            console.log(res.data)
+            self.lists = res.data.data
+          };
+        self.$http(method, param, successd);
+      },
+      getPosition(){
+        this.$router.push({
+          name: 'onlinePosition',
+          query: {
+            companyId: this.companyId
+          }
+        })
+      },
+      toList(){
+
       }
     },
     created(){
@@ -456,6 +480,7 @@
         this.getCode()
         this.getCompanyDetail();
         this.getShareTitleInfo();
+//        this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
       })
@@ -478,7 +503,14 @@
   }
 
 </script>
+<style lang="less">
+  @import '~vux/src/styles/1px.less';
+  @import '~vux/src/styles/close';
 
+  .vux-close:before, .vux-close:after {
+    height: 2px;
+  }
+</style>
 <style scoped>
   @import "../../common/stylus/swiper.css";
   @import "../../components/css/main.css";
@@ -489,6 +521,7 @@
     background-color: #f1f5f8;
     border: 0;
     outline: 0;
+    padding-bottom: 0.98rem;
   }
 
   .g-oneline-text {
@@ -513,7 +546,7 @@
     margin-bottom: 0;
     font-size: 13px;
     font-weight: 400;
-    line-height: 1.2;
+    line-height: 0.8;
     border-radius: 2px;
     color: #fff;
     text-align: center;
@@ -529,17 +562,20 @@
   }
 
   .g-ghost-white-btn {
-    width: 110px;
+    width: 135px;
     background-color: transparent;
-    color: #abb4c3;
-    border-color: #abb4c3;
+    color: #979797;
+    border-color: #979797;
+    border-radius: 37px;
   }
 
   .social-btn {
-    width: 110px;
-    background-color: transparent;
+    width: 135px;
+    background-color: #66a4f9;
     border-color: #66a4f9;
-    color: #66a4f9;
+    color: #fff;
+    border-radius: 37px;
+    font-size: 0.32rem;
   }
 
   /*弹窗*/
@@ -594,7 +630,21 @@
     position: relative;
     border-radius: 1px;
   }
+  .g-container .footer_icon{
+    height: 0.89rem;
+    line-height: 0.89rem;
+    text-align: center;
+  }
+  .g-container .footer_icon .img_detail{
+    display: inline-block;
+    vertical-align: middle;
+    width: 106px;
+    height: 15px;
+    background: url(../../common/image/footLogo2.jpg)no-repeat center;
+    background-size: 103px auto;
 
+
+  }
   .g-container .company-profile .g-card {
     margin: 8px 0;
     overflow: hidden;
@@ -631,8 +681,8 @@
   .g-container .company-profile .g-card .header-main .header-icon {
     overflow: hidden;
     position: absolute;
-    width: 88px;
-    height: 88px;
+    width: 92px;
+    height: 92px;
     top: -44px;
     left: 50%;
     margin-left: -44px;
@@ -643,8 +693,8 @@
   }
 
   .g-container .company-profile .g-card .header-main .header-icon .icon-image {
-    width: 88px;
-    height: 88px;
+    width: 92px;
+    height: 92px;
     border-radius: 50%;
     border: 0;
     z-index: 1;
@@ -684,7 +734,7 @@
   }
 
   .g-container .company-profile .g-card .header-main .header-info .template-company .action .g-ghost-btn .btn-text {
-    font-size: 13px;
+    /*font-size: 13px;*/
   }
 
   .g-container .cards .g-card {
@@ -706,14 +756,76 @@
 
   .g-container .cards .gm-card-offset .gm-card-header {
     overflow: hidden;
-    padding: 20px 0;
+    padding: 0 0 15px 0;
     line-height: 1;
   }
 
+  .g-container .cards .gm-card-offset .online_pos {
+    padding-bottom: 0;
+
+  }
+
   .g-container .cards .gm-card-offset .gm-card-header .gm-card-title {
-    font-size: 14px;
-    margin: 0;
-    font-weight: 700;
+    font-size: 0.32rem;
+    font-weight: 400;
+    color: #000;
+    position: relative;
+    height: 49px;
+    line-height: 49px;
+  }
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR{
+    font-size: 0.26rem;
+    color: #9a9fac;
+    display: inline-block;
+    float: right;
+  }
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .info{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .icon{
+    display: inline-block;
+    background: url(../../common/image/Backicon.png) no-repeat center;
+    width: 10px;
+    height: 15px;
+    background-size: 50%;
+    vertical-align: middle;
+  }
+
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .pos_ware {
+    display: inline-block;
+    vertical-align: middle;
+    width: 17px;
+    height: 17px;
+    background: url(../../common/image/process.png) no-repeat center;
+    background-size: cover;
+  }
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .env_img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 17px;
+    height: 17px;
+    background: url(../../common/image/env_img.png) no-repeat center;
+    background-size: cover;
+  }
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .team_icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    height: 15px;
+    background: url(../../common/image/team_icon.png) no-repeat center;
+    background-size: cover;
+  }
+
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .text {
+    display: inline-block;
+    vertical-align: middle;
+    height: 24px;
+    line-height: 24px;
+    margin-left: 3px
   }
 
   .g-container .cards .vertical-list {
@@ -832,7 +944,7 @@
 
   .swiper-container .swiper-wrapper .swiper-slide .title {
     font-size: 14px;
-    color: #abb4c3;
+    color: #999;
     font-weight: 400;
     line-height: 20px;
     margin-top: 10px;
@@ -845,9 +957,116 @@
     height: 100%;
     background-color: #f2f2f2;
   }
+
+  .swiper-container-horizontal > .swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+    bottom: 64px;
+    left: 0;
+    width: 100%;
+  }
+
+  .position_list {
+    padding: 12px 0;
+    font-size: 0.28rem;
+    background-color: #fff;
+    margin: 0px 0;
+  }
+
+  .position_list .position_name {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 0.34rem;
+    color: #222;
+  }
+
+  .position_list dt {
+    line-height: 0.48rem;
+    height: 0.48rem;
+    margin-bottom: 6px;
+    font-size: 0.26rem;
+    color: #222;
+  }
+
+  .position_list_right {
+    float: right;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #FDA732;
+  }
+
+  .position_list dd {
+    margin-bottom: 6px;
+  }
+
+  .position_list_money {
+    color: #666;
+  }
+
+  .position_list_money span {
+    margin-right: 2px;
+    background-color: #e5e5e5;
+    padding: 3px 5px;
+    border-radius: 2px;
+    color: #999999;
+    font-size: 0.26rem;
+  }
+
+  .position_list_money .position_list_right {
+    color: #46BE8A;
+  }
+
+  .position_list .position_list_date {
+    color: #999;
+    font-size: 0.26rem;
+    margin-bottom: 0;
+  }
+
+  .position_list_date em {
+    font-style: normal;
+  }
+
+  .about_online {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    height: 0.98rem;
+    font-size: 0.34rem;
+    line-height: 0.98rem;
+    background: #fff;
+    z-index: 1000;
+    border-top:1px solid #e5e5e5;
+  }
+
+  .about_online .us {
+    text-align: center;
+    flex: 1;
+    border-right: 1px solid #e5e5e5;
+  }
+
+  .about_online .online_p {
+    text-align: center;
+    flex: 1;
+  }
+
+  .activeColor {
+    color: #5AA2E7;
+  }
+
 </style>
 <style>
   #aboutUs .cares .care-content .weui-dialog {
     max-width: 251px !important;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: #fff !important;
+    opacity: 1;
+  }
+
+  .swiper-pagination-bullet {
+    background: #ccc;
+    opacity: 1;
   }
 </style>
