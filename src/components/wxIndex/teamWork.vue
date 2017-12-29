@@ -1,10 +1,10 @@
 <template>
   <div class="teamwork">
     <!--back-->
-    <div class="back hidden-sm hidden-lg">
-      <i class="icon" @click="back"></i>
-      <h2 class="title">我们的团队</h2>
-    </div>
+    <!--<div class="back hidden-sm hidden-lg">-->
+      <!--<i class="icon" @click="back"></i>-->
+      <!--<h2 class="title">我们的团队</h2>-->
+    <!--</div>-->
     <div class="cards" v-for="item in WorkTeam" ref="card">
       <div class="card-type-1">
         <div class="g-card">
@@ -120,7 +120,6 @@
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   @media all and (max-width: 768px) {
     .teamwork {
-      padding-top: 56px;
       margin-bottom :32px
     }
   }

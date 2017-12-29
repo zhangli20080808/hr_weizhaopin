@@ -22,6 +22,7 @@ import loginResume from 'components/microresume/loginResume.vue'
 import positionList from 'components/position/positionList';
 import aboutUs from 'components/wxIndex/aboutUs';
 import teamwork from 'components/wxIndex/teamwork';
+import onlinePosition from 'components/wxIndex/onlinePosition';
 
 Vue.use(Router)
 
@@ -95,6 +96,11 @@ export default new Router({
       path:'/interpolate',
       name:'interpolate',
       component:interpolate
+    },
+    {
+      path:'/onlinePosition',
+      name:'onlinePosition',
+      component:onlinePosition
     }
   ]
 })

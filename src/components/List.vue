@@ -167,29 +167,46 @@
             </div>
           </div>
           <div class="contant-list" v-show="list">
-            <li v-for="item in list" @click="selectItem(item)">
-              <div class="job-list-item">
-                <div class="title">
-                  <span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>
-                  <span class="text">{{item.positionName}}</span>
-                </div>
-                <div class="details">
-              <span class="misc">
-                <span class="secondary">{{getCity(item.workCity)}}</span>
-                <span class="secondary">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
-                <span
-                  class="secondary">{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>
-              </span>
-                </div>
-                <div class="secondary-details">
-              <span class="opened-at">
+            <!--<li v-for="item in list" @click="selectItem(item)">-->
+              <!--<div class="job-list-item">-->
+                <!--<div class="title">-->
+                  <!--<span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>-->
+                  <!--<span class="text">{{item.positionName}}</span>-->
+                <!--</div>-->
+                <!--<div class="details">-->
+              <!--<span class="misc">-->
+                <!--<span class="secondary">{{getCity(item.workCity)}}</span>-->
+                <!--<span class="secondary">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>-->
+                <!--<span-->
+                  <!--class="secondary">{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>-->
+              <!--</span>-->
+                <!--</div>-->
+                <!--<div class="secondary-details">-->
+              <!--<span class="opened-at">-->
+                <!--<span>发布时间：</span>-->
+                <!--<span>{{filter(item.posiPublishTime)}}</span>-->
+                <!--<span style="margin-left: 10px">浏览次数: &nbsp;{{item.views}}</span>-->
+              <!--</span>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</li>-->
+            <dl class="position_detail vux-1px-tb" v-for="item in list" @click="selectItem(item)">
+              <dt>
+                <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
+                <img src="../components/images/urgent2.png" alt="" width="35px" class="img">
+                <span class="position_name">{{item.positionName}}</span>
+              </dt>
+              <dd class="position_detail_money">
+                <span >{{getCity(item.workCity)}}</span>
+                <span >{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
+                <span >{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>
+              </dd>
+              <dd class="position_detail_date">
                 <span>发布时间：</span>
                 <span>{{filter(item.posiPublishTime)}}</span>
                 <span style="margin-left: 10px">浏览次数: &nbsp;{{item.views}}</span>
-              </span>
-                </div>
-              </div>
-            </li>
+              </dd>
+            </dl>
           </div>
           <load-more tip="loading" v-if="showMore"></load-more>
           <div class="noTips" v-show="!list||(list&&list.length==0)||listShow">
@@ -1454,6 +1471,41 @@
           }
           .contant-list {
             background: #f1f5f8;
+            .position_detail{
+              padding: 12px 28px;font-size: 0.28rem;background-color: #fff;margin-top:12px;clear: both;
+              &::before{
+                border-top: none;
+              }
+              dt{
+                line-height: 0.48rem;height: 0.48rem;margin-bottom: 10px;font-size: 0.34rem;color: #222;
+                img{
+                  display: inline-block;
+                  vertical-align: middle;
+                  line-height: 24px;
+                }
+                .position_name{
+                  display: inline-block;
+                  vertical-align: middle;
+                }
+                .position_detail_right{
+                  float: right; font-size: 0.18rem;font-weight: 500;color: #FDA732;
+                }
+
+              }
+              .position_detail_money{
+                margin-bottom: 6px;
+                color: #666;
+                span{
+                  margin-right: 2px;background-color: #e5e5e5;padding: 3px 5px;border-radius: 2px;color: #999999;font-size: 0.26rem;
+                }
+              }
+              .position_detail_date{
+                color: #999;font-size: 0.26rem;margin-bottom: 0;
+                em{
+                  font-style: normal;
+                }
+              }
+            }
           }
           .noTips{
             .imgTips{
