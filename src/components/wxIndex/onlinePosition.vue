@@ -1,43 +1,48 @@
 <template>
   <div class="onlinePosition">
-    <scroller lock-x ref="scrollerBottom" height="-55">
-      <div class="list_content">
-        <img src="../../common/image/banner_online.png" alt="" width="100%" height="100%">
-        <dl class="position_detail vux-1px-tb" v-for="item in list" @click="selectItem(item)">
-          <dt>
-            <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
-            <img src="../../components/images/urgent2.png" alt="" width="35px" class="img" v-if="item.isUrgent==1">
-            <span class="position_name">{{item.positionName}}</span>
-          </dt>
-          <dd class="position_detail_money">
-            <span>{{filter(item.workCity)}}</span>
-            <span>{{item.positionType == 1 ? '全职' : item.positionType == 2 ? '兼职' : '实习'}}</span>
-            <span>{{item.positionSalaryLowest}}K-{{item.positionSalaryHighest}}K</span>
-            <!-- <div class="position_list_right">{{item.views}}人看过</div> -->
-          </dd>
-          <dd class="position_detail_date">
-            <span>发布时间 : &nbsp;{{item.posiPublishTime}}</span> &nbsp;
-            <em>浏览次数 : {{item.views}}次</em>
-          </dd>
-        </dl>
-        <div class="footer_icon" v-show="list.length>4">
-          <div class="img_detail"></div>
+    <div v-show="list.length">
+      <scroller lock-x ref="scrollerBottom" height="-55">
+        <div class="list_content">
+          <img src="../../common/image/banner_online.png" alt="" width="100%" height="100%">
+          <dl class="position_detail" v-for="item in list" @click="selectItem(item)">
+            <dt>
+              <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
+              <img src="../../components/images/urgent2.png" alt="" width="35px" class="img" v-if="item.isUrgent==1">
+              <span class="position_name">{{item.positionName}}</span>
+            </dt>
+            <dd class="position_detail_money">
+              <span>{{filter(item.workCity)}}</span>
+              <span>{{item.positionType == 1 ? '全职' : item.positionType == 2 ? '兼职' : '实习'}}</span>
+              <span>{{item.positionSalaryLowest}}K-{{item.positionSalaryHighest}}K</span>
+              <!-- <div class="position_list_right">{{item.views}}人看过</div> -->
+            </dd>
+            <dd class="position_detail_date">
+              <span>发布时间 : &nbsp;{{item.posiPublishTime}}</span> &nbsp;
+              <em>浏览次数 : {{item.views}}次</em>
+            </dd>
+          </dl>
+          <div class="footer_icon" v-show="list.length>4">
+            <div class="img_detail"></div>
+          </div>
         </div>
+      </scroller>
+      <div class="about_online">
+        <div class="us" @click="getIndex">关于我们</div>
+        <div class="online_p" :class="{'activeColor':active}">在招职位</div>
       </div>
-    </scroller>
-    <div class="about_online">
-      <div class="us" @click="getIndex">关于我们</div>
-      <div class="online_p" :class="{'activeColor':active}">在招职位</div>
     </div>
+    <loading v-show="!list.length"></loading>
   </div>
 </template>
 
 <script>
+  import loading from '../../components/base/loading/loading2.vue'
 
   import {
     Scroller,
     LoadMore
   } from 'vux'
+
   export default {
     data(){
       return {
@@ -114,7 +119,8 @@
     },
     components: {
       Scroller,
-      LoadMore
+      LoadMore,
+      loading
     }
   }
 

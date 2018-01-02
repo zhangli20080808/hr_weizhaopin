@@ -2,29 +2,30 @@
 
   <!--模板-->
   <div class="g-container" id="aboutUs">
-    <div class="company-profile" v-show="preCompanyWebsite.name">
-      <div class="g-card profile-header">
-        <!--banner-->
-        <div class="header-section banner">
-          <img :style="bgStyle" class="banner-image" alt="">
-        </div>
-        <!---->
-        <div class="header-section header-main">
-          <div class="header-icon"><img :src="preCompanyWebsite.logoUrl" alt="" class="icon-image"></div>
-          <div class="header-info">
-            <div class="template-company">
-              <h3 class="info-title g-oneline-text">{{preCompanyWebsite.name}}</h3>
-              <div class="description">{{preCompanyWebsite.slogan}}</div>
-              <div class="action" v-if="isAuthorization!==0">
-                <div class="g-ghost-btn" @click="goCare"
-                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
-                  <div class="btn-text">
-                    {{isAuthorization == 1 ? '已关注' : '关注'}}
+      <div class="company-profile" v-show="preCompanyWebsite.name">
+        <div class="g-card profile-header">
+          <!--banner-->
+          <div class="header-section banner">
+            <img :style="bgStyle" class="banner-image" alt="">
+          </div>
+          <!---->
+          <div class="header-section header-main">
+            <div class="header-icon"><img :src="preCompanyWebsite.logoUrl" alt="" class="icon-image"></div>
+            <div class="header-info">
+              <div class="template-company">
+                <h3 class="info-title g-oneline-text">{{preCompanyWebsite.name}}</h3>
+                <div class="description">{{preCompanyWebsite.slogan}}</div>
+                <div class="action" v-if="isAuthorization!==0">
+                  <div class="g-ghost-btn" @click="goCare"
+                       :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
+                    <div class="btn-text">
+                      {{isAuthorization == 1 ? '已关注' : '关注'}}
 
 
 
 
 
+                  </div>
                   </div>
                 </div>
               </div>
@@ -32,37 +33,36 @@
           </div>
         </div>
       </div>
-    </div>
-    <!--办公环境-->
-    <div class="cards">
-      <div class="card-type-1">
-        <div class="g-card">
-          <div class="template-card">
-            <div class="template-complex">
-              <div class="gm-card-offset">
-                <div class="gm-card-header">
-                  <h2 class="gm-card-title vux-1px-b">
-                    <span class="pos_ware"></span>
-                    <span class="text">发展历程</span>
-                  </h2>
-                </div>
-                <!--slide-->
-                <div class="vertical-list">
-                  <div class="gamma-type-0">
-                    <div style="overflow: hidden; display: block; position: relative;">
-                      <div class="slide">
-                        <div class="list-item" v-for="item in preCompanyMemorabilia">
-                          <div class="inner">
-                            <div class="g-flex">
-                              <div class="gamma-left">
-                                <img class="link-image" :src="item.imageUrl">
-                              </div>
-                              <div class="g-column gamma-right">
-                                <div class="gamma-right-height">
-                                  <span>{{filterTime(item.date)}}</span>
-                                  <div class="gamma-description">
+      <!--办公环境-->
+      <div class="cards" v-show="preCompanyMemorabilia.length">
+        <div class="card-type-1">
+          <div class="g-card">
+            <div class="template-card">
+              <div class="template-complex">
+                <div class="gm-card-offset">
+                  <div class="gm-card-header">
+                    <h2 class="gm-card-title vux-1px-b">
+                      <span class="pos_ware"></span>
+                      <span class="text">发展历程</span>
+                    </h2>
+                  </div>
+                  <!--slide-->
+                  <div class="vertical-list">
+                    <div class="gamma-type-0">
+                      <div style="overflow: hidden; display: block; position: relative;">
+                        <div class="slide">
+                          <div class="list-item" v-for="item in preCompanyMemorabilia">
+                            <div class="inner">
+                              <div class="g-flex">
+                                <div class="gamma-left">
+                                  <img class="link-image" :src="item.imageUrl">
+                                </div>
+                                <div class="g-column gamma-right">
+                                  <div class="gamma-right-height">
+                                    <span>{{filterTime(item.date)}}</span>
+                                    <div class="gamma-description">
 
-                                    {{item.description}}
+                                      {{item.description}}
 
 
 
@@ -76,14 +76,15 @@
 
 
                                   </div>
-                                  <div class="gamma-text-cover"></div>
-                                </div>
+                                    <div class="gamma-text-cover"></div>
+                                  </div>
 
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
 
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -92,89 +93,90 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="card-type-2">
-        <div class="g-card">
-          <div class="template-card">
-            <div class="template-complex">
-              <div class="gm-card-offset">
-                <div class="gm-card-header">
-                  <h2 class="gm-card-title vux-1px-b">
-                    <span class="env_img"></span>
-                    <span class="text">办公环境</span>
-                  </h2>
-                </div>
-                <!--slide-->
-                <div class="slides" style="height: 239px">
-                  <swiper :options="swiperOption2" ref="mySwiper">
-                    <!-- slides -->
-                    <swiper-slide v-for="(item,index) in WorkEnvironment" :key="item.id" @click.native="app(index)">
-                      <div class="media" style="height: 180px">
-                        <img :src="item.imageUrl" alt="" width="100%" height="100%">
-                      </div>
-                      <div class="title g-oneline-text">
-                        {{item.description}}
+        <div class="card-type-2" v-show="WorkEnvironment.length">
+          <div class="g-card">
+            <div class="template-card">
+              <div class="template-complex">
+                <div class="gm-card-offset">
+                  <div class="gm-card-header">
+                    <h2 class="gm-card-title vux-1px-b">
+                      <span class="env_img"></span>
+                      <span class="text">办公环境</span>
+                    </h2>
+                  </div>
+                  <!--slide-->
+                  <div class="slides" style="height: 239px">
+                    <swiper :options="swiperOption2" ref="mySwiper">
+                      <!-- slides -->
+                      <swiper-slide v-for="(item,index) in WorkEnvironment" :key="item.id" @click.native="app(index)">
+                        <div class="media" style="height: 180px">
+                          <img :src="item.imageUrl" alt="" width="100%" height="100%">
+                        </div>
+                        <div class="title g-oneline-text">
+                          {{item.description}}
 
                       </div>
-                    </swiper-slide>
-                    <!-- Optional controls -->
-                    <div class="swiper-pagination" slot="pagination"></div>
-                    <!--<div class="swiper-button-prev" slot="button-prev"></div>-->
-                    <!--<div class="swiper-button-next" slot="button-next"></div>-->
-                  </swiper>
+                      </swiper-slide>
+                      <!-- Optional controls -->
+                      <div class="swiper-pagination" slot="pagination"></div>
+                      <!--<div class="swiper-button-prev" slot="button-prev"></div>-->
+                      <!--<div class="swiper-button-next" slot="button-next"></div>-->
+                    </swiper>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-type-3"  v-show="preWorkTeam.length">
+          <div class="g-card" style="margin-bottom: 0">
+            <div class="template-card">
+              <div class="template-complex">
+                <div class="gm-card-offset">
+                  <div class="gm-card-header">
+                    <h2 class="gm-card-title vux-1px-b">
+                      <span class="team_icon"></span>
+                      <span class="text">我们的团队</span>
+                      <div class="allR">
+                        <span class="info" @click="teamworkDeatil">查看更多信息</span>
+                        <span class="icon"></span>
+                      </div>
+                    </h2>
+                  </div>
+                  <!--slide-->
+                  <div class="slides" style="height: 239px" @click="teamworkDeatil">
+                    <swiper :options="swiperOption" ref="mySwiper">
+                      <!-- slides -->
+                      <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id" class="swiper_slide">
+                        <div class="media" style="height: 180px">
+                          <img :src="item.imageUrl" alt="" style="width: 100%;height: 100%">
+                        </div>
+                        <div class="title g-oneline-text">
+                          {{item.description}}
+
+                      </div>
+                      </swiper-slide>
+                      <!-- Optional controls -->
+                      <div class="swiper-pagination" slot="pagination"></div>
+                      <!--<div class="swiper-button-prev" slot="button-prev"></div>-->
+                      <!--<div class="swiper-button-next" slot="button-next"></div>-->
+                    </swiper>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="card-type-3">
-        <div class="g-card" style="margin-bottom: 0">
-          <div class="template-card">
-            <div class="template-complex">
-              <div class="gm-card-offset">
-                <div class="gm-card-header">
-                  <h2 class="gm-card-title vux-1px-b">
-                    <span class="team_icon"></span>
-                    <span class="text">我们的团队</span>
-                    <div class="allR">
-                      <span class="info" @click="teamworkDeatil">查看更多信息</span>
-                      <span class="icon"></span>
-                    </div>
-                  </h2>
-                </div>
-                <!--slide-->
-                <div class="slides" style="height: 239px" @click="teamworkDeatil">
-                  <swiper :options="swiperOption" ref="mySwiper">
-                    <!-- slides -->
-                    <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id">
-                      <div class="media" style="height: 180px">
-                        <img :src="item.imageUrl" alt="" width="100%" height="100%">
-                      </div>
-                      <div class="title g-oneline-text">
-                        {{item.description}}
-
-                      </div>
-                    </swiper-slide>
-                    <!-- Optional controls -->
-                    <div class="swiper-pagination" slot="pagination"></div>
-                    <!--<div class="swiper-button-prev" slot="button-prev"></div>-->
-                    <!--<div class="swiper-button-next" slot="button-next"></div>-->
-                  </swiper>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="footer_icon" v-show="preCompanyWebsite.name">
+        <div class="img_detail"></div>
       </div>
-    </div>
-    <div class="footer_icon">
-      <div class="img_detail"></div>
-    </div>
-    <div class="about_online">
-      <div class="us" :class="{'activeColor':active}">关于我们</div>
-      <div class="online_p" @click="getPosition">在招职位</div>
-    </div>
+      <div class="about_online" v-show="preCompanyWebsite.name">
+        <div class="us" :class="{'activeColor':active}">关于我们</div>
+        <div class="online_p" @click="getPosition">在招职位</div>
+      </div>
+
+    <!--<loading></loading>-->
     <!--关注弹窗-->
     <div v-transfer-dom class="cares">
       <x-dialog v-model="careQrcode" class="care-content">
@@ -199,6 +201,7 @@
 
 <script>
 
+  import loading from '../../components/base/loading/loading2.vue'
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import footerNav from '../../components/base/foot'
   import util from "../../common/js/util.js";
@@ -491,7 +494,8 @@
       swiper,
       swiperSlide,
       footerNav,
-      XDialog
+      XDialog,
+      loading
     },
     directives: {
       TransferDom
@@ -738,8 +742,8 @@
   }
 
   .g-container .cards .gm-card-offset {
-    margin-left: 0.562857rem;
-    margin-right: 0.562857rem;
+    margin-left: 0.32rem;
+    margin-right: 0.32rem;
   }
 
   .g-container .cards .gm-card-offset .gm-card-header {
