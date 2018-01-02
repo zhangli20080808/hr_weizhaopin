@@ -35,7 +35,7 @@
 
   import {
     Scroller,
-    LoadMore,
+    LoadMore
   } from 'vux'
   export default {
     data(){
@@ -113,7 +113,7 @@
     },
     components: {
       Scroller,
-      LoadMore,
+      LoadMore
     }
   }
 
