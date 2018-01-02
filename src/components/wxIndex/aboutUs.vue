@@ -470,9 +470,6 @@
             companyId: this.companyId
           }
         })
-      },
-      toList(){
-
       }
     },
     created(){
@@ -507,9 +504,6 @@
   @import '~vux/src/styles/1px.less';
   @import '~vux/src/styles/close';
 
-  .vux-close:before, .vux-close:after {
-    height: 2px;
-  }
 </style>
 <style scoped>
   @import "../../common/stylus/swiper.css";
@@ -518,7 +512,7 @@
   .g-container {
     position: relative;
     z-index: 2;
-    background-color: #f1f5f8;
+    background-color: #F8F8FC;
     border: 0;
     outline: 0;
     padding-bottom: 0.98rem;
@@ -642,15 +636,11 @@
     height: 15px;
     background: url(../../common/image/footLogo2.jpg)no-repeat center;
     background-size: 103px auto;
-
-
   }
   .g-container .company-profile .g-card {
     margin: 8px 0;
     overflow: hidden;
     background-color: #fff;
-    border: 1px solid #e8f0f8;
-    border-width: 1px 0;
   }
 
   .g-container .company-profile .profile-header {
@@ -738,11 +728,9 @@
   }
 
   .g-container .cards .g-card {
-    margin: 8px 0;
+    margin: 12px 0;
     overflow: hidden;
     background-color: #fff;
-    border: 1px solid #e8f0f8;
-    border-width: 1px 0;
   }
 
   .g-container .cards .g-card .gm-card {

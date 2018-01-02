@@ -1,12 +1,12 @@
 <template>
   <div class="onlinePosition">
-    <!--<scroller lock-x height="-30" ref="scrollerBottom">-->
-      <div class="banner_img"></div>
+    <scroller lock-x ref="scrollerBottom" height="-55">
       <div class="list_content">
+        <img src="../../common/image/banner_online.png" alt="" width="100%" height="100%">
         <dl class="position_detail vux-1px-tb" v-for="item in list" @click="selectItem(item)">
           <dt>
             <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
-            <img src="../../components/images/urgent2.png" alt="" width="35px" class="img">
+            <img src="../../components/images/urgent2.png" alt="" width="35px" class="img" v-if="item.isUrgent==1">
             <span class="position_name">{{item.positionName}}</span>
           </dt>
           <dd class="position_detail_money">
@@ -20,10 +20,11 @@
             <em>浏览次数 : {{item.views}}次</em>
           </dd>
         </dl>
+        <div class="footer_icon" v-show="list.length>4">
+          <div class="img_detail"></div>
+        </div>
       </div>
-    <!--</scroller>-->
-      <load-more tip="loading" v-if="showMore"></load-more>
-    <!--</scroller>-->
+    </scroller>
     <div class="about_online">
       <div class="us" @click="getIndex">关于我们</div>
       <div class="online_p" :class="{'activeColor':active}">在招职位</div>
@@ -83,7 +84,7 @@
         })
       },
       filter(item){
-        return item.split(',')[0]
+        return item.split(',')[1]
       },
       onScrollBottom () {
         if (this.onFetching) {
@@ -122,13 +123,27 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .onlinePosition {
     background-color: #F8F8FC;
-    padding-bottom :0.86rem
-    .list_content{
+    padding-bottom: 0.86rem
+    .list_content {
+      .footer_icon {
+        height: 0.89rem;
+        line-height: 0.89rem;
+        text-align: center;
+        .img_detail {
+          display: inline-block;
+          vertical-align: middle;
+          width: 106px;
+          height: 15px;
+          background: url(../../common/image/footLogo2.jpg) no-repeat center;
+          background-size: 103px auto;
+        }
+      }
     }
     .banner_img {
-      height: 195px;
-      background: url(../../common/image/banner_online.png) no-repeat center;
-      background-size: cover;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
     .position_detail {
       padding: 12px 15px;
