@@ -41,7 +41,7 @@
               <div class="template-complex">
                 <div class="gm-card-offset">
                   <div class="gm-card-header">
-                    <h2 class="gm-card-title vux-1px-b">
+                    <h2 class="gm-card-title">
                       <span class="pos_ware"></span>
                       <span class="text">发展历程</span>
                     </h2>
@@ -506,7 +506,6 @@
 </script>
 <style lang="less">
   @import '~vux/src/styles/1px.less';
-  @import '~vux/src/styles/close';
 
 </style>
 <style scoped>
@@ -565,6 +564,7 @@
     color: #979797;
     border-color: #979797;
     border-radius: 37px;
+    font-size: 0.32rem;
   }
 
   .social-btn {
@@ -727,8 +727,8 @@
     margin-bottom: 8px;
   }
 
-  .g-container .company-profile .g-card .header-main .header-info .template-company .action .g-ghost-btn .btn-text {
-    /*font-size: 13px;*/
+  .g-container .company-profile .g-card .header-main .header-info .template-company .action .btn-text {
+    font-size: 0.32rem;
   }
 
   .g-container .cards .g-card {
