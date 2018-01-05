@@ -143,8 +143,8 @@
               <span>{{item.positionSalaryLowest}}K-{{item.positionSalaryHighest}}K</span>
               <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
             </dd>
-            <dd class="position_detail_date" v-show="item.posiPublishTime">
-              <span>发布时间 : &nbsp;{{item.posiPublishTime}}</span> &nbsp;
+            <dd class="position_detail_date">
+              <span>发布时间 : &nbsp;{{item.createTime}}</span> &nbsp;
               <em>浏览次数 : {{item.views}}次</em>
             </dd>
           </dl>
@@ -1014,6 +1014,51 @@
               color: #999;font-size: 0.26rem;margin-bottom: 0;
               em{
                 font-style: normal;
+              }
+            }
+          }
+        .m_s_company {
+            padding: 15px;
+            background: #fff;
+            height: 56px;
+            .item-logo {
+              display: inline-block;
+              float: left;
+              width: 60px;
+              height: 60px;
+            }
+            .item-desc {
+              margin-left: 70px;
+              height: 1.07rem;
+              position: relative;
+              .item-title {
+                font-size: 1.0625rem;
+                color: #222;
+                margin-bottom: 0.12rem;
+                width: 80%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-weight: 200;
+                white-space: nowrap;
+              }
+              .item-info {
+                width: 100%;
+                height: 15px;
+                line-height: 15px;
+                .item-pos {
+                  font-size: 0.8125rem;
+                  float: left;
+                  width: 80%;
+                  display: inline-block;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  color: #999
+                }
+              }
+              .item-time {
+                font-size: 0.8125rem;
+                color: #999
               }
             }
           }
