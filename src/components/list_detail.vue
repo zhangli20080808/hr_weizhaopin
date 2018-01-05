@@ -110,60 +110,94 @@
         </div>
 
         <div class="job-page__header visible-xs">
-          <div class="job-page__header__title">
-            <span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>
-            <span>{{item.positionName}}</span>
-            <!-- <div class="position_list_right">
-              <i class="iconfont">&#xe624;</i>
-              <span>悬赏金额: {{item.rewardAmount}}元</span>
-            </div> -->
-          </div>
-          <div class="job-page__others">
-            <span class="des"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
-            <span class="price"><i class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
-            <span class="kind">
-              <i class="kind_icon"></i>
-              {{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}
-            </span>
-            <span class="views_person">{{item.views}}人看过</span>
-          </div>
+          <!--<div class="job-page__header__title">-->
+            <!--<span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>-->
+            <!--<span>{{item.positionName}}</span>-->
+            <!--&lt;!&ndash; <div class="position_list_right">-->
+              <!--<i class="iconfont">&#xe624;</i>-->
+              <!--<span>悬赏金额: {{item.rewardAmount}}元</span>-->
+            <!--</div> &ndash;&gt;-->
+          <!--</div>-->
+          <!--<div class="job-page__others">-->
+            <!--<span class="des"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>-->
+            <!--<span class="price"><i class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>-->
+            <!--<span class="kind">-->
+              <!--<i class="kind_icon"></i>-->
+              <!--{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}-->
+            <!--</span>-->
+            <!--<span class="views_person">{{item.views}}人看过</span>-->
+          <!--</div>-->
+          <dl class="position_detail vux-1px-tb">
+            <dt>
+              <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
+              <img src="../components/images/urgent2.png" alt="" width="35px" class="img" v-if="item.isUrgent == 1">
+              <span class="position_name">{{item.positionName}}</span>
+            <div class="position_detail_right" >
+              <em></em>
+              <span>简历悬赏: <span style="font-weight:700;">{{item.rewardAmount}}</span>元</span>
+            </div>
+            </dt>
+            <dd class="position_detail_money">
+              <span>{{getCity(item.workCity)}}</span>
+              <span>{{item.positionType==1?'全职':item.positionType==2?'兼职':'实习'}}</span>
+              <span>{{item.positionSalaryLowest}}K-{{item.positionSalaryHighest}}K</span>
+              <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
+            </dd>
+            <dd class="position_detail_date" v-show="item.posiPublishTime">
+              <span>发布时间 : &nbsp;{{item.posiPublishTime}}</span> &nbsp;
+              <em>浏览次数 : {{item.views}}次</em>
+            </dd>
+          </dl>
         </div>
         <!--公司-->
-        <div class="job-page__header__link visible-xs">
-          <div class="inner" @click="backIndex">
-            <div class="column1">
-              <div class="logo_border">
-                <img :src="homeData.bigLogo" alt="">
-              </div>
-            </div>
-            <div class="column2">
-              <div class="company">{{homeData.form.company_name}}</div>
-              <div class="status">
-                <span class="custom-icon-text-color">{{homeData.s_log_back}}</span>
-              </div>
-            </div>
-            <div class="column3">
-              <span class="arrow_icon"></span>
-            </div>
+        <!--<div class="job-page__header__link visible-xs">-->
+          <!--<div class="inner" @click="backIndex">-->
+            <!--<div class="column1">-->
+              <!--<div class="logo_border">-->
+                <!--<img :src="homeData.bigLogo" alt="">-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="column2">-->
+              <!--<div class="company">{{homeData.form.company_name}}</div>-->
+              <!--<div class="status">-->
+                <!--<span class="custom-icon-text-color">{{homeData.s_log_back}}</span>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="column3">-->
+              <!--<span class="arrow_icon"></span>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <div class="m_s_company" @click="toCompany">
+          <img :src="companyHeadImg" class="item-logo" alt="">
+          <div class="item-desc">
+            <h2 class="item-title">{{name}}</h2>
+            <p class="item-info">
+              <span class="item-pos">
+                {{companyValues}}
+              </span></p>
+            <p class="item-time">
+              {{address}}  | {{domain}} | {{options[status - 1] ? options[status - 1].label : ''}} | {{s_options[dimensions - 1] ? s_options[dimensions - 1].label : ''}}</p>
           </div>
         </div>
         <div class="have_bonus" v-if="item.rewardAmount">
           <img src="./images/have_bonuss.png" alt="">
         </div>
-        <!--职位描述-->
-        <div class="detail_text">
-          <div class="detail_content">
-            <div class="title" v-show="item">职位描述</div>
-            <!--<el-form>-->
-              <!--<el-form-item>-->
-                <!--<el-input  type="textarea" class="text" v-model="item.positionDesc" readonly-->
-                           <!--autosize></el-input>-->
-              <!--</el-form-item>-->
-            <!--</el-form>-->
-            <div class="text" v-html="item.positionDesc" style="line-height:0.4rem;"></div>
 
-          </div>
-        </div>
+        <!--职位描述-->
+        <!--<div class="detail_text">-->
+          <!--<div class="detail_content">-->
+            <!--<div class="title" v-show="item">职位描述</div>-->
+            <!--&lt;!&ndash;<el-form>&ndash;&gt;-->
+              <!--&lt;!&ndash;<el-form-item>&ndash;&gt;-->
+                <!--&lt;!&ndash;<el-input  type="textarea" class="text" v-model="item.positionDesc" readonly&ndash;&gt;-->
+                           <!--&lt;!&ndash;autosize></el-input>&ndash;&gt;-->
+              <!--&lt;!&ndash;</el-form-item>&ndash;&gt;-->
+            <!--&lt;!&ndash;</el-form>&ndash;&gt;-->
+            <!--<div class="text" v-html="item.positionDesc" style="line-height:0.4rem;"></div>-->
+
+          <!--</div>-->
+        <!--</div>-->
       </div>
     </div>
     </scroller>
@@ -232,6 +266,17 @@
           positionSalaryHighest: '',
           positionDesc: ''
         },
+        companyHeadImg:null,
+        companyUrl:null,
+        name:null,
+        imgUrl:null,
+        title:null,
+        desc:null,
+        address:'',
+        companyValues:'',
+        dimensions:'',
+        domain:'',
+        status:'',
         dialogVisible2: false,
         formShare: {
           eLink: ''
@@ -245,7 +290,44 @@
         title:'',
         desc:'',
         imgUrl:'',
-
+        options: [{
+          value: 1,
+          label: '0-50'
+        }, {
+          value: 2,
+          label: '50-100'
+        }, {
+          value: 3,
+          label: '100-500'
+        }, {
+          value: 4,
+          label: '500-1000'
+        }, {
+          value: 5,
+          label: '1000人以上'
+        }],
+        s_options: [{
+          value: 1,
+          label: '天使轮'
+        }, {
+          value: 2,
+          label: 'A轮'
+        }, {
+          value: 3,
+          label: 'B轮'
+        }, {
+          value: 4,
+          label: 'C轮'
+        }, {
+          value: 5,
+          label: 'D轮'
+        }, {
+          value: 6,
+          label: '上市'
+        }, {
+          value: 7,
+          label: '未融资'
+        }],
       }
     },
     props: {
@@ -264,6 +346,7 @@
       this.probeType = 3
       this.listenScroll = true
       this._getDetail();
+      this.getWzpIndexInfo()
       // this.getSignature();
       if (this.$route.query.companyId) {
         this.companyId = this.$route.query.companyId;
@@ -413,6 +496,9 @@
 
         })
       },
+      toCompany(){
+        location.href="https://aijuhr.com/miniRecruit/#/?companyId="+this.companyId;
+      },
       backIndex() {
         this.$router.push({
           path: `/`,
@@ -460,6 +546,26 @@
           message: "复制成功",
           type: 'success'
         })
+      },
+      getWzpIndexInfo(){
+        let self=this;
+        let methods="wzpCompany/getWzpCompanyInfo",
+          param=JSON.stringify({
+            type:2,
+            companyId:self.companyId
+          }),
+          successd= (res) => {
+            console.log(res);
+            self.companyHeadImg=res.data.data.companyHeadImg;
+            self.companyUrl=res.data.data.companyUrl;
+            self.name=res.data.data.name;
+            self.companyValues=res.data.data.companyValues;
+            self.address=res.data.data.address;
+            self.domain=res.data.data.domain;
+            self.status=res.data.data.status;
+            self.dimensions=res.data.data.dimensions;
+          };
+        self.$http(methods,param,successd);
       },
       close(){
         this.model = false
@@ -873,6 +979,44 @@
               }
             }
 
+          .position_detail{
+            padding: 12px 15px;font-size: 0.34rem;background-color: #fff;clear: both;
+            &::before{
+              border-top: none;
+            }
+            dt{
+              line-height: 0.3rem;height: 0.3rem;margin-bottom: 10px;font-size: 0.28rem;color: #222;
+              img{
+                display: inline-block;
+                vertical-align: middle;
+                line-height: 24px;
+              }
+              .position_name{
+                display: inline-block;
+                vertical-align: middle;
+              }
+              .position_detail_right{
+                float: right; font-size: 0.26rem;font-weight: 500;color: #FDA732;
+             /*   em{
+                  background: url(../../assets/img/money.png) no-repeat center center;display: inline-block;width: 1rem;height: 1rem;background-size: 100% 100%;vertical-align: middle;line-height: 0.875rem;margin-top:-3px;
+                }*/
+              }
+
+            }
+            .position_detail_money{
+              margin-bottom: 6px;
+              color: #666;
+              span{
+                margin-right: 2px;background-color: #e5e5e5;padding: 3px 5px;border-radius: 2px;color: #999999;font-size: 0.26rem;
+              }
+            }
+            .position_detail_date{
+              color: #999;font-size: 0.26rem;margin-bottom: 0;
+              em{
+                font-style: normal;
+              }
+            }
+          }
         .job-page__header__link {
           display: block;
           background: #fff;
