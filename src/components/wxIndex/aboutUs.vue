@@ -2,7 +2,7 @@
 
   <!--模板-->
   <div class="g-container" id="aboutUs">
-    <div class="company-profile" v-show="preCompanyWebsite.name">
+    <div class="company-profile">
       <div class="g-card profile-header">
         <!--banner-->
         <div class="header-section banner">
@@ -175,7 +175,7 @@
     <div class="footer_icon" v-show="preCompanyWebsite.name">
       <div class="img_detail"></div>
     </div>
-    <div class="about_online" v-show="preCompanyWebsite.name">
+    <div class="about_online">
       <div class="us" :class="{'activeColor':active}">关于我们</div>
       <div class="online_p" @click="getPosition">在招职位</div>
     </div>
