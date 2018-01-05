@@ -1,9 +1,13 @@
 <template>
   <div class="onlinePosition">
-    <div v-show="list.length">
+    <div>
       <scroller lock-x ref="scrollerBottom" height="-55">
         <div class="list_content">
           <img src="../../common/image/banner_online.png" alt="" width="100%" height="100%">
+          <div class="no_result" v-show="!list.length">
+            <div class="img"></div>
+            <div class="text">暂无在招职位</div>
+          </div>
           <dl class="position_detail" v-for="item in list" @click="selectItem(item)">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
@@ -22,7 +26,9 @@
             </dd>
           </dl>
           <div class="footer_icon" v-show="list.length>4">
-            <div class="img_detail"></div>
+            <a href="https://aijuhr.com">
+              <div class="img_detail"></div>
+            </a>
           </div>
         </div>
       </scroller>
@@ -31,7 +37,7 @@
         <div class="online_p" :class="{'activeColor':active}">在招职位</div>
       </div>
     </div>
-    <loading v-show="!list.length"></loading>
+    <!--<loading v-show="!list.length"></loading>-->
   </div>
 </template>
 
@@ -131,6 +137,26 @@
     background-color: #F8F8FC;
     padding-bottom: 0.86rem
     .list_content {
+      .no_result{
+        padding :30px;
+        width 100%;
+        height :200px;
+        padding-top :120px;
+        .text{
+          color :#999;
+          font-size :14px;
+          text-align :center;
+          padding-top :10px;
+        }
+        .img{
+          margin :0 auto;
+          width :64px;
+          height :63px;
+          background: url(../../common/image/no-result.png)no-repeat center;
+          background-size :cover;
+        }
+
+      }
       .footer_icon {
         height: 0.89rem;
         line-height: 0.89rem;

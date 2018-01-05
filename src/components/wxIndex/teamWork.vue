@@ -441,13 +441,16 @@
         height: 0.64rem
         background: #F7F7F7
         width: 100%
-        line-height: 0.64rem
+        line-height: 0.64rem;
+        text-align :center;
       .title
+        display :inline-block;
+        vertical-align :top;
+        width :2.53rem;
         height: 0.64rem !important
         line-height: 0.64rem !important
-        text-align: center !important
         color: #999999 !important
         font-size: 0.14rem !important
-        background: url(../../common/image/footLogo.png) no-repeat center !important
+        background: url(../../common/image/footLogo2.jpg) no-repeat center !important
         background-size: 100% !important
 </style>
