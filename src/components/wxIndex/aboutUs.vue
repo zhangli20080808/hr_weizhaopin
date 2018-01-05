@@ -719,7 +719,7 @@
     padding-right: 0.141429rem;
     white-space: pre-line;
     font-size: 14px;
-    color: #abb4c3;
+    color: #999;
   }
 
   .g-container .company-profile .g-card .header-main .header-info .template-company .action {
@@ -893,7 +893,7 @@
   }
 
   .g-container .cards .vertical-list .gamma-type-0 .slide .list-item .inner .g-flex .gamma-right .gamma-right-height .gamma-description {
-    color: #262626;
+    color: #999;
     line-height: 0.4rem;
     z-index: 0;
   }

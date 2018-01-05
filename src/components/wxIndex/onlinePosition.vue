@@ -17,7 +17,7 @@
               <!-- <div class="position_list_right">{{item.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
-              <span>发布时间 : &nbsp;{{item.posiPublishTime}}</span> &nbsp;
+              <span>发布时间 : &nbsp;{{item.createTime}}</span> &nbsp;
               <em>浏览次数 : {{item.views}}次</em>
             </dd>
           </dl>

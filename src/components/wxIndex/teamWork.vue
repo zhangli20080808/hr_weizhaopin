@@ -135,11 +135,6 @@
 </script>
 <style lang="less">
   @import '~vux/src/styles/1px.less';
-  @import '~vux/src/styles/close';
-
-  .vux-close:before, .vux-close:after {
-    height: 2px;
-  }
 </style>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 
@@ -371,16 +366,15 @@
   .teamwork .cards .member-list .member .member-header .member-name {
     margin-bottom: 4px;
     height: 0.45rem;
-    line-height 0.45rem;
   }
 
   .teamwork .cards .member-list .member .member-header .member-name .name {
-    padding: 0px 4px;
+    padding: 2px 4px ;
     display: inline-block;
-    height: 0.45rem;
-    line-height 0.45rem;
     border-radius: 5px;
     text-align: center;
+    height :0.45rem;
+    line-height :0.4rem;
     background: #5AA2E7;
     color: #fff;
     font-size: 0.26rem;
@@ -390,8 +384,11 @@
   .teamwork .cards .member-list .member .member-header .member-name .positionName {
     display: inline-block;
     vertical-align: middle;
+    padding-top:1px;
     color: #222;
-    font-size: 0.26rem;
+    height :0.45rem;
+    line-height :0.45rem;
+    font-size: 0.34rem;
   }
 
   .teamwork .cards .member-list .member .member-main {
