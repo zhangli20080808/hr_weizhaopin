@@ -67,7 +67,6 @@
       index(){
         var self=this;
         self.interviewResumeInfo=JSON.parse(localStorage.interviewResumeInfo);
-        console.log(self.interviewResumeInfo);
       },
       sendResume(){
         var self=this;

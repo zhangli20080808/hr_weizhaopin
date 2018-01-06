@@ -603,6 +603,7 @@
       .detail_text
         background: #fff
         padding: 19px 0 29px 23px
+        min-height: 350px;
         .detail_content
           .title
             margin-bottom: 20px

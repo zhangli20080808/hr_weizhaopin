@@ -1,25 +1,24 @@
 <template>
-  <div id="loginResume" class="loginResume">
+  <div id="loginResume" class="loginResume" :style="{'height':wh+'px'}">
 
     <!-- 智联 -->
     <div class="login_zhilian" v-if="type==2">
       <div class="login_icon"></div>
       <div class="login_con">
         <group>
-          <x-input name="username" placeholder="请输入账号" :border-intent="false" v-model="account"></x-input>
-          <x-input name="password" placeholder="请输入密码" type="password"  v-model="pwd"></x-input>
-          <x-input name="emial" placeholder="请输入邮箱" type="email" is-type='email'  v-model="email"></x-input>
-          <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone"></x-input>
-          <div style="padding:15px;">
+          <x-input name="username" placeholder="请输入账号" :border-intent="false" v-model="account" title="账 号"></x-input>
+          <x-input name="password" placeholder="请输入密码" type="password"  v-model="pwd" title="密 码"></x-input>
+          <x-input name="emial" placeholder="请输入邮箱" type="email" is-type='email'  v-model="email" title="邮 箱"></x-input>
+          <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone" title="手机号"></x-input>
+        </group>
+          <div style="padding:30px 15px 0;">
             <x-button type="primary" @click.native="login(2)" class="hrm_primary_btn">确认登录并投递</x-button>
           </div>
           <div style="padding:15px;" class="login_remake">
-            <p>爱聚HR将读取以下资料:</p>
-            <p>1、完整档案：包括项目经历、教育背景等 </p>
-            <p>2、账户的邮箱、电话等联系方式  </p>
-            <p>3、个人基本信息和通讯地址 </p>
+            <p><i></i>您的账号和密码不会被保存</p>
+            <p><i></i>您的简历将仅用于应聘</p>
+            <p><i></i>我们会对您的简历保密</p>
           </div>
-        </group>
       </div>
     </div>
 
@@ -32,16 +31,15 @@
               <x-input name="password" placeholder="请输入密码" type="password"  v-model="pwd"></x-input>
               <!-- <x-input name="emial" placeholder="请输入邮箱" type="email" is-type='email'  v-model="email"></x-input>
               <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone"></x-input> -->
+            </group>
               <div style="padding:15px;">
                 <x-button type="primary" @click.native="login(1)" class="hrm_primary_btn">确认登录并投递</x-button>
               </div>
               <div style="padding:15px;" class="login_remake">
-                <p>爱聚HR将读取以下资料:</p>
-                <p>1、完整档案：包括项目经历、教育背景等 </p>
-                <p>2、账户的邮箱、电话等联系方式  </p>
-                <p>3、个人基本信息和通讯地址 </p>
+                <p><i type="success"></i>您的账号和密码不会被保存</p>
+                <p><i type="success"></i>您的简历将仅用于应聘</p>
+                <p><i type="success"></i>我们会对您的简历保密</p>
               </div>
-            </group>
           </div>
         </div>
 
@@ -54,16 +52,15 @@
           <x-input name="password" placeholder="请输入密码" type="password"  v-model="pwd"></x-input>
           <!-- <x-input name="emial" placeholder="请输入邮箱" type="email" is-type='email'  v-model="email"></x-input>
           <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone"></x-input> -->
-          <div style="padding:15px;">
+        </group>
+          <div style="padding:30px 15px 0;">
             <x-button type="primary" @click.native="login(6)" class="hrm_primary_btn" >确认登录并投递</x-button>
           </div>
           <div style="padding:15px;" class="login_remake">
-            <p>爱聚HR将读取以下资料:</p>
-            <p>1、完整档案：包括项目经历、教育背景等 </p>
-            <p>2、账户的邮箱、电话等联系方式  </p>
-            <p>3、个人基本信息和通讯地址 </p>
+            <p><i type="success"></i>您的账号和密码不会被保存</p>
+            <p><i type="success"></i>您的简历将仅用于应聘</p>
+            <p><i type="success"></i>我们会对您的简历保密</p>
           </div>
-        </group>
       </div>
     </div>
 
@@ -71,15 +68,12 @@
       <p class="dialog-title">请输入验证码</p>
       <div class="img-box">
         <x-img :src="src" title="点击刷新" class="code_img"></x-img>
-        <group>
-          <x-input title="请输入验证码" v-model="vcode"></x-input>
-          <div style="padding:15px;">
-          <x-button type="primary" class="hrm_primary_btn" @click.native="login(-1)">提交</x-button>
-        </div>
+        <group class="vux-1px-b">
+          <x-input title="验证码" v-model="vcode"></x-input>
         </group>
       </div>
-      <div @click="showScrollBox=false">
-        <span class="vux-close"></span>
+      <div @click="login(-1)" class="code_btn">
+        <span class="">确定</span>
       </div>
     </x-dialog>
 
@@ -92,10 +86,12 @@
   </div>
 </template>
 <script>
-import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugin } from 'vux';
+import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugin,Icon} from 'vux';
   export default {
     name:'loginResume',
     data(){
+      console.log(window.innerHeight);
+      let wh=window.innerHeight;
       return{
         type:1,//登录来源 1,前程无忧;2,智联招聘;6.拉钩
         account:'',
@@ -114,7 +110,8 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         loginMsg:'账号或密码错误',
         shareFansId:this.$route.query.shareFansId,
         fansId:this.$route.query.fansId,
-        recomType:this.$route.query.recomType
+        recomType:this.$route.query.recomType,
+        wh:wh
       }
     },
     mounted(){
@@ -225,7 +222,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         self.$resumeHttp(param,successd,errord);
       }
     },
-    components:{XInput, Group, XButton, Cell,XDialog,XImg,Popup,WechatPlugin},
+    components:{XInput, Group, XButton, Cell,XDialog,XImg,Popup,WechatPlugin,Icon},
     directives: {
       TransferDom
     },
@@ -255,8 +252,6 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
     font-size: 0.32rem;
   }
   .img-box {
-    height: 200px;
-    overflow: hidden;
   }
   .vux-close {
     margin-top: 8px;
@@ -279,10 +274,19 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
 }
 </style>
 <style scoped>
-.loginResume{background-color: #fff;}
-.login_icon{height: 4rem;background: url(../../common/image/micresume/zhilian_icon.png) no-repeat center center}
-.login_remake{color: #666;font-size: 0.32rem;}
+.loginResume{background-color: #F8F8FC;position:relative;}
+.login_icon{height: 2.7rem;background: url(../../common/image/micresume/zhilian_icon.png) no-repeat center center;}
+.login_remake{color: #666;font-size: 0.32rem;position: absolute;bottom:0;left:20%;font-size: 0.3rem;line-height: 0.4rem;}
+.login_remake i{background: url(../images/success.png) no-repeat center center; width: 0.3rem;height: .3rem;display: inline-block;background-size: 100% auto;vertical-align: middle;margin-right:5px;margin-top:-1px;}
 
-.login_jobs .login_icon{background: url(../../common/image/micresume/jobs_icon.png) no-repeat center center}
-.login_lagou .login_icon{background: url(../../common/image/micresume/lagou_icon.png) no-repeat center center}
+.login_jobs .login_icon{background: url(../../common/image/micresume/jobs_icon.png) no-repeat center center;}
+.login_lagou .login_icon{background: url(../../common/image/micresume/lagou_icon.png) no-repeat center center;}
+.hrm_primary_btn{background-color: #5aa2e7;}
+.hrm_primary_btn:active{background-color: #5aa2e7;}
+.code_btn{font-size: 0.36rem;line-height: 50px;color: #5aa2e7;}
 </style>
+<style>
+.loginResume .weui-label{color:#000;}
+
+</style>
+
