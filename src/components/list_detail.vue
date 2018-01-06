@@ -79,7 +79,7 @@
         </div>
         <div class="split"></div>
         <!-- 相关职位推荐 -->
-        <div class="pos_detail">
+        <div class="pos_detail" v-show="positionInfo.similarPositions && positionInfo.similarPositions.length!=0">
           <h2 class="description vux-1px-tb">
             <span class="recommend"></span>
             <span class="text">相关职位推荐</span>
@@ -331,12 +331,17 @@
         location.href="https://aijuhr.com/miniRecruit/#/?companyId="+this.companyId;
       },
       join(){
-        // self.$router.push({path:'/addResume',query:{id:this.positionId,shareFansId:self.shareFansId}})
-        location.href="https://aijuhr.com/miniRecruit/#/addResume?id="+this.positionId
-          +'&shareFansId='+this.shareFansId
-          +"&companyId="+this.companyId
-          +"&recomType="+this.recomType
-          +"&fansId="+this.fansId;
+//         self.$router.push({path:'/addResume',query:{id:this.positionId,shareFansId:self.shareFansId}})
+//        location.href="https://aijuhr.com/miniRecruit/#/addResume?id="+this.positionId
+//          +'&shareFansId='+this.shareFansId
+//          +"&companyId="+this.companyId
+//          +"&recomType="+this.recomType
+//          +"&fansId="+this.fansId;
+        var self=this;
+        if (document.body.clientWidth<550) {
+          self.$router.push({path:'/addResume',query:{id:this.positionId,companyId:self.companyId}})
+          return;
+        }
       },
       filter(item){
         return item.split(',')[1]
@@ -569,12 +574,13 @@
       .software{
         padding: 15px 0;
         ul{
+          font-size: 0;
           li{
             display: inline-block;
-            padding: 2px 4px;
+            padding: 2px 4px 5px;
             list-style: none;
             height: 22px;
-            line-height: 22px;
+            line-height: 20px;
             border-radius: 5px;
             text-align: center;
             color: #fff;
@@ -652,7 +658,7 @@
   .have_bonus{width:75px;height: 75px;position: absolute;top: -5px;right: 25px;}
   .have_bonus img{width: 100%}
   .share_btn{position: fixed;bottom: 0;width: 100%;height: 46px;background-color: #fff;}
-  .share_btn .flex-demo{text-align: center;background: red;line-height: 46px;height: 46px;}
+  .share_btn .flex-demo{text-align: center;background: red;line-height: 40px;height: 46px;}
   .share_btn .flex-demo1{background-color: #5AA2E7;color: #fff;}
   .share_btn .flex-demo1 .pos_icon1{
     display: inline-block;
