@@ -20,10 +20,10 @@
             <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
             <img src="../common/image/urgent2.png" alt="" width="35px" class="img" v-if="positionInfo.isUrgent==1">
             <span class="position_name">{{positionInfo.positionName}}</span>
-          <div class="position_detail_right">
-            <em></em>
-            <span>简历悬赏: <span style="font-weight:700;">{{positionInfo.rewardAmount}}</span>元</span>
-          </div>
+          <!--<div class="position_detail_right">-->
+            <!--<em></em>-->
+            <!--<span>简历悬赏: <span style="font-weight:700;">{{positionInfo.rewardAmount}}</span>元</span>-->
+          <!--</div>-->
           </dt>
           <dd class="position_detail_money" v-show="positionInfo.workCitySpilt">
             <span>{{positionInfo.workCitySpilt}}</span>
@@ -51,8 +51,8 @@
           </div>
         </div>
         <!-- 职位描述 -->
-        <div class="split"></div>
-        <div class="pos_detail">
+        <div class="split" v-show="positionInfo.positionDesc"></div>
+        <div class="pos_detail" v-if="positionInfo.positionDesc">
           <h2 class="description vux-1px-tb" >
             <span class="pos_des"></span>
             <span class="text">职位描述</span>
@@ -77,7 +77,7 @@
             </ul>
           </div>
         </div>
-        <div class="split"></div>
+        <div class="split" v-show="positionInfo.positionDesc"></div>
         <!-- 相关职位推荐 -->
         <div class="pos_detail" v-show="positionInfo.similarPositions && positionInfo.similarPositions.length!=0">
           <h2 class="description vux-1px-tb">
@@ -104,7 +104,7 @@
             </dd>
           </dl>
         </div>
-        <div class="logo">
+        <div class="logo" v-show="positionInfo.positionDesc">
           <div class="logo_img"></div>
 
         </div>
@@ -328,7 +328,7 @@
         self.$http(methods,param,successd);
       },
       toCompany(){
-        location.href="https://aijuhr.com/miniRecruit/#/?companyId="+this.companyId;
+        location.href="https://aijuhr.com/miniRecruit/#/about?companyId="+this.companyId;
       },
       join(){
 //         self.$router.push({path:'/addResume',query:{id:this.positionId,shareFansId:self.shareFansId}})
@@ -569,7 +569,7 @@
         }
       }
       .description_con{
-        color: #666;font-size: 0.26rem;padding: 10px 0;text-align: justify;line-height: 0.4rem;
+        color: #666;font-size: 0.28rem;padding: 10px 0;text-align: justify;line-height: 0.4rem;
       }
       .software{
         padding: 15px 0;
