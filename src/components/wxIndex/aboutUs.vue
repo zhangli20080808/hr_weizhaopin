@@ -108,15 +108,6 @@
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
-
-
-
-
-
-
-
-
-
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
