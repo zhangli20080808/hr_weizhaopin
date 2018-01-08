@@ -172,6 +172,7 @@
         </div>
       </div>
     </div>
+    <p id="openLocation">gsgsgs</p>
     <div class="footer_icon" v-show="preCompanyWebsite.name">
       <div class="img_detail"></div>
     </div>
@@ -434,7 +435,7 @@
                 cancel: function () {
                   console.log('用户取消分享后执行的回调函数2');
                 }
-              })
+              });
 
             })
           })
@@ -446,6 +447,7 @@
         }
         this.careQrcode = true
       },
+
       getCode(){
         let queryParam = this.urlParse();
         if (!queryParam.code) {
@@ -502,6 +504,7 @@
         var successd = function (res) {
           _this.getCompanyDetail()
           _this.isAuthorization = res.data.data.subcribeStatus
+          _this.isAuthorization = 1
           _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl
         }
         _this.$http(method, param, successd);
@@ -595,8 +598,8 @@
   .g-ghost-white-btn {
     width: 135px;
     background-color: transparent;
-    color: #979797;
-    border-color: #979797;
+    color: #ccc;
+    border-color: #ccc;
     border-radius: 37px;
     font-size: 0.32rem;
   }
