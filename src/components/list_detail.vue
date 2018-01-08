@@ -658,7 +658,7 @@
   .have_bonus{width:75px;height: 75px;position: absolute;top: -5px;right: 25px;}
   .have_bonus img{width: 100%}
   .share_btn{position: fixed;bottom: 0;width: 100%;height: 46px;background-color: #fff;}
-  .share_btn .flex-demo{text-align: center;background: red;line-height: 40px;height: 46px;}
+  .share_btn .flex-demo{text-align: center;background: red;line-height: 37px;height: 46px;}
   .share_btn .flex-demo1{background-color: #5AA2E7;color: #fff;}
   .share_btn .flex-demo1 .pos_icon1{
     display: inline-block;

@@ -9,7 +9,7 @@
           <img :style="bgStyle" class="banner-image" alt="">
         </div>
         <!---->
-        <div class="header-section header-main">
+        <div class="header-section header-main" v-show="preCompanyWebsite.logoUrl">
           <div class="header-icon"><img :src="preCompanyWebsite.logoUrl" alt="" class="icon-image"></div>
           <div class="header-info">
             <div class="template-company">
@@ -17,8 +17,8 @@
               <div class="description">{{preCompanyWebsite.slogan}}</div>
               <div class="action" v-if="isAuthorization!==0">
                 <div class="g-ghost-btn" @click="goCare"
-                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
-                  <div class="btn-text">
+                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}" v-show="isAuthorization">
+                  <div class="btn-text" >
                     {{isAuthorization == 1 ? '已关注' : '关注'}}
 
 
@@ -131,7 +131,7 @@
           </div>
         </div>
       </div>
-      <div class="card-type-3" v-show="preWorkTeam.length">
+      <div class="card-type-3" v-show="preWorkTeam.length&&preWorkTeam.length!=0">
         <div class="g-card" style="margin-bottom: 0">
           <div class="template-card">
             <div class="template-complex">
@@ -278,7 +278,7 @@
         careQrcode: false,
         //企业公众号二维码url
         officilQrcodeUrl: '',
-        isAuthorization: 1,
+        isAuthorization: '',
         code: '',
         active: true
       }
@@ -324,9 +324,9 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            _this.preCompanyWebsite = res.data.data.CompanyWebsite
-            _this.preWorkTeam = res.data.data.WorkTeam
-            _this.WorkEnvironment = res.data.data.WorkEnvironment
+            _this.preCompanyWebsite = res.data.data.CompanyWebsite;
+            _this.preWorkTeam = res.data.data.WorkTeam;
+            _this.WorkEnvironment = res.data.data.WorkEnvironment;
             _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
           }
         }
@@ -501,8 +501,8 @@
         });
         var successd = function (res) {
           _this.getCompanyDetail()
-          _this.isAuthorization = res.data.data.subcribeStatus
-          _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl
+          _this.isAuthorization = res.data.data.subcribeStatus;
+          _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl;
         }
         _this.$http(method, param, successd);
       },
@@ -595,8 +595,8 @@
   .g-ghost-white-btn {
     width: 135px;
     background-color: transparent;
-    color: #979797;
-    border-color: #979797;
+    color: #ccc;
+    border-color: #ccc;
     border-radius: 37px;
     font-size: 0.32rem;
   }
