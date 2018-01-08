@@ -228,8 +228,8 @@
   }
 
   @media all and (max-width: 768px) {
-    html {
-      font-size: 100px
+    body{
+      font-size:.32rem;
     }
 
     body .el-cascader-menus {

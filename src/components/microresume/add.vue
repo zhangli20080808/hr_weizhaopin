@@ -582,11 +582,12 @@
             float: right;
             width: 1.49rem;
             height: 0.64rem;
-            border: 1px solid #DDDDDD;
+            border: 1px solid #5AA2E7;
             font-size: 0.32rem;
-            color: #000;
+            color: #5AA2E7;
             text-align: center;
             line-height: 0.64rem;
+            border-radius:3px;
           }
         }
 
@@ -616,11 +617,12 @@
             float: right;
             width: 1.49rem;
             height: 0.64rem;
-            border: 1px solid #DDDDDD;
+            border: 1px solid #5AA2E7;
             font-size: 0.32rem;
-            color: #000;
+            color: #5AA2E7;
             text-align: center;
             line-height: 0.64rem;
+            border-radius:3px;
           }
         }
 
@@ -650,11 +652,12 @@
             float: right;
             width: 1.49rem;
             height: 0.64rem;
-            border: 1px solid #DDDDDD;
+            border: 1px solid #5AA2E7;
             font-size: 0.32rem;
-            color: #000;
+            color: #5AA2E7;
             text-align: center;
             line-height: 0.64rem;
+            border-radius:3px;
           }
         }
 
