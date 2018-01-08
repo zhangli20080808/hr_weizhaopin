@@ -1,1271 +1,701 @@
 <template>
-  <div id="list_detail" v-show="item.positionName" ref="list">
-    <!--back-->
-    <div class="container hidden-xs ">
+  <div id="interpolateDetail">
+    <scroller lock-x height="-50">
       <div>
-        <div class="detail_des hidden-xs hidden-sm">
-          <el-breadcrumb separator="/" class="tips">
-            <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
-            </el-breadcrumb-item>
-            <el-breadcrumb-item
-              :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
-              class="tips_2">
-              职位列表
-            </el-breadcrumb-item>
-            <el-breadcrumb-item>职位详情</el-breadcrumb-item>
-          </el-breadcrumb>
-        </div>
+        <!--     <dl class="position_detail">
+          <dt>
+            <span class="color_ff8054" v-if="positionInfo.isUrgent==1">[急招]</span>
+            <span>{{positionInfo.positionName}}</span>
+            <span class="f_r" v-if="(isInnerEmp==1&&positionInfo.rewardAmount)||recomType==2">简历悬赏{{positionInfo.rewardAmount}}</span>
+          </dt>
+          <dd>
+            <span>{{positionInfo.workCitySpilt}}</span>
+            <span>{{positionInfo.positionSalaryLowest}}K-{{positionInfo.positionSalaryHighest}}K</span>
+            <span>{{positionInfo.positionType==1?'全职':positionInfo.positionType==2?'兼职':'实习'}}</span>
+            <p class="f_r color_46be8a">{{positionInfo.views}}人看过</p>
+          </dd>
+        </dl> -->
+        <dl class="position_detail vux-1px-tb" v-show="name">
+          <dt>
+            <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
+            <img src="../common/image/urgent2.png" alt="" width="35px" class="img" v-if="positionInfo.isUrgent==1">
+            <span class="position_name">{{positionInfo.positionName}}</span>
+          <!--<div class="position_detail_right">-->
+            <!--<em></em>-->
+            <!--<span>简历悬赏: <span style="font-weight:700;">{{positionInfo.rewardAmount}}</span>元</span>-->
+          <!--</div>-->
+          </dt>
+          <dd class="position_detail_money" v-show="positionInfo.workCitySpilt">
+            <span>{{positionInfo.workCitySpilt}}</span>
+            <span>{{positionInfo.positionType==1?'全职':positionInfo.positionType==2?'兼职':'实习'}}</span>
+            <span>{{positionInfo.positionSalaryLowest}}K-{{positionInfo.positionSalaryHighest}}K</span>
+            <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
+          </dd>
+          <dd class="position_detail_date">
+            <span>发布时间 : &nbsp;{{positionInfo.createTime}}</span> &nbsp;
+            <em>浏览次数 : {{positionInfo.views}}次</em>
+          </dd>
+        </dl>
 
-        <div class="detail_show hidden-xs" v-show="show">
-          <div class="content">
-            <div class="title">{{item.positionName}}</div>
-            <div class="text">
-            <span
-              class="des">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
-              }}</span><span class="price">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
+        <!--公司简介-->
+        <div class="m_s_company" @click="toCompany" v-if="name">
+          <img :src="companyHeadImg" class="item-logo" alt="">
+          <div class="item-desc">
+            <h2 class="item-title">{{name}}</h2>
+            <p class="item-info">
+              <span class="item-pos">
+                {{companyValues}}
+              </span></p>
+            <p class="item-time">
+              {{address}}  | {{domain}} | {{options[status - 1] ? options[status - 1].label : ''}} | {{s_options[dimensions - 1] ? s_options[dimensions - 1].label : ''}}</p>
+          </div>
+        </div>
+        <!-- 职位描述 -->
+        <div class="split" v-show="positionInfo.positionDesc"></div>
+        <div class="pos_detail" v-if="positionInfo.positionDesc">
+          <h2 class="description vux-1px-tb" >
+            <span class="pos_des"></span>
+            <span class="text">职位描述</span>
+            <!--<div class="have_bonus"  v-if="positionInfo.rewardAmount">-->
+              <!--<img src="https://aijuhr.com/miniRecruit/static/img/have_bonuss.0e8cbde.png">-->
+            <!--</div>-->
+          </h2>
+          <div class="description_con">
+            <p v-html="positionInfo.positionDesc"></p>
+          </div>
+        </div>
+        <div class="split" v-if="positionInfo.positionTagList"></div>
+        <!-- 职位福利 -->
+        <div class="pos_detail" v-if="positionInfo.positionTagList">
+          <h2 class="description vux-1px-tb" >
+            <span class="pos_ware"></span>
+            <span class="text">职位福利</span>
+          </h2>
+          <div class="software">
+            <ul>
+              <li v-for="item in positionInfo.positionTagList">{{item.name}}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="split" v-show="positionInfo.positionDesc"></div>
+        <!-- 相关职位推荐 -->
+        <div class="pos_detail" v-show="positionInfo.similarPositions && positionInfo.similarPositions.length!=0">
+          <h2 class="description vux-1px-tb">
+            <span class="recommend"></span>
+            <span class="text">相关职位推荐</span>
+          </h2>
+          <dl class="recommendList vux-1px-tb" v-for="list in positionInfo.similarPositions" @click="goDetail(list.id)">
+            <dt>
+              <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
+              <img src="../common/image/urgent2.png" alt="" width="35px" class="img"  v-if="list.isUrgent==1">
+              <span class="position_name">{{list.positionName}}</span>
+            <div class="position_detail_right" v-if="(positionInfo.rewardAmount&&isInnerEmp==1)||recomType==2">
             </div>
-            <div class="p_time">发布时间：{{filterTime(item.posiPublishTime)}}</div>
+            </dt>
+            <dd class="position_detail_money">
+              <span>{{filter(list.workCity)}}</span>
+              <span>{{list.positionType==1?'全职':list.positionType==2?'兼职':'实习'}}</span>
+              <span>{{list.positionSalaryLowest}}K-{{list.positionSalaryHighest}}K</span>
+              <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
+            </dd>
+            <dd class="position_detail_date">
+              <span>发布时间 : &nbsp;{{list.createTime}}</span> &nbsp;
+              <em>浏览次数 : {{list.views}}次</em>
+            </dd>
+          </dl>
+        </div>
+        <div class="logo" v-show="positionInfo.positionDesc">
+          <div class="logo_img"></div>
 
-            <div class="post_share">
-              <el-button type="primary" @click="join">申请职位</el-button>
-              <el-button @click="share">分享职位</el-button>
-            </div>
-          </div>
-        </div>
-        <div class="job-page__header visible-xs">
-          <div class="job-page__header__title">
-            <span>{{item.positionName}}</span>
-          </div>
-          <div class="job-page__others">
-            <span class="des"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
-            <span class="price"><i class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
-            <span class="kind"><i
-              class="kind_icon"></i>{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
-              }}</span>
-          </div>
-        </div>
-        <!--公司-->
-        <div class="job-page__header__link visible-xs">
-          <div class="inner" @click="backIndex">
-            <div class="column1">
-              <div class="logo_border">
-                <img :src="homeData.bigLogo" alt="">
-              </div>
-            </div>
-            <div class="column2">
-              <div class="company">{{homeData.form.company_name}}</div>
-              <div class="status">
-                <span class="custom-icon-text-color">{{homeData.s_log_back}}</span>
-              </div>
-            </div>
-            <div class="column3">
-              <span class="arrow_icon"></span>
-            </div>
-          </div>
-        </div>
-        <!--职位描述-->
-        <div class="detail_text">
-          <div class="detail_content">
-            <div class="title" v-show="item">职位描述</div>
-            <div class="text" v-html="item.positionDesc" ></div>
-          </div>
         </div>
       </div>
-    </div>
-    <!-- <div class="back hidden-sm hidden-lg">
-      <i class="icon" @click="back"></i>
-      <h2 class="title">职位详情</h2>
-    </div> -->
-    <scroller lock-x class="hidden-sm hidden-lg">
-    <div class="container ">
-      <div>
-        <div class="detail_des hidden-xs hidden-sm">
-          <el-breadcrumb separator="/" class="tips">
-            <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
-            </el-breadcrumb-item>
-            <el-breadcrumb-item
-              :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
-              class="tips_2">
-              职位列表
-            </el-breadcrumb-item>
-            <el-breadcrumb-item>职位详情</el-breadcrumb-item>
-          </el-breadcrumb>
-        </div>
-
-        <div class="detail_show hidden-xs" v-show="show">
-          <div class="content">
-            <div class="title">{{item.positionName}}</div>
-            <div class="text">
-            <span
-              class="des">{{getCity(item.workCity)}}/{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'
-              }}</span><span class="price">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
-            </div>
-            <div class="p_time">发布时间：{{filterTime(item.posiPublishTime)}}</div>
-
-            <div class="post_share">
-              <el-button type="primary" @click="join">申请职位</el-button>
-              <el-button @click="share">分享职位</el-button>
-            </div>
-          </div>
-        </div>
-
-        <div class="job-page__header visible-xs">
-          <div class="job-page__header__title">
-            <span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>
-            <span>{{item.positionName}}</span>
-            <!-- <div class="position_list_right">
-              <i class="iconfont">&#xe624;</i>
-              <span>悬赏金额: {{item.rewardAmount}}元</span>
-            </div> -->
-          </div>
-          <div class="job-page__others">
-            <span class="des"><i class="address_icon"></i>{{getCity(item.workCity)}}</span>
-            <span class="price"><i class="salary_icon"></i>{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
-            <span class="kind">
-              <i class="kind_icon"></i>
-              {{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}
-            </span>
-            <span class="views_person">{{item.views}}人看过</span>
-          </div>
-        </div>
-        <!--公司-->
-        <div class="job-page__header__link visible-xs">
-          <div class="inner" @click="backIndex">
-            <div class="column1">
-              <div class="logo_border">
-                <img :src="homeData.bigLogo" alt="">
-              </div>
-            </div>
-            <div class="column2">
-              <div class="company">{{homeData.form.company_name}}</div>
-              <div class="status">
-                <span class="custom-icon-text-color">{{homeData.s_log_back}}</span>
-              </div>
-            </div>
-            <div class="column3">
-              <span class="arrow_icon"></span>
-            </div>
-          </div>
-        </div>
-        <div class="have_bonus" v-if="item.rewardAmount">
-          <img src="./images/have_bonuss.png" alt="">
-        </div>
-        <!--职位描述-->
-        <div class="detail_text">
-          <div class="detail_content">
-            <div class="title" v-show="item">职位描述</div>
-            <!--<el-form>-->
-              <!--<el-form-item>-->
-                <!--<el-input  type="textarea" class="text" v-model="item.positionDesc" readonly-->
-                           <!--autosize></el-input>-->
-              <!--</el-form-item>-->
-            <!--</el-form>-->
-            <div class="text" v-html="item.positionDesc" style="line-height:0.4rem;"></div>
-
-          </div>
-        </div>
-      </div>
-    </div>
     </scroller>
-    <div class="footer hidden-xs">
-      <footer>
-        <div class="title"></div>
-      </footer>
-    </div>
-
-    <div class="mobile_footer visible-xs">
-      <div class="post_share">
-        <button @click="share" class="post_share_button">分享职位</button>
-        <button type="primary" @click="join" class="post_button">我要应聘</button>
+    <div class="share_btn ">
+      <div>
+        <el-row :gutter="20" v-if="recomType==1 && empAuthSucc==1">
+          <el-col :span="24">
+            <div class="flex-demo flex-demo2" @click="shareTipShow=true">我要分享</div>
+          </el-col>
+        </el-row>
+        <el-row  v-else>
+          <el-col :span="12"><div class="flex-demo flex-demo1" @click="shareTipShow=true">
+            <span class="pos_icon1"></span><span class="text">我要分享</span>
+          </div></el-col>
+          <el-col :span="12"><div class="flex-demo flex-demo2" @click="join">
+            <span class="pos_icon2"></span><span class="text">我要投递</span></div></el-col>
+        </el-row>
       </div>
     </div>
-    <el-dialog
-      class="tips2"
-      title="扫码分享职位"
-      :visible.sync="dialogVisible2"
-      size="small"
-    >
-      <div class="content">
-        <div class="img">
-          <img :src="eLogo" alt="">
+    <div class="share" v-if="shareTipShow"  @click="shareTipShow=false">
+      <div class="share_tip"></div>
+    </div>
+
+    <div v-transfer-dom>
+      <x-dialog v-model="dialogShared" class="dialog-demo">
+        <div @click="dialogShared=false" style="text-align:right;padding-right:10px">
+          <span class="vux-close" style="color:#2C2D31;font-weight:600;"></span>
         </div>
-        <div class="des">或使用链接分享</div>
-      </div>
-      <el-form :inline="true" :model="formShare" class="share">
-        <el-form-item>
-          <el-input v-model="formShare.eLink" id="copyLinkInput"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" ref="btn" @click="copyLink">复制链接</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-    <div class="model" v-show="model" @click="close">
-      <div class="share-arrow" v-show="arrow_tip"></div>
+        <div class="img-box">
+          <h1>分享成功</h1>
+          <img :src="sharedQrcodeUrl" style="width:165px">
+          <p>扫码关注 - 获取职位分享动态</p>
+        </div>
+      </x-dialog>
     </div>
-
   </div>
 </template>
 <script>
-  // import Scroll from './base/scroll2'
-  import {XButton, XDialog, TransferDomDirective as TransferDom,Scroller} from 'vux';
-  import util from "./../common/js/util.js";
+  import {Flexbox, FlexboxItem,querystring,XDialog,TransferDomDirective as TransferDom,Scroller} from 'vux';
+  import util from "../common/js/util.js";
   import Axios from 'axios';
   export default {
-    data() {
-      localStorage.companyId=this.$route.query.companyId;
-      localStorage.positionId=this.$route.query.positionId;
-      document.title="职位详情";
-      return {
-        a: '',
-        positionId: this.$route.query.positionId,
-        companyId: this.$route.query.companyId,
-        shareOpenId: this.$route.query.shareOpenId,
-        openId: this.$route.query.openId,
-        item: {
-          positionName: '',
-          classifyName: '',
-          workCity: '',
-          posiPubishTime: '',
-          positionType: 1,
-          positionSalaryLowest: '',
-          positionSalaryHighest: '',
-          positionDesc: ''
+    name:'interpolateDetail',
+    data(){
+      return{
+        shareTipShow:false,
+        //职位详情信息
+        positionInfo:{
+          isUrgent:0,
+          posiPublishTime:"",
+          positionDesc:"",
+          positionName:"",
+          positionSalaryHighest:"",
+          positionSalaryLowest:"",
+          positionType:1,
+          rewardAmount:"",
+          views:0,
+          workCity:"",
+          workCitySpilt:""
         },
-        dialogVisible2: false,
-        formShare: {
-          eLink: ''
-        },
-        eLogo: '',
-        show: false,
-        arrow_tip: false,
-        model: false,
-        showDialogStyle: false,
-        hiddens: true,
-        title:'',
-        desc:'',
-        imgUrl:'',
+        //分享的参数
+        companyHeadImg:null,
+        companyUrl:null,
+        name:null,
+        imgUrl:null,
+        title:null,
+        desc:null,
+        address:'',
+        companyValues:'',
+        dimensions:'',
+        domain:'',
+        status:'',
+        id:'',
+        options: [{
+          value: 1,
+          label: '0-50'
+        }, {
+          value: 2,
+          label: '50-100'
+        }, {
+          value: 3,
+          label: '100-500'
+        }, {
+          value: 4,
+          label: '500-1000'
+        }, {
+          value: 5,
+          label: '1000人以上'
+        }],
+        s_options: [{
+          value: 1,
+          label: '天使轮'
+        }, {
+          value: 2,
+          label: 'A轮'
+        }, {
+          value: 3,
+          label: 'B轮'
+        }, {
+          value: 4,
+          label: 'C轮'
+        }, {
+          value: 5,
+          label: 'D轮'
+        }, {
+          value: 6,
+          label: '上市'
+        }, {
+          value: 7,
+          label: '未融资'
+        }],
+        //从url里拿值
+        isInnerEmp:this.$route.query.isInnerEmp,//是否显示金额
+        empEmail:this.$route.query.empEmail,
+        pageFrom:this.$route.query.pageFrom,//2:内推详情,4:捕手详情
+        recomType:this.$route.query.recomType,//1:内推,2:捕手
+        positionId:this.$route.query.positionId,
+        companyId:this.$route.query.companyId,
+        shareFansId:this.$route.query.shareFansId,
+        fansId:this.$route.query.fansId,
+        empId:this.$route.query.empId,
+        empAuthSucc:this.$route.query.empAuthSucc,//1:认证成功的内部员工
 
+        accountName:'',
+        sharedQrcodeUrl:'',
+        dialogShared:false,
+        isSubscribe:0,//用户是否关注1:已关注,0:未关注
       }
-    },
-    props: {
-      homeData: {
-        type: Object
-      }
-    },
-    directives: {
-      TransferDom
-    },
-    created() {
-      var ua = navigator.userAgent.toLowerCase();
-      var isWeixin = ua.indexOf('micromessenger') != -1;
     },
     mounted(){
-      this.probeType = 3
-      this.listenScroll = true
-      this._getDetail();
-      // this.getSignature();
-      if (this.$route.query.companyId) {
-        this.companyId = this.$route.query.companyId;
-        localStorage.companyId=this.companyId;
-      }
-      if (this.$route.params.id) {
-        this.id = this.$route.params.id
-      }
-      if (this.$route.name !== 'home') {
-        this.hiddens = false
-      }
-      this.getShareTitleInfo();
+      document.title="职位详情";
+      document.getElementById("interpolateDetail").style.minHeight=window.innerHeight-60+'px';
+
+      setTimeout(()=>{
+        this.getPositionInfo();
+        this.getWzpIndexInfo();
+        this.getShareTitleInfo();
+        this.getPositionInfo()
+      },20)
     },
-    methods: {
+    methods:{
       getSignature(){
         var self=this;
-        Axios.post(util.wxSignature,'url='+encodeURIComponent(location.href.split('#')[0]))
-        .then(function(res){
-          self.$wechat.config({
-            debug:false,
-            appId:res.data.appid,
-            timestamp:res.data.timestamp,
-            nonceStr:res.data.noncestr,
-            signature:res.data.signature,
-            jsApiList: [
-              'checkJsApi',
-              'onMenuShareTimeline',
-              'onMenuShareAppMessage',
-              'onMenuShareQQ',
-              'onMenuShareWeibo',
-              'onMenuShareQZone',
-              'hideMenuItems',
-              'showMenuItems',
-              'hideAllNonBaseMenuItem',
-              'showAllNonBaseMenuItem',
-              'translateVoice',
-              'startRecord',
-              'stopRecord',
-              'onVoiceRecordEnd',
-              'playVoice',
-              'onVoicePlayEnd',
-              'pauseVoice',
-              'stopVoice',
-              'uploadVoice',
-              'downloadVoice',
-              'chooseImage',
-              'previewImage',
-              'uploadImage',
-              'downloadImage',
-              'getNetworkType',
-              'openLocation',
-              'getLocation',
-              'hideOptionMenu',
-              'showOptionMenu',
-              'closeWindow',
-              'scanQRCode',
-              'chooseWXPay',
-              'openProductSpecificView',
-              'addCard',
-              'chooseCard',
-              'openCard'
-            ]
+        self.$wechat.ready(function(res){
+          //分享给朋友
+          self.$wechat.onMenuShareAppMessage({
+            title:self.title,
+            desc:self.desc,
+            link:'https://aijuhr.com/wx/dist/#/wx/interpolateDetail?companyId='+self.companyId
+            +"&shareFansId="+(self.recomType==1?self.shareFansId:self.fansId)
+            +"&positionId="+self.positionId
+            +"&empId="+self.empId
+            +"&pageFrom="+self.pageFrom
+            +"&recomType="+self.recomType,//分享链接
+            imgUrl:self.imgUrl,//分享图标
+            type:'',
+            dataUrl:'',
+            success:function(){
+              //分享成功回调
+              self.sharePosition();
+              self.getWeChatOfficialAccountInfo();
+            },
+            cancel: function () {
+              console.log('用户取消分享后执行的回调函数1');
+            }
           });
-          self.$wechat.ready(function(res){
-            //分享给朋友
-            self.$wechat.onMenuShareAppMessage({
-              title:self.title,
-              desc:self.desc,
-              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&positionId="+self.positionId,//分享链接
-              imgUrl:self.imgUrl,//分享图标
-              type:'',
-              dataUrl:'',
-              success:function(){
-                console.log('分享成功1');
-                self.sharePosition();
-              },
-              cancel: function () {
-                console.log('用户取消分享后执行的回调函数1');
-              }
-            });
-            //分享朋友圈
-            self.$wechat.onMenuShareTimeline({
-              title:self.title,
-              desc:self.desc,
-              link:'https://aijuhr.com/miniRecruit/#/listDetail?companyId='+self.companyId+"&positionId="+self.positionId,//分享链接
-              imgUrl:self.imgUrl,//分享图标
-              success:function(){
-                console.log('分享成功2');
-                self.sharePosition();
-              },
-              cancel: function () {
-                console.log('用户取消分享后执行的回调函数2');
-              }
-            })
-
+          //分享朋友圈
+          self.$wechat.onMenuShareTimeline({
+            title:self.title,
+            desc:self.desc,
+            link:'https://aijuhr.com/wx/dist/#/wx/interpolateDetail?companyId='+self.companyId
+            +"&shareFansId="+(self.recomType==1?self.shareFansId:self.fansId)
+            +"&positionId="+self.positionId
+            +"&empId="+self.empId
+            +"&pageFrom="+self.pageFrom
+            +"&recomType="+self.recomType,//分享链接
+            imgUrl:self.imgUrl,//分享图标
+            success:function(){
+              //分享成功回调
+              self.sharePosition();
+              self.getWeChatOfficialAccountInfo();
+            },
+            cancel: function () {
+              console.log('用户取消分享后执行的回调函数2');
+            }
           })
         })
       },
-      //分享回调
-      sharePosition(){
-        var self=this;
-        var method="positionRecommend/sharePosition",
-            param=JSON.stringify({
-              shareOpenId:self.openId,
-              positionId:self.positionId
-            }),
-            successd=function(res){};
+      getPositionInfo(){
+        let self=this;
+        let method="promotionPage/positionInfo",
+          param=JSON.stringify({
+            id:self.positionId
+          }),
+          successd = (res) => {
+            self.positionInfo=res.data.data.positionInfo;
+
+          };
         self.$http(method,param,successd);
       },
-      //处理边界情况的一些常用手段 如果用户在这个地方不小新刷新了
-      _getDetail() {
-
-        var _this = this;
-        var method = "promotionPage/positionInfo";
-        var param = JSON.stringify({
-          id: _this.positionId
-        });
-        console.log(param)
-        var successd = function (res) {
-          if (res.data.code == 0) {
-              console.log(res.data.data)
-            _this.item = res.data.data.positionInfo
-            _this.show = true
-          }
-        }
-        _this.$http(method, param, successd);
+      getWzpIndexInfo(){
+        let self=this;
+        let methods="wzpCompany/getWzpCompanyInfo",
+          param=JSON.stringify({
+            type:2,
+            companyId:self.companyId
+          }),
+          successd= (res) => {
+            console.log(res);
+            self.companyHeadImg=res.data.data.companyHeadImg;
+            self.companyUrl=res.data.data.companyUrl;
+            self.name=res.data.data.name;
+            self.companyValues=res.data.data.companyValues;
+            self.address=res.data.data.address;
+            self.domain=res.data.data.domain;
+            self.status=res.data.data.status;
+            self.dimensions=res.data.data.dimensions;
+          };
+        self.$http(methods,param,successd);
       },
-      //过滤
-      filter(item){
-        return JSON.parse(item)
+      toCompany(){
+        location.href="https://aijuhr.com/miniRecruit/#/about?companyId="+this.companyId;
       },
-      getCity(item){
-        return item.split(',')[1]
-      },
-      join() {
+      join(){
+//         self.$router.push({path:'/addResume',query:{id:this.positionId,shareFansId:self.shareFansId}})
+//        location.href="https://aijuhr.com/miniRecruit/#/addResume?id="+this.positionId
+//          +'&shareFansId='+this.shareFansId
+//          +"&companyId="+this.companyId
+//          +"&recomType="+this.recomType
+//          +"&fansId="+this.fansId;
         var self=this;
         if (document.body.clientWidth<550) {
           self.$router.push({path:'/addResume',query:{id:this.positionId,companyId:self.companyId}})
           return;
         }
-        self.$router.push({
-          path: '/apply',
-          query: {
-            companyId: self.companyId,
-            id:self.positionId,
-          }
-
-        })
       },
-      backIndex() {
-        this.$router.push({
-          path: `/`,
-          query: {
-            companyId: this.companyId,
-          }
-        })
+      filter(item){
+        return item.split(',')[1]
       },
-      filterTime(item){
-        if (item) {
-          return item.substr(0, 10)
-        } else {
-          return '';
-        }
-
-      },
-      share() {
-        if (document.documentElement.clientWidth > 768) {
-          this.dialogVisible2 = true
-          var _this = this;
-          var method = "recruitPosition/sharePosition";
-          var param = JSON.stringify({
-            positionId: _this.positionId
-          });
-          var successd = function (res) {
-            if (res.data.code == 0) {
-              console.log(res.data)
-              _this.eLogo = res.data.data[0]
-              _this.formShare.eLink = res.data.data[1]
-            }
-          }
-          _this.$http(method, param, successd);
-        } else {
-          this.model = true
-          this.arrow_tip = true
-
-        }
-      },
-      copyLink(){
-
-        var self = this;
-        document.getElementById("copyLinkInput").children[0].select();
-        document.execCommand("Copy");
-        self.$message({
-          message: "复制成功",
-          type: 'success'
-        })
-      },
-      close(){
-        this.model = false
-        this.arrow_tip = false
-      },
-      back() {
-        this.$router.goBack()
-        this.$router.push({
-          path: '/list',
-          name: 'List',
-          query: {
-            companyId: this.companyId,
-          }
-        })
-      },
+      //获取分享标题
       getShareTitleInfo(){
         var self=this;
         var method="positionRecommend/getShareTitleInfo",
-            param=JSON.stringify({reqType:2,companyId:self.companyId,positionId:self.positionId}),
-            successd=function(res){
-              self.imgUrl=res.data.data.imgUrl;
-              self.title=res.data.data.title;
-              self.desc=res.data.data.desc;
-              self.getSignature();
-            };
+          param=JSON.stringify({reqType:2,companyId:self.companyId,positionId:self.positionId}),
+          successd=function(res){
+            self.imgUrl=res.data.data.imgUrl;
+            self.title=res.data.data.title;
+            self.desc=res.data.data.desc;
+            self.getSignature();
+          };
         self.$http(method,param,successd);
       },
+      sharePosition(){
+        var self=this;
+        var method="positionRecommend/sharePosition",
+          param=JSON.stringify({
+            shareFansId:self.shareFansId,
+            fansId:self.fansId,
+            positionId:self.positionId,
+          }),
+          successd=function(res){
 
+          };
+        self.$http(method,param,successd);
+      },
+      //分享之后调用服务号二维码
+      getWeChatOfficialAccountInfo(){
+        let self=this;
+        let method="positionRecommend/getWeChatOfficialAccountInfo",
+          param=JSON.stringify({companyId:self.companyId,type:2,fansId:self.fansId}),
+          successd=function(res){
+            if(res.data.data.qrcodeUrl){
+              self.sharedQrcodeUrl=res.data.data.qrcodeUrl;
+              self.accountName=res.data.data.accountName ;
+              self.isSubscribe=res.data.data.isSubscribe;
+              if(self.isSubscribe==0&&self.sharedQrcodeUrl){
+                self.dialogShared=true;
+              }
+            }
+          }
+        self.$http(method,param,successd);
+      },
+      goDetail(positionId){
+        var self=this;
+
+        self.$router.push({
+          name:'listDetail',
+          query:{
+            companyId:self.companyId,
+            positionId:positionId,
+          }
+        });
+        window.location.reload()
+      }
     },
-    components: {
-      Scroller,
-      XButton,
-      XDialog
+    components:{
+      Flexbox, FlexboxItem,querystring,XDialog,Scroller
+    },
+    directives:{
+      TransferDom
     }
   }
 </script>
-<style lang="stylus" rel="stylesheet/stylus">
-  @import "../common/stylus/mixin.styl"
-  @import "../common/stylus/base.styl"
-  #list_detail
-    .tips2
-      .el-dialog--small
-        width: 428px;
-        height: 404px
-        box-sizing: border-box
-        top: 50% !important
-        margin-top: -212px
-        display: block
-        .el-dialog__body
-          height: 424px
-      .content
-        text-align: center
-        .img
-          display: inline-block
-          width: 210px
-          height: 210px
-          img
-            width: 100%;
-            height: 100%;
-        .title
-          margin: 51px 0 22px 0
-          font-size: 20px
-          color: #1F2D3D
-          font-weight: 800
-        .des
-          text-align: left
-          margin-top: 26px
-          margin-bottom: 15px
-          color: #475669
-          font-size: 14px
-          padding-left: 17px;
-      .share
-        padding: 0;
-        .el-form-item
-          margin-bottom: 0
-          margin-right: 0
-          .el-form-item__content
-            .el-input
-              width: 284px
-              .el-input__inner
-                border: 1px solid #5AA2E7;
-            .el-button
-              &:hover
-                background: #46BE8A
+<style lang="less">
+  @import '~vux/src/styles/1px.less';
+  @import '~vux/src/styles/close';
+  .vux-close:before, .vux-close:after{height: 2px;}
+</style>
 
-    .container
-      .detail_des
-        background: #fff
-        position: relative
-        height: 52px
-        line-height: 52px
-        border-bottom: 1px solid #E5E9F2
-        margin-top: 20px
-
-        .tips
-          position: absolute
-          left: 23px
-          top: 19px
-          height: 16px
-          line-height: 16px
-          .tips_1, .tips_2 {
-            .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a, .el-breadcrumb__separator {
-              color: #5AA2E7
-            }
+<style scoped lang="less">
+  #interpolateDetail{
+    background-color: #fff;padding-bottom: 60px;
+    .position_detail{
+      padding: 12px 15px;font-size: 0.26rem;background-color: #fff;clear: both;margin-top: 12px;
+      &::before{
+        border-top: none;
+      }
+      dt{
+        line-height: 0.4rem;height: 0.4rem;margin-bottom: 10px;font-size: 0.34rem;color: #222;
+        img{
+          display: inline-block;
+          vertical-align: middle;
+          line-height: 24px;
+        }
+        .position_name{
+          display: inline-block;
+          vertical-align: middle;
+        }
+        .position_detail_right{
+          float: right; font-size: 0.26rem;font-weight: 500;color: #FDA732;
+          em{
+            background: url(../common/image/money.png) no-repeat center center;display: inline-block;width: 0.26rem;height: 0.26rem;background-size: 100% 100%;vertical-align: middle;line-height: 0.875rem;margin-top:-3px;
           }
-      .detail_show
-        height: 126px
-        background: #fff
-        padding: 21px 0 18px 24px
-        margin-bottom: 20px
-        border-bottom: 1px solid #E5E9F2
-        .content
-          position: relative
-          .post_share
-            position: absolute
-            width: 222px
-            height: 40px
-            line-height: 40px
-            right: 30px
-            top: 0
-          .title
-            font-size: 20px
-            color: #1F2D3D
-            margin-bottom: 14px
-          .text
-            height: 16px
-            line-height: 16px
-            .des
-              display: inline-block
-              font-size: 16px
-              color: #475669
-              margin-right: 23px
-            .price
-              display: inline-block
-              font-size: 18px
-              color: #F96868
-          .p_time
-            margin-top: 23px
-            font-size: 16px
-            color: #99A9BF
-      .detail_text
-        background: #fff
-        padding: 19px 0 29px 23px
-        min-height: 350px;
-        .detail_content
-          .title
-            margin-bottom: 20px
-            font-size: 16px
-          .el-form
-            .el-form-item
-              .el-form-item__content
-                .text
-                  outline: none
-                  border: none
-                  .el-textarea__inner
-                    min-height: 300px
-                    border: none !important
-                    outline: none !important
-          .des_p
-            width: 100%
-            background: #fff
-            border: none
-            outline: none
-            height: 400px
-            line-height: 2
-            font-size: 14px
-            color: #333
+        }
 
-    .footer {
-      footer {
-        height: 100px
-        line-height: 100px
-        background: #F7F7F7
-        width: 100%
-        .title {
-          width: 100%
-          height: 100px
-          line-height: 100px
-          color: #5c6170
-          font-size: 28px
-          margin: 0 auto
-          background: url(../common/image/footer_logo.png) no-repeat center
+      }
+      .position_detail_money{
+        margin-bottom: 6px;
+        color: #666;
+        span{
+          margin-right: 2px;background-color: #e5e5e5;padding: 3px 5px;border-radius: 2px;color: #999999;font-size: .26rem;
+        }
+      }
+      .position_detail_date{
+        color: #999;font-size: 0.26rem;margin-bottom: 0;
+        em{
+          font-style: normal;
         }
       }
     }
-
-  @media all and (max-width: 767px)
-    #list_detail
-      position: fixed
-      top: 0
-      left: 0
-      overflow: auto
-      width: 100%
-      height: 100%
-      background: #fff
-      .container
-        padding: 0
-        margin: 0
-        height: 100%
-        padding-bottom: 1.12rem
-        .detail_des
-          background: #fff
-          position: relative
-          height: 52px
-          line-height: 52px
-          border-b-1px(#E5E9F2)
-          margin-top: 20px
-
-          .tips
-            position: absolute
-            left: 23px
-            top: 19px
-            height: 16px
-            line-height: 16px
-            .tips_nav
-              .icon
-                display: inline-block
-                float: left
-                width: 6px
-                height: 12px
-                margin: 0 10px
-                color: #5AA2E7
-              .icon1
-                display: inline-block
-                float: left
-                width: 6px
-                height: 12px
-                margin: 0 10px
-                color: #99A9BF
-              .nav_item
-                float: left
-                font-size: 14px
-                width: 56px
-                height: 16px
-                text-align: center
-                color: #99A9BF
-                &:nth-child(1), &:nth-child(3)
-                  color: #5AA2E7
-        .detail_show
-          height: 3.16rem
-          background: #fff
-          padding: 0.37rem 0 0.3rem 0.30rem
-          border-bottom: 1px solid #E5E9F2
-          margin-bottom: 0
-
-          .content
-            position: relative
-            .post_share
-              position: relative
-              width: 222px
-              height: 0.8rem
-              line-height: 0.8rem
-              left: 0
-              .weui-btn_mini
-                display: inline-block
-                vertical-align: top
-                background: #5aa2e7
-              .weui-btn_default
-                margin-left: 0
-                display: inline-block
-                vertical-align: top
-                margin-top: 0
-                background: #F8F8F8
-            .title
-              font-size: 0.28rem
-              color: #1F2D3D
-              margin-bottom: 0
-            .text
-              height: 0.25rem
-              line-height: 0.25rem
-              margin-top: 0.25rem
-              .des
-                display: inline-block
-                font-size: 0.24rem
-                color: #475669
-                margin-right: 0.36rem
-                vertical-align: middle
-              .price
-                display: inline-block
-                font-size: 0.26rem
-                vertical-align: middle
-                color: #F96868
-            .p_time
-              height: 0.23rem
-              line-height: 0.23rem
-              font-size: 0.24rem
-              color: #99A9BF
-              margin-bottom: 0.38rem
-              margin-top: 0.5rem
-        .detail_text
+    .m_s_company {
+      padding: 15px;
+      background: #fff;
+      height: 102px;
+      .item-logo {
+        display: inline-block;
+        float: left;
+        width: 60px;
+        height: 60px;
+      }
+      .item-desc {
+        margin-left: 70px;
+        height: 1.07rem;
+        position: relative;
+        .item-title {
+          font-size: 0.34rem;
+          color: #222;
+          margin-bottom: 0.12rem;
+          width: 80%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-weight: 200;
+          white-space: nowrap;
+        }
+        .item-info {
           width: 100%;
-          background: #fff;
-          padding: 0;
-          padding-bottom :0.4rem
-          .detail_content
-            padding: 0.2rem 0.32rem 0.3rem 0.27rem
-            color: #1F2D3D
-            font-size: 0.28rem
-            .title
-              font-weight: 500;
-              margin-bottom: 10px;
-              border-bottom: 1px solid #f4f4f6;
-              padding-bottom: 8px;
-              font-size: 0.3rem;
-              color: #333;
-            .el-form
-              .el-form-item
-                .el-form-item__content
-                  .text
-                    outline: none
-                    border: none
-                    .el-textarea__inner
-                      color: #5c6170 !important
-                      font-size: 0.28rem
-                      line-height: 18px
-                      overflow: hidden
-                      border: none !important
-                      outline: none !important
-            .des_p
-              width: 100%
-              background: #fff
-              border: none
-              outline: none
-              height: 8rem
-              line-height: 2
-              font-size: 0.28rem
-              color: #333
-
-        .job-page__header
-          position: relative;
-          padding: 20px 12px 12px;
-          background-color: #fff;
-          border-radius: 1px;
-          .job-page__header__title
-            width: 100%
-            font-size: 0.32rem;
-            font-weight: bold;
+          height: 15px;
+          line-height: 15px;
+          .item-pos {
+            font-size: 0.26rem;
+            float: left;
+            width: 80%;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #999
+          }
+        }
+        .item-time {
+          font-size: 0.26rem;
+          color: #999
+        }
+      }
+    }
+    .company_link{
+      padding: 15px;
+      position: relative;
+      &::before{
+        border-top: none;
+      }
+      dt{
+        width: 60px;height: 60px;float: left;
+        img{
+          width: 60px;height: 60px;
+        }
+      }
+      dd{
+        margin-left: 70px;
+        p{
+          line-height: 30px;color: #5c6170;font-size: 0.26rem;
+        }
+        h6{
+          font-size: 0.24rem;font-weight: 400;color: #9a9fac;line-height: 30px;
+        }
+        .iconfont{font-size: 12px;}
+        .company_link_i{
+          transform:rotate(270deg);-ms-transform:rotate(270deg);-moz-transform:rotate(270deg);-webkit-transform:rotate(270deg);-o-transform:rotate(270deg);position:absolute;right: 10px;top: 50%;margin-top:-5px;color: #bdc0c9;
+        }
+      }
+    }
+    .pos_detail{
+      padding: 0 15px;
+      clear: both;
+      .description{
+        font-size: 0.34rem;font-weight: 400;color: #000;position: relative;height: 49px;line-height: 49px;
+        &::before{
+          border-top: none;
+        }
+        .pos_des{
+          display: inline-block;
+          vertical-align: middle;
+          width: 15px;
+          height: 17px;
+          background: url("../assets/img/describe.png")no-repeat center;
+          background-size: cover;
+        }
+        .text{
+          display: inline-block;
+          vertical-align: middle;
+          height: 24px;
+          line-height: 24px;
+          margin-left: 3px;
+        }
+        .pos_ware{
+          display: inline-block;
+          vertical-align: middle;
+          width: 15px;
+          height: 17px;
+          background: url("../assets/img/welfare.png")no-repeat center;
+          background-size: cover;
+        }
+        .recommend{
+          display: inline-block;
+          vertical-align: middle;
+          width: 17px;
+          height: 17px;
+          background: url("../assets/img/recommend.png")no-repeat center;
+          background-size: cover;
+        }
+      }
+      .description_con{
+        color: #666;font-size: 0.28rem;padding: 10px 0;text-align: justify;line-height: 0.4rem;
+      }
+      .software{
+        padding: 15px 0;
+        ul{
+          font-size: 0;
+          li{
+            display: inline-block;
+            padding: 2px 4px 5px;
+            list-style: none;
+            height: 22px;
+            line-height: 20px;
+            border-radius: 5px;
+            text-align: center;
+            color: #fff;
+            background: #5AA2E7;
+            font-size: 0.26rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+          }
+        }
+      }
+      .recommendList{
+        padding: 12px 0px;font-size: 0.26rem;background-color: #fff;clear: both;
+        &::before{
+          border-top: none;
+        }
+        dt{
+          line-height: 0.4rem;height: 0.4rem;margin-bottom: 10px;font-size: 0.34rem;color: #222;
+          img{
+            display: inline-block;
             vertical-align: middle;
-            color: #5c6170;
-            .prior
-              color: #ff8054
-          .job-page__others
-            position: relative;
-            font-size: 0.28rem
-            margin-top: 0.3rem;
-            min-height: 20px;
-            color: #5c6170;
-            .des {
-              display: inline-block
-              font-size: 0.28rem
-              color: #666
-              height: 14px
-              line-height: 14px
-              margin-right: 0.4rem
-              vertical-align: middle
-              position: relative
-              padding-left: 0.4rem
-              .address_icon {
-                display: inline-block
-                vertical-align: top
-                position: absolute
-                width: 22px
-                height: 14px
-                top: -1px
-                left: -4px
-                background: url(../common/image/address.png) no-repeat center
-                background-size: 50%
-              }
-            }
-            .price {
-              display: inline-block
-              font-size: 0.28rem
-              height: 14px
-              line-height: 14px
-              color: #666
-              vertical-align: middle
-              margin-right: 0.4rem
-              position: relative
-              padding-left: 0.62rem
-              .salary_icon {
-                display: inline-block
-                position: absolute
-                width: 26px
-                height: 14px
-                line-height: 14px
-                top: -0.02rem
-                left: 0
-                background: url(../common/image/salary.png) no-repeat center
-                background-size: 50%
-              }
-            }
-            .kind {
-              display: inline-block
-              font-size: 0.28rem
-              color: #666
-              vertical-align: middle
-              margin-top: 0
-              height: 14px
-              line-height: 14px
-              position: relative
-              padding-left: 0.42rem
-              .kind_icon {
-                display: inline-block
-                position: absolute
-                width: 15px
-                height: 14px
-                top: 0
-                left: 0
-                background: url(../common/image/kind_icon.png) no-repeat center
-                background-size: 50%
-              }
-            }
-
-        .job-page__header__link {
-          display: block;
-          background: #fff;
-          padding: 0 12px;
-          .inner {
-            padding: 18px 0;
-            border-top: 1px #f4f4f6 solid;
-            display: flex;
-            .column1 {
-              .logo_border {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 56px;
-                max-width: 200px;
-                min-width: 56px;
-                margin-right: 12px;
-                border: 1px solid #dddfe3;
-                border-radius: 2px;
-                img {
-                  width: 1.07rem;
-                  height: 1.07rem;
-                }
-              }
-            }
-            .column2 {
-
-              .company {
-                max-width: 160px;
-                -o-text-overflow: ellipsis;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                margin-top: 10px;
-                font-size: 15px;
-                color: #5c6170;
-              }
-              .status {
-                margin-top: 6px;
-                background-color: #fff;
-                text-align: left;
-                font-size: 13px;
-                line-height: 20px;
-                color: #9a9fac;
-                max-width: 4rem
-                overflow: hidden
-                -o-text-overflow: ellipsis;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-              }
-            }
-            .column3 {
-              margin: auto 0 auto auto;
-              font-size: 16px;
-              color: #bcbfc8;
-              position: relative
-              .arrow_icon {
-                display: inline-block
-                width: 10px
-                height: 18px
-                background: url(../common/image/Backicon.png) no-repeat center
-                background-size: 50%
-                position: absolute
-                top: -5px
-                right: 0
-              }
+            line-height: 24px;
+          }
+          .position_name{
+            display: inline-block;
+            vertical-align: middle;
+          }
+          .position_detail_right{
+            float: right; font-size: 0.26rem;font-weight: 500;color: #FDA732;
+            em{
+              background: url(../assets/img/money.png) no-repeat center center;display: inline-block;width: 1rem;height: 1rem;background-size: 100% 100%;vertical-align: middle;line-height: 0.875rem;margin-top:-3px;
             }
           }
         }
-      .detail-close
-        position :relative
-        width :100%
-        height :32px
-        clear: both
-        font-size :0.32rem
-        background :url(../common/image/footLogo.png)no-repeat center
-        background-size :100%
-      .back {
-        position: fixed;
-        left: 0;
-        top: 0;
-        right: 0;
-        z-index: 1;
-        height: 1.12rem;
-        padding-left: 20px;
-        padding-right: 20px;
-        background-color: #64b5f6;
-        color: rgba(9, 10, 11, 1);
-        .icon {
-          display: inline-block
-          width: 39px
-          height: 34px
-          position: absolute
-          left: 0.2rem
-          top: 0.18rem
-          background: url(../common/image/back.png) no-repeat center
-          background-size: 50%
+        .position_detail_money{
+          margin-bottom: 6px;
+          color: #666;
+          span{
+            margin-right: 2px;background-color: #e5e5e5;padding: 3px 5px;border-radius: 2px;color: #999999;font-size: .26rem;
+          }
         }
-        .title {
-          width: 100%
-          height: 1.12rem;
-          line-height: 1.12rem;
-          color: #fff
-          font-size: 0.34rem
-          margin-left: 0.6rem
+        .position_detail_date{
+          color: #999;font-size: 0.26rem;margin-bottom: 0;
+          em{
+            font-style: normal;
+          }
         }
       }
-      .footer
-        position: relative
-        width: 100%
-        bottom: 0
-        left: 0
-        height: 1rem
-        line-height: 1rem
-        footer
-          background: #F7F7F7
-          height: 1rem !important
-          line-height: 1rem !important
-          width: 100%
-          .title
-            width: 100%
-            height: 100%
-            text-align: center
-            color: #5c6170 999
-            font-size: 0.14rem
-            background: url(../common/image/footer_logo.png) no-repeat center
-
-      .model
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        z-index: 2000
-        .share-arrow {
-          position: fixed;
-          width: 100%;
-          right: 0;
-          top: 0;
-          height: 4rem;
-          /*background: url('https://aijuhr.com/images/yidong/tips.67d28c9.png') no-repeat center;*/
-          background: url('https://aijuhr.com/images/yidong/sharePng.png') no-repeat center;
-          z-index: 3000;
-          background-size: 80% auto;
-        }
-      .mobile_footer {
-        position: fixed;
-        left: 0;
-        right: 0;
-        z-index: 100;
-        height: 1.2rem;
-        bottom: 0
-        padding-left: 20px;
-        padding-right: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 3px #bcbfc8;
-        text-align: center
-        padding-bottom: 10px
-        padding-top: 7.5px;
-        .post_share {
-          .post_share_button {
-            display: inline-block;
-            vertical-align: top;
-            height: 0.9rem;
-            line-height: 0.9rem;
-            border-radius: 2px;
-            width: 44%;
-            border: 1px solid #5AA2E7;
-            background-color: #fff;
-            font-size: 14px
-            outline: none
-          }
-          .post_button {
-            display: inline-block;
-            width: 44%;
-            vertical-align: top;
-            height: 0.9rem;
-            line-height: 0.9rem;
-            border-radius: 2px;
-            color: #fff
-            font-size: 14px
-            background: #5AA2E7
-            outline: none
-            border: none
-          }
-        }
-
+    }
+    .logo{
+      width: 100%;
+      height: 57px;
+      line-height: 57px;
+      text-align: center;
+      .logo_img{
+        display: inline-block;
+        width: 114px;
+        height: 14px;
+        line-height: 14px;
+        background: url("../assets/img/footLogo2.png")no-repeat center;
+        background-size: 103px auto;
       }
 
-    .tips2
-      .el-dialog--small
-        width: 100%
-        height: 7.09rem
-        box-sizing: border-box
-        top: 50% !important
-        margin-top: -3.15em
-        display: none
-        .el-dialog__header
-          position: relative
-          .el-dialog__title
-            position: absolute
-            font-size: 0.28rem
-        .el-dialog__body
-          padding: 0.54rem 0 0 0
-          height: 6.37rem
-          .content
-            text-align: center
-            .img
-              display: inline-block
-              width: 3.70rem
-              height: 3.7rem
-              img
-                width: 100%
-                height: 100%
-            .des
-              margin: 0.46rem 0 0.15rem 0.35rem
-              font-size: 0.24rem
-              color: #475669
+    }
 
-          .share
-            padding: 0 0.35rem
-            .el-form-item
-              margin-bottom: 0
-              margin-right: 0
-              .el-form-item__content
-                .el-input
-                  width: 5rem
-                  .el-input__inner
-                    border: 1px solid #5AA2E7
-                .el-button
-                  margin-left: -0.4rem
-                  span
-                    font-size: 0.28rem
-                  &:hover
-                    background: #46BE8A
-
-  @media (min-width: 768px) and (max-width: 992px)
-    #list_detail
-
-      header
-        height 80px
-        line-height 80px
-        .navbar-sample
-          background-color: #fff
-          border-color: #f5f5f5
-          margin-bottom: 0
-          top: 0
-          width: 100%
-          z-index: 1000
-          .navbar-header
-            height 84px
-
-          .navbar-brand
-            height: 80px
-      .container
-        width: 100%
-        padding: 0
-        margin: 0
-        .detail_des
-          background: #fff
-          position: relative
-          height: 52px
-          line-height: 52px
-          border-bottom: 1px solid #E5E9F2
-          margin-top: 20px
-
-          .tips
-            position: absolute
-            left: 23px
-            top: 19px
-            height: 16px
-            line-height: 16px
-            .tips_nav
-              .icon
-                display: inline-block
-                float: left
-                width: 6px
-                height: 12px
-                margin: 0 10px
-                color: #5AA2E7
-                font-size: 16px
-              .icon1
-                display: inline-block
-                float: left
-                width: 6px
-                height: 12px
-                margin: 0 10px
-                font-size: 16px
-                color: #99A9BF
-              .nav_item
-                float: left
-                font-size: 14px
-                width: 56px
-                height: 16px
-                text-align: center
-                color: #99A9BF
-                &:nth-child(1), &:nth-child(3)
-                  color: #5AA2E7
-        .detail_show
-          height: 114px
-          background: #fff
-          padding: 21px 0 18px 24px
-          margin-bottom: 20px
-          border-bottom: 1px solid #E5E9F2
-          .content
-            position: relative
-            .post_share
-              position: absolute
-              width: 222px
-              height: 40px
-              line-height: 40px
-              right: 30px
-              top: 0
-            .title
-              font-size: 18px
-              color: #1F2D3D
-              margin-bottom: 14px
-            .text
-              height: 14px
-              line-height: 14px
-              .des
-                display: inline-block
-                font-size: 14px
-                color: #475669
-                margin-right: 23px
-                vertical-align: middle
-              .price
-                display: inline-block
-                font-size: 16px
-                color: #F96868
-                vertical-align: middle
-            .p_time
-              margin-top: 23px
-              font-size: 14px
-              color: #99A9BF
-        .detail_text
-          background: #fff
-          height: 100%
-          font-size: 14px
-          padding: 19px 0 29px 23px
-
-      .tips2
-        .el-dialog--small
-          width: 100%
-          height: 7.09rem
-          box-sizing: border-box
-          top: 50% !important
-          margin-top: -3.15em
-          .el-dialog__header
-            position: relative
-            .el-dialog__title
-              position: absolute
-              font-size: 0.28rem
-          .el-dialog__body
-            padding: 0.54rem 0 0 0
-            height: 6.37rem
-            .content
-              text-align: center
-              .img
-                display: inline-block
-                width: 3.70rem
-                height: 3.7rem
-                background: yellow
-              .des
-                margin: 0.46rem 0 0.15rem 0.35rem
-                font-size: 0.24rem
-                color: #475669
-
-            .share
-              padding: 0 0.35rem
-              .el-form-item
-                margin-bottom: 0
-                margin-right: 0
-                .el-form-item__content
-                  .el-input
-                    width: 5rem
-                    .el-input__inner
-                      border: 1px solid #5AA2E7
-                  .el-button
-                    margin-left: -0.4rem
-                    span
-                      font-size: 0.28rem
-                    &:hover
-                      background: #46BE8A
-
-
-</style>
-<style scoped>
-@import url(./css/main.css);
-.views_person{float: right;color: #46BE8A;}
-.position_list_right{float: right; font-size: 0.28rem;}
-.position_list_right .iconfont{color:#F2A654;font-size: 0.28rem;}
-.have_bonus{position: absolute;right: 0.5rem;top:3.5rem;width: 1.5rem;height: 1.5rem;}
-.have_bonus img{width: 100%;height: 100%;}
+    .split{
+      width: 100%;
+      height: 13px;
+      background: #F8F8FC;
+    }
+    // .vux-1px-tb:before{
+    //   display: none;
+    // }
+  }
+  // .position_detail_money .position_detail_right{color: #46BE8A;}
+  .have_bonus{width:75px;height: 75px;position: absolute;top: -5px;right: 25px;}
+  .have_bonus img{width: 100%}
+  .share_btn{position: fixed;bottom: 0;width: 100%;height: 46px;background-color: #fff;}
+  .share_btn .flex-demo{text-align: center;background: red;line-height: 37px;height: 46px;}
+  .share_btn .flex-demo1{background-color: #5AA2E7;color: #fff;}
+  .share_btn .flex-demo1 .pos_icon1{
+    display: inline-block;
+    width: 17px;
+    height: 20px;
+    vertical-align: middle;
+    background:url("../assets/img/share.png")no-repeat center;
+    background-size: cover;}
+  .share_btn .flex-demo1 .text{
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    vertical-align: middle;
+    margin-left: 7px;
+    font-size: 0.36rem;
+  }
+  .share_btn .flex-demo2 .pos_icon2{
+    display: inline-block;
+    width: 17px;
+    height: 20px;
+    vertical-align: middle;
+    background:url("../assets/img/deliver.png")no-repeat center;
+    background-size: cover;}
+  .share_btn .flex-demo2 .text{
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    vertical-align: middle;
+    margin-left: 7px;
+    font-size: 0.36rem;
+  }
+  .share_btn .flex-demo2{background-color: #F2A654;color: #fff;}
+  .share_btn_con{display: flex;list-style: none;justify-content: center;}
+  .share_btn_con li{margin-left: 10px;}
+  .share{background-color: rgba(0, 0, 0, 0.8);position: fixed;width: 100%;height: 100%;z-index: 999;top:0;left:0;}
+  .share_tip{position: fixed;top:0;left: 0;width: 100%;height: 200px;background: url(https://aijuhr.com/images/yidong/sharePng.png) no-repeat center center;background-size: 80% auto;z-index: 1000;}
+  .img-box h1{font-size: 0.4rem;}
+  .img-box p{font-size: 0.26rem;color: #888;margin-bottom: 20px;}
 </style>
 

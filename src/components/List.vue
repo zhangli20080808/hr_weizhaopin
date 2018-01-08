@@ -190,7 +190,7 @@
                 <!--</div>-->
               <!--</div>-->
             <!--</li>-->
-            <dl class="position_detail vux-1px-tb" v-for="item in list" @click="selectItem(item)">
+            <dl class="position_detail" v-for="item in list" @click="selectItem(item)">
               <dt>
                 <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
                 <img src="../components/images/urgent2.png" alt="" width="35px" class="img">

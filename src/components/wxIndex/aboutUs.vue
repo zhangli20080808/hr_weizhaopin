@@ -2,14 +2,14 @@
 
   <!--模板-->
   <div class="g-container" id="aboutUs">
-    <div class="company-profile" v-show="preCompanyWebsite.name">
+    <div class="company-profile">
       <div class="g-card profile-header">
         <!--banner-->
         <div class="header-section banner">
           <img :style="bgStyle" class="banner-image" alt="">
         </div>
         <!---->
-        <div class="header-section header-main">
+        <div class="header-section header-main" v-show="preCompanyWebsite.logoUrl">
           <div class="header-icon"><img :src="preCompanyWebsite.logoUrl" alt="" class="icon-image"></div>
           <div class="header-info">
             <div class="template-company">
@@ -17,9 +17,10 @@
               <div class="description">{{preCompanyWebsite.slogan}}</div>
               <div class="action" v-if="isAuthorization!==0">
                 <div class="g-ghost-btn" @click="goCare"
-                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
-                  <div class="btn-text">
+                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}" v-show="isAuthorization">
+                  <div class="btn-text" >
                     {{isAuthorization == 1 ? '已关注' : '关注'}}
+
 
 
 
@@ -34,14 +35,14 @@
       </div>
     </div>
     <!--办公环境-->
-    <div class="cards">
+    <div class="cards" v-show="preCompanyMemorabilia.length">
       <div class="card-type-1">
         <div class="g-card">
           <div class="template-card">
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h2 class="gm-card-title vux-1px-b">
+                  <h2 class="gm-card-title">
                     <span class="pos_ware"></span>
                     <span class="text">发展历程</span>
                   </h2>
@@ -75,6 +76,7 @@
 
 
 
+
                                   </div>
                                   <div class="gamma-text-cover"></div>
                                 </div>
@@ -93,7 +95,7 @@
           </div>
         </div>
       </div>
-      <div class="card-type-2">
+      <div class="card-type-2" v-show="WorkEnvironment.length">
         <div class="g-card">
           <div class="template-card">
             <div class="template-complex">
@@ -115,6 +117,7 @@
                       <div class="title g-oneline-text">
                         {{item.description}}
 
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -128,7 +131,7 @@
           </div>
         </div>
       </div>
-      <div class="card-type-3">
+      <div class="card-type-3" v-show="preWorkTeam.length&&preWorkTeam.length!=0">
         <div class="g-card" style="margin-bottom: 0">
           <div class="template-card">
             <div class="template-complex">
@@ -147,12 +150,13 @@
                 <div class="slides" style="height: 239px" @click="teamworkDeatil">
                   <swiper :options="swiperOption" ref="mySwiper">
                     <!-- slides -->
-                    <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id">
+                    <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id" class="swiper_slide">
                       <div class="media" style="height: 180px">
-                        <img :src="item.imageUrl" alt="" width="100%" height="100%">
+                        <img :src="item.imageUrl" alt="" style="width: 100%;height: 100%">
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
+
 
                       </div>
                     </swiper-slide>
@@ -168,13 +172,15 @@
         </div>
       </div>
     </div>
-    <div class="footer_icon">
+    <div class="footer_icon" v-show="preCompanyWebsite.name">
       <div class="img_detail"></div>
     </div>
     <div class="about_online">
       <div class="us" :class="{'activeColor':active}">关于我们</div>
       <div class="online_p" @click="getPosition">在招职位</div>
     </div>
+
+    <!--<loading></loading>-->
     <!--关注弹窗-->
     <div v-transfer-dom class="cares">
       <x-dialog v-model="careQrcode" class="care-content">
@@ -199,6 +205,7 @@
 
 <script>
 
+  import loading from '../../components/base/loading/loading2.vue'
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import footerNav from '../../components/base/foot'
   import util from "../../common/js/util.js";
@@ -271,7 +278,7 @@
         careQrcode: false,
         //企业公众号二维码url
         officilQrcodeUrl: '',
-        isAuthorization: 1,
+        isAuthorization: '',
         code: '',
         active: true
       }
@@ -310,25 +317,20 @@
       //查询微官网
       getCompanyDetail(){
         var _this = this;
-        var method = "weixin/getCompanyWebDetail";
-        var param = {
-          companyId: _this.companyId,
-          code: _this.code
-        };
+        var method = "companyWeb/getCompanyDetail";
+        var param = JSON.stringify({
+          type: 2,
+          companyId: _this.companyId
+        });
         var successd = function (res) {
-          if (res.data.codeUrl == '') {
-            _this.preCompanyWebsite = res.data.CompanyWebsite
-            _this.preWorkTeam = res.data.WorkTeam
-            _this.WorkEnvironment = res.data.WorkEnvironment
-            _this.preCompanyMemorabilia = res.data.CompanyMemorabilia
-            _this.isAuthorization = res.data.subcribeMap.subcribeStatus
-            _this.officilQrcodeUrl = res.data.subcribeMap.officilQrcodeUrl
-          } else {
-            _this.careHref = res.data.codeUrl
-            location.href = _this.careHref
+          if (res.data.code == 0) {
+            _this.preCompanyWebsite = res.data.data.CompanyWebsite;
+            _this.preWorkTeam = res.data.data.WorkTeam;
+            _this.WorkEnvironment = res.data.data.WorkEnvironment;
+            _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
           }
         }
-        _this.$webHttp(method, param, successd);
+        _this.$http(method, param, successd);
       },
       teamworkDeatil(){
         this.$router.push({
@@ -471,14 +473,46 @@
           }
         })
       },
-      toList(){
+      //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值
+      getCodeUrl(){
+        var _this = this;
+        var method = "subscribeWeChat/getCodeUrl";
+        var param = JSON.stringify({
+          type: 2,
+          companyId: _this.companyId,
+          redirectUri: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + _this.companyId + '',
+          code: _this.code
+        });
+        var successd = function (res) {
+          if (res.data.data.codeUrl == '') {
 
-      }
+          } else {
+            location.href = res.data.data.codeUrl
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      toCare(){
+
+        var _this = this;
+        var method = "subscribeWeChat/subscribeCompanyWeChat";
+        var param = JSON.stringify({
+          type: 2, companyId: _this.companyId, code: _this.code
+        });
+        var successd = function (res) {
+          _this.getCompanyDetail()
+          _this.isAuthorization = res.data.data.subcribeStatus;
+          _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl;
+        }
+        _this.$http(method, param, successd);
+      },
+
     },
     created(){
       this.$nextTick(() => {
-        this.getCode()
-        this.getCompanyDetail();
+        this.getCode();
+        this.getCodeUrl();
+        this.toCare();
         this.getShareTitleInfo();
 //        this.getWeWebsitePosition();
         window.scrollTo(0, 1);
@@ -494,7 +528,8 @@
       swiper,
       swiperSlide,
       footerNav,
-      XDialog
+      XDialog,
+      loading
     },
     directives: {
       TransferDom
@@ -505,11 +540,7 @@
 </script>
 <style lang="less">
   @import '~vux/src/styles/1px.less';
-  @import '~vux/src/styles/close';
 
-  .vux-close:before, .vux-close:after {
-    height: 2px;
-  }
 </style>
 <style scoped>
   @import "../../common/stylus/swiper.css";
@@ -518,7 +549,7 @@
   .g-container {
     position: relative;
     z-index: 2;
-    background-color: #f1f5f8;
+    background-color: #F8F8FC;
     border: 0;
     outline: 0;
     padding-bottom: 0.98rem;
@@ -564,9 +595,10 @@
   .g-ghost-white-btn {
     width: 135px;
     background-color: transparent;
-    color: #979797;
-    border-color: #979797;
+    color: #ccc;
+    border-color: #ccc;
     border-radius: 37px;
+    font-size: 0.32rem;
   }
 
   .social-btn {
@@ -630,27 +662,26 @@
     position: relative;
     border-radius: 1px;
   }
-  .g-container .footer_icon{
+
+  .g-container .footer_icon {
     height: 0.89rem;
     line-height: 0.89rem;
     text-align: center;
   }
-  .g-container .footer_icon .img_detail{
+
+  .g-container .footer_icon .img_detail {
     display: inline-block;
     vertical-align: middle;
     width: 106px;
     height: 15px;
-    background: url(../../common/image/footLogo2.jpg)no-repeat center;
+    background: url(../../common/image/footLogo2.jpg) no-repeat center;
     background-size: 103px auto;
-
-
   }
+
   .g-container .company-profile .g-card {
     margin: 8px 0;
     overflow: hidden;
     background-color: #fff;
-    border: 1px solid #e8f0f8;
-    border-width: 1px 0;
   }
 
   .g-container .company-profile .profile-header {
@@ -725,7 +756,7 @@
     padding-right: 0.141429rem;
     white-space: pre-line;
     font-size: 14px;
-    color: #abb4c3;
+    color: #999;
   }
 
   .g-container .company-profile .g-card .header-main .header-info .template-company .action {
@@ -733,16 +764,14 @@
     margin-bottom: 8px;
   }
 
-  .g-container .company-profile .g-card .header-main .header-info .template-company .action .g-ghost-btn .btn-text {
-    /*font-size: 13px;*/
+  .g-container .company-profile .g-card .header-main .header-info .template-company .action .btn-text {
+    font-size: 0.32rem;
   }
 
   .g-container .cards .g-card {
-    margin: 8px 0;
+    margin: 12px 0;
     overflow: hidden;
     background-color: #fff;
-    border: 1px solid #e8f0f8;
-    border-width: 1px 0;
   }
 
   .g-container .cards .g-card .gm-card {
@@ -750,8 +779,8 @@
   }
 
   .g-container .cards .gm-card-offset {
-    margin-left: 0.562857rem;
-    margin-right: 0.562857rem;
+    margin-left: 0.32rem;
+    margin-right: 0.32rem;
   }
 
   .g-container .cards .gm-card-offset .gm-card-header {
@@ -773,17 +802,20 @@
     height: 49px;
     line-height: 49px;
   }
-  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR{
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR {
     font-size: 0.26rem;
     color: #9a9fac;
     display: inline-block;
     float: right;
   }
-  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .info{
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .info {
     display: inline-block;
     vertical-align: middle;
   }
-  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .icon{
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .icon {
     display: inline-block;
     background: url(../../common/image/Backicon.png) no-repeat center;
     width: 10px;
@@ -791,7 +823,6 @@
     background-size: 50%;
     vertical-align: middle;
   }
-
 
   .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .pos_ware {
     display: inline-block;
@@ -810,6 +841,7 @@
     background: url(../../common/image/env_img.png) no-repeat center;
     background-size: cover;
   }
+
   .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .team_icon {
     display: inline-block;
     vertical-align: middle;
@@ -818,7 +850,6 @@
     background: url(../../common/image/team_icon.png) no-repeat center;
     background-size: cover;
   }
-
 
   .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .text {
     display: inline-block;
@@ -901,7 +932,7 @@
   }
 
   .g-container .cards .vertical-list .gamma-type-0 .slide .list-item .inner .g-flex .gamma-right .gamma-right-height .gamma-description {
-    color: #262626;
+    color: #999;
     line-height: 0.4rem;
     z-index: 0;
   }
@@ -1036,7 +1067,7 @@
     line-height: 0.98rem;
     background: #fff;
     z-index: 1000;
-    border-top:1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
   }
 
   .about_online .us {
