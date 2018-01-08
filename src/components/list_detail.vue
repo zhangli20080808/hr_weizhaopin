@@ -56,9 +56,9 @@
           <h2 class="description vux-1px-tb" >
             <span class="pos_des"></span>
             <span class="text">职位描述</span>
-            <div class="have_bonus"  v-if="positionInfo.rewardAmount">
-              <img src="https://aijuhr.com/miniRecruit/static/img/have_bonuss.0e8cbde.png">
-            </div>
+            <!--<div class="have_bonus"  v-if="positionInfo.rewardAmount">-->
+              <!--<img src="https://aijuhr.com/miniRecruit/static/img/have_bonuss.0e8cbde.png">-->
+            <!--</div>-->
           </h2>
           <div class="description_con">
             <p v-html="positionInfo.positionDesc"></p>
