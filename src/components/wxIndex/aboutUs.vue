@@ -172,7 +172,6 @@
         </div>
       </div>
     </div>
-    <p id="openLocation">gsgsgs</p>
     <div class="footer_icon" v-show="preCompanyWebsite.name">
       <div class="img_detail"></div>
     </div>
