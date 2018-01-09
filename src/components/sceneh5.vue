@@ -437,10 +437,6 @@ html, body, #app, #h5, .wrap {
                 transform: translateY(0);
         }
 }
-.swiper-button-next{
-    background :none;
-    top: inherit;
-}
 #canvas{
     position: fixed;
     top: 0;
@@ -473,6 +469,8 @@ html, body, #app, #h5, .wrap {
             color: #fff;
             font-size: 20px;
             margin-left: -10px;
+            background :none;
+            top: inherit;
             -webkit-animation: buttonNext 3s ease-in-out infinite;
             img{
                 // width: 1rem;
