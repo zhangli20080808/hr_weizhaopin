@@ -4,16 +4,17 @@
             <p>Your browser does not support the canvas element</p>  
         </canvas> 
       <div class="wrap">
-        <img class="nextPage" @click="nextPageGo()" src="../components/images/nextButton.png" alt="">
-        <Swiper id="swiper" :interval="2000" :height="height100"  direction="vertical" :show-dots="false" v-model="swiper_index" @on-index-change="swiper_onIndexChange">
-            <swiper-item>
+        <!-- <img class="nextPage" @click="nextPageGo()" src="../components/images/nextButton.png" alt=""> -->
+        <!-- <Swiper "id="swiper :interval="2000" :height="height100"  direction="vertical" :show-dots="false" v-model="swiper_index" @on-index-change="swiper_onIndexChange"> -->
+        <swiper id="swiper" :options="swiperOption" :height="100" ref="mySwiper">
+            <swiper-slide class="swiper-no-swiping">
                 <div class="theme">{{ h5.theme }}</div>
                 <img class="title" src="../components/images/bgh5.1_01.png" alt="">
                 <img class="title1" src="../components/images/bgh5.1_03.png" alt="">
                 <img class="ship" src="../components/images/ship.png" alt="">
                 <img class="bird" src="../components/images/go.png"  alt="">
-            </swiper-item>
-             <swiper-item>
+            </swiper-slide>
+             <swiper-slide class="swiper-no-swiping">
                  <div class="companyIntro">
                     <img src="../components/images/intro.png" class="intro" alt="公司简介">
                     <!-- <scroll @scroll="scroll" -->
@@ -24,8 +25,8 @@
                         </div>　
                     <!-- </scroll> -->
                 </div>
-             </swiper-item>
-              <swiper-item>
+             </swiper-slide>
+              <swiper-slide class="swiper-no-swiping">
                  <div class="companyIntro">
                     <img src="../components/images/position.png" class="intro" alt="在招职位">
                     <div class="content">
@@ -39,7 +40,7 @@
                             </li>
                             </ul>
                         </scroll> -->
-                        <scroller lock-x :scrollbar-x="false" :scrollbar-y="false">
+                        <!-- <scroller lock-x :scrollbar-x="false" :scrollbar-y="false">
                              <ul>
                                 <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
                                     <div class="positionName">{{item.positionName}}</div>
@@ -47,17 +48,17 @@
                                     <img  class="details" src="../components/images/details.png" alt="详情">
                                 </li>
                              </ul>
-                        </scroller>
-                        <!-- <ul>
+                        </scroller> -->
+                        <ul>
                             <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
                                 <div class="positionName">{{item.positionName}}</div>
                                 <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
                                 <img  class="details" src="../components/images/details.png" alt="详情">
                             </li>
-                        </ul> -->
+                        </ul>
                     </div>　
                 </div>
-             </swiper-item>
+             </swiper-slide>
               <!-- <swiper-item>
                  <div class="positionDetial">
                     <img src="../components/images/position.png" class="intro" alt="在招职位">
@@ -93,7 +94,7 @@
                     </div>
                 </div>
              </swiper-item> -->
-             <swiper-item>
+             <swiper-slide class="swiper-no-swiping">
                  <div class="companyDetial">
                     <img src="../components/images/1.png" class="topLeft" alt="公司简介">
                     <div class="content">
@@ -116,23 +117,25 @@
                     </div>　
                     <img class="imgBtm" src="../components/images/boat.png" alt="">
                 </div>
-             </swiper-item>
+             </swiper-slide>
+                <div class="swiper-button-next" slot="button-next">
+                    <img class="nextPage" @click="nextPageGo()"   src="../components/images/nextButton.png" alt="">
+                </div>
         </Swiper>
       </div>
   </div>
 </template>
 
 <script>
-// import {swiper, swiperSlide} from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import allcity from "../common/js/allcity";
 import loading from "./base/loading/loading.vue";
-// import scroll from "../components/base/scroll.vue";
 import Scroll from './base/scroll2'
 import footerNav from "../components/base/foot.vue";
 import imgSrc2 from "../components/images/bgh5.2.png";
 import imgSrc3 from "../components/images/bgh5.3.png";
-import { Swiper, GroupTitle, SwiperItem, XButton, Divider,  XDialog,Scroller } from 'vux'
-  // import Scroll from './base/scroll2'
+// import {  GroupTitle,  XButton, Divider,  XDialog,Scroller } from 'vux'
 
 const FPS = 30;
 const SECONDS_BETWEEN_FRAMES = 1 / FPS;
@@ -155,7 +158,7 @@ export default {
     return {
         swiper_index: 0,
         imgSrc: imgSrc2,
-        height100:'0',
+        height100:0,
         timer: '',
         weActivityId: '',
         companyId: '',
@@ -176,7 +179,22 @@ export default {
         title: '',
         desc:'',
         link: '',
-        imgUrl: ''
+        imgUrl: '',
+         swiperOption: {//以下配置不懂的，可以去swiper官网看api，链接http://www.swiper.com.cn/api/
+          // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，<br>　　　　　　　　假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
+        //   notNextTick: true,
+          // swiper configs 所有的配置同swiper官方api配置
+          direction : 'vertical',
+          preventLinksPropagation : false,//拖动Swiper时阻止click事件。
+           on:{
+                sliderMove: function(){
+                console.log('dkadnajndja')
+              },
+                 slideChange: function(){
+                    alert('改变了');
+                },
+           }    
+        }
     };
   },
   methods: {
@@ -259,8 +277,12 @@ export default {
       this.scrollY = pos.y
     },
     nextPageGo(){
-        if(this.swiper_index <= 3){
-            this.swiper_index++
+        if(this.swiper.activeIndex < 3){
+            this.swiper.slideTo(this.swiper.activeIndex+1, 1000, false)
+            this.swiper_onIndexChange(this.swiper.activeIndex)
+        }else{
+            this.swiper_onIndexChange(0)
+            this.swiper.slideTo(0, 1000, false)
         }
     },
     getRoute (){
@@ -327,18 +349,25 @@ export default {
       })
     },
   },
+  computed: {
+      swiper() {
+        return this.$refs.mySwiper.swiper
+      }  
+  },
   mounted() {
     this.init();
     this.getRoute();
     var self = this;
-    self.height100=window.innerHeight+"px";
+    self.height100=window.innerHeight;
+    console.log(this.$refs.mySwiper.swiper)
+    console.log('this.$refs.mySwiper.swiper')
   },
   created() {
     this.probeType = 3
     this.listenScroll = true
   },
   components: {
-    loading, Scroller, Swiper, GroupTitle, SwiperItem, Scroll
+    loading, swiper, swiperSlide,
   },
   filters: {  
     workCityFilter: function (value) {  
@@ -408,6 +437,10 @@ html, body, #app, #h5, .wrap {
                 transform: translateY(0);
         }
 }
+.swiper-button-next{
+    background :none;
+    top: inherit;
+}
 #canvas{
     position: fixed;
     top: 0;
@@ -423,8 +456,8 @@ html, body, #app, #h5, .wrap {
     height :100%;
     .nextPage{
         position: absolute;
-        width: 20px;
-        bottom: 30px;
+        width: .5rem;
+        bottom: .2rem;
         left: 50%;
         z-index :4;
         transform: translateX(-50%);
@@ -442,12 +475,12 @@ html, body, #app, #h5, .wrap {
             margin-left: -10px;
             -webkit-animation: buttonNext 3s ease-in-out infinite;
             img{
-                width: 1rem;
+                // width: 1rem;
             }
         }
-        .vux-swiper{
+        .vux-swiper ,.swiper-wrapper{
             height: 100%;
-            .vux-swiper-item{
+            .vux-swiper-item, .swiper-slide{
                 height: 100%;
                 .theme{
                     color: #4BE0AB;
