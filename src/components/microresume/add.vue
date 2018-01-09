@@ -249,7 +249,7 @@
     },
     mounted(){
       document.title = "创建简历";
-      this.index();
+      // this.index();
     },
     methods: {
       index(){
@@ -299,12 +299,12 @@
           this.toastShow = true;
           return;
         }
-        if (type == 3 && (!this.interviewResumeInfo.phone || this.interviewResumeInfo.phone == "")) {
+        if (type == 2 && (!this.interviewResumeInfo.phone || this.interviewResumeInfo.phone == "")) {
           this.toastText = "请输入手机号";
           this.toastShow = true;
           return;
         }
-        if (type == 3 && (!this.interviewResumeInfo.email || this.interviewResumeInfo.email == "")) {
+        if (type == 2 && (!this.interviewResumeInfo.email || this.interviewResumeInfo.email == "")) {
           this.toastText = "请输入邮箱";
           this.toastShow = true;
           return;
@@ -421,7 +421,8 @@
         let self=this;
         let method="resume/getSimpleResume",
             param=JSON.stringify({
-              fansId:self.fansId
+              fansId:self.fansId,
+              companyId:self.companyId
             }),
             successd=function(res){
               self.type=2;
