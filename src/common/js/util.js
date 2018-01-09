@@ -4,16 +4,15 @@
  */
 
 // var user = "http://192.168.5.76:8089/hrm_test"; // 小辉测试本地
-var user = "http://192.168.5.76:8080/hrm"; // 小辉本地
+// var user = "http://192.168.5.76:8080/hrm"; // 小辉本地
 // var user = "http://192.168.4.215:8090/hrm"; // 琦玉本地
 // var user = "http://192.168.4.186:8080/hrm"; // 丸子本地
 // var user = "http://192.168.4.195:8080/hrm"; // 天明本地
 // var user = "http://192.168.4.87:8080/hrm"; // 江流本地
-// var user = "http://192.168.4.65:8080/hrm";  //鹿丸
+var user = "http://192.168.4.65:8080/hrm";  //鹿丸
 
-
-// var user="http://121.199.182.2:30004/hrm" //测试
-// var user = "https://aijuhr.com/hrm"; // 正式环境
+var user="http://121.199.182.2:30004/hrm" //测试
+var user = "https://aijuhr.com/hrm"; // 正式环境
 
 
 
