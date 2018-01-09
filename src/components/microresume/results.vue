@@ -4,7 +4,7 @@
         <icon type="success-circle" is-msg style="text-align:center;margin:0rem auto;display:block;padding-top:2rem;"></icon>
         <p class="success_resume">投递成功</p>
         <p class="success_resume_two">感谢您的申请，我们将尽快给您回复</p>
-        
+
     </div>
     <div v-if="type==2" class="results_list">
         <icon type="success-circle" is-msg style="text-align:center;margin:0rem auto;display:block;padding-top:2rem;"></icon>
@@ -33,6 +33,7 @@
         type:this.$route.query.type,
         companyId:this.$route.query.companyId,
         fansId:this.$route.query.fansId,
+        recomType:this.$route.query.recomType,
         accountName:'',
         sharedQrcodeUrl:null,
         isSubscribe:0,//用户是否关注1:已关注,0:未关注
@@ -67,7 +68,13 @@
       reuturnResume(){
         var self=this;
         localStorage.setItem('posId',self.interviewResumeInfo.positionId);
-        self.$router.push({path:'/',query:{companyId:localStorage.companyId}})
+        if(self.recomType==2){
+          location.href="https://aijuhr.com/wx/dist/#/wx/interpolateList?companyId="+self.companyId+"&shareFansId=0&fansId=0&recomType=2&pageFrom=3"
+        }else if(self.recomType==1){
+          location.href="https://aijuhr.com/wx/dist/#/wx/interpolateList?companyId="+self.companyId+"&shareFansId=0&fansId=0&recomType=1&pageFrom=1"
+        }else{
+          self.$router.push({path:'/about',query:{companyId:localStorage.companyId}})
+        }
       },
       //分享之后调用服务号二维码
       getWeChatOfficialAccountInfo(){

@@ -9,7 +9,7 @@
           <img :style="bgStyle" class="banner-image" alt="">
         </div>
         <!---->
-        <div class="header-section header-main">
+        <div class="header-section header-main" v-show="preCompanyWebsite.logoUrl">
           <div class="header-icon"><img :src="preCompanyWebsite.logoUrl" alt="" class="icon-image"></div>
           <div class="header-info">
             <div class="template-company">
@@ -17,8 +17,8 @@
               <div class="description">{{preCompanyWebsite.slogan}}</div>
               <div class="action" v-if="isAuthorization!==0">
                 <div class="g-ghost-btn" @click="goCare"
-                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
-                  <div class="btn-text">
+                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}" v-show="isAuthorization">
+                  <div class="btn-text" >
                     {{isAuthorization == 1 ? '已关注' : '关注'}}
 
 
@@ -36,13 +36,53 @@
     </div>
     <!--办公环境-->
     <div class="cards" v-show="preCompanyMemorabilia.length">
+
+      <!--<div class="card-type-1">-->
+        <!--<div class="g-card">-->
+          <!--<div class="template-card">-->
+            <!--<div class="template-complex">-->
+              <!--<div class="gm-card-offset">-->
+                <!--<div class="gm-card-header online_pos">-->
+                  <!--<h2 class="gm-card-title">-->
+                    <!--<span class="pos_ware"></span>-->
+                    <!--<span class="text">公司信息</span>-->
+                  <!--</h2>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;slide&ndash;&gt;-->
+                <!--<ul>-->
+                  <!--<li class="vertical-list vux-1px-t">-->
+                    <!--<div class="name">-->
+                      <!--<span class="mainName">{{companyInfo.companyName}}</span>-->
+                      <!--<span class="address" @click="toMainMap"></span>-->
+                    <!--</div>-->
+                    <!--<div class="shortName">({{companyInfo.companyShortName}})</div>-->
+                    <!--<div class="address"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>-->
+                    <!--<div class="tel"><span class="tel_icon"></span><span class="text">27272827</span></div>-->
+                  <!--</li>-->
+                  <!--<li class="vertical-list vux-1px-t" v-for="(item,index) in branchCompanyList">-->
+                    <!--<div class="name">-->
+                      <!--<span class="mainName">{{item.companyName}}</span>-->
+                      <!--<span class="address" @click="toMap(item)"></span>-->
+                    <!--</div>-->
+                    <!--<div class="shortName">({{item.companyShortName}})</div>-->
+                    <!--<div class="address"><span class="address_icon"></span><span class="text">{{filter(item.region)}}{{item.address}}</span></div>-->
+                    <!--<div class="tel"><span class="tel_icon"></span><span class="text">{{item.phone}}</span></div>-->
+                  <!--</li>-->
+
+                <!--</ul>-->
+
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="card-type-1">
         <div class="g-card">
           <div class="template-card">
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h2 class="gm-card-title">
+                  <h2 class="gm-card-title vux-1px-b">
                     <span class="pos_ware"></span>
                     <span class="text">发展历程</span>
                   </h2>
@@ -131,7 +171,7 @@
           </div>
         </div>
       </div>
-      <div class="card-type-3" v-show="preWorkTeam.length">
+      <div class="card-type-3" v-show="preWorkTeam.length&&preWorkTeam.length!=0">
         <div class="g-card" style="margin-bottom: 0">
           <div class="template-card">
             <div class="template-complex">
@@ -278,9 +318,22 @@
         careQrcode: false,
         //企业公众号二维码url
         officilQrcodeUrl: '',
-        isAuthorization: 1,
+        isAuthorization: '',
         code: '',
-        active: true
+        active: true,
+        branchCompanyList:[],
+        companyInfo: {
+          phone: "",
+          address: "",
+          companyImg: "",
+          companyName: "",
+          region: "",
+        },
+        latitude:'',
+        longitude:'',
+        companyName:'',
+        detailAddress:'',
+        address:''
       }
     },
     methods: {
@@ -324,9 +377,9 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            _this.preCompanyWebsite = res.data.data.CompanyWebsite
-            _this.preWorkTeam = res.data.data.WorkTeam
-            _this.WorkEnvironment = res.data.data.WorkEnvironment
+            _this.preCompanyWebsite = res.data.data.CompanyWebsite;
+            _this.preWorkTeam = res.data.data.WorkTeam;
+            _this.WorkEnvironment = res.data.data.WorkEnvironment;
             _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
           }
         }
@@ -434,7 +487,16 @@
                 cancel: function () {
                   console.log('用户取消分享后执行的回调函数2');
                 }
-              })
+              });
+              //使用微信内置地图查看位置接口
+              self.$wechat.openLocation({
+                latitude: self.latitude, // 纬度，浮点数，范围为90 ~ -90
+                longitude:  self.longitude, // 经度，浮点数，范围为180 ~ -180。
+                name: self.companyName , // 位置名
+                address: self.detailAddress, // 地址详情说明
+                scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+              });
 
             })
           })
@@ -446,6 +508,7 @@
         }
         this.careQrcode = true
       },
+
       getCode(){
         let queryParam = this.urlParse();
         if (!queryParam.code) {
@@ -501,12 +564,65 @@
         });
         var successd = function (res) {
           _this.getCompanyDetail()
-          _this.isAuthorization = res.data.data.subcribeStatus
-          _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl
+          _this.isAuthorization = res.data.data.subcribeStatus;
+          _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl;
         }
         _this.$http(method, param, successd);
       },
+      //查询公司信息
+      getMainCompanyInfo(){
 
+        var _this = this;
+        var method = "user/getCompanyInfo";
+        var param = JSON.stringify({
+          type: 2, companyId: _this.companyId
+        });
+        var successd = function (res) {
+          if(res.data.code == 0){
+              _this.companyInfo.companyName = res.data.data.companyName;
+              _this.companyInfo.companyShortName = res.data.data.companyShortName;
+              _this.companyInfo.companyName = res.data.data.companyName;
+              _this.companyInfo.region = res.data.data.region;
+              _this.companyInfo.phone = res.data.data.phone;
+              _this.longitude = res.data.data.longitude;
+              _this.latitude = res.data.data.latitude;
+              _this.companyName = res.data.data.companyName;
+              _this.companyInfo.address = res.data.data.address;
+              _this.detailAddress = _this.companyInfo.region + _this.companyInfo.address;
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      //查询分公司列表信息
+      getBranchCompanyInfo(){
+        var _this = this;
+        var method = "user/getBranchCompanyInfo";
+        var param = JSON.stringify({
+          type: 2, companyId: _this.companyId
+        });
+        var successd = function (res) {
+            if(res.data.code == 0){
+               _this.branchCompanyList =  res.data.data
+            }
+        }
+        _this.$http(method, param, successd);
+      },
+      filter(item){
+        let list = item.split(',').join('')
+        return list;
+      },
+      toMainMap(){
+        this.getMainCompanyInfo()
+
+        this.getSignature()
+      },
+      toMap(item){
+        this.latitude = item.latitude;
+        this.longitude = item.longitude;
+        this.companyName = item.companyName;
+        this.detailAddress = item.region + item.address;
+        this.getSignature()
+      }
     },
     created(){
       this.$nextTick(() => {
@@ -514,6 +630,8 @@
         this.getCodeUrl();
         this.toCare();
         this.getShareTitleInfo();
+        this.getMainCompanyInfo();
+        this.getBranchCompanyInfo();
 //        this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
@@ -595,8 +713,8 @@
   .g-ghost-white-btn {
     width: 135px;
     background-color: transparent;
-    color: #979797;
-    border-color: #979797;
+    color: #ccc;
+    border-color: #ccc;
     border-radius: 37px;
     font-size: 0.32rem;
   }
@@ -788,7 +906,6 @@
     padding: 0 0 15px 0;
     line-height: 1;
   }
-
   .g-container .cards .gm-card-offset .online_pos {
     padding-bottom: 0;
 
@@ -860,6 +977,82 @@
   }
 
   .g-container .cards .vertical-list {
+    font-size: 0;
+    margin: 0.3rem 0;
+  }
+  .g-container .cards .vertical-list:nth-child(1){
+    margin-top: 0;
+  }
+
+  .g-container .cards .vertical-list .name {
+    width: 100%;
+    display: inline-block;
+    font-size: 17px;
+    height: 0.48rem;
+    line-height: 0.48rem;
+    margin-top: 0.3rem;
+  }
+  .g-container .cards .vertical-list .name .mainName{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .g-container .cards .vertical-list .name .address{
+    float: right;
+    width: 0.82rem;
+    height: 0.44rem;
+    background:url(../../common/image/address_icon3.png)no-repeat center;
+    background-size: 50%;
+  }
+  .g-container .cards .vertical-list .shortName{
+    font-size:13px;
+    color: #999999;
+    margin: 4px 0;
+  }
+  .g-container .cards .vertical-list .address{
+    font-size:13px;
+    color: #A9A9A9;
+    position: relative;
+    padding-left: 0.3rem;
+  }
+  .g-container .cards .vertical-list .address .address_icon{
+    display: inline-block;
+    position: absolute;
+    left: -4px;
+    top: -2px;
+    width: 0.34rem;
+    height:0.48rem;
+    background: url(../../common/image/address_icon2.png)no-repeat center;
+    background-size: 50%;
+  }
+  .g-container .cards .vertical-list .address .text{
+    display: inline-block;
+    vertical-align: middle;
+    height:0.48rem;
+    line-height: 0.48rem;
+  }
+
+  .g-container .cards .vertical-list .tel{
+    position: relative;
+    padding-left: 0.38rem;
+    font-size:13px;
+    color: #999;
+    margin-bottom: 0.3rem;
+  }
+  .g-container .cards .vertical-list .tel .tel_icon{
+    display: inline-block;
+    position: absolute;
+    left: -5px;
+    top: -2px;
+    width: 0.44rem;
+    height:0.44rem;
+    background: url(../../common/image/tel.png)no-repeat center;
+    background-size: 45%;
+  }
+  .g-container .cards .vertical-list .tel .text{
+    display: inline-block;
+    vertical-align: middle;
+    height:0.48rem;
+    line-height: 0.48rem;
   }
 
   .g-container .cards .vertical-list .gamma-type-0 {

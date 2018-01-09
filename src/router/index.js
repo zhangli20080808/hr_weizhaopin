@@ -24,6 +24,9 @@ import aboutUs from 'components/wxIndex/aboutUs';
 import teamwork from 'components/wxIndex/teamwork';
 import onlinePosition from 'components/wxIndex/onlinePosition';
 
+//简历
+import resumePreview from 'components/resume/preview';
+
 Vue.use(Router)
 
 Router.prototype.goBack = function () {
@@ -101,6 +104,11 @@ export default new Router({
       path:'/onlinePosition',
       name:'onlinePosition',
       component:onlinePosition
+    },
+    {
+      path:'/resumePreview',
+      name:'resumePreview',
+      component:resumePreview
     }
   ]
 })
