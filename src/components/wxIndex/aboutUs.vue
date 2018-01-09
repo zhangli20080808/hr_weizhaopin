@@ -37,45 +37,45 @@
     <!--办公环境-->
     <div class="cards" v-show="preCompanyMemorabilia.length">
 
-      <!--<div class="card-type-1">-->
-        <!--<div class="g-card">-->
-          <!--<div class="template-card">-->
-            <!--<div class="template-complex">-->
-              <!--<div class="gm-card-offset">-->
-                <!--<div class="gm-card-header online_pos">-->
-                  <!--<h2 class="gm-card-title">-->
-                    <!--<span class="pos_ware"></span>-->
-                    <!--<span class="text">公司信息</span>-->
-                  <!--</h2>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;slide&ndash;&gt;-->
-                <!--<ul>-->
-                  <!--<li class="vertical-list vux-1px-t">-->
-                    <!--<div class="name">-->
-                      <!--<span class="mainName">{{companyInfo.companyName}}</span>-->
-                      <!--<span class="address" @click="toMainMap"></span>-->
-                    <!--</div>-->
-                    <!--<div class="shortName">({{companyInfo.companyShortName}})</div>-->
-                    <!--<div class="address"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>-->
-                    <!--<div class="tel"><span class="tel_icon"></span><span class="text">27272827</span></div>-->
-                  <!--</li>-->
-                  <!--<li class="vertical-list vux-1px-t" v-for="(item,index) in branchCompanyList">-->
-                    <!--<div class="name">-->
-                      <!--<span class="mainName">{{item.companyName}}</span>-->
-                      <!--<span class="address" @click="toMap(item)"></span>-->
-                    <!--</div>-->
-                    <!--<div class="shortName">({{item.companyShortName}})</div>-->
-                    <!--<div class="address"><span class="address_icon"></span><span class="text">{{filter(item.region)}}{{item.address}}</span></div>-->
-                    <!--<div class="tel"><span class="tel_icon"></span><span class="text">{{item.phone}}</span></div>-->
-                  <!--</li>-->
+      <div class="card-type-1">
+        <div class="g-card">
+          <div class="template-card">
+            <div class="template-complex">
+              <div class="gm-card-offset">
+                <div class="gm-card-header online_pos">
+                  <h2 class="gm-card-title">
+                    <span class="pos_ware"></span>
+                    <span class="text">公司信息</span>
+                  </h2>
+                </div>
+                <!--slide-->
+                <ul>
+                  <li class="vertical-list vux-1px-t">
+                    <div class="name">
+                      <span class="mainName">{{companyInfo.companyName}}</span>
+                      <span class="address" @click="toMainMap"></span>
+                    </div>
+                    <div class="shortName">({{companyInfo.companyShortName}})</div>
+                    <div class="address"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>
+                    <div class="tel"><span class="tel_icon"></span><span class="text">27272827</span></div>
+                  </li>
+                  <li class="vertical-list vux-1px-t" v-for="(item,index) in branchCompanyList">
+                    <div class="name">
+                      <span class="mainName">{{item.companyName}}</span>
+                      <span class="address" @click="toMap(item)"></span>
+                    </div>
+                    <div class="shortName">({{item.companyShortName}})</div>
+                    <div class="address"><span class="address_icon"></span><span class="text">{{filter(item.region)}}{{item.address}}</span></div>
+                    <div class="tel"><span class="tel_icon"></span><span class="text">{{item.phone}}</span></div>
+                  </li>
 
-                <!--</ul>-->
+                </ul>
 
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="card-type-1">
         <div class="g-card">
           <div class="template-card">

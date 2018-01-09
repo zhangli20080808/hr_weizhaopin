@@ -442,7 +442,7 @@
         self.$http(methods, param, successd);
       },
       toCompany(){
-        location.href = "https://aijuhr.com/miniRecruit/#/?companyId=" + this.companyId;
+        location.href = "https://aijuhr.com/miniRecruit/#/about?companyId=" + this.companyId;
       },
       join(){
         // self.$router.push({path:'/addResume',query:{id:this.positionId,shareFansId:self.shareFansId}})
