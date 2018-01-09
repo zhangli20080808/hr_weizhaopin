@@ -489,6 +489,70 @@
                 }
               });
               //使用微信内置地图查看位置接口
+//              self.$wechat.openLocation({
+//                latitude: self.latitude, // 纬度，浮点数，范围为90 ~ -90
+//                longitude:  self.longitude, // 经度，浮点数，范围为180 ~ -180。
+//                name: self.companyName , // 位置名
+//                address: self.detailAddress, // 地址详情说明
+//                scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
+//                infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+//              });
+
+            })
+          })
+      },
+      //获取内置地图信息接口
+      getSignature2(){
+        var self = this;
+        Axios.post(util.wxSignature, 'url=' + encodeURIComponent(location.href.split('#')[0]))
+          .then(function (res) {
+            self.$wechat.config({
+              debug: false,
+              appId: res.data.appid,
+              timestamp: res.data.timestamp,
+              nonceStr: res.data.noncestr,
+              signature: res.data.signature,
+              jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+                'hideMenuItems',
+                'showMenuItems',
+                'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem',
+                'translateVoice',
+                'startRecord',
+                'stopRecord',
+                'onVoiceRecordEnd',
+                'playVoice',
+                'onVoicePlayEnd',
+                'pauseVoice',
+                'stopVoice',
+                'uploadVoice',
+                'downloadVoice',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'hideOptionMenu',
+                'showOptionMenu',
+                'closeWindow',
+                'scanQRCode',
+                'chooseWXPay',
+                'openProductSpecificView',
+                'addCard',
+                'chooseCard',
+                'openCard'
+              ]
+            });
+            self.$wechat.ready(function (res) {
+              //使用微信内置地图查看位置接口
               self.$wechat.openLocation({
                 latitude: self.latitude, // 纬度，浮点数，范围为90 ~ -90
                 longitude:  self.longitude, // 经度，浮点数，范围为180 ~ -180。
@@ -497,7 +561,6 @@
                 scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
                 infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
               });
-
             })
           })
       },
@@ -614,14 +677,14 @@
       toMainMap(){
         this.getMainCompanyInfo()
 
-        this.getSignature()
+        this.getSignature2()
       },
       toMap(item){
         this.latitude = item.latitude;
         this.longitude = item.longitude;
         this.companyName = item.companyName;
         this.detailAddress = item.region + item.address;
-        this.getSignature()
+        this.getSignature2()
       }
     },
     created(){
