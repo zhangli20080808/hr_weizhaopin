@@ -67,7 +67,6 @@
       index(){
         var self=this;
         self.interviewResumeInfo=JSON.parse(localStorage.interviewResumeInfo);
-        console.log(self.interviewResumeInfo);
       },
       sendResume(){
         var self=this;
@@ -84,7 +83,7 @@
               fansId:self.fansId
             }),
             successd=function (res) {
-                self.$router.push({path:'/results',query:{type:res.data.data,companyId:self.companyId,fansId:self.fansId}});
+                self.$router.push({path:'/results',query:{type:res.data.data,companyId:self.companyId,fansId:self.fansId,recomType:self.recomType}});
             },
             c=function(res){
               self.btnLoading=false;

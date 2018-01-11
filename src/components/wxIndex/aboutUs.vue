@@ -9,7 +9,7 @@
           <img :style="bgStyle" class="banner-image" alt="">
         </div>
         <!---->
-        <div class="header-section header-main">
+        <div class="header-section header-main" v-show="preCompanyWebsite.logoUrl">
           <div class="header-icon"><img :src="preCompanyWebsite.logoUrl" alt="" class="icon-image"></div>
           <div class="header-info">
             <div class="template-company">
@@ -17,9 +17,12 @@
               <div class="description">{{preCompanyWebsite.slogan}}</div>
               <div class="action" v-if="isAuthorization!==0">
                 <div class="g-ghost-btn" @click="goCare"
-                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
-                  <div class="btn-text">
+                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}" v-show="isAuthorization">
+                  <div class="btn-text" >
                     {{isAuthorization == 1 ? '已关注' : '关注'}}
+
+
+
 
 
 
@@ -32,16 +35,57 @@
       </div>
     </div>
     <!--办公环境-->
-    <div class="cards">
+    <div class="cards" v-show="preCompanyMemorabilia.length">
+
+      <!--<div class="card-type-1">-->
+        <!--<div class="g-card">-->
+          <!--<div class="template-card">-->
+            <!--<div class="template-complex">-->
+              <!--<div class="gm-card-offset">-->
+                <!--<div class="gm-card-header online_pos">-->
+                  <!--<h2 class="gm-card-title">-->
+                    <!--<span class="pos_ware"></span>-->
+                    <!--<span class="text">公司信息</span>-->
+                  <!--</h2>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;slide&ndash;&gt;-->
+                <!--<ul>-->
+                  <!--<li class="vertical-list vux-1px-t">-->
+                    <!--<div class="name">-->
+                      <!--<span class="mainName">{{companyInfo.companyName}}</span>-->
+                      <!--<span class="address" @click="toMainMap"></span>-->
+                    <!--</div>-->
+                    <!--<div class="shortName">({{companyInfo.companyShortName}})</div>-->
+                    <!--<div class="address"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>-->
+                    <!--<div class="tel"><span class="tel_icon"></span><span class="text">27272827</span></div>-->
+                  <!--</li>-->
+                  <!--<li class="vertical-list vux-1px-t" v-for="(item,index) in branchCompanyList">-->
+                    <!--<div class="name">-->
+                      <!--<span class="mainName">{{item.companyName}}</span>-->
+                      <!--<span class="address" @click="toMap(item)"></span>-->
+                    <!--</div>-->
+                    <!--<div class="shortName">({{item.companyShortName}})</div>-->
+                    <!--<div class="address"><span class="address_icon"></span><span class="text">{{filter(item.region)}}{{item.address}}</span></div>-->
+                    <!--<div class="tel"><span class="tel_icon"></span><span class="text">{{item.phone}}</span></div>-->
+                  <!--</li>-->
+
+                <!--</ul>-->
+
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="card-type-1">
         <div class="g-card">
           <div class="template-card">
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h3 class="gm-card-title">
-                    发展历程
-                </h3>
+                  <h2 class="gm-card-title vux-1px-b">
+                    <span class="pos_ware"></span>
+                    <span class="text">发展历程</span>
+                  </h2>
                 </div>
                 <!--slide-->
                 <div class="vertical-list">
@@ -70,6 +114,9 @@
 
 
 
+
+
+
                                   </div>
                                   <div class="gamma-text-cover"></div>
                                 </div>
@@ -88,33 +135,27 @@
           </div>
         </div>
       </div>
-      <div class="card-type-2">
+      <div class="card-type-2" v-show="WorkEnvironment.length">
         <div class="g-card">
           <div class="template-card">
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h3 class="gm-card-title">
-                    办公环境
-                </h3>
+                  <h2 class="gm-card-title vux-1px-b">
+                    <span class="env_img"></span>
+                    <span class="text">办公环境</span>
+                  </h2>
                 </div>
                 <!--slide-->
-                <div class="slides" style="height: 237px">
+                <div class="slides" style="height: 239px">
                   <swiper :options="swiperOption2" ref="mySwiper">
                     <!-- slides -->
                     <swiper-slide v-for="(item,index) in WorkEnvironment" :key="item.id" @click.native="app(index)">
-                      <div class="media" style="height: 150px">
+                      <div class="media" style="height: 180px">
                         <img :src="item.imageUrl" alt="" width="100%" height="100%">
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
-
-
-
-
-
-
-
 
 
                       </div>
@@ -130,34 +171,31 @@
           </div>
         </div>
       </div>
-      <div class="card-type-3">
-        <div class="g-card">
+      <div class="card-type-3" v-show="preWorkTeam.length&&preWorkTeam.length!=0">
+        <div class="g-card" style="margin-bottom: 0">
           <div class="template-card">
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h3 class="gm-card-title" @click="teamworkDeatil">
-                    我们的团队
-                </h3>
+                  <h2 class="gm-card-title vux-1px-b">
+                    <span class="team_icon"></span>
+                    <span class="text">我们的团队</span>
+                    <div class="allR">
+                      <span class="info" @click="teamworkDeatil">查看更多信息</span>
+                      <span class="icon"></span>
+                    </div>
+                  </h2>
                 </div>
                 <!--slide-->
-                <div class="slides" style="height: 237px" @click="teamworkDeatil">
+                <div class="slides" style="height: 239px" @click="teamworkDeatil">
                   <swiper :options="swiperOption" ref="mySwiper">
                     <!-- slides -->
-                    <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id">
-                      <div class="media" style="height: 150px">
-                        <img :src="item.imageUrl" alt="" width="100%" height="100%">
+                    <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id" class="swiper_slide">
+                      <div class="media" style="height: 180px">
+                        <img :src="item.imageUrl" alt="" style="width: 100%;height: 100%">
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
-
-
-
-
-
-
-
-
 
 
                       </div>
@@ -174,7 +212,15 @@
         </div>
       </div>
     </div>
-    <footerNav></footerNav>
+    <div class="footer_icon" v-show="preCompanyWebsite.name">
+      <div class="img_detail"></div>
+    </div>
+    <div class="about_online">
+      <div class="us" :class="{'activeColor':active}">关于我们</div>
+      <div class="online_p" @click="getPosition">在招职位</div>
+    </div>
+
+    <!--<loading></loading>-->
     <!--关注弹窗-->
     <div v-transfer-dom class="cares">
       <x-dialog v-model="careQrcode" class="care-content">
@@ -199,6 +245,7 @@
 
 <script>
 
+  import loading from '../../components/base/loading/loading2.vue'
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import footerNav from '../../components/base/foot'
   import util from "../../common/js/util.js";
@@ -219,7 +266,7 @@
           // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，<br>　　　　　　　　假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
           notNextTick: true,
           // swiper configs 所有的配置同swiper官方api配置
-          autoplay: 3000,
+          autoplay: true,
           direction: 'horizontal',
           grabCursor: false,
           setWrapperSize: true,
@@ -257,6 +304,7 @@
           imgUrl: '',
           title: '',
           desc: '',
+          lists: []
         },
         companyId: (() => {
           let queryParam = this.urlParse();
@@ -270,8 +318,22 @@
         careQrcode: false,
         //企业公众号二维码url
         officilQrcodeUrl: '',
-        isAuthorization: 1,
-        code:''
+        isAuthorization: '',
+        code: '',
+        active: true,
+        branchCompanyList:[],
+        companyInfo: {
+          phone: "",
+          address: "",
+          companyImg: "",
+          companyName: "",
+          region: "",
+        },
+        latitude:'',
+        longitude:'',
+        companyName:'',
+        detailAddress:'',
+        address:''
       }
     },
     methods: {
@@ -308,25 +370,20 @@
       //查询微官网
       getCompanyDetail(){
         var _this = this;
-        var method = "weixin/getCompanyWebDetail";
-        var param = {
-          companyId: _this.companyId,
-          code: _this.code
-        };
+        var method = "companyWeb/getCompanyDetail";
+        var param = JSON.stringify({
+          type: 2,
+          companyId: _this.companyId
+        });
         var successd = function (res) {
-          if (res.data.codeUrl == '') {
-            _this.preCompanyWebsite = res.data.CompanyWebsite
-            _this.preWorkTeam = res.data.WorkTeam
-            _this.WorkEnvironment = res.data.WorkEnvironment
-            _this.preCompanyMemorabilia = res.data.CompanyMemorabilia
-            _this.isAuthorization = res.data.subcribeMap.subcribeStatus
-            _this.officilQrcodeUrl = res.data.subcribeMap.officilQrcodeUrl
-          } else {
-            _this.careHref = res.data.codeUrl
-            location.href = _this.careHref
+          if (res.data.code == 0) {
+            _this.preCompanyWebsite = res.data.data.CompanyWebsite;
+            _this.preWorkTeam = res.data.data.WorkTeam;
+            _this.WorkEnvironment = res.data.data.WorkEnvironment;
+            _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
           }
         }
-        _this.$webHttp(method, param, successd);
+        _this.$http(method, param, successd);
       },
       teamworkDeatil(){
         this.$router.push({
@@ -430,7 +487,16 @@
                 cancel: function () {
                   console.log('用户取消分享后执行的回调函数2');
                 }
-              })
+              });
+              //使用微信内置地图查看位置接口
+              self.$wechat.openLocation({
+                latitude: self.latitude, // 纬度，浮点数，范围为90 ~ -90
+                longitude:  self.longitude, // 经度，浮点数，范围为180 ~ -180。
+                name: self.companyName , // 位置名
+                address: self.detailAddress, // 地址详情说明
+                scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+              });
 
             })
           })
@@ -442,20 +508,131 @@
         }
         this.careQrcode = true
       },
+
       getCode(){
         let queryParam = this.urlParse();
-        if(!queryParam.code){
+        if (!queryParam.code) {
           return
         }
         this.code = queryParam.code
         return this.code;
+      },
+      //
+      getWeWebsitePosition(){
+        var self = this;
+        var method = "companyWeb/getWeWebsitePosition",
+          param = JSON.stringify({type: 2}),
+          successd = function (res) {
+            console.log(res.data)
+            self.lists = res.data.data
+          };
+        self.$http(method, param, successd);
+      },
+      getPosition(){
+        this.$router.push({
+          name: 'onlinePosition',
+          query: {
+            companyId: this.companyId
+          }
+        })
+      },
+      //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值
+      getCodeUrl(){
+        var _this = this;
+        var method = "subscribeWeChat/getCodeUrl";
+        var param = JSON.stringify({
+          type: 2,
+          companyId: _this.companyId,
+          redirectUri: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + _this.companyId + '',
+          code: _this.code
+        });
+        var successd = function (res) {
+          if (res.data.data.codeUrl == '') {
+
+          } else {
+            location.href = res.data.data.codeUrl
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      toCare(){
+
+        var _this = this;
+        var method = "subscribeWeChat/subscribeCompanyWeChat";
+        var param = JSON.stringify({
+          type: 2, companyId: _this.companyId, code: _this.code
+        });
+        var successd = function (res) {
+          _this.getCompanyDetail()
+          _this.isAuthorization = res.data.data.subcribeStatus;
+          _this.officilQrcodeUrl = res.data.data.officilQrcodeUrl;
+        }
+        _this.$http(method, param, successd);
+      },
+      //查询公司信息
+      getMainCompanyInfo(){
+
+        var _this = this;
+        var method = "user/getCompanyInfo";
+        var param = JSON.stringify({
+          type: 2, companyId: _this.companyId
+        });
+        var successd = function (res) {
+          if(res.data.code == 0){
+              _this.companyInfo.companyName = res.data.data.companyName;
+              _this.companyInfo.companyShortName = res.data.data.companyShortName;
+              _this.companyInfo.companyName = res.data.data.companyName;
+              _this.companyInfo.region = res.data.data.region;
+              _this.companyInfo.phone = res.data.data.phone;
+              _this.longitude = res.data.data.longitude;
+              _this.latitude = res.data.data.latitude;
+              _this.companyName = res.data.data.companyName;
+              _this.companyInfo.address = res.data.data.address;
+              _this.detailAddress = _this.companyInfo.region + _this.companyInfo.address;
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      //查询分公司列表信息
+      getBranchCompanyInfo(){
+        var _this = this;
+        var method = "user/getBranchCompanyInfo";
+        var param = JSON.stringify({
+          type: 2, companyId: _this.companyId
+        });
+        var successd = function (res) {
+            if(res.data.code == 0){
+               _this.branchCompanyList =  res.data.data
+            }
+        }
+        _this.$http(method, param, successd);
+      },
+      filter(item){
+        let list = item.split(',').join('')
+        return list;
+      },
+      toMainMap(){
+        this.getMainCompanyInfo()
+
+        this.getSignature()
+      },
+      toMap(item){
+        this.latitude = item.latitude;
+        this.longitude = item.longitude;
+        this.companyName = item.companyName;
+        this.detailAddress = item.region + item.address;
+        this.getSignature()
       }
     },
     created(){
       this.$nextTick(() => {
-        this.getCode()
-        this.getCompanyDetail();
+        this.getCode();
+        this.getCodeUrl();
+        this.toCare();
         this.getShareTitleInfo();
+        this.getMainCompanyInfo();
+        this.getBranchCompanyInfo();
+//        this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
       })
@@ -469,7 +646,8 @@
       swiper,
       swiperSlide,
       footerNav,
-      XDialog
+      XDialog,
+      loading
     },
     directives: {
       TransferDom
@@ -478,7 +656,10 @@
   }
 
 </script>
+<style lang="less">
+  @import '~vux/src/styles/1px.less';
 
+</style>
 <style scoped>
   @import "../../common/stylus/swiper.css";
   @import "../../components/css/main.css";
@@ -486,9 +667,10 @@
   .g-container {
     position: relative;
     z-index: 2;
-    background-color: #f1f5f8;
+    background-color: #F8F8FC;
     border: 0;
     outline: 0;
+    padding-bottom: 0.98rem;
   }
 
   .g-oneline-text {
@@ -513,7 +695,7 @@
     margin-bottom: 0;
     font-size: 13px;
     font-weight: 400;
-    line-height: 1.2;
+    line-height: 0.8;
     border-radius: 2px;
     color: #fff;
     text-align: center;
@@ -529,17 +711,21 @@
   }
 
   .g-ghost-white-btn {
-    width: 110px;
+    width: 135px;
     background-color: transparent;
-    color: #abb4c3;
-    border-color: #abb4c3;
+    color: #ccc;
+    border-color: #ccc;
+    border-radius: 37px;
+    font-size: 0.32rem;
   }
 
   .social-btn {
-    width: 110px;
-    background-color: transparent;
+    width: 135px;
+    background-color: #66a4f9;
     border-color: #66a4f9;
-    color: #66a4f9;
+    color: #fff;
+    border-radius: 37px;
+    font-size: 0.32rem;
   }
 
   /*弹窗*/
@@ -595,12 +781,25 @@
     border-radius: 1px;
   }
 
+  .g-container .footer_icon {
+    height: 0.89rem;
+    line-height: 0.89rem;
+    text-align: center;
+  }
+
+  .g-container .footer_icon .img_detail {
+    display: inline-block;
+    vertical-align: middle;
+    width: 106px;
+    height: 15px;
+    background: url(../../common/image/footLogo2.jpg) no-repeat center;
+    background-size: 103px auto;
+  }
+
   .g-container .company-profile .g-card {
     margin: 8px 0;
     overflow: hidden;
     background-color: #fff;
-    border: 1px solid #e8f0f8;
-    border-width: 1px 0;
   }
 
   .g-container .company-profile .profile-header {
@@ -631,8 +830,8 @@
   .g-container .company-profile .g-card .header-main .header-icon {
     overflow: hidden;
     position: absolute;
-    width: 88px;
-    height: 88px;
+    width: 92px;
+    height: 92px;
     top: -44px;
     left: 50%;
     margin-left: -44px;
@@ -643,8 +842,8 @@
   }
 
   .g-container .company-profile .g-card .header-main .header-icon .icon-image {
-    width: 88px;
-    height: 88px;
+    width: 92px;
+    height: 92px;
     border-radius: 50%;
     border: 0;
     z-index: 1;
@@ -675,7 +874,7 @@
     padding-right: 0.141429rem;
     white-space: pre-line;
     font-size: 14px;
-    color: #abb4c3;
+    color: #999;
   }
 
   .g-container .company-profile .g-card .header-main .header-info .template-company .action {
@@ -683,16 +882,14 @@
     margin-bottom: 8px;
   }
 
-  .g-container .company-profile .g-card .header-main .header-info .template-company .action .g-ghost-btn .btn-text {
-    font-size: 13px;
+  .g-container .company-profile .g-card .header-main .header-info .template-company .action .btn-text {
+    font-size: 0.32rem;
   }
 
   .g-container .cards .g-card {
-    margin: 8px 0;
+    margin: 12px 0;
     overflow: hidden;
     background-color: #fff;
-    border: 1px solid #e8f0f8;
-    border-width: 1px 0;
   }
 
   .g-container .cards .g-card .gm-card {
@@ -700,23 +897,162 @@
   }
 
   .g-container .cards .gm-card-offset {
-    margin-left: 0.562857rem;
-    margin-right: 0.562857rem;
+    margin-left: 0.32rem;
+    margin-right: 0.32rem;
   }
 
   .g-container .cards .gm-card-offset .gm-card-header {
     overflow: hidden;
-    padding: 20px 0;
+    padding: 0 0 15px 0;
     line-height: 1;
+  }
+  .g-container .cards .gm-card-offset .online_pos {
+    padding-bottom: 0;
+
   }
 
   .g-container .cards .gm-card-offset .gm-card-header .gm-card-title {
-    font-size: 14px;
-    margin: 0;
-    font-weight: 700;
+    font-size: 0.32rem;
+    font-weight: 400;
+    color: #000;
+    position: relative;
+    height: 49px;
+    line-height: 49px;
+  }
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR {
+    font-size: 0.26rem;
+    color: #9a9fac;
+    display: inline-block;
+    float: right;
+  }
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .info {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .icon {
+    display: inline-block;
+    background: url(../../common/image/Backicon.png) no-repeat center;
+    width: 10px;
+    height: 15px;
+    background-size: 50%;
+    vertical-align: middle;
+  }
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .pos_ware {
+    display: inline-block;
+    vertical-align: middle;
+    width: 17px;
+    height: 17px;
+    background: url(../../common/image/process.png) no-repeat center;
+    background-size: cover;
+  }
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .env_img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 17px;
+    height: 17px;
+    background: url(../../common/image/env_img.png) no-repeat center;
+    background-size: cover;
+  }
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .team_icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    height: 15px;
+    background: url(../../common/image/team_icon.png) no-repeat center;
+    background-size: cover;
+  }
+
+  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .text {
+    display: inline-block;
+    vertical-align: middle;
+    height: 24px;
+    line-height: 24px;
+    margin-left: 3px
   }
 
   .g-container .cards .vertical-list {
+    font-size: 0;
+    margin: 0.3rem 0;
+  }
+  .g-container .cards .vertical-list:nth-child(1){
+    margin-top: 0;
+  }
+
+  .g-container .cards .vertical-list .name {
+    width: 100%;
+    display: inline-block;
+    font-size: 17px;
+    height: 0.48rem;
+    line-height: 0.48rem;
+    margin-top: 0.3rem;
+  }
+  .g-container .cards .vertical-list .name .mainName{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .g-container .cards .vertical-list .name .address{
+    float: right;
+    width: 0.82rem;
+    height: 0.44rem;
+    background:url(../../common/image/address_icon3.png)no-repeat center;
+    background-size: 50%;
+  }
+  .g-container .cards .vertical-list .shortName{
+    font-size:13px;
+    color: #999999;
+    margin: 4px 0;
+  }
+  .g-container .cards .vertical-list .address{
+    font-size:13px;
+    color: #A9A9A9;
+    position: relative;
+    padding-left: 0.3rem;
+  }
+  .g-container .cards .vertical-list .address .address_icon{
+    display: inline-block;
+    position: absolute;
+    left: -4px;
+    top: -2px;
+    width: 0.34rem;
+    height:0.48rem;
+    background: url(../../common/image/address_icon2.png)no-repeat center;
+    background-size: 50%;
+  }
+  .g-container .cards .vertical-list .address .text{
+    display: inline-block;
+    vertical-align: middle;
+    height:0.48rem;
+    line-height: 0.48rem;
+  }
+
+  .g-container .cards .vertical-list .tel{
+    position: relative;
+    padding-left: 0.38rem;
+    font-size:13px;
+    color: #999;
+    margin-bottom: 0.3rem;
+  }
+  .g-container .cards .vertical-list .tel .tel_icon{
+    display: inline-block;
+    position: absolute;
+    left: -5px;
+    top: -2px;
+    width: 0.44rem;
+    height:0.44rem;
+    background: url(../../common/image/tel.png)no-repeat center;
+    background-size: 45%;
+  }
+  .g-container .cards .vertical-list .tel .text{
+    display: inline-block;
+    vertical-align: middle;
+    height:0.48rem;
+    line-height: 0.48rem;
   }
 
   .g-container .cards .vertical-list .gamma-type-0 {
@@ -789,7 +1125,7 @@
   }
 
   .g-container .cards .vertical-list .gamma-type-0 .slide .list-item .inner .g-flex .gamma-right .gamma-right-height .gamma-description {
-    color: #262626;
+    color: #999;
     line-height: 0.4rem;
     z-index: 0;
   }
@@ -832,7 +1168,7 @@
 
   .swiper-container .swiper-wrapper .swiper-slide .title {
     font-size: 14px;
-    color: #abb4c3;
+    color: #999;
     font-weight: 400;
     line-height: 20px;
     margin-top: 10px;
@@ -845,9 +1181,116 @@
     height: 100%;
     background-color: #f2f2f2;
   }
+
+  .swiper-container-horizontal > .swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+    bottom: 64px;
+    left: 0;
+    width: 100%;
+  }
+
+  .position_list {
+    padding: 12px 0;
+    font-size: 0.28rem;
+    background-color: #fff;
+    margin: 0px 0;
+  }
+
+  .position_list .position_name {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 0.34rem;
+    color: #222;
+  }
+
+  .position_list dt {
+    line-height: 0.48rem;
+    height: 0.48rem;
+    margin-bottom: 6px;
+    font-size: 0.26rem;
+    color: #222;
+  }
+
+  .position_list_right {
+    float: right;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #FDA732;
+  }
+
+  .position_list dd {
+    margin-bottom: 6px;
+  }
+
+  .position_list_money {
+    color: #666;
+  }
+
+  .position_list_money span {
+    margin-right: 2px;
+    background-color: #e5e5e5;
+    padding: 3px 5px;
+    border-radius: 2px;
+    color: #999999;
+    font-size: 0.26rem;
+  }
+
+  .position_list_money .position_list_right {
+    color: #46BE8A;
+  }
+
+  .position_list .position_list_date {
+    color: #999;
+    font-size: 0.26rem;
+    margin-bottom: 0;
+  }
+
+  .position_list_date em {
+    font-style: normal;
+  }
+
+  .about_online {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    height: 0.98rem;
+    font-size: 0.34rem;
+    line-height: 0.98rem;
+    background: #fff;
+    z-index: 1000;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .about_online .us {
+    text-align: center;
+    flex: 1;
+    border-right: 1px solid #e5e5e5;
+  }
+
+  .about_online .online_p {
+    text-align: center;
+    flex: 1;
+  }
+
+  .activeColor {
+    color: #5AA2E7;
+  }
+
 </style>
 <style>
   #aboutUs .cares .care-content .weui-dialog {
     max-width: 251px !important;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: #fff !important;
+    opacity: 1;
+  }
+
+  .swiper-pagination-bullet {
+    background: #ccc;
+    opacity: 1;
   }
 </style>

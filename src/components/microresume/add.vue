@@ -1,8 +1,8 @@
 <template>
-  <div id="add_resume" class="add_resume">
+  <div id="add_resume" class="add_resume" :style="{'height':wh+'px'}">
     <div v-show="type==1">
       <div class="createText"><span class="text">创建个人简历</span></div>
-      <div class="first" @click="go(2)">
+      <div class="first" @click="getSimpleResume">
         <div class="resume_icon"></div>
         <div class="resume_text">一分钟创建微简历</div>
       </div>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="content" v-show="type==2">
-      <ul class="content_header">
+      <!-- <ul class="content_header">
         <li :class="{active:headType==1,successd:headType>1}">基本信息<span></span><i class="el-icon-check"
                                                                                   v-if="headType>1"></i></li>
         <li :class="{active:headType==2,successd:headType>2}">联系方式<span></span><i class="el-icon-check"
@@ -19,29 +19,32 @@
                                                                                   v-if="headType>3"></i></li>
         <li :class="{active:headType==4,successd:headType>4}">工作经历<span></span><i class="el-icon-check"
                                                                                   v-if="headType>4"></i></li>
-      </ul>
+      </ul> -->
       <!--基本信息-->
       <div v-if="headType==1" class="baseInfo">
-        <group :label-width="labelWidth" class="baseInfoTitle">
-          <x-input title="姓名" v-model="interviewResumeInfo.name" class="baseInfoName"></x-input>
+        <group class="baseInfoTitle" gutter='0' :label-width="labelWidth" title="基本信息">
+          <x-input title="姓名" v-model="interviewResumeInfo.name" class="" placeholder="请填写完整姓名"></x-input>
           <!-- <cell is-link @click.native="showPopup = true"  :value="value2" title="生日"></cell> -->
-          <datetime v-model="interviewResumeInfo.birthday" title="生日" :min-year="1970" :max-year="2010"></datetime>
+          <datetime v-model="interviewResumeInfo.birthday" title="生日" :min-year="1970" :max-year="2010" placeholder="请选择出生年月"></datetime>
           <popup-picker title="性别" :data="sexArr" v-model="sexValue" show-name value-text-align="left"></popup-picker>
+        </group>
+        <group :label-width="labelWidth" class="baseInfoTitle before_border_none"  gutter='0'>
+          <x-input title="邮  箱" name="email" placeholder="请输入邮箱地址" is-type="email"
+                   v-model="interviewResumeInfo.email" class="baseInfoName"></x-input>
+          <x-input title='手机号' v-model="interviewResumeInfo.phone" mask="999 9999 9999" :max="13"
+                   is-type="china-mobile" placeholder="请输入手机号码" class="baseInfoName"></x-input>
         </group>
         <flexbox class="position_bottom">
           <flexbox-item>
-            <x-button class="btn" @click.native="changeHeadType('2')">下一步</x-button>
+            <x-button class="btn position_bottom_btn" @click.native="changeHeadType('2')">
+              <span>下一步</span>
+              <span>(填写教育经历)</span>
+            </x-button>
           </flexbox-item>
         </flexbox>
       </div>
       <!-- 联系方式 -->
-      <div v-if="headType==2" class="baseInfo">
-        <group :label-width="labelWidth" class="baseInfoTitle">
-          <x-input title="邮  箱" name="email" placeholder="请输入邮箱地址" is-type="email"
-                   v-model="interviewResumeInfo.email" class="baseInfoName"></x-input>
-          <x-input title='手机号码' v-model="interviewResumeInfo.phone" mask="999 9999 9999" :max="13"
-                   is-type="china-mobile" placeholder="请输入手机号码" class="baseInfoName"></x-input>
-        </group>
+      <!-- <div v-if="headType==2" class="baseInfo">
         <flexbox class="position_bottom" :gutter="15">
           <flexbox-item>
             <x-button class="btn last_step" @click.native="changeHeadType('1')">上一步</x-button>
@@ -50,37 +53,40 @@
             <x-button class="btn" @click.native="changeHeadType('3')">下一步</x-button>
           </flexbox-item>
         </flexbox>
-      </div>
+      </div> -->
       <!-- 教育经历 -->
-      <div v-if="headType==3" class="baseInfo">
-        <group label-width="100%" v-for="(educationHistory,index) in interviewResumeInfo.educationHistoryList"
-               :key="educationHistory.startDateStr" class="baseInfoTitle">
+      <div v-if="headType==2" class="baseInfo">
+        <group  label-width="100%" 
+                v-if="addEducation==false"
+                :title="index==0?'教育经历':''"
+                v-for="(educationHistory,index) in interviewResumeInfo.educationHistoryList"
+                :key="educationHistory.startDateStr" class="baseInfoTitle" :gutter='index==0?"0":"0.3rem"'>
           <cell :title="educationHistory.startDateStr+'  至  '+educationHistory.endDateStr"
-                v-if="educationHistory.isReading==0"><i class="el-icon-delete color_F96868"
-                                                        @click="removeEducationSave(index)"></i></cell>
-          <cell :title="educationHistory.startDateStr+'  至今'" v-else><i class="el-icon-delete color_F96868"
-                                                                        @click="removeEducationSave(index)"></i></cell>
+                class="padding_10_15_0"
+                v-if="educationHistory.isReading==0">
+                <i class="el-icon-delete color_F96868" @click="removeEducationSave(index)"></i>
+          </cell>
+          <cell :title="educationHistory.startDateStr+'  至今'" v-else class="padding_10_15_0">
+            <i class="el-icon-delete color_F96868" @click="removeEducationSave(index)"></i>
+          </cell>
           <p class="side">
             {{educationHistory.graduateSchool}}&nbsp;&nbsp;{{professionalValue[educationHistory.educationLev - 1]}}
           </p>
           <p class="slide">{{educationHistory.major}}</p>
-          <!-- <ul class="slide vux-1px-b" v-for="educationHistory in interviewResumeInfo.educationHistoryList">
-            <li style="color:#475669;"><span class="margin_right_10">{{educationHistory.startDateStr}}</span>至<span class="margin_left_10">{{educationHistory.isReading==1?'今':educationHistory.endDateStr}}</span></li>
-            <li><span class="margin_right_10">{{educationHistory.graduateSchool}}</span><span>{{professional[educationHistory.educationLev-1]}}</span></li>
-            <li>{{educationHistory.major}}</li>
-          </ul> -->
         </group>
         <div class="add_education" @click="addEducation=true;" v-if="addEducation==false">添加一条教育经验</div>
-        <group v-if="addEducation" label-align="left" :label-width="labelWidth">
-          <x-switch title="目前在读" v-model="isReading"></x-switch>
-          <datetime v-model="value3" @on-change="change" title="开始时间" format="YYYY-MM" :min-year="1970"
-                    :max-year="2020"></datetime>
-          <datetime v-model="value4" @on-change="change" title="结束时间" format="YYYY-MM" v-show="!isReading"
-                    :min-year="1970" :max-year="2020"></datetime>
-          <cell title="结束时间" v-show="isReading">至今</cell>
+        <group v-if="addEducation" label-align="left" :label-width="labelWidth" gutter="0" title="教育经历">
+          <!-- <x-switch title="目前在读" v-model="isReading"></x-switch> -->
+          <cell title="目前在读" value-align="left">
+            <check-icon :value.sync="isReading">是</check-icon>
+          </cell>
+          <datetime v-model="value3" @on-change="change" title="开始时间" format="YYYY-MM" :min-year="1970" :max-year="2020"></datetime>
+          <datetime v-model="value4" @on-change="change" title="结束时间" format="YYYY-MM" v-if="!isReading" :min-year="1970" :max-year="2020"></datetime>
+          <cell title="结束时间" v-else value-align="left" is-link>至今</cell>
+        </group>
+        <group v-if="addEducation" label-align="left" :label-width="labelWidth" >
           <x-input title="毕业学校" name="graduateSchool" placeholder="请输入毕业学校" v-model="graduateSchool"></x-input>
-          <popup-picker title="学  历" :data="professional" v-model="value6" show-name
-                        value-text-align="left"></popup-picker>
+          <popup-picker title="学  历" :data="professional" v-model="value6" show-name value-text-align="left"></popup-picker>
           <x-input title="专  业" name="major" placeholder="请输入专业" v-model="major"></x-input>
         </group>
         <flexbox class="position_bottom" :gutter="15">
@@ -88,37 +94,46 @@
             <x-button class="btn" @click.native="addEducationSave">保存</x-button>
           </flexbox-item>
           <flexbox-item v-if="addEducation==false">
-            <x-button class="btn last_step" @click.native="changeHeadType('2')">上一步</x-button>
+            <x-button class="btn last_step" @click.native="changeHeadType('1')">上一步</x-button>
           </flexbox-item>
           <flexbox-item v-if="addEducation==false">
-            <x-button class="btn" @click.native="changeHeadType('4')">下一步</x-button>
+            <x-button class="btn position_bottom_btn" @click.native="changeHeadType('3')">
+              <span>下一步</span>
+              <span>(填写工作经历)</span>
+            </x-button>
           </flexbox-item>
         </flexbox>
       </div>
       <!-- 工作经历 -->
-      <div v-if="headType==4" class="baseInfo">
-        <group label-width="100%" v-for="(workHistory,index) in interviewResumeInfo.workHistoryList"
-               :key="workHistory.startDateStr" class="baseInfoTitle">
-          <cell :title="workHistory.startDateStr+'  至  '+workHistory.endDateStr" v-if="workHistory.isWorking==0"><i
-            class="el-icon-delete color_F96868" @click="removeExperienceSave(index)"></i></cell>
-          <cell :title="workHistory.startDateStr+'  至今'" v-else><i class="el-icon-delete color_F96868"
-                                                                   @click="removeExperienceSave(index)"></i></cell>
-          <p class="side">{{workHistory.workCompany}}<br/>{{workHistory.position}}</p>
-          <!-- <ul class="slide vux-1px-b" v-for="workHistory in interviewResumeInfo.workHistoryList">
-            <li style="color:#475669;"><span class="margin_right_10">{{workHistory.startDateStr}}</span>至<span class="margin_left_10">{{workHistory.isWorking==1?'今':workHistory.endDateStr}}</span></li>
-            <li><span class="margin_right_10">{{workHistory.workCompany}}</span></li>
-            <li>{{workHistory.position}}</li>
-          </ul> -->
+      <div v-if="headType==3" class="baseInfo">
+        <group  label-width="100%" 
+                :title="index==0?'工作经历':''"
+                v-for="(workHistory,index) in interviewResumeInfo.workHistoryList" :gutter='index==0?"0":"0.3rem"'
+                v-if="!addExperience"
+                :key="workHistory.startDateStr" 
+                class="baseInfoTitle">
+          <cell :title="workHistory.startDateStr+'  至  '+workHistory.endDateStr" v-if="workHistory.isWorking==0" class="padding_10_15_0">
+            <i class="el-icon-delete color_F96868" @click="removeExperienceSave(index)"></i>
+          </cell>
+          <cell :title="workHistory.startDateStr+'  至今'" v-else class="padding_10_15_0">
+            <i class="el-icon-delete color_F96868" @click="removeExperienceSave(index)"></i>
+          </cell>
+          <p class="side">{{workHistory.workCompany}}</p>
+          <p class="slide">{{workHistory.position}}</p>
         </group>
         <div class="add_education" @click="addExperience=true;" v-if="addExperience==false">添加一条工作经历</div>
-        <group v-if="addExperience" :label-width="labelWidth">
-          <x-switch title="目前在职" v-model="isWorking"></x-switch>
+        <group v-if="addExperience" :label-width="labelWidth" :gutter="0" title="工作经历">
+          <cell title="目前在职" value-align="left">
+            <check-icon :value.sync="isWorking">是</check-icon>
+          </cell>
           <datetime v-model="startDateStr" @on-change="change" title="开始时间" format="YYYY-MM" :min-year="1970"
                     :max-year="2020"></datetime>
           <datetime v-model="endDateStr" @on-change="change" title="结束时间" format="YYYY-MM" v-show="!isWorking"
                     :min-year="1970" :max-year="2020"></datetime>
-          <cell title="结束时间" v-show="isWorking">至今</cell>
-          <x-input title="公  司" name="workCompany" placeholder="请输入公司" v-model="workCompany"></x-input>
+          <cell title="结束时间" v-show="isWorking" value-align="left" is-link>至今</cell>
+        </group>
+        <group v-if="addExperience" :label-width="labelWidth">
+          <x-input title="公司名称" name="workCompany" placeholder="请输入公司名称" v-model="workCompany"></x-input>
           <x-input title="职  位" name="position" placeholder="请输入职位" v-model="position"></x-input>
         </group>
         <flexbox class="position_bottom" :gutter="15">
@@ -126,7 +141,7 @@
             <x-button class="btn" @click.native="addExperienceSave">保存</x-button>
           </flexbox-item>
           <flexbox-item v-if="addExperience==false">
-            <x-button class="btn last_step" @click.native="changeHeadType('3')">上一步</x-button>
+            <x-button class="btn last_step" @click.native="changeHeadType('2')">上一步</x-button>
           </flexbox-item>
           <flexbox-item v-if="addExperience==false">
             <x-button class="btn" @click.native="go(3)">下一步</x-button>
@@ -134,12 +149,16 @@
         </flexbox>
       </div>
     </div>
+
     <div v-if="type==3">
       <icon type="success-circle" is-msg
             style="text-align:center;margin:0rem auto;display:block;padding-top:2rem;"></icon>
       <p class="success_resume">简历完成</p>
-      <x-button class="btn success_resume_btn" @click.native="previewResume">预览简历</x-button>
-      <x-button class="success_resume_btn" @click.native="reuturnResume">返回修改</x-button>
+      <div class="resume_submit">
+        <x-button class="success_resume_btn immediately" @click.native="sendResume" :show-loading="btnLoading">立即投递</x-button>
+        <x-button class="success_resume_btn" @click.native="previewResume">预览简历</x-button>
+        <x-button class="success_resume_btn" @click.native="reuturnResume">返回修改</x-button>
+      </div>
     </div>
     <toast v-model="toastShow" type="text" :text="toastText" position="top"></toast>
 
@@ -164,27 +183,11 @@
 </template>
 <script>
   import {
-    XInput,
-    XButton,
-    Group,
-    Picker,
-    Cell,
-    TransferDom,
-    Popup,
-    DatetimeView,
-    PopupPicker,
-    Flexbox,
-    FlexboxItem,
-    XSwitch,
-    Datetime,
-    Icon,
-    Box,
-    Toast
-  } from 'vux'
+    XInput,XButton,Group,Picker,Cell,TransferDom,Popup,DatetimeView,PopupPicker,Flexbox,FlexboxItem,XSwitch,Datetime,Icon,Box,Toast,CheckIcon} from 'vux'
   export default {
     name: 'add',
     data(){
-
+      let wh=window.innerHeight;
       return {
         type: '1',
         headType: '1',
@@ -240,11 +243,13 @@
         positionId: this.$route.query.id,
         recomType: this.$route.query.recomType,
         companyId:this.$route.query.companyId,
+        wh:wh,
+        btnLoading:false,
       }
     },
     mounted(){
       document.title = "创建简历";
-      this.index();
+      // this.index();
     },
     methods: {
       index(){
@@ -273,6 +278,9 @@
         }
       },
       go(type){
+        if(type==3){
+          this.updateSimpleResume(3);
+        }
         this.type = type;
       },
       changeHeadType(type){
@@ -280,6 +288,7 @@
         interviewResumeInfo.sex = this.sexValue[0];
         interviewResumeInfo.positionId = this.$route.query.id;
         localStorage.interviewResumeInfo = JSON.stringify(interviewResumeInfo);
+        this.updateSimpleResume(type-1);
         if (!this.interviewResumeInfo.name || this.interviewResumeInfo.name == "") {
           this.toastText = "请输入姓名";
           this.toastShow = true;
@@ -290,37 +299,17 @@
           this.toastShow = true;
           return;
         }
-        if (type == 3 && (!this.interviewResumeInfo.phone || this.interviewResumeInfo.phone == "")) {
+        if (type == 2 && (!this.interviewResumeInfo.phone || this.interviewResumeInfo.phone == "")) {
           this.toastText = "请输入手机号";
           this.toastShow = true;
           return;
         }
-        if (type == 3 && (!this.interviewResumeInfo.email || this.interviewResumeInfo.email == "")) {
+        if (type == 2 && (!this.interviewResumeInfo.email || this.interviewResumeInfo.email == "")) {
           this.toastText = "请输入邮箱";
           this.toastShow = true;
           return;
         }
         this.headType = type;
-      },
-      showTime(){
-        this.$vux.datetime.show({
-          cancelText: '取消',
-          confirmText: '确定',
-          format: 'YYYY-MM',
-          value: '2017-05-20 18',
-          onConfirm (val) {
-            console.log('plugin confirm', val)
-          },
-          onShow () {
-            console.log('plugin show')
-          },
-          onHide () {
-            console.log('plugin hide')
-          }
-        })
-      },
-      onClick(input){
-        this.input5 = !this.input5;
       },
       change(a, b, c){
         console.log(a, b, c)
@@ -398,7 +387,7 @@
       },
       previewResume(){
         var self = this;
-        self.changeHeadType(4);
+        self.changeHeadType(3);
         self.$router.push({
           path: '/preview',
           query: {
@@ -427,6 +416,105 @@
             companyId:self.companyId
           }
         })
+      },
+      getSimpleResume(){
+        let self=this;
+        let method="resume/getSimpleResume",
+            param=JSON.stringify({
+              fansId:self.fansId,
+              companyId:self.companyId
+            }),
+            successd=function(res){
+              self.type=2;
+              if(res.data.data.step==1||res.data.data.step==2){
+                self.$vux.confirm.show({
+                  title: '微简历',
+                  content: '您上次没有成功保存,需要导入导入上次的的数据吗?',
+                  confirmText:'确定导入',
+                  cancelText:'不了,取消',
+                  onCancel () {
+                    self.interviewResumeInfo.name='';
+                    self.interviewResumeInfo.phone='';
+                    self.interviewResumeInfo.email='';
+                    self.interviewResumeInfo.birthday="";
+                    self.interviewResumeInfo.educationHistoryList=[];
+                    self.interviewResumeInfo.workHistoryList=[];
+                    self.addEducation = true;
+                    self.addExperience = true;
+                  },
+                  onConfirm () {
+                    self.interviewResumeInfo.name=res.data.data.name;
+                    self.interviewResumeInfo.phone=res.data.data.phone;
+                    self.interviewResumeInfo.email=res.data.data.email;
+                    self.sexValue[0]=res.data.data.sex;
+                    self.interviewResumeInfo.birthday=res.data.data.birthday;
+                    self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList?res.data.data.educationHistoryList:[];
+                    self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList?res.data.data.workHistoryList:[];
+                    self.headType=res.data.data.step||1;
+                    if (!(self.interviewResumeInfo && self.interviewResumeInfo.educationHistoryList.length > 0)) {
+                      self.addEducation = true;
+                    }else{
+                      self.addEducation = false;
+                    }
+                    if (!(self.interviewResumeInfo && self.interviewResumeInfo.workHistoryList.length > 0)) {
+                      self.addExperience = true;
+                    }else{
+                      self.addExperience = false;
+                    }
+                  }
+                })
+              }else if(res.data.data.step==3){
+                self.interviewResumeInfo.name=res.data.data.name;
+                self.interviewResumeInfo.phone=res.data.data.phone;
+                self.interviewResumeInfo.email=res.data.data.email;
+                self.sexValue[0]=res.data.data.sex;
+                self.interviewResumeInfo.birthday=res.data.data.birthday;
+                self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList;
+                self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList;
+                self.headType=res.data.data.step;
+                self.type=3;
+              }
+            };
+        self.$http(method,param,successd);
+      },
+      updateSimpleResume(step){
+        let self=this;
+        if(!step){
+          step=1;
+        }
+        let method="resume/updateSimpleResume",
+            param=JSON.stringify({
+              fansId:self.fansId,
+              step:step,
+              simpleResumeInfo:self.interviewResumeInfo
+            }),
+            successd=function(res){
+              console.log(res);
+            };
+        self.$http(method,param,successd);
+      },
+      sendResume(){
+        var self=this;
+        if(self.btnLoading){
+          return
+        }else{
+          self.btnLoading=true;
+        }
+        var method="recruitPosition/submitInterivewApplicationNew",
+            param=JSON.stringify({
+              interviewResumeInfo:self.interviewResumeInfo,
+              shareFansId:self.shareFansId,
+              recomType:self.recomType,
+              fansId:self.fansId
+            }),
+            successd=function (res) {
+                self.$router.push({path:'/results',query:{type:res.data.data,companyId:self.companyId,fansId:self.fansId}});
+            },
+            c=function(res){
+              self.btnLoading=false;
+              alert("投递失败,请联系分享人");
+            };
+        self.$http(method,param,successd,c);
       }
     },
     components: {
@@ -443,7 +531,8 @@
       Datetime,
       Icon,
       Box,
-      Toast
+      Toast,
+      CheckIcon
     },
     directives: {
       TransferDom
@@ -494,11 +583,12 @@
             float: right;
             width: 1.49rem;
             height: 0.64rem;
-            border: 1px solid #DDDDDD;
+            border: 1px solid #5AA2E7;
             font-size: 0.32rem;
-            color: #000;
+            color: #5AA2E7;
             text-align: center;
             line-height: 0.64rem;
+            border-radius:3px;
           }
         }
 
@@ -528,11 +618,12 @@
             float: right;
             width: 1.49rem;
             height: 0.64rem;
-            border: 1px solid #DDDDDD;
+            border: 1px solid #5AA2E7;
             font-size: 0.32rem;
-            color: #000;
+            color: #5AA2E7;
             text-align: center;
             line-height: 0.64rem;
+            border-radius:3px;
           }
         }
 
@@ -562,27 +653,15 @@
             float: right;
             width: 1.49rem;
             height: 0.64rem;
-            border: 1px solid #DDDDDD;
+            border: 1px solid #5AA2E7;
             font-size: 0.32rem;
-            color: #000;
+            color: #5AA2E7;
             text-align: center;
             line-height: 0.64rem;
+            border-radius:3px;
           }
         }
 
-      }
-    }
-    .content {
-      .baseInfo {
-        .baseInfoTitle {
-          .baseInfoName {
-            .weui-cell__hd {
-              .weui-label {
-                font-size: 0.28rem !important
-              }
-            }
-          }
-        }
       }
     }
   }
@@ -706,28 +785,32 @@
   }
 
   .add_resume .last_step {
-    color: #fff;
-    background-color: #C0CCDA;
+    color: #000;
+    background-color: #FBFAFC;
+    font-size:0.32rem;
   }
 
   .add_resume .last_step:active {
-    color: #fff;
-    background-color: #C0CCDA;
+    color: #000;
+    background-color: #FBFAFC;
   }
 
   .add_resume .last_step:focus {
-    color: #fff;
-    background-color: #C0CCDA;
+    color: #000;
+    background-color: #FBFAFC;
   }
 
   .side {
-    padding: 0px 15px 10px;
+    padding: 0px 15px;
   }
 
   .add_education {
     font-size: 0.28rem;
     color: #5aa2e7;
-    padding: 10px 15px;
+    padding: 15px 15px 15px 40px;;
+    background: url(../images/add.png) no-repeat 20px center;
+    background-size: 15px auto;
+    background-color:#fff;
   }
 
   .success_resume {
@@ -737,14 +820,16 @@
     margin-top: 0.68rem;
   }
 
+  .resume_submit{
+    padding:1rem 15px 0;
+  }
   #add_resume .success_resume_btn {
-    width: 3.2rem;
-    margin: 1rem auto 0;
+    margin: 15px auto 0;
     display: block;
   }
 
   .slide {
-    padding: 10px 15px;
+    padding: 0px 15px 10px;
   }
 
   .slide li {
@@ -773,111 +858,6 @@
   }
 </style>
 <style lang="stylus" rel="stylesheet/stylus">
-  #add_resume {
-    .content {
-      .weui-cell {
-        padding: 17px 15px !important;
-      }
-      .baseInfo {
-        .baseInfoTitle {
-          :before {
-            border-top: none;
-          }
-          :after {
-            border-bottom: none;
-          }
-          .vux-no-group-title {
-            :before {
-              border-top: none !important
-            }
-          }
-          .baseInfoName {
-            .weui-cell__hd {
-              .weui-label {
-                font-size: 0.28rem !important;
-              }
-            }
-            .weui-cell__primary {
-              border-bottom: 1px solid #ccc
-              .weui-input {
-                font-size: 0.32rem !important
-                margin-bottom: 8px;
-              }
-            }
-          }
-          .weui-cell_access {
-            p {
-              font-size: 0.28rem;
-            }
-          }
-          .vux-datetime-value {
-            border-bottom: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-            height: 33px;
-            .vux-cell-value {
-              display: inline-block;
-              margin-bottom: 0.2rem;
-              font-size: 0.28rem;
-              color: #000;
-            }
-          }
-          .vux-cell-box {
-            .weui-cell_access {
-              .weui-cell__hd {
-                .weui-label {
-                  font-size: 0.28rem;
-                }
-              }
-              .vux-cell-primary {
-                .vux-popup-picker-select {
-                  .vux-cell-value {
-                    font-size: 0.32rem;
-                    color: #000;
-                  }
-                }
-              }
-            }
-          }
-        }
-        .vux-no-group-title {
-          font-size: 0.28rem;
-          color :#000;
-          .weui-cell_access {
-            .vux-datetime-value {
-              .vux-cell-value {
-                font-size: 0.32rem;
-                color: #000;
-              }
-            }
-          }
-          .vux-x-input {
-            .weui-cell__primary {
-              .weui-input {
-                font-size :0.32rem!important
-                &::placeholder {
-                  color :#999!important
-                  font-size :0.28rem!important
-                  }
-                }
-              }
-            }
-          .vux-cell-box{
-            .weui-cell{
-              .vux-cell-primary{
-                .vux-popup-picker-select{
-                  .vux-cell-value{
-                    color :#000
-                    font-size :0.32rem!important
-                  }
-                }
-              }
-            }
-          }
-          }
-        }
-      }
-    }
-
     .add_resume .weui-switch:focus {
       outline: none;
       outline-offset: 0
@@ -933,3 +913,20 @@
       -moz-osx-font-smoothing: grayscale;
     }
 </style>
+<style scoped>
+.add_resume{background-color: #f8f8fc;color:#000;padding-top: 1px;font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;}
+.baseInfo h2{font-size: .28rem;padding: 15px;}
+.position_bottom_btn span{font-size: 0.32rem;line-height: 0.4rem;display: block;}
+.position_bottom_btn span:nth-child(2){font-size: 0.24rem;line-height: 0.3rem;}
+.padding_10_15_0{padding: 10px 15px 0px;}
+.immediately{background-color: #5AA2E7;color: #fff;}
+.immediately:active{background-color: #5AA2E7;color: #fff;}
+</style>
+<style>
+.before_border_none .weui-cells:before{border:none;}
+.add_resume .vux-cell-value{color:#000;}
+.weui-dialog__hd{padding:10px !important;}
+.weui-cells__title{line-height: 0.45rem;}
+</style>
+
+

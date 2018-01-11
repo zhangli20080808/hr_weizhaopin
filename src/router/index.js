@@ -24,6 +24,10 @@ import loginResume from 'components/microresume/loginResume.vue'
 import positionList from 'components/position/positionList';
 import aboutUs from 'components/wxIndex/aboutUs';
 import teamwork from 'components/wxIndex/teamwork';
+import onlinePosition from 'components/wxIndex/onlinePosition';
+
+//简历
+import resumePreview from 'components/resume/preview';
 
 
 
@@ -101,9 +105,20 @@ export default new Router({
       component:interpolate
     },
     {
+<<<<<<< HEAD
       path:'/sceneh5',
       name:'sceneh5',
       component:sceneh5
+=======
+      path:'/onlinePosition',
+      name:'onlinePosition',
+      component:onlinePosition
+    },
+    {
+      path:'/resumePreview',
+      name:'resumePreview',
+      component:resumePreview
+>>>>>>> master
     }
   ]
 })
