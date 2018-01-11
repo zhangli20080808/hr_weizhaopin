@@ -186,14 +186,6 @@ export default {
           // swiper configs 所有的配置同swiper官方api配置
           direction : 'vertical',
           preventLinksPropagation : false,//拖动Swiper时阻止click事件。
-           on:{
-                sliderMove: function(){
-                console.log('dkadnajndja')
-              },
-                 slideChange: function(){
-                    alert('改变了');
-                },
-           }    
         }
     };
   },
@@ -215,10 +207,9 @@ export default {
             this.imgSrc = imgSrc3
         }
         clearInterval(this.timer);
-            clearInterval(this.timer);
-            this.timer = setInterval(() =>{
-                this.animation(), SECONDS_BETWEEN_FRAMES
-            })
+        this.timer = setInterval(() =>{
+            this.animation(), SECONDS_BETWEEN_FRAMES
+        })
     },
      resize_canvas(){
         canvas = document.getElementById("canvas");
@@ -282,7 +273,7 @@ export default {
             this.swiper_onIndexChange(this.swiper.activeIndex)
         }else{
             this.swiper_onIndexChange(0)
-            this.swiper.slideTo(0, 1000, false)
+            this.swiper.slideTo(0, 200, false)
         }
     },
     getRoute (){
@@ -308,12 +299,15 @@ export default {
             self.h5.companyDescription = recruitActivity.companyDescription;
             self.h5.companyImageUrl = recruitActivity.companyImageUrl;
             self.h5.activityPhone = recruitActivity.activityPhone;
+            self.getSignature();
           };
       self.$http(method,param,successd);
     },
       getSignature(){
       var self=this;
         self.$wechat.ready(function(res){
+            console.log(self.h5.titleDescription )
+            console.log('self.h5.titleDescription ')
           //分享给朋友
           self.$wechat.onMenuShareAppMessage({
             title:self.h5.theme,
@@ -359,8 +353,6 @@ export default {
     this.getRoute();
     var self = this;
     self.height100=window.innerHeight;
-    console.log(this.$refs.mySwiper.swiper)
-    console.log('this.$refs.mySwiper.swiper')
   },
   created() {
     this.probeType = 3
@@ -454,7 +446,6 @@ html, body, #app, #h5, .wrap {
         position: absolute;
         width: .5rem;
         bottom: .2rem;
-        left: 50%;
         z-index :4;
         transform: translateX(-50%);
         animation: bird-fly 2s ease-in-out infinite;
