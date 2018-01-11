@@ -359,56 +359,6 @@
       }, 20)
     },
     methods: {
-<<<<<<< HEAD
-      getSignature(){//获取签名
-        var self=this;
-        Axios.post(util.wxSignature,'url='+encodeURIComponent(location.href.split('#')[0]))
-        .then(function(res){
-          self.$wechat.config({
-            debug:false,
-            appId:res.data.appid,
-            timestamp:res.data.timestamp,
-            nonceStr:res.data.noncestr,
-            signature:res.data.signature,
-            jsApiList: [
-              'checkJsApi',
-              'onMenuShareTimeline',
-              'onMenuShareAppMessage',
-              'onMenuShareQQ',
-              'onMenuShareWeibo',
-              'onMenuShareQZone',
-              'hideMenuItems',
-              'showMenuItems',
-              'hideAllNonBaseMenuItem',
-              'showAllNonBaseMenuItem',
-              'translateVoice',
-              'startRecord',
-              'stopRecord',
-              'onVoiceRecordEnd',
-              'playVoice',
-              'onVoicePlayEnd',
-              'pauseVoice',
-              'stopVoice',
-              'uploadVoice',
-              'downloadVoice',
-              'chooseImage',
-              'previewImage',
-              'uploadImage',
-              'downloadImage',
-              'getNetworkType',
-              'openLocation',
-              'getLocation',
-              'hideOptionMenu',
-              'showOptionMenu',
-              'closeWindow',
-              'scanQRCode',
-              'chooseWXPay',
-              'openProductSpecificView',
-              'addCard',
-              'chooseCard',
-              'openCard'
-            ]
-=======
       getSignature(){
         var self = this;
         self.$wechat.ready(function (res) {
@@ -433,7 +383,6 @@
             cancel: function () {
               console.log('用户取消分享后执行的回调函数1');
             }
->>>>>>> master
           });
           //分享朋友圈
           self.$wechat.onMenuShareTimeline({
@@ -546,19 +495,6 @@
       filter(item){
         return item.split(',')[1]
       },
-<<<<<<< HEAD
-      getShareTitleInfo(){//获取分享参数
-        var self=this;
-        var method="positionRecommend/getShareTitleInfo",
-            param=JSON.stringify({reqType:2,companyId:self.companyId,positionId:self.positionId}),
-            successd=function(res){
-              self.imgUrl=res.data.data.imgUrl;
-              self.title=res.data.data.title;
-              self.desc=res.data.data.desc;
-              self.getSignature();
-            };
-        self.$http(method,param,successd);
-=======
       //获取分享标题
       getShareTitleInfo(){
         var self = this;
@@ -584,7 +520,6 @@
 
           };
         self.$http(method, param, successd);
->>>>>>> master
       },
       //分享之后调用服务号二维码
       getWeChatOfficialAccountInfo(){
