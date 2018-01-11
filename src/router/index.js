@@ -12,6 +12,8 @@ import Apply from 'components/Apply'
 //内部推荐
 import interpolate from 'components/interpolate'
 
+//场景H5
+import sceneh5 from 'components/sceneh5';
 
 import addResume from 'components/microresume/add.vue'
 import preview from 'components/microresume/preview.vue'
@@ -26,6 +28,8 @@ import onlinePosition from 'components/wxIndex/onlinePosition';
 
 //简历
 import resumePreview from 'components/resume/preview';
+
+
 
 Vue.use(Router)
 
@@ -109,6 +113,10 @@ export default new Router({
       path:'/resumePreview',
       name:'resumePreview',
       component:resumePreview
+    },{
+      path:'/sceneh5',
+      name:'sceneh5',
+      component:sceneh5
     }
   ]
 })

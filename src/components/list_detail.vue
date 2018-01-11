@@ -483,7 +483,6 @@
         }
       },
       copyLink(){
-
         var self = this;
         document.getElementById("copyLinkInput").children[0].select();
         document.execCommand("Copy");
