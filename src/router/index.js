@@ -105,12 +105,11 @@ export default new Router({
       component:interpolate
     },
     {
-<<<<<<< HEAD
       path:'/sceneh5',
       name:'sceneh5',
       component:sceneh5
-=======
-      path:'/onlinePosition',
+    },
+    {path:'/onlinePosition',
       name:'onlinePosition',
       component:onlinePosition
     },
@@ -118,7 +117,6 @@ export default new Router({
       path:'/resumePreview',
       name:'resumePreview',
       component:resumePreview
->>>>>>> master
     }
   ]
 })
