@@ -57,7 +57,7 @@
                     </div>
                     <div class="shortName">({{companyInfo.companyShortName}})</div>
                     <div class="address"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>
-                    <div class="tel"><span class="tel_icon"></span><span class="text">27272827</span></div>
+                    <div class="tel"><span class="tel_icon"></span><span class="text">{{companyInfo.phone}}</span></div>
                   </li>
                   <li class="vertical-list vux-1px-t" v-for="(item,index) in branchCompanyList">
                     <div class="name">
@@ -66,7 +66,7 @@
                     </div>
                     <div class="shortName">({{item.companyShortName}})</div>
                     <div class="address"><span class="address_icon"></span><span class="text">{{filter(item.region)}}{{item.address}}</span></div>
-                    <div class="tel"><span class="tel_icon"></span><span class="text">{{item.phone}}</span></div>
+                    <div class="tel"><span class="tel_icon"></span><span class="text">{{item.branchPhone}}</span></div>
                   </li>
 
                 </ul>
