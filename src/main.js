@@ -17,7 +17,7 @@ Vue.use(ToastPlugin)
 Vue.use(WechatPlugin)
 Vue.use(Methods);
 Vue.use(VueAwesomeSwiper);
-
+Vue.use(ConfirmPlugin);
 Vue.config.productionTip = false
 
 
