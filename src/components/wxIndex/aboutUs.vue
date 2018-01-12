@@ -37,45 +37,45 @@
     <!--办公环境-->
     <div class="cards" v-show="preCompanyMemorabilia.length">
 
-      <!--<div class="card-type-1">-->
-        <!--<div class="g-card">-->
-          <!--<div class="template-card">-->
-            <!--<div class="template-complex">-->
-              <!--<div class="gm-card-offset">-->
-                <!--<div class="gm-card-header online_pos">-->
-                  <!--<h2 class="gm-card-title">-->
-                    <!--<span class="pos_ware"></span>-->
-                    <!--<span class="text">公司信息</span>-->
-                  <!--</h2>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;slide&ndash;&gt;-->
-                <!--<ul>-->
-                  <!--<li class="vertical-list vux-1px-t">-->
-                    <!--<div class="name">-->
-                      <!--<span class="mainName">{{companyInfo.companyName}}</span>-->
-                      <!--<span class="address" @click="toMainMap"></span>-->
-                    <!--</div>-->
-                    <!--<div class="shortName">({{companyInfo.companyShortName}})</div>-->
-                    <!--<div class="address"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>-->
-                    <!--<div class="tel"><span class="tel_icon"></span><span class="text">27272827</span></div>-->
-                  <!--</li>-->
-                  <!--<li class="vertical-list vux-1px-t" v-for="(item,index) in branchCompanyList">-->
-                    <!--<div class="name">-->
-                      <!--<span class="mainName">{{item.companyName}}</span>-->
-                      <!--<span class="address" @click="toMap(item)"></span>-->
-                    <!--</div>-->
-                    <!--<div class="shortName">({{item.companyShortName}})</div>-->
-                    <!--<div class="address"><span class="address_icon"></span><span class="text">{{filter(item.region)}}{{item.address}}</span></div>-->
-                    <!--<div class="tel"><span class="tel_icon"></span><span class="text">{{item.phone}}</span></div>-->
-                  <!--</li>-->
+      <div class="card-type-1">
+        <div class="g-card">
+          <div class="template-card">
+            <div class="template-complex">
+              <div class="gm-card-offset">
+                <div class="gm-card-header online_pos">
+                  <h2 class="gm-card-title">
+                    <span class="pos_ware"></span>
+                    <span class="text">公司信息</span>
+                  </h2>
+                </div>
+                <!--slide-->
+                <ul>
+                  <li class="vertical-list vux-1px-t">
+                    <div class="name">
+                      <span class="mainName">{{companyInfo.companyName}}</span>
+                      <span class="address" @click="toMainMap"></span>
+                    </div>
+                    <div class="shortName">({{companyInfo.companyShortName}})</div>
+                    <div class="address"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>
+                    <div class="tel"><span class="tel_icon"></span><span class="text">{{companyInfo.phone}}</span></div>
+                  </li>
+                  <li class="vertical-list vux-1px-t" v-for="(item,index) in branchCompanyList">
+                    <div class="name">
+                      <span class="mainName">{{item.companyName}}</span>
+                      <span class="address" @click="toMap(item)"></span>
+                    </div>
+                    <div class="shortName">({{item.companyShortName}})</div>
+                    <div class="address"><span class="address_icon"></span><span class="text">{{filter(item.region)}}{{item.address}}</span></div>
+                    <div class="tel"><span class="tel_icon"></span><span class="text">{{item.branchPhone}}</span></div>
+                  </li>
 
-                <!--</ul>-->
+                </ul>
 
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="card-type-1">
         <div class="g-card">
           <div class="template-card">
@@ -489,6 +489,70 @@
                 }
               });
               //使用微信内置地图查看位置接口
+//              self.$wechat.openLocation({
+//                latitude: self.latitude, // 纬度，浮点数，范围为90 ~ -90
+//                longitude:  self.longitude, // 经度，浮点数，范围为180 ~ -180。
+//                name: self.companyName , // 位置名
+//                address: self.detailAddress, // 地址详情说明
+//                scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
+//                infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+//              });
+
+            })
+          })
+      },
+      //获取内置地图信息接口
+      getSignature2(){
+        var self = this;
+        Axios.post(util.wxSignature, 'url=' + encodeURIComponent(location.href.split('#')[0]))
+          .then(function (res) {
+            self.$wechat.config({
+              debug: false,
+              appId: res.data.appid,
+              timestamp: res.data.timestamp,
+              nonceStr: res.data.noncestr,
+              signature: res.data.signature,
+              jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+                'hideMenuItems',
+                'showMenuItems',
+                'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem',
+                'translateVoice',
+                'startRecord',
+                'stopRecord',
+                'onVoiceRecordEnd',
+                'playVoice',
+                'onVoicePlayEnd',
+                'pauseVoice',
+                'stopVoice',
+                'uploadVoice',
+                'downloadVoice',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'hideOptionMenu',
+                'showOptionMenu',
+                'closeWindow',
+                'scanQRCode',
+                'chooseWXPay',
+                'openProductSpecificView',
+                'addCard',
+                'chooseCard',
+                'openCard'
+              ]
+            });
+            self.$wechat.ready(function (res) {
+              //使用微信内置地图查看位置接口
               self.$wechat.openLocation({
                 latitude: self.latitude, // 纬度，浮点数，范围为90 ~ -90
                 longitude:  self.longitude, // 经度，浮点数，范围为180 ~ -180。
@@ -497,7 +561,6 @@
                 scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
                 infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
               });
-
             })
           })
       },
@@ -614,14 +677,14 @@
       toMainMap(){
         this.getMainCompanyInfo()
 
-        this.getSignature()
+        this.getSignature2()
       },
       toMap(item){
         this.latitude = item.latitude;
         this.longitude = item.longitude;
         this.companyName = item.companyName;
         this.detailAddress = item.region + item.address;
-        this.getSignature()
+        this.getSignature2()
       }
     },
     created(){
@@ -1018,7 +1081,7 @@
     display: inline-block;
     position: absolute;
     left: -4px;
-    top: -2px;
+    top: -1px;
     width: 0.34rem;
     height:0.48rem;
     background: url(../../common/image/address_icon2.png)no-repeat center;
@@ -1033,7 +1096,7 @@
 
   .g-container .cards .vertical-list .tel{
     position: relative;
-    padding-left: 0.38rem;
+    padding-left: 0.3rem;
     font-size:13px;
     color: #999;
     margin-bottom: 0.3rem;
@@ -1041,8 +1104,8 @@
   .g-container .cards .vertical-list .tel .tel_icon{
     display: inline-block;
     position: absolute;
-    left: -5px;
-    top: -2px;
+    left: -6px;
+    top: 0px;
     width: 0.44rem;
     height:0.44rem;
     background: url(../../common/image/tel.png)no-repeat center;

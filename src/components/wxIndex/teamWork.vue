@@ -59,8 +59,8 @@
                 <div class="ref-image">
                   <img :src="list.photoUrl" class="ref-circle-image" alt="">
                 </div>
-                <div class="g-oneline-text member-name"><span class="name">{{list.name}}</span> <span
-                  class="positionName">{{list.positionName}}</span>
+                <div class="g-oneline-text member-name"><span class="name">{{list.positionName}} </span><span
+                  class="positionName">{{list.name}}</span>
                 </div>
                 <div class="member-main">
                   {{list.description}}
@@ -389,6 +389,7 @@
     height :0.45rem;
     line-height :0.45rem;
     font-size: 0.34rem;
+    margin-left :6px;
   }
 
   .teamwork .cards .member-list .member .member-main {
