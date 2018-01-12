@@ -20,12 +20,6 @@
                      :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}" v-show="isAuthorization">
                   <div class="btn-text" >
                     {{isAuthorization == 1 ? '已关注' : '关注'}}
-
-
-
-
-
-
                   </div>
                 </div>
               </div>
@@ -55,8 +49,8 @@
                       <span class="mainName">{{companyInfo.companyName}}</span>
                       <span class="address" @click="toMainMap"></span>
                     </div>
-                    <div class="shortName">({{companyInfo.companyShortName}})</div>
-                    <div class="address"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>
+                    <div class="shortName" v-if="companyInfo.companyShortName">({{companyInfo.companyShortName}})</div>
+                    <div class="address" v-if="companyInfo.address || companyInfo.region"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>
                     <div class="tel"><span class="tel_icon"></span><span class="text">{{companyInfo.phone}}</span></div>
                   </li>
                   <li class="vertical-list vux-1px-t" v-for="(item,index) in branchCompanyList">
@@ -234,9 +228,6 @@
               <span class="text">长按关注</span>
             </div>
           </div>
-        </div>
-        <div @click="careQrcode=false">
-          <span class="vux-close"></span>
         </div>
       </x-dialog>
     </div>
