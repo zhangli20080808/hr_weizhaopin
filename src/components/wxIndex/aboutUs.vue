@@ -498,7 +498,7 @@
         Axios.post(util.wxSignature, 'url=' + encodeURIComponent(location.href.split('#')[0]))
           .then(function (res) {
             self.$wechat.config({
-              debug: false,
+              debug: true,
               appId: res.data.appid,
               timestamp: res.data.timestamp,
               nonceStr: res.data.noncestr,
