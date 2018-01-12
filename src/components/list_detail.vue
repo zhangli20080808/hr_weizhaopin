@@ -645,7 +645,7 @@
       .m_s_company {
         padding: 15px;
         background: #fff;
-        height: 102px;
+        height: 90px;
         .item-logo {
           display: inline-block;
           float: left;
@@ -683,7 +683,8 @@
           }
           .item-time {
             font-size: 0.26rem;
-            color: #999
+            color: #999;
+            margin-top: 4px;
           }
         }
       }
@@ -917,7 +918,7 @@
       .share_btn .flex-demo {
         text-align: center;
         background: red;
-        line-height: 46px;
+        line-height: 38px;
         height: 46px;
       }
 

@@ -1081,7 +1081,7 @@
     display: inline-block;
     position: absolute;
     left: -4px;
-    top: -2px;
+    top: -1px;
     width: 0.34rem;
     height:0.48rem;
     background: url(../../common/image/address_icon2.png)no-repeat center;
@@ -1096,7 +1096,7 @@
 
   .g-container .cards .vertical-list .tel{
     position: relative;
-    padding-left: 0.38rem;
+    padding-left: 0.3rem;
     font-size:13px;
     color: #999;
     margin-bottom: 0.3rem;
@@ -1104,8 +1104,8 @@
   .g-container .cards .vertical-list .tel .tel_icon{
     display: inline-block;
     position: absolute;
-    left: -5px;
-    top: -2px;
+    left: -6px;
+    top: 0px;
     width: 0.44rem;
     height:0.44rem;
     background: url(../../common/image/tel.png)no-repeat center;
