@@ -5,18 +5,15 @@
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
-
             </el-breadcrumb-item>
             <el-breadcrumb-item
               :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
               class="tips_2">
               职位列表
-
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位详情</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-
         <div class="detail_show hidden-xs">
           <div class="content">
             <div class="title">{{positionInfo.positionName}}</div>
@@ -483,7 +480,6 @@
         }
       },
       copyLink(){
-
         var self = this;
         document.getElementById("copyLinkInput").children[0].select();
         document.execCommand("Copy");

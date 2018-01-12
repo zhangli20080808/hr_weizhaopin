@@ -12,7 +12,9 @@
 <script>
   import navHeader from './components/base/nav'
   import loading from './components/base/loading/loading.vue'
-
+  import Axios from "axios";
+  import Util from './common/js/util.js';
+  
   export default {
     name: 'app',
     data() {
@@ -105,6 +107,57 @@
       loading
     },
     methods: {
+      getSignature(){
+      var self=this;
+      Axios.post(Util.wxSignature,'url='+encodeURIComponent(location.href.split('#')[0]))
+      .then(function(res){
+        self.$wechat.config({
+          debug:false,
+          appId:res.data.appid,
+          timestamp:res.data.timestamp,
+          nonceStr:res.data.noncestr,
+          signature:res.data.signature,
+          jsApiList: [
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'onMenuShareQZone',
+            'hideMenuItems',
+            'showMenuItems',
+            'hideAllNonBaseMenuItem',
+            'showAllNonBaseMenuItem',
+            'translateVoice',
+            'startRecord',
+            'stopRecord',
+            'onVoiceRecordEnd',
+            'playVoice',
+            'onVoicePlayEnd',
+            'pauseVoice',
+            'stopVoice',
+            'uploadVoice',
+            'downloadVoice',
+            'chooseImage',
+            'previewImage',
+            'uploadImage',
+            'downloadImage',
+            'getNetworkType',
+            'openLocation',
+            'getLocation',
+            'hideOptionMenu',
+            'showOptionMenu',
+            'closeWindow',
+            'scanQRCode',
+            'chooseWXPay',
+            'openProductSpecificView',
+            'addCard',
+            'chooseCard',
+            'openCard'
+          ]
+        });
+      });
+    },
       //获取url参数
       urlParse() {
 
@@ -198,6 +251,7 @@
         this._getIndexInfo()
         this.all = ''
       })
+      this.getSignature();
     },
     watch:{
       $route (to, from) {
