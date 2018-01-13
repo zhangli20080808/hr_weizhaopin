@@ -498,7 +498,7 @@
         Axios.post(util.wxSignature, 'url=' + encodeURIComponent(location.href.split('#')[0]))
           .then(function (res) {
             self.$wechat.config({
-              debug: true,
+              debug: false,
               appId: res.data.appid,
               timestamp: res.data.timestamp,
               nonceStr: res.data.noncestr,
@@ -638,8 +638,8 @@
               _this.companyInfo.companyName = res.data.data.companyName;
               _this.companyInfo.region = res.data.data.region;
               _this.companyInfo.phone = res.data.data.phone;
-              _this.longitude = res.data.data.longitude;
-              _this.latitude = res.data.data.latitude;
+              _this.longitude = parseFloat(res.data.data.longitude);
+              _this.latitude = parseFloat(res.data.data.latitude);
               _this.companyName = res.data.data.companyName;
               _this.companyInfo.address = res.data.data.address;
               _this.detailAddress = _this.companyInfo.region + _this.companyInfo.address;
@@ -671,8 +671,8 @@
         this.getSignature2()
       },
       toMap(item){
-        this.latitude = item.latitude;
-        this.longitude = item.longitude;
+        this.latitude = parseFloat(item.latitude);
+        this.longitude = parseFloat(item.longitude);
         this.companyName = item.companyName;
         this.detailAddress = item.region + item.address;
         this.getSignature2()
