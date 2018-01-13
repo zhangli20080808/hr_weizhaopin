@@ -786,6 +786,7 @@
         .software {
           padding: 15px 0;
           ul {
+            font-size: 0;
             li {
               display: inline-block;
               padding: 2px 4px;
