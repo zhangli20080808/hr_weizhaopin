@@ -30,7 +30,6 @@
     </div>
     <!--办公环境-->
     <div class="cards" v-show="preCompanyMemorabilia.length">
-
       <div class="card-type-1">
         <div class="g-card">
           <div class="template-card">
