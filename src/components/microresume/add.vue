@@ -378,7 +378,7 @@
         var self = this;
         self.changeHeadType(3);
         self.$router.push({
-          path: '/resumePreview',
+          path: '/preview',
           query: {
             positionId: self.positionId, 
             shareFansId: self.shareFansId, 
