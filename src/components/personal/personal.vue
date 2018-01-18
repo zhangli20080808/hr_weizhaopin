@@ -4,10 +4,10 @@
     <div class="personal_top">
       <div class="personal_content">
         <img class="img" :src="personalInfo.headImgUrl">
-        <div class="name">{{personalInfo.name}}</div>
+        <div class="name">{{personalInfo.name}}张力</div>
         <div class="personal_sign">
-          <span class="personal_yg" v-if="personalInfo.isEmployeeCertification == 1"></span>
-          <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"></span>
+          <span class="personal_yg" ></span>
+          <span class="personal_hunt" ></span>
           <span class="authentication" @click="goAuthentification" v-if="personalInfo.isEmployeeCertification == 0||personalInfo.isNotEmployeeCertification == 0"></span>
         </div>
       </div>
@@ -158,7 +158,7 @@
       }
     },
     mounted(){
-      this.userAuthUrl()
+//      this.userAuthUrl()
       this.getWeixinPersonalInfo();
     },
     directives: {
