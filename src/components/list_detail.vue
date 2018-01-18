@@ -414,20 +414,6 @@
           })
         })
       },
-      getPositionInfo(){
-        let self = this;
-        let method = "promotionPage/positionInfo",
-          param = JSON.stringify({
-            id: self.positionId,
-//            companyId: self.companyId,
-//            fansId:self.fansId
-          }),
-          successd = (res) => {
-            self.positionInfo = res.data.data.positionInfo;
-            self.isStore = res.data.data.positionInfo.isStore == 1? true:false;
-          };
-        self.$http(method, param, successd);
-      },
       getWzpIndexInfo(){
         let self = this;
         let methods = "wzpCompany/getWzpCompanyInfo",
@@ -560,6 +546,20 @@
         });
         window.location.reload()
       },
+      getPositionInfo(){
+        let self = this;
+        let method = "promotionPage/positionInfo",
+          param = JSON.stringify({
+            id: self.positionId,
+//            companyId: self.companyId,
+//            fansId:self.fansId
+          }),
+          successd = (res) => {
+            self.positionInfo = res.data.data.positionInfo;
+            self.isStore = res.data.data.positionInfo.isStore == 1? true:false;
+          };
+        self.$http(method, param, successd);
+      },
       star(){
           if(this.isStore){
               //取消
@@ -599,7 +599,7 @@
           }
         }
         _this.$http(method, param, successd);
-      },
+      }
     },
     components: {
       Flexbox, FlexboxItem, querystring, XDialog, Scroller
