@@ -5,11 +5,13 @@
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
+
             </el-breadcrumb-item>
             <el-breadcrumb-item
               :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
               class="tips_2">
               职位列表
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位详情</el-breadcrumb-item>
           </el-breadcrumb>
@@ -193,7 +195,8 @@
           <el-row v-else>
             <el-col :span="8">
               <div class="flex-demo flex-demo3" @click="star">
-                <span :class="{'pos_icon3':isStore == true,'pos_icon4':isStore== false}"></span><span class="text">收藏</span></div>
+                <span :class="{'pos_icon3':isStore == true,'pos_icon4':isStore== false}"></span><span
+                class="text">收藏</span></div>
             </el-col>
             <el-col :span="8">
               <div class="flex-demo flex-demo1" @click="shareTipShow=true">
@@ -273,7 +276,7 @@
           views: 0,
           workCity: "",
           workCitySpilt: "",
-          isStore:true
+          isStore: true
         },
         //分享的参数
         companyHeadImg: null,
@@ -352,11 +355,11 @@
         arrow_tip: false,
         model: false,
         //1：已收藏 ， 0：未收藏
-        isStore:false
+        isStore: false
       }
     },
     mounted(){
-        this.userAuthUrl();
+      this.userAuthUrl();
       document.title = "职位详情";
       document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
 
@@ -555,19 +558,19 @@
           }),
           successd = (res) => {
             self.positionInfo = res.data.data.positionInfo;
-            self.isStore = res.data.data.positionInfo.isStore == 1? true:false;
+            self.isStore = res.data.data.positionInfo.isStore == 1 ? true : false;
           };
         self.$http(method, param, successd);
       },
       star(){
-          if(this.isStore){
-              //取消
-            this.cancelPositionStore();
+        if (this.isStore) {
+          //取消
+          this.cancelPositionStore();
 
-          }else{
-              //收藏
-           this.getStorePosition();
-          }
+        } else {
+          //收藏
+          this.getStorePosition();
+        }
       },
       getStorePosition(){
         var _this = this;
@@ -607,10 +610,10 @@
             scope: 'snsapi_base',
             pageFrom: 3,
             companyId: self.companyId,
-            positionId :self.positionId
+            positionId: self.positionId
           },
           successd = function (res) {
-            if (res.data.userSession == 0&&self.authSuccess!=1) {
+            if (res.data.userSession == 0 && self.authSuccess != 1) {
               location.href = res.data.userAuthUrl;
             }
           };
@@ -990,11 +993,12 @@
         background-color: #5AA2E7;
         color: #fff;
       }
+
       .share_btn .flex-demo3 {
         background-color: #fff;
         color: #5AA2E7;
         position: relative;
-        .borderTop(1px,#e5e5e5)
+        .borderTop(1px, #e5e5e5)
 
       }
 
@@ -1007,7 +1011,6 @@
         background-size: cover;
       }
 
-
       .share_btn .flex-demo2 .pos_icon2 {
         display: inline-block;
         width: 17px;
@@ -1016,6 +1019,7 @@
         background: url("../assets/img/deliver.png") no-repeat center;
         background-size: cover;
       }
+
       .share_btn .flex-demo3 .pos_icon3 {
         display: inline-block;
         width: 0.42rem;
@@ -1024,6 +1028,7 @@
         background: url(../common/image/personal/personal_stars.png) no-repeat center;
         background-size: 100%;
       }
+
       .share_btn .flex-demo3 .pos_icon4 {
         display: inline-block;
         width: 0.42rem;
@@ -1033,7 +1038,7 @@
         background-size: 100%;
       }
 
-      .share_btn .flex-demo3 .text, .share_btn .flex-demo2 .text ,.share_btn .flex-demo1 .text{
+      .share_btn .flex-demo3 .text, .share_btn .flex-demo2 .text, .share_btn .flex-demo1 .text {
         display: inline-block;
         height: 20px;
         line-height: 23px;
@@ -1098,7 +1103,7 @@
   #interpolateDetail
     .tips2
       .el-dialog--small
-        width: 428px!important;
+        width: 428px !important;
         height: 404px
         box-sizing: border-box
         top: 50% !important
@@ -1113,7 +1118,7 @@
   #interpolateDetail
     .tips2
       .el-dialog--small
-        width: 428px!important;
+        width: 428px !important;
         height: 404px
         box-sizing: border-box
         top: 50% !important

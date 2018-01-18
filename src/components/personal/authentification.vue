@@ -183,7 +183,7 @@
         if (self.daojishi) {
           return false;
         }
-        var method = "sendCheckCode",
+        var method = "weixin/sendCheckCode",
           param = {phone: self.phone},
           successd = function (res) {
             self.$vux.toast.text(res.data.resMsg, 'top');
@@ -206,12 +206,12 @@
       },
       finishCheck(){
         var self = this;
-        var method = "finishCheck",
+        var method = "weixin/finishCheck",
           param = {
             phone: self.phone,
             checkCode: self.checkCode,
             companyId: self.companyId,
-            fansId: 67
+            fansId: self.fansId
           },
           successd = function (res) {
             if (res.data.code == 0) {

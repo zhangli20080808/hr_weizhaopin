@@ -52,8 +52,10 @@
           },
           successd = function (res) {
             console.log(res);
-            self.listShow = false;
-            self.recordList = res.data;
+           if(res.data.code == 0){
+             self.listShow = false;
+             self.recordList = res.data.data;
+           }
           };
         self.$webHttp(method, param, successd);
       },

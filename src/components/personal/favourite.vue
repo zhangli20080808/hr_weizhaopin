@@ -3,29 +3,29 @@
     <!--头像 名字 认证-->
     <scroller lock-x ref="scrollerBottom" :scroll-bottom-offst="100" height="-20">
       <div>
-        <div class="favourite_top" v-for="item in list" @click="joinPositonDetail(item)">
+        <div class="favourite_top" v-for="item in list" >
 
           <div class="favourite_content">
             <span class="favourite_icon"></span>
             <span class="favourite_text">{{item.companyName}}</span>
           </div>
-          <dl class="position_detail">
+          <dl class="position_detail" v-for="fav in item.positionList" @click="joinPositonDetail(fav)">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
-              <img src="../../components/images/urgent2.png" alt="" width="35px" class="img" v-if="item.isUrgent==1">
-              <span class="position_name">{{item.positionName}}</span>
+              <img src="../../components/images/urgent2.png" alt="" width="35px" class="img" v-if="fav.isUrgent==1">
+              <span class="position_name">{{fav.positionName}}</span>
             </dt>
             <dd class="position_detail_money">
-              <span>{{filter(item.workCity)}}</span>
-              <span>{{item.positionType == 1 ? '全职' : item.positionType == 2 ? '兼职' : '实习'}}</span>
-              <span>{{item.positionSalaryLowest}}K-{{item.positionSalaryHighest}}K</span>
+              <span>{{filter(fav.workCity)}}</span>
+              <span>{{fav.positionType == 1 ? '全职' : fav.positionType == 2 ? '兼职' : '实习'}}</span>
+              <span>{{fav.positionSalaryLowest}}K-{{fav.positionSalaryHighest}}K</span>
               <!-- <div class="position_list_right">{{item.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
-              <span>发布时间 : &nbsp;{{item.createTime}}</span> &nbsp;
-              <em>浏览次数 : {{item.views}}次</em>
+              <span>发布时间 : &nbsp;{{fav.createTime}}</span> &nbsp;
+              <em>浏览次数 : {{fav.views}}次</em>
             </dd>
-            <div class="star" @click="gsg"></div>
+            <div class="star" @click="cancel(fav.id)"></div>
           </dl>
         </div>
 
@@ -79,11 +79,10 @@
       }
     },
     methods: {
-      gsg(){
-//        this.show = true;
+      cancel(item){
         let clear = confirm('确定要取消收藏该职位吗？',)
         if (clear == true) {
-          this.cancelPositionStore()
+          this.cancelPositionStore(item)
         }
       },
       onHide () {
@@ -117,12 +116,12 @@
         }
         _this.$http(method, param, successd);
       },
-      cancelPositionStore(){
+      cancelPositionStore(item){
         var _this = this;
         var method = "wexinPersonalInfo/cancelPositionStore";
         var param = JSON.stringify({
           companyId: _this.companyId,
-          positionId: _this.positionId,
+          positionId: item,
           fansId: _this.fansId
         });
         var successd = function (res) {
@@ -136,18 +135,14 @@
         return item.split(',')[1]
       },
       joinPositonDetail(item){
-//          console.log(item)
-        this.positionId = item.id;
+//          console.log(item.id)
         this.$router.push({
           name: 'listDetail',
           query: {
-            positionId: this.positionId,
+            positionId: item.id,
             companyId: this.companyId
           }
         })
-//        this.positionId = item.id;
-//        location.href = "https://aijuhr.com/miniRecruit/#/listDetail?positionId=" + this.positionId
-//          + "&companyId=" + this.companyId
       },
       toOnlinePosition(){
         this.$router.push({
