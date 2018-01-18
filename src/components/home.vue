@@ -60,13 +60,13 @@
       <div class="m_s_company hidden-sm hidden-lg">
         <img :src="homeData.bigLogo" class="item-logo" alt="">
         <div class="item-desc" v-show="homeData.form.company_name">
-          <div class="care" v-if="isAuthorization!==0" :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
+          <!-- <div class="care" v-if="isAuthorization!==0" :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}">
             <div class="g-ghost-btn" @click="goCare">
               <div class="btn-text">
                 {{isAuthorization == 1 ? '已关注' : '关注'}}
               </div>
             </div>
-          </div>
+          </div> -->
           <!--<div class="care">{{isAuthorization == 1 ? '已关注' : '关注'}}</div>-->
           <h2 class="item-title">{{homeData.form.company_name}}</h2>
           <p class="item-info">
@@ -492,7 +492,7 @@
       this.$nextTick(() => {
 
         this.getCode()
-        this.getCodeUrl()
+        // this.getCodeUrl()
         this.toCare()
         this.getShareTitleInfo();
         this.all = ''

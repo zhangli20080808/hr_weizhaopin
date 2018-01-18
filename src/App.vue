@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <navHeader :homeData="homeData" :seller="seller" @search="searchDetail" :companyId="companyId"
+    <navHeader :homeData="homeData" :seller="seller" @search="searchDetail" :companyId="companyId" v-if="!navHide"
                @toIndex="ToHome"></navHeader>
 
     <!-- <transition :name="transitionName"> -->
@@ -99,7 +99,8 @@
           //公司介绍
           content: '',
           searchList: ''
-        }
+        },
+        navHide:false,
       }
     },
     components: {
@@ -247,21 +248,36 @@
       }
     },
     created(){
-      this.$nextTick(() => {
-        this._getIndexInfo()
-        this.all = ''
-      })
       this.getSignature();
+      if(this.$route.path.indexOf('/pc/')==-1){
+        this.$nextTick(() => {
+          this._getIndexInfo()
+          this.all = ''
+        })
+        this.navHide=false;
+      }else{
+        this.navHide=true;
+      }
     },
     watch:{
       $route (to, from) {
-        let isBack = this.$router.isBack
+        let isBack = this.$router.isBack;
         if (isBack) {
           this.transitionName = 'slide-right'
         } else {
           this.transitionName = 'slide-left'
         }
-        this.$router.isBack = false
+        this.$router.isBack = false;
+        //判断需不需要展示头部nav
+        if(to.path.indexOf('/pc/')==-1){
+          is.$nextTick(() => {
+            this._getIndexInfo()
+            this.all = ''
+          })
+          this.navHide=false;
+        }else{
+          this.navHide=true;
+        }
       }
     }
   }

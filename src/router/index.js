@@ -28,6 +28,22 @@ import onlinePosition from 'components/wxIndex/onlinePosition';
 
 //简历
 import resumePreview from 'components/resume/preview';
+import information from 'components/resume/information';
+import selfIntroduction from "components/resume/selfIntroduction";
+import work from "components/resume/work";
+import language from 'components/resume/language';
+import skill from "components/resume/skill";
+import personalLink from "components/resume/personalLink";
+import aspiration from "components/resume/aspiration";
+import project from "components/resume/project";
+import education from "components/resume/education";
+import certificate from "components/resume/certificate";
+import awards from "components/resume/awards";
+
+//PC端简历
+import pcLogin from "components/pcresume/pcLogin";
+import login from "components/pcresume/login";
+import pcResume from "components/pcresume/pcResume";
 
 //个人中心
 import favourite from 'components/personal/favourite';
@@ -155,6 +171,83 @@ export default new Router({
       path: '/authentificationResult',
       name: 'authentificationResult',
       component: authentificationResult
+    },
+    {
+      path:'/resumePreview',
+      name:'resumePreview',
+      component:resumePreview
+    },
+    {
+      path:'/information',
+      name:'information',
+      component:information
+    },
+    {
+      path:'/selfIntroduction',
+      name:'selfIntroduction',
+      component:selfIntroduction
+    },
+    {
+      path:'/work',
+      name:'work',
+      component:work
+    },
+    {
+      path:'/language',
+      name:'language',
+      component:language
+    },
+    {
+      path:'/skill',
+      name:'skill',
+      component:skill
+    },
+    {
+      path:'/personalLink',
+      name:'personalLink',
+      component:personalLink
+    },
+    {
+      path:'/aspiration',
+      name:'aspiration',
+      component:aspiration
+    },
+    {
+      path:'/project',
+      name:'project',
+      component:project
+    },
+    {
+      path:'/education',
+      name:'education',
+      component:education
+    },
+    {
+      path:'/certificate',
+      name:'certificate',
+      component:certificate
+    },
+    {
+      path:'/awards',
+      name:'awards',
+      component:awards
+    },
+    {
+      path:'/pc',
+      name:'pcLogin',
+      component:pcLogin,
+      children:[
+        {
+          path:'/pc/login',
+          name:'login',
+          component:login
+        },
+        {
+          path:'/pc/pcResume',
+          name:'pcResume',
+          component:pcResume
+        }
+      ]
     }
   ]
 })
