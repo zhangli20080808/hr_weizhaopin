@@ -17,14 +17,10 @@
               <div class="description">{{preCompanyWebsite.slogan}}</div>
               <div class="action" v-if="isAuthorization!==0">
                 <div class="g-ghost-btn" @click="goCare"
-                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}" v-show="isAuthorization">
-                  <div class="btn-text" >
+                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}"
+                     v-show="isAuthorization">
+                  <div class="btn-text">
                     {{isAuthorization == 1 ? '已关注' : '关注'}}
-
-
-
-
-
 
                   </div>
                 </div>
@@ -55,9 +51,11 @@
                       <span class="mainName">{{companyInfo.companyName}}</span>
                       <span class="address" @click="toMainMap"></span>
                     </div>
-                    <div class="shortName">({{companyInfo.companyShortName}})</div>
-                    <div class="address"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>
-                    <div class="tel"><span class="tel_icon"></span><span class="text">27272827</span></div>
+                    <div class="shortName" v-if="companyInfo.companyShortName">({{companyInfo.companyShortName}})</div>
+                    <div class="address" v-if="companyInfo.address || companyInfo.region"><span
+                      class="address_icon"></span><span
+                      class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>
+                    <div class="tel"><span class="tel_icon"></span><span class="text">{{companyInfo.phone}}</span></div>
                   </li>
                   <li class="vertical-list vux-1px-t" v-for="(item,index) in branchCompanyList">
                     <div class="name">
@@ -65,8 +63,9 @@
                       <span class="address" @click="toMap(item)"></span>
                     </div>
                     <div class="shortName">({{item.companyShortName}})</div>
-                    <div class="address"><span class="address_icon"></span><span class="text">{{filter(item.region)}}{{item.address}}</span></div>
-                    <div class="tel"><span class="tel_icon"></span><span class="text">{{item.phone}}</span></div>
+                    <div class="address"><span class="address_icon"></span><span
+                      class="text">{{filter(item.region)}}{{item.address}}</span></div>
+                    <div class="tel"><span class="tel_icon"></span><span class="text">{{item.branchPhone}}</span></div>
                   </li>
 
                 </ul>
@@ -104,6 +103,7 @@
                                   <div class="gamma-description">
 
                                     {{item.description}}
+
 
 
 
@@ -158,6 +158,7 @@
                         {{item.description}}
 
 
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -198,6 +199,7 @@
                         {{item.description}}
 
 
+
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -234,9 +236,6 @@
               <span class="text">长按关注</span>
             </div>
           </div>
-        </div>
-        <div @click="careQrcode=false">
-          <span class="vux-close"></span>
         </div>
       </x-dialog>
     </div>
@@ -321,7 +320,7 @@
         isAuthorization: '',
         code: '',
         active: true,
-        branchCompanyList:[],
+        branchCompanyList: [],
         companyInfo: {
           phone: "",
           address: "",
@@ -329,11 +328,11 @@
           companyName: "",
           region: "",
         },
-        latitude:'',
-        longitude:'',
-        companyName:'',
-        detailAddress:'',
-        address:''
+        latitude: '',
+        longitude: '',
+        companyName: '',
+        detailAddress: '',
+        address: ''
       }
     },
     methods: {
@@ -555,8 +554,8 @@
               //使用微信内置地图查看位置接口
               self.$wechat.openLocation({
                 latitude: self.latitude, // 纬度，浮点数，范围为90 ~ -90
-                longitude:  self.longitude, // 经度，浮点数，范围为180 ~ -180。
-                name: self.companyName , // 位置名
+                longitude: self.longitude, // 经度，浮点数，范围为180 ~ -180。
+                name: self.companyName, // 位置名
                 address: self.detailAddress, // 地址详情说明
                 scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
                 infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
@@ -641,17 +640,17 @@
           type: 2, companyId: _this.companyId
         });
         var successd = function (res) {
-          if(res.data.code == 0){
-              _this.companyInfo.companyName = res.data.data.companyName;
-              _this.companyInfo.companyShortName = res.data.data.companyShortName;
-              _this.companyInfo.companyName = res.data.data.companyName;
-              _this.companyInfo.region = res.data.data.region;
-              _this.companyInfo.phone = res.data.data.phone;
-              _this.longitude = res.data.data.longitude;
-              _this.latitude = res.data.data.latitude;
-              _this.companyName = res.data.data.companyName;
-              _this.companyInfo.address = res.data.data.address;
-              _this.detailAddress = _this.companyInfo.region + _this.companyInfo.address;
+          if (res.data.code == 0) {
+            _this.companyInfo.companyName = res.data.data.companyName;
+            _this.companyInfo.companyShortName = res.data.data.companyShortName;
+            _this.companyInfo.companyName = res.data.data.companyName;
+            _this.companyInfo.region = res.data.data.region;
+            _this.companyInfo.phone = res.data.data.phone;
+            _this.longitude = parseFloat(res.data.data.longitude);
+            _this.latitude = parseFloat(res.data.data.latitude);
+            _this.companyName = res.data.data.companyName;
+            _this.companyInfo.address = res.data.data.address;
+            _this.detailAddress = _this.companyInfo.region + _this.companyInfo.address;
           }
         }
         _this.$http(method, param, successd);
@@ -664,9 +663,9 @@
           type: 2, companyId: _this.companyId
         });
         var successd = function (res) {
-            if(res.data.code == 0){
-               _this.branchCompanyList =  res.data.data
-            }
+          if (res.data.code == 0) {
+            _this.branchCompanyList = res.data.data
+          }
         }
         _this.$http(method, param, successd);
       },
@@ -680,22 +679,37 @@
         this.getSignature2()
       },
       toMap(item){
-        this.latitude = item.latitude;
-        this.longitude = item.longitude;
+        this.latitude = parseFloat(item.latitude);
+        this.longitude = parseFloat(item.longitude);
         this.companyName = item.companyName;
         this.detailAddress = item.region + item.address;
         this.getSignature2()
+      },
+      userAuthUrl(){
+        var self = this;
+        var method = "weixin/userAuthUrl",
+          param = {
+            scope: 'snsapi_base',
+            pageFrom: 1,
+            companyId: self.companyId,
+          },
+          successd = function (res) {
+            if (res.data.userSession == 0) {
+              location.href = res.data.userAuthUrl;
+            }
+          };
+        self.$webHttp(method, param, successd);
       }
     },
     created(){
       this.$nextTick(() => {
         this.getCode();
         this.getCodeUrl();
+//        this.userAuthUrl();
         this.toCare();
         this.getShareTitleInfo();
         this.getMainCompanyInfo();
         this.getBranchCompanyInfo();
-//        this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
       })
@@ -969,6 +983,7 @@
     padding: 0 0 15px 0;
     line-height: 1;
   }
+
   .g-container .cards .gm-card-offset .online_pos {
     padding-bottom: 0;
 
@@ -1043,7 +1058,8 @@
     font-size: 0;
     margin: 0.3rem 0;
   }
-  .g-container .cards .vertical-list:nth-child(1){
+
+  .g-container .cards .vertical-list:nth-child(1) {
     margin-top: 0;
   }
 
@@ -1055,66 +1071,74 @@
     line-height: 0.48rem;
     margin-top: 0.3rem;
   }
-  .g-container .cards .vertical-list .name .mainName{
+
+  .g-container .cards .vertical-list .name .mainName {
     display: inline-block;
     vertical-align: middle;
   }
-  .g-container .cards .vertical-list .name .address{
+
+  .g-container .cards .vertical-list .name .address {
     float: right;
     width: 0.82rem;
     height: 0.44rem;
-    background:url(../../common/image/address_icon3.png)no-repeat center;
+    background: url(../../common/image/address_icon3.png) no-repeat center;
     background-size: 50%;
   }
-  .g-container .cards .vertical-list .shortName{
-    font-size:13px;
+
+  .g-container .cards .vertical-list .shortName {
+    font-size: 13px;
     color: #999999;
     margin: 4px 0;
   }
-  .g-container .cards .vertical-list .address{
-    font-size:13px;
+
+  .g-container .cards .vertical-list .address {
+    font-size: 13px;
     color: #A9A9A9;
     position: relative;
     padding-left: 0.3rem;
   }
-  .g-container .cards .vertical-list .address .address_icon{
+
+  .g-container .cards .vertical-list .address .address_icon {
     display: inline-block;
     position: absolute;
     left: -4px;
-    top: -2px;
+    top: -1px;
     width: 0.34rem;
-    height:0.48rem;
-    background: url(../../common/image/address_icon2.png)no-repeat center;
+    height: 0.48rem;
+    background: url(../../common/image/address_icon2.png) no-repeat center;
     background-size: 50%;
   }
-  .g-container .cards .vertical-list .address .text{
+
+  .g-container .cards .vertical-list .address .text {
     display: inline-block;
     vertical-align: middle;
-    height:0.48rem;
+    height: 0.48rem;
     line-height: 0.48rem;
   }
 
-  .g-container .cards .vertical-list .tel{
+  .g-container .cards .vertical-list .tel {
     position: relative;
-    padding-left: 0.38rem;
-    font-size:13px;
+    padding-left: 0.3rem;
+    font-size: 13px;
     color: #999;
     margin-bottom: 0.3rem;
   }
-  .g-container .cards .vertical-list .tel .tel_icon{
+
+  .g-container .cards .vertical-list .tel .tel_icon {
     display: inline-block;
     position: absolute;
-    left: -5px;
-    top: -2px;
+    left: -6px;
+    top: 0px;
     width: 0.44rem;
-    height:0.44rem;
-    background: url(../../common/image/tel.png)no-repeat center;
+    height: 0.44rem;
+    background: url(../../common/image/tel.png) no-repeat center;
     background-size: 45%;
   }
-  .g-container .cards .vertical-list .tel .text{
+
+  .g-container .cards .vertical-list .tel .text {
     display: inline-block;
     vertical-align: middle;
-    height:0.48rem;
+    height: 0.48rem;
     line-height: 0.48rem;
   }
 

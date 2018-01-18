@@ -5,18 +5,15 @@
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
-
             </el-breadcrumb-item>
             <el-breadcrumb-item
               :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
               class="tips_2">
               职位列表
-
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位详情</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-
         <div class="detail_show hidden-xs">
           <div class="content">
             <div class="title">{{positionInfo.positionName}}</div>
@@ -194,12 +191,16 @@
             </el-col>
           </el-row>
           <el-row v-else>
-            <el-col :span="12">
+            <el-col :span="8">
+              <div class="flex-demo flex-demo3" @click="star">
+                <span :class="{'pos_icon3':isStore == true,'pos_icon4':isStore== false}"></span><span class="text">收藏</span></div>
+            </el-col>
+            <el-col :span="8">
               <div class="flex-demo flex-demo1" @click="shareTipShow=true">
                 <span class="pos_icon1"></span><span class="text">我要分享</span>
               </div>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="8">
               <div class="flex-demo flex-demo2" @click="join">
                 <span class="pos_icon2"></span><span class="text">我要投递</span></div>
             </el-col>
@@ -271,7 +272,8 @@
           rewardAmount: "",
           views: 0,
           workCity: "",
-          workCitySpilt: ""
+          workCitySpilt: "",
+          isStore:true
         },
         //分享的参数
         companyHeadImg: null,
@@ -332,6 +334,7 @@
         positionId: this.$route.query.positionId,
         companyId: this.$route.query.companyId,
         shareFansId: this.$route.query.shareFansId,
+        authSuccess: this.$route.query.authSuccess,
         fansId: this.$route.query.fansId,
         empId: this.$route.query.empId,
         empAuthSucc: this.$route.query.empAuthSucc,//1:认证成功的内部员工
@@ -348,9 +351,12 @@
         show: false,
         arrow_tip: false,
         model: false,
+        //1：已收藏 ， 0：未收藏
+        isStore:false
       }
     },
     mounted(){
+        this.userAuthUrl();
       document.title = "职位详情";
       document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
 
@@ -358,7 +364,6 @@
         this.getPositionInfo();
         this.getWzpIndexInfo();
         this.getShareTitleInfo();
-        this.getPositionInfo()
       }, 20)
     },
     methods: {
@@ -408,18 +413,6 @@
             }
           })
         })
-      },
-      getPositionInfo(){
-        let self = this;
-        let method = "promotionPage/positionInfo",
-          param = JSON.stringify({
-            id: self.positionId
-          }),
-          successd = (res) => {
-            self.positionInfo = res.data.data.positionInfo;
-
-          };
-        self.$http(method, param, successd);
       },
       getWzpIndexInfo(){
         let self = this;
@@ -552,6 +545,76 @@
           }
         });
         window.location.reload()
+      },
+      getPositionInfo(){
+        let self = this;
+        let method = "promotionPage/positionInfo",
+          param = JSON.stringify({
+            id: self.positionId,
+            companyId: self.companyId
+          }),
+          successd = (res) => {
+            self.positionInfo = res.data.data.positionInfo;
+            self.isStore = res.data.data.positionInfo.isStore == 1? true:false;
+          };
+        self.$http(method, param, successd);
+      },
+      star(){
+          if(this.isStore){
+              //取消
+            this.cancelPositionStore();
+
+          }else{
+              //收藏
+           this.getStorePosition();
+          }
+      },
+      getStorePosition(){
+        var _this = this;
+        var method = "wexinPersonalInfo/storePosition";
+        var param = JSON.stringify({
+          companyId: _this.companyId,
+          positionId: _this.positionId,
+          fansId: _this.fansId
+        });
+        console.log(param)
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            _this.isStore = true;
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      cancelPositionStore(){
+        var _this = this;
+        var method = "wexinPersonalInfo/cancelPositionStore";
+        var param = JSON.stringify({
+          companyId: _this.companyId,
+          positionId: _this.positionId,
+          fansId: _this.fansId
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            _this.isStore = false;
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      userAuthUrl(){
+        var self = this;
+        var method = "weixin/userAuthUrl",
+          param = {
+            scope: 'snsapi_base',
+            pageFrom: 3,
+            companyId: self.companyId,
+            positionId :self.positionId
+          },
+          successd = function (res) {
+            if (res.data.userSession == 0&&self.authSuccess!=1) {
+              location.href = res.data.userAuthUrl;
+            }
+          };
+        self.$webHttp(method, param, successd);
       }
     },
     components: {
@@ -572,6 +635,8 @@
 </style>
 
 <style scoped lang="less">
+  @import "../common/stylus/boder";
+
   #interpolateDetail {
 
     @media all and (max-width: 767px) {
@@ -644,7 +709,7 @@
       .m_s_company {
         padding: 15px;
         background: #fff;
-        height: 102px;
+        height: 90px;
         .item-logo {
           display: inline-block;
           float: left;
@@ -682,7 +747,8 @@
           }
           .item-time {
             font-size: 0.26rem;
-            color: #999
+            color: #999;
+            margin-top: 4px;
           }
         }
       }
@@ -788,6 +854,7 @@
         .software {
           padding: 15px 0;
           ul {
+            font-size: 0;
             li {
               display: inline-block;
               padding: 2px 4px;
@@ -915,14 +982,20 @@
 
       .share_btn .flex-demo {
         text-align: center;
-        background: red;
-        line-height: 46px;
+        line-height: 38px;
         height: 46px;
       }
 
       .share_btn .flex-demo1 {
         background-color: #5AA2E7;
         color: #fff;
+      }
+      .share_btn .flex-demo3 {
+        background-color: #fff;
+        color: #5AA2E7;
+        position: relative;
+        .borderTop(1px,#e5e5e5)
+
       }
 
       .share_btn .flex-demo1 .pos_icon1 {
@@ -934,14 +1007,6 @@
         background-size: cover;
       }
 
-      .share_btn .flex-demo1 .text {
-        display: inline-block;
-        height: 20px;
-        line-height: 20px;
-        vertical-align: middle;
-        margin-left: 7px;
-        font-size: 0.36rem;
-      }
 
       .share_btn .flex-demo2 .pos_icon2 {
         display: inline-block;
@@ -951,11 +1016,27 @@
         background: url("../assets/img/deliver.png") no-repeat center;
         background-size: cover;
       }
+      .share_btn .flex-demo3 .pos_icon3 {
+        display: inline-block;
+        width: 0.42rem;
+        height: 0.4rem;
+        vertical-align: middle;
+        background: url(../common/image/personal/personal_stars.png) no-repeat center;
+        background-size: 100%;
+      }
+      .share_btn .flex-demo3 .pos_icon4 {
+        display: inline-block;
+        width: 0.42rem;
+        height: 0.4rem;
+        vertical-align: middle;
+        background: url(../common/image/personal/personal_stars2.png) no-repeat center;
+        background-size: 100%;
+      }
 
-      .share_btn .flex-demo2 .text {
+      .share_btn .flex-demo3 .text, .share_btn .flex-demo2 .text ,.share_btn .flex-demo1 .text{
         display: inline-block;
         height: 20px;
-        line-height: 20px;
+        line-height: 23px;
         vertical-align: middle;
         margin-left: 7px;
         font-size: 0.36rem;

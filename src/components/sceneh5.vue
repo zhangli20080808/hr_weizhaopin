@@ -17,13 +17,10 @@
              <swiper-slide class="swiper-no-swiping">
                  <div class="companyIntro">
                     <img src="../components/images/intro.png" class="intro" alt="公司简介">
-                    <!-- <scroll @scroll="scroll" -->
-                            <!-- :listen-scroll="listenScroll" :probe-type="probeType" class="list" ref="list"> -->
                         <div class="content">
                             <div v-html="h5.companyDescription"></div>
                             <img v-show="h5.companyImageUrl" :src="h5.companyImageUrl" class="introImg">
                         </div>　
-                    <!-- </scroll> -->
                 </div>
              </swiper-slide>
               <swiper-slide class="swiper-no-swiping">
@@ -40,7 +37,7 @@
                             </li>
                             </ul>
                         </scroll> -->
-                        <!-- <scroller lock-x :scrollbar-x="false" :scrollbar-y="false">
+                        <scroller lock-x :scrollbar-x="false" :scrollbar-y="false" height="440px">
                              <ul>
                                 <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
                                     <div class="positionName">{{item.positionName}}</div>
@@ -48,14 +45,23 @@
                                     <img  class="details" src="../components/images/details.png" alt="详情">
                                 </li>
                              </ul>
-                        </scroller> -->
-                        <ul>
-                            <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
-                                <div class="positionName">{{item.positionName}}</div>
-                                <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
-                                <img  class="details" src="../components/images/details.png" alt="详情">
-                            </li>
-                        </ul>
+                        </scroller>
+                        <!-- <div>
+                            <scroller>
+                                <div>
+                                    <ul>
+                                        <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
+                                            <div class="positionName">{{item.positionName}}</div>
+                                            <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
+                                            <img  class="details" src="../components/images/details.png" alt="详情">
+                                        </li>
+                                    </ul>
+                                </div>
+                              
+                                
+                            </scroller>
+                        </div> -->
+                        
                     </div>　
                 </div>
              </swiper-slide>
@@ -135,7 +141,7 @@ import Scroll from './base/scroll2'
 import footerNav from "../components/base/foot.vue";
 import imgSrc2 from "../components/images/bgh5.2.png";
 import imgSrc3 from "../components/images/bgh5.3.png";
-// import {  GroupTitle,  XButton, Divider,  XDialog,Scroller } from 'vux'
+import { Scroller } from 'vux'
 
 const FPS = 30;
 const SECONDS_BETWEEN_FRAMES = 1 / FPS;
@@ -273,7 +279,7 @@ export default {
             this.swiper_onIndexChange(this.swiper.activeIndex)
         }else{
             this.swiper_onIndexChange(0)
-            this.swiper.slideTo(0, 1000, false)
+            this.swiper.slideTo(0, 200, false)
         }
     },
     getRoute (){
@@ -299,12 +305,15 @@ export default {
             self.h5.companyDescription = recruitActivity.companyDescription;
             self.h5.companyImageUrl = recruitActivity.companyImageUrl;
             self.h5.activityPhone = recruitActivity.activityPhone;
+            self.getSignature();
           };
       self.$http(method,param,successd);
     },
       getSignature(){
       var self=this;
         self.$wechat.ready(function(res){
+            console.log(self.h5.titleDescription )
+            console.log('self.h5.titleDescription ')
           //分享给朋友
           self.$wechat.onMenuShareAppMessage({
             title:self.h5.theme,
@@ -350,15 +359,13 @@ export default {
     this.getRoute();
     var self = this;
     self.height100=window.innerHeight;
-    console.log(this.$refs.mySwiper.swiper)
-    console.log('this.$refs.mySwiper.swiper')
   },
   created() {
     this.probeType = 3
     this.listenScroll = true
   },
   components: {
-    loading, swiper, swiperSlide,
+    loading, swiper, swiperSlide, Scroller,
   },
   filters: {  
     workCityFilter: function (value) {  

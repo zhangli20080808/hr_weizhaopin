@@ -14,12 +14,13 @@ import { WechatPlugin,ConfirmPlugin } from 'vux'
 
 import {AlertPlugin, ToastPlugin } from 'vux'
 Vue.use(ConfirmPlugin)
+
 Vue.use(AlertPlugin)
 Vue.use(ToastPlugin)
 Vue.use(WechatPlugin)
 Vue.use(Methods);
 Vue.use(VueAwesomeSwiper);
-
+Vue.use(ConfirmPlugin);
 Vue.config.productionTip = false
 
 
