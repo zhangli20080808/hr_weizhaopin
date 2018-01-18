@@ -34,6 +34,7 @@ import raPositionList from 'components/recruitAssistant/positionList';
 import raPositionDetail from 'components/recruitAssistant/positionDetail';
 import candidate from 'components/recruitAssistant/candidate';
 import offer from 'components/recruitAssistant/offer';
+import login from 'components/recruitAssistant/login';
 import resumeDetail from 'components/resume/resumeDetail';
 
 
@@ -143,6 +144,11 @@ export default new Router({
       path:'/offer',
       name:'offer',
       component:offer
+    },
+    {
+      path:'/login',
+      name:'login',
+      component:login
     },
     {
       path:'/resumeDetail',

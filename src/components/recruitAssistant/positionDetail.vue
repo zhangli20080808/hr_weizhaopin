@@ -692,21 +692,7 @@
         }
       }
 
-      .logo {
-        width: 100%;
-        height: 57px;
-        line-height: 57px;
-        text-align: center;
-        .logo_img {
-          display: inline-block;
-          width: 114px;
-          height: 14px;
-          line-height: 14px;
-          background: url("../../assets/img/footLogo2.png") no-repeat center;
-          background-size: 103px auto;
-        }
-
-      }
+      
 
       .split {
         width: 100%;
