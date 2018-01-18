@@ -1,0 +1,69 @@
+.borderTop(@size, @color) {
+  &::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    border-top: @size solid @color;
+    @media screen and (-webkit-min-device-pixel-ratio: 3) {
+      transform: scaleY(0.33333);
+    }
+    @media screen and (-webkit-min-device-pixel-ratio: 2) {
+      transform: scaleY(0.5);
+    }
+  }
+}
+
+.borderBottom(@size, @color) {
+  &::after {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    border-top: @size solid @color;
+    @media screen and (-webkit-min-device-pixel-ratio: 3) {
+      transform: scaleY(0.33333);
+    }
+    @media screen and (-webkit-min-device-pixel-ratio: 2) {
+      transform: scaleY(0.5);
+    }
+  }
+}
+
+.verticalBorder(@size, @color) {
+  &::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    border-top: @size solid @color;
+    @media screen and (-webkit-min-device-pixel-ratio: 3) {
+      transform: scaleY(0.33333);
+    }
+    @media screen and (-webkit-min-device-pixel-ratio: 2) {
+      transform: scaleY(0.5);
+    }
+  }
+
+  &::after {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    border-top: @size solid @color;
+    @media screen and (-webkit-min-device-pixel-ratio: 3) {
+      transform: scaleY(0.33333);
+    }
+    @media screen and (-webkit-min-device-pixel-ratio: 2) {
+      transform: scaleY(0.5);
+    }
+  }
+}
