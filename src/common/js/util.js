@@ -15,7 +15,7 @@ var user = "http://5693c46d.ittun.com/hrm"; // 江流本地
 
 // var user="http://121.199.182.2:30004/hrm" //测试
 
-// var user = "https://aijuhr.com/hrm"; // 正式环境
+var user = "https://aijuhr.com/hrm"; // 正式环境
 
 
 exports.url = user + '/api.do';
