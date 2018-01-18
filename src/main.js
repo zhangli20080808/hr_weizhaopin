@@ -10,11 +10,13 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'common/js/index'
 import moment from 'moment'
 import Methods from 'common/js/methods'
-import { WechatPlugin, AlertPlugin, ToastPlugin,ConfirmPlugin} from 'vux'
+import { WechatPlugin, AlertPlugin, ToastPlugin,ConfirmPlugin } from 'vux'
+import 'components/css/main.css'
 
-Vue.use(AlertPlugin)
-Vue.use(ToastPlugin)
-Vue.use(WechatPlugin)
+Vue.use(AlertPlugin);
+Vue.use(ConfirmPlugin);
+Vue.use(ToastPlugin,{position: 'top'});
+Vue.use(WechatPlugin);
 Vue.use(Methods);
 Vue.use(VueAwesomeSwiper);
 Vue.use(ConfirmPlugin);

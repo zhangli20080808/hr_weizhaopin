@@ -1,5 +1,5 @@
 <template>
-  <div id="add_resume" class="add_resume" :style="{'min-height':wh+'px','padding-bottom':'80px'}">
+  <div id="add_resume" class="add_resume" :style="{'height':wh+'px'}">
     <div v-show="type==1">
       <div class="createText"><span class="text">创建个人简历</span></div>
       <div class="first" @click="getSimpleResume">
@@ -10,6 +10,16 @@
     </div>
 
     <div class="content" v-show="type==2">
+      <!-- <ul class="content_header">
+        <li :class="{active:headType==1,successd:headType>1}">基本信息<span></span><i class="el-icon-check"
+                                                                                  v-if="headType>1"></i></li>
+        <li :class="{active:headType==2,successd:headType>2}">联系方式<span></span><i class="el-icon-check"
+                                                                                  v-if="headType>2"></i></li>
+        <li :class="{active:headType==3,successd:headType>3}">教育经历<span></span><i class="el-icon-check"
+                                                                                  v-if="headType>3"></i></li>
+        <li :class="{active:headType==4,successd:headType>4}">工作经历<span></span><i class="el-icon-check"
+                                                                                  v-if="headType>4"></i></li>
+      </ul> -->
       <!--基本信息-->
       <div v-if="headType==1" class="baseInfo">
         <group class="baseInfoTitle" gutter='0' :label-width="labelWidth" title="基本信息">
@@ -19,7 +29,7 @@
           <popup-picker title="性别" :data="sexArr" v-model="sexValue" show-name value-text-align="left"></popup-picker>
         </group>
         <group :label-width="labelWidth" class="baseInfoTitle before_border_none"  gutter='0'>
-          <x-input title="邮箱" name="email" placeholder="请输入邮箱地址" is-type="email"
+          <x-input title="邮  箱" name="email" placeholder="请输入邮箱地址" is-type="email"
                    v-model="interviewResumeInfo.email" class="baseInfoName"></x-input>
           <x-input title='手机号' v-model="interviewResumeInfo.phone" mask="999 9999 9999" :max="13"
                    is-type="china-mobile" placeholder="请输入手机号码" class="baseInfoName"></x-input>
@@ -33,6 +43,17 @@
           </flexbox-item>
         </flexbox>
       </div>
+      <!-- 联系方式 -->
+      <!-- <div v-if="headType==2" class="baseInfo">
+        <flexbox class="position_bottom" :gutter="15">
+          <flexbox-item>
+            <x-button class="btn last_step" @click.native="changeHeadType('1')">上一步</x-button>
+          </flexbox-item>
+          <flexbox-item>
+            <x-button class="btn" @click.native="changeHeadType('3')">下一步</x-button>
+          </flexbox-item>
+        </flexbox>
+      </div> -->
       <!-- 教育经历 -->
       <div v-if="headType==2" class="baseInfo">
         <group  label-width="100%" 
@@ -173,7 +194,7 @@
         name: '王若云',
         showPopup: false,
         value2: '',
-        sexValue: ['1'],
+        sexValue: [1],
         value4: null,
         value3: null,
         graduateSchool: null,
@@ -183,8 +204,8 @@
         workCompany: null,
         position: null,
         sexArr: [[
-          {name: '男', value: '1'},
-          {name: '女', value: '2'},
+          {name: '男', value: 1},
+          {name: '女', value: 2},
         ]],
         email: '',
         phone: '',
@@ -222,6 +243,7 @@
         positionId: this.$route.query.id,
         recomType: this.$route.query.recomType,
         companyId:this.$route.query.companyId,
+        activityId:this.$route.query.activityId,
         wh:wh,
         btnLoading:false,
       }
@@ -267,7 +289,6 @@
         interviewResumeInfo.sex = this.sexValue[0];
         interviewResumeInfo.positionId = this.$route.query.id;
         localStorage.interviewResumeInfo = JSON.stringify(interviewResumeInfo);
-        this.updateSimpleResume(type-1);
         if (!this.interviewResumeInfo.name || this.interviewResumeInfo.name == "") {
           this.toastText = "请输入姓名";
           this.toastShow = true;
@@ -278,27 +299,18 @@
           this.toastShow = true;
           return;
         }
-        if (type == '2' && !/^1[3578][0-9\s]{11}$/.test(this.interviewResumeInfo.phone)) {
+        if (type == 2 && (!this.interviewResumeInfo.phone || this.interviewResumeInfo.phone == "")) {
           this.toastText = "请输入手机号";
           this.toastShow = true;
           return;
         }
-        if (type == '2' && !/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(this.interviewResumeInfo.email)){
+        if (type == 2 && (!this.interviewResumeInfo.email || this.interviewResumeInfo.email == "")) {
           this.toastText = "请输入邮箱";
           this.toastShow = true;
           return;
         }
-        if (!(this.interviewResumeInfo && this.interviewResumeInfo.educationHistoryList.length > 0)) {
-          this.addEducation = true;
-        }else{
-          this.addEducation = false;
-        }
-        if (!(this.interviewResumeInfo && this.interviewResumeInfo.workHistoryList.length > 0)) {
-          this.addExperience = true;
-        }else{
-          this.addExperience = false;
-        }
-        this.headType = type;
+        this.updateSimpleResume(type-1);
+        // this.headType = type;
       },
       change(a, b, c){
         console.log(a, b, c)
@@ -378,13 +390,14 @@
         var self = this;
         self.changeHeadType(3);
         self.$router.push({
-          path: '/preview',
+          path: '/resumePreview',
           query: {
             positionId: self.positionId, 
             shareFansId: self.shareFansId, 
             recomType: self.recomType,
             fansId:self.fansId,
-            companyId:self.companyId
+            companyId:self.companyId,
+            activityId:self.activityId
           }
         });
       },
@@ -402,7 +415,8 @@
             shareFansId: self.shareFansId, 
             recomType: self.recomType,
             fansId:self.fansId,
-            companyId:self.companyId
+            companyId:self.companyId,
+            activityId:self.activityId
           }
         })
       },
@@ -435,7 +449,7 @@
                     self.interviewResumeInfo.name=res.data.data.name;
                     self.interviewResumeInfo.phone=res.data.data.phone;
                     self.interviewResumeInfo.email=res.data.data.email;
-                    self.sexValue[0]=res.data.data.sex;
+                    self.sexValue[0]=res.data.data.sex-0;
                     self.interviewResumeInfo.birthday=res.data.data.birthday;
                     self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList?res.data.data.educationHistoryList:[];
                     self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList?res.data.data.workHistoryList:[];
@@ -456,7 +470,7 @@
                 self.interviewResumeInfo.name=res.data.data.name;
                 self.interviewResumeInfo.phone=res.data.data.phone;
                 self.interviewResumeInfo.email=res.data.data.email;
-                self.sexValue[0]=res.data.data.sex;
+                self.sexValue[0]=res.data.data.sex-0;
                 self.interviewResumeInfo.birthday=res.data.data.birthday;
                 self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList;
                 self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList;
@@ -471,7 +485,6 @@
         if(!step){
           step=1;
         }
-        self.interviewResumeInfo.sex = self.sexValue[0];
         let method="resume/updateSimpleResume",
             param=JSON.stringify({
               fansId:self.fansId,
@@ -479,7 +492,7 @@
               simpleResumeInfo:self.interviewResumeInfo
             }),
             successd=function(res){
-              console.log(res);
+              self.headType = step+1;
             };
         self.$http(method,param,successd);
       },
@@ -490,20 +503,20 @@
         }else{
           self.btnLoading=true;
         }
-        // var method="recruitPosition/submitInterivewApplicationNew",
-        var method="recruitPosition/submitApplicationRecord",
+        var method="recruitPosition/submitInterivewApplicationNew",
             param=JSON.stringify({
               interviewResumeInfo:self.interviewResumeInfo,
               shareFansId:self.shareFansId,
               recomType:self.recomType,
-              fansId:self.fansId
+              fansId:self.fansId,
+              activityId:self.activityId
             }),
             successd=function (res) {
                 self.$router.push({path:'/results',query:{type:res.data.data,companyId:self.companyId,fansId:self.fansId}});
             },
             c=function(res){
               self.btnLoading=false;
-              alert(res.data.data.message);
+              self.$vux.toast.text(res.data.message,"top")
             };
         self.$http(method,param,successd,c);
       }

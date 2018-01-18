@@ -111,6 +111,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         shareFansId:this.$route.query.shareFansId,
         fansId:this.$route.query.fansId,
         recomType:this.$route.query.recomType,
+        activityId:this.$route.query.activityId,
         wh:wh
       }
     },
@@ -193,7 +194,8 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
                       resumeFrom:self.type,
                       resumeUrl:res.data.data.InterviewerInfo.resumeUrl
                     },
-                    recomType:self.recomType
+                    recomType:self.recomType,
+                    activityId:self.activityId
                   }),
                   successd2=function(res2){
                     if (res2.data.data==1) {
