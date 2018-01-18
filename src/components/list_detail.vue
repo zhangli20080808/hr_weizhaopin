@@ -185,7 +185,7 @@
           </div>
         </div>
       </scroller>
-      <div class="share_btn ">
+      <div class="share_btn">
         <div>
           <el-row :gutter="20" v-if="recomType==1 && empAuthSucc==1">
             <el-col :span="24">
@@ -554,7 +554,8 @@
         let method = "promotionPage/positionInfo",
           param = JSON.stringify({
             id: self.positionId,
-            companyId: self.companyId
+            companyId: self.companyId,
+            fansId:self.fansId
           }),
           successd = (res) => {
             self.positionInfo = res.data.data.positionInfo;
