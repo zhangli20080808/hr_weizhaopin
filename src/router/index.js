@@ -155,7 +155,6 @@ export default new Router({
       path: '/authentificationResult',
       name: 'authentificationResult',
       component: authentificationResult
-    },
-
+    }
   ]
 })

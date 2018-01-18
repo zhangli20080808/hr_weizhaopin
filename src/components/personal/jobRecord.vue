@@ -19,7 +19,7 @@
         <div class="imgTips">
           <div class="img"></div>
           <div class="text">
-            <p>暂无数据</p>
+            <p>暂无求职纪录</p>
           </div>
         </div>
       </div>
@@ -90,7 +90,7 @@
             display :block;
             width :130px;
             height :130px;
-            background :url("../../common/image/personal/noResutl_icon.png")no-repeat center;
+            background :url("../../common/image/personal/no_record.png")no-repeat center;
             background-size :60%;
             margin:0 auto;
           }

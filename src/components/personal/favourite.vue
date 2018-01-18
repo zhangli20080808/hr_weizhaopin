@@ -7,7 +7,7 @@
 
           <div class="favourite_content">
             <span class="favourite_icon"></span>
-            <span class="favourite_text">杭州爱聚科技有限公司</span>
+            <span class="favourite_text">{{item.companyName}}</span>
           </div>
           <dl class="position_detail">
             <dt>
@@ -33,8 +33,7 @@
           <div class="imgTips">
             <div class="img"></div>
             <div class="text">
-              <p>您还没有任何职位收藏</p>
-              <p>快去找找热门职位吧！</p>
+              <p>您还没有收藏职位,快去找找热门职位吧！</p>
             </div>
           </div>
         </div>
@@ -104,7 +103,7 @@
       },
       getStorePositionList() {
         var _this = this;
-        var method = "companyWeb/getWeWebsitePositionByCategoryId";
+        var method = "wexinPersonalInfo/storePositionList";
         var param = JSON.stringify({
           companyId: this.companyId,
           fansId: this.fansId
@@ -112,6 +111,7 @@
         var successd = function (res) {
           if (res.data.code == 0) {
               _this.listShow = false;
+
             _this.list = res.data.data.collectPositions;
           }
         }
@@ -299,10 +299,8 @@
         text-align: center;
         margin-top: 0.2rem;
         p {
-          margin-top: 10px;
-          &:last-child {
-            margin-bottom: 100px;
-          }
+          margin-top: 30px;
+          margin-bottom: 40px;
         }
       }
     }

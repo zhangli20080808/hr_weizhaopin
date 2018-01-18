@@ -334,8 +334,8 @@
         positionId: this.$route.query.positionId,
         companyId: this.$route.query.companyId,
         shareFansId: this.$route.query.shareFansId,
-//        fansId: this.$route.query.fansId,
-        fansId: 67,
+        authSuccess: this.$route.query.authSuccess,
+        fansId: this.$route.query.fansId,
         empId: this.$route.query.empId,
         empAuthSucc: this.$route.query.empAuthSucc,//1:认证成功的内部员工
 
@@ -356,6 +356,7 @@
       }
     },
     mounted(){
+        this.userAuthUrl();
       document.title = "职位详情";
       document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
 
@@ -363,7 +364,6 @@
         this.getPositionInfo();
         this.getWzpIndexInfo();
         this.getShareTitleInfo();
-        this.getPositionInfo()
       }, 20)
     },
     methods: {
@@ -551,8 +551,7 @@
         let method = "promotionPage/positionInfo",
           param = JSON.stringify({
             id: self.positionId,
-//            companyId: self.companyId,
-//            fansId:self.fansId
+            companyId: self.companyId
           }),
           successd = (res) => {
             self.positionInfo = res.data.data.positionInfo;
@@ -578,6 +577,7 @@
           positionId: _this.positionId,
           fansId: _this.fansId
         });
+        console.log(param)
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.isStore = true;
@@ -599,6 +599,22 @@
           }
         }
         _this.$http(method, param, successd);
+      },
+      userAuthUrl(){
+        var self = this;
+        var method = "weixin/userAuthUrl",
+          param = {
+            scope: 'snsapi_base',
+            pageFrom: 3,
+            companyId: self.companyId,
+            positionId :self.positionId
+          },
+          successd = function (res) {
+            if (res.data.userSession == 0&&self.authSuccess!=1) {
+              location.href = res.data.userAuthUrl;
+            }
+          };
+        self.$webHttp(method, param, successd);
       }
     },
     components: {

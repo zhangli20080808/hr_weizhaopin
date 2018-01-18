@@ -69,10 +69,13 @@
 
   export default {
     data(){
+      document.title = '个人中心';
       return {
         show: false,
         description: '确认难割难舍开工',
-        fansId: this.$route.query.fansId || 67,
+        authSuccess: this.$route.query.authSuccess,
+        companyId: this.$route.query.companyId,
+        fansId: this.$route.query.fansId,
         personalInfo: {}
 //        isEmployeeCertification: 0,     //员工认证 （0：没有认证过，1:已经认证过）
 //        isNotEmployeeCertification: 0,  //求职者认证 （0：没有认证过，1:已经认证过）
@@ -137,13 +140,28 @@
             fansId: this.fansId
           }
         })
+      },
+      userAuthUrl(){
+        var self = this;
+        var method = "weixin/userAuthUrl",
+          param = {
+            scope: 'snsapi_base',
+            pageFrom: 1,
+            companyId: self.companyId
+          },
+          successd = function (res) {
+            if (res.data.userSession == 0&&self.authSuccess!=1) {
+              location.href = res.data.userAuthUrl;
+            }
+          };
+        self.$webHttp(method, param, successd);
       }
     },
     mounted(){
-        document.title = '个人中心';
+      this.userAuthUrl()
+      this.getWeixinPersonalInfo();
       this.companyId = this.$route.query.companyId;
-//      this.fansId = this.$route.query.fansId;
-      this.getWeixinPersonalInfo()
+
     },
     directives: {
       TransferDom
