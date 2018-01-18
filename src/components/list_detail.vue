@@ -6,11 +6,13 @@
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
 
+
             </el-breadcrumb-item>
             <el-breadcrumb-item
               :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
               class="tips_2">
               职位列表
+
 
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位详情</el-breadcrumb-item>
@@ -338,7 +340,7 @@
         companyId: this.$route.query.companyId,
         shareFansId: this.$route.query.shareFansId,
         authSuccess: this.$route.query.authSuccess,
-        fansId: this.$route.query.fansId,
+        fansId: '',
         empId: this.$route.query.empId,
         empAuthSucc: this.$route.query.empAuthSucc,//1:认证成功的内部员工
 
@@ -363,6 +365,7 @@
       document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
 
       setTimeout(() => {
+        this.getFansId();
         this.userAuthUrl();
         this.getWzpIndexInfo();
         this.getShareTitleInfo();
@@ -435,6 +438,14 @@
             self.dimensions = res.data.data.dimensions;
           };
         self.$http(methods, param, successd);
+      },
+      getFansId(){
+        let queryParam = this.urlParse();
+        if (!queryParam.fansId) {
+          return
+        }
+        this.fansId = queryParam.fansId
+        return this.fansId;
       },
       toCompany(){
         location.href = "https://aijuhr.com/miniRecruit/#/about?companyId=" + this.companyId;
@@ -554,7 +565,7 @@
           param = JSON.stringify({
             id: self.positionId,
             companyId: self.companyId,
-            fansId:self.fansId
+            fansId: self.fansId
           }),
           successd = (res) => {
             self.positionInfo = res.data.data.positionInfo;
@@ -615,7 +626,7 @@
           successd = function (res) {
             if (res.data.userSession == 0 && self.authSuccess != 1) {
               location.href = res.data.userAuthUrl;
-            }else {
+            } else {
               self.getPositionInfo();
             }
           };
