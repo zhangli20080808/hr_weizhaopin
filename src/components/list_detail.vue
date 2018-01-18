@@ -359,12 +359,11 @@
       }
     },
     mounted(){
-      this.userAuthUrl();
       document.title = "职位详情";
       document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
 
       setTimeout(() => {
-        this.getPositionInfo();
+        this.userAuthUrl();
         this.getWzpIndexInfo();
         this.getShareTitleInfo();
       }, 20)
@@ -616,6 +615,8 @@
           successd = function (res) {
             if (res.data.userSession == 0 && self.authSuccess != 1) {
               location.href = res.data.userAuthUrl;
+            }else {
+              self.getPositionInfo();
             }
           };
         self.$webHttp(method, param, successd);
