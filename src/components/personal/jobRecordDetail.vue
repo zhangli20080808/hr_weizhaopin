@@ -69,18 +69,20 @@
             interviewerInfoId: this.interviewerInfoId
           },
           successd = function (res) {
-            self.positionApplyId = res.data.positionApplyId;
-            self.positionName = res.data.positionName;
-            self.interviewerInfoId = res.data.interviewerInfoId;
-            self.createTime = res.data.createTime;
-            self.companyName = res.data.companyName;
-            self.updateTime = res.data.updateTime;
-            self.currentStatus = res.data.currentStatus;
-            self.interviewerName = res.data.interviewerName;
-            self.resumeProgress = res.data.resumeProgress;
-            self.createTime = self.filterTime(res.data.zpRecord);
-            self.recommendList = res.data.recommendList;
-            self.zpRecord = res.data.zpRecord;
+            if(res.data.code == 0){
+              self.positionApplyId = res.data.data.positionApplyId;
+              self.positionName = res.data.data.positionName;
+              self.interviewerInfoId = res.data.data.interviewerInfoId;
+              self.createTime = res.data.data.createTime;
+              self.companyName = res.data.data.companyName;
+              self.updateTime = res.data.data.updateTime;
+              self.currentStatus = res.data.data.currentStatus;
+              self.interviewerName = res.data.data.interviewerName;
+              self.resumeProgress = res.data.data.resumeProgress;
+              self.createTime = self.filterTime(res.data.data.zpRecord);
+              self.recommendList = res.data.data.recommendList;
+              self.zpRecord = res.data.data.zpRecord;
+            }
           };
         self.$webHttp(method, param, successd);
       },

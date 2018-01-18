@@ -10,7 +10,6 @@
           <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"></span>
           <span class="authentication" @click="goAuthentification" v-if="personalInfo.isEmployeeCertification == 0||personalInfo.isNotEmployeeCertification == 0"></span>
         </div>
-
       </div>
     </div>
     <!--个人档案 求职纪录 收藏职位 我的推荐-->
@@ -123,6 +122,7 @@
         var method = "wexinPersonalInfo/getWeixinPersonalInfo";
         var param = JSON.stringify({
           companyId: this.companyId,
+//          fansId: this.fansId
           fansId: this.fansId
         });
         var successd = function (res) {
@@ -160,8 +160,6 @@
     mounted(){
       this.userAuthUrl()
       this.getWeixinPersonalInfo();
-      this.companyId = this.$route.query.companyId;
-
     },
     directives: {
       TransferDom
