@@ -162,21 +162,6 @@
       <el-button @click.native="submitInterivewApplicationNew" type="primary" class="submitInterivewApplicationNew">保存简历</el-button>
 
       <el-dialog
-        class="tips1"
-        title="提示"
-        :visible.sync="dialogVisible"
-        size="small"
-      >
-        <div class="content">
-          <div class="img" style="text-align:center;">
-            <img src="../../common/image/micresume/successd.png" alt="">
-          </div>
-          <div class="title">提交成功</div>
-          <div class="des">感谢您的申请，我们将会尽快给您回复</div>
-        </div>
-      </el-dialog>
-
-      <el-dialog
         title="登录并导入简历"
         v-model="loginResume"
         size="tiny">
@@ -386,19 +371,23 @@ import footerNav from '../base/foot';
         var InterviewerInfo=JSON.parse(JSON.stringify(self.InterviewerInfo));
         InterviewerInfo.educationHistoryList.forEach(function(item) {
           item.startDateStr=self.$date(item.startDate,'month');
+          item.startDate = "";
           if(!item.isReading){
-            item.endDateStr=self.$date(item.startDate,'month');
-            item.isReading=0;
+            item.endDateStr=self.$date(item.endDate,'month');
+            item.endDate = "";
+            item.isReading = 0;
           }else{
-            item.endDate="";
-            item.isReading=1;
+            item.endDate = "";
+            item.isReading = 1;
           }
         });
         InterviewerInfo.workHistoryList.forEach(function(item) {
           item.startDateStr=self.$date(item.startDate,'month');
+          item.startDate = "";
           if(!item.isWorking){
-            item.endDateStr=self.$date(item.startDate,'month');
-            item.isWorking=0;
+            item.endDateStr=self.$date(item.endDate,'month');
+            item.endDate = "";
+            item.isWorking = 0;
           }else{
             item.endDate="";
             item.isWorking=1;
@@ -413,7 +402,10 @@ import footerNav from '../base/foot';
 
         var param=JSON.stringify({simpleResumeInfo:InterviewerInfo,fansId:self.fansId,step:'3'}),
             successd=function(res){
-              self.dialogVisible=true;
+              self.$message({
+                message:"保存成功!",
+                type:'success'
+              })
             },
             errored=function(res){
               self.$message({
@@ -579,7 +571,7 @@ import footerNav from '../base/foot';
   padding: 0;
 } */
 .submitInterivewApplicationNew{
-  margin-top:20px;
+  margin:20px 0;
 }
 .login_icon{
   height: 100px;
