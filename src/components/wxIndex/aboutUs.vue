@@ -20,12 +20,6 @@
                      :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}" v-show="isAuthorization">
                   <div class="btn-text" >
                     {{isAuthorization == 1 ? '已关注' : '关注'}}
-
-
-
-
-
-
                   </div>
                 </div>
               </div>
@@ -55,9 +49,9 @@
                       <span class="mainName">{{companyInfo.companyName}}</span>
                       <span class="address" @click="toMainMap"></span>
                     </div>
-                    <div class="shortName">({{companyInfo.companyShortName}})</div>
-                    <div class="address"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>
-                    <div class="tel"><span class="tel_icon"></span><span class="text">27272827</span></div>
+                    <div class="shortName" v-if="companyInfo.companyShortName">({{companyInfo.companyShortName}})</div>
+                    <div class="address" v-if="companyInfo.address || companyInfo.region"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>
+                    <div class="tel"><span class="tel_icon"></span><span class="text">{{companyInfo.phone}}</span></div>
                   </li>
                   <li class="vertical-list vux-1px-t" v-for="(item,index) in branchCompanyList">
                     <div class="name">
@@ -66,7 +60,7 @@
                     </div>
                     <div class="shortName">({{item.companyShortName}})</div>
                     <div class="address"><span class="address_icon"></span><span class="text">{{filter(item.region)}}{{item.address}}</span></div>
-                    <div class="tel"><span class="tel_icon"></span><span class="text">{{item.phone}}</span></div>
+                    <div class="tel"><span class="tel_icon"></span><span class="text">{{item.branchPhone}}</span></div>
                   </li>
 
                 </ul>
@@ -234,9 +228,6 @@
               <span class="text">长按关注</span>
             </div>
           </div>
-        </div>
-        <div @click="careQrcode=false">
-          <span class="vux-close"></span>
         </div>
       </x-dialog>
     </div>
@@ -647,8 +638,8 @@
               _this.companyInfo.companyName = res.data.data.companyName;
               _this.companyInfo.region = res.data.data.region;
               _this.companyInfo.phone = res.data.data.phone;
-              _this.longitude = res.data.data.longitude;
-              _this.latitude = res.data.data.latitude;
+              _this.longitude = parseFloat(res.data.data.longitude);
+              _this.latitude = parseFloat(res.data.data.latitude);
               _this.companyName = res.data.data.companyName;
               _this.companyInfo.address = res.data.data.address;
               _this.detailAddress = _this.companyInfo.region + _this.companyInfo.address;
@@ -680,8 +671,8 @@
         this.getSignature2()
       },
       toMap(item){
-        this.latitude = item.latitude;
-        this.longitude = item.longitude;
+        this.latitude = parseFloat(item.latitude);
+        this.longitude = parseFloat(item.longitude);
         this.companyName = item.companyName;
         this.detailAddress = item.region + item.address;
         this.getSignature2()
@@ -1081,7 +1072,7 @@
     display: inline-block;
     position: absolute;
     left: -4px;
-    top: -2px;
+    top: -1px;
     width: 0.34rem;
     height:0.48rem;
     background: url(../../common/image/address_icon2.png)no-repeat center;
@@ -1096,7 +1087,7 @@
 
   .g-container .cards .vertical-list .tel{
     position: relative;
-    padding-left: 0.38rem;
+    padding-left: 0.3rem;
     font-size:13px;
     color: #999;
     margin-bottom: 0.3rem;
@@ -1104,8 +1095,8 @@
   .g-container .cards .vertical-list .tel .tel_icon{
     display: inline-block;
     position: absolute;
-    left: -5px;
-    top: -2px;
+    left: -6px;
+    top: 0px;
     width: 0.44rem;
     height:0.44rem;
     background: url(../../common/image/tel.png)no-repeat center;

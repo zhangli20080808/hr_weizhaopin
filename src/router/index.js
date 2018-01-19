@@ -29,6 +29,13 @@ import onlinePosition from 'components/wxIndex/onlinePosition';
 //简历
 import resumePreview from 'components/resume/preview';
 
+//招聘助手
+import raPositionList from 'components/recruitAssistant/positionList';
+import raPositionDetail from 'components/recruitAssistant/positionDetail';
+import candidate from 'components/recruitAssistant/candidate';
+import offer from 'components/recruitAssistant/offer';
+import raLogin from 'components/recruitAssistant/login';
+import resumeDetail from 'components/resume/resumeDetail';
 
 
 Vue.use(Router)
@@ -105,6 +112,11 @@ export default new Router({
       component:interpolate
     },
     {
+      path:'/sceneh5',
+      name:'sceneh5',
+      component:sceneh5
+    },
+    {
       path:'/onlinePosition',
       name:'onlinePosition',
       component:onlinePosition
@@ -113,10 +125,36 @@ export default new Router({
       path:'/resumePreview',
       name:'resumePreview',
       component:resumePreview
-    },{
-      path:'/sceneh5',
-      name:'sceneh5',
-      component:sceneh5
-    }
+    },
+    {
+      path:'/raPositionList',
+      name:'raPositionList',
+      component:raPositionList
+    },
+    {
+      path:'/raPositionDetail',
+      name:'raPositionDetail',
+      component:raPositionDetail
+    },
+    {
+      path:'/candidate',
+      name:'candidate',
+      component:candidate
+    },
+    {
+      path:'/offer',
+      name:'offer',
+      component:offer
+    },
+    {
+      path:'/raLogin',
+      name:'raLogin',
+      component:raLogin
+    },
+    {
+      path:'/resumeDetail',
+      name:'resumeDetail',
+      component:resumeDetail
+    },
   ]
 })

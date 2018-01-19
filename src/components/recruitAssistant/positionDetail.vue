@@ -1,96 +1,12 @@
 <template>
   <div id="interpolateDetail">
-    <div class="container hidden-xs " id="list_detail">
-      <div>
-        <div class="detail_des hidden-xs hidden-sm">
-          <el-breadcrumb separator="/" class="tips">
-            <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
-            </el-breadcrumb-item>
-            <el-breadcrumb-item
-              :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
-              class="tips_2">
-              职位列表
-            </el-breadcrumb-item>
-            <el-breadcrumb-item>职位详情</el-breadcrumb-item>
-          </el-breadcrumb>
-        </div>
-        <div class="detail_show hidden-xs">
-          <div class="content">
-            <div class="title">{{positionInfo.positionName}}</div>
-            <div class="text">
-            <span
-              class="des">{{positionInfo.workCity}}/{{positionInfo.positionType === 1 ? '全职' : positionInfo.positionType === 2 ? '兼职' : '实习'
-              }}</span><span class="price">{{positionInfo.positionSalaryLowest}}k-{{positionInfo.positionSalaryHighest}}k</span>
-            </div>
-            <div class="p_time">发布时间：{{positionInfo.posiPublishTime}}</div>
-
-            <div class="post_share">
-              <el-button type="primary" @click="join1">申请职位</el-button>
-              <el-button @click="share()">分享职位</el-button>
-            </div>
-          </div>
-        </div>
-        <div class="job-page__header visible-xs">
-          <div class="job-page__header__title">
-            <span>{{positionInfo.positionName}}</span>
-          </div>
-          <div class="job-page__others">
-            <span class="des"><i class="address_icon"></i>{{positionInfo.workCity}}</span>
-            <span class="price"><i
-              class="salary_icon"></i>{{positionInfo.positionSalaryLowest}}k-{{positionInfo.positionSalaryHighest}}k</span>
-            <span class="kind"><i
-              class="kind_icon"></i>{{positionInfo.positionType === 1 ? '全职' : positionInfo.positionType === 2 ? '兼职' : '实习'
-              }}</span>
-          </div>
-        </div>
-        <!--公司-->
-        <!--<div class="job-page__header__link visible-xs">-->
-        <!--<div class="inner" @click="backIndex">-->
-        <!--<div class="column1">-->
-        <!--<div class="logo_border">-->
-        <!--<img :src="homeData.bigLogo" alt="">-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="column2">-->
-        <!--<div class="company">{{homeData.form.company_name}}</div>-->
-        <!--<div class="status">-->
-        <!--<span class="custom-icon-text-color">{{homeData.s_log_back}}</span>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="column3">-->
-        <!--<span class="arrow_icon"></span>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--职位描述-->
-        <div class="detail_text">
-          <div class="detail_content">
-            <div class="title">职位描述</div>
-            <div class="text" v-html="positionInfo.positionDesc"></div>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="hidden-sm hidden-lg">
       <scroller lock-x height="-50">
         <div>
-          <!--     <dl class="position_detail">
-            <dt>
-              <span class="color_ff8054" v-if="positionInfo.isUrgent==1">[急招]</span>
-              <span>{{positionInfo.positionName}}</span>
-              <span class="f_r" v-if="(isInnerEmp==1&&positionInfo.rewardAmount)||recomType==2">简历悬赏{{positionInfo.rewardAmount}}</span>
-            </dt>
-            <dd>
-              <span>{{positionInfo.workCitySpilt}}</span>
-              <span>{{positionInfo.positionSalaryLowest}}K-{{positionInfo.positionSalaryHighest}}K</span>
-              <span>{{positionInfo.positionType==1?'全职':positionInfo.positionType==2?'兼职':'实习'}}</span>
-              <p class="f_r color_46be8a">{{positionInfo.views}}人看过</p>
-            </dd>
-          </dl> -->
-          <dl class="position_detail vux-1px-tb" v-show="name">
+          <dl class="position_detail" v-show="name">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
-              <img src="../common/image/urgent2.png" alt="" width="35px" class="img" v-if="positionInfo.isUrgent==1">
+              <img src="../../common/image/urgent2.png" alt="" width="35px" class="img" v-if="positionInfo.isUrgent==1">
               <span class="position_name">{{positionInfo.positionName}}</span>
             <div class="position_detail_right">
               <!--<em></em>-->
@@ -100,156 +16,50 @@
             <dd class="position_detail_money" v-show="positionInfo.workCitySpilt">
               <span>{{positionInfo.workCitySpilt}}</span>
               <span>{{positionInfo.positionType == 1 ? '全职' : positionInfo.positionType == 2 ? '兼职' : '实习'}}</span>
+              <span>本科</span>
+              <span>1-3年</span>
               <span>{{positionInfo.positionSalaryLowest}}K-{{positionInfo.positionSalaryHighest}}K</span>
               <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
-              <span>发布时间 : &nbsp;{{positionInfo.createTime}}</span> &nbsp;
-              <em>浏览次数 : {{positionInfo.views}}次</em>
+              <span>创建人 : &nbsp;{{positionInfo.createTime}}</span> &nbsp;
+              <em>招聘人数 : {{positionInfo.views}}人</em>
             </dd>
           </dl>
 
-          <!--公司简介-->
-          <div class="m_s_company" @click="toCompany" v-if="name">
-            <img :src="companyHeadImg" class="item-logo" alt="">
-            <div class="item-desc">
-              <h2 class="item-title">{{name}}</h2>
-              <p class="item-info">
-              <span class="item-pos">
-                {{companyValues}}
-              </span></p>
-              <p class="item-time">
-                {{address}}  | {{domain}} | {{options[status - 1] ? options[status - 1].label : ''}} | {{s_options[dimensions - 1] ? s_options[dimensions - 1].label : ''}}</p>
-            </div>
-          </div>
-          <!-- 职位描述 -->
+         
           <div class="split"></div>
+          <div class="position-classify">
+              <p class="p">职位分类：<span>产品类</span></p>
+              <p class="p">职位类别：<span>产品/需求/项目类</span></p>
+              <p class="p">工作地址：<span>杭州市西湖区文一西路</span></p>
+              <p class="p">接收简历邮箱：<span>yeqiu@iyenei.com</span></p>
+          </div>
+          <div class="split"></div>
+           <!-- 职位描述 -->
           <div class="pos_detail">
-            <h2 class="description vux-1px-tb">
+            <h2 class="description">
               <span class="pos_des"></span>
               <span class="text">职位描述</span>
-              <!--<div class="have_bonus"  v-if="positionInfo.rewardAmount">-->
-              <!--<img src="https://aijuhr.com/miniRecruit/static/img/have_bonuss.0e8cbde.png">-->
-              <!--</div>-->
             </h2>
             <div class="description_con">
               <p v-html="positionInfo.positionDesc"></p>
             </div>
           </div>
           <div class="split" v-if="positionInfo.positionTagList"></div>
-          <!-- 职位福利 -->
-          <div class="pos_detail" v-if="positionInfo.positionTagList">
-            <h2 class="description vux-1px-tb">
-              <span class="pos_ware"></span>
-              <span class="text">职位福利</span>
-            </h2>
-            <div class="software">
-              <ul>
-                <li v-for="item in positionInfo.positionTagList">{{item.name}}</li>
-              </ul>
-            </div>
-          </div>
-          <div class="split"></div>
-          <!-- 相关职位推荐 -->
-          <div class="pos_detail">
-            <h2 class="description vux-1px-tb">
-              <span class="recommend"></span>
-              <span class="text">相关职位推荐</span>
-            </h2>
-            <dl class="recommendList vux-1px-tb" v-for="list in positionInfo.similarPositions"
-                @click="goDetail(list.id)">
-              <dt>
-                <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
-                <img src="../common/image/urgent2.png" alt="" width="35px" class="img" v-if="list.isUrgent==1">
-                <span class="position_name">{{list.positionName}}</span>
-              <div class="position_detail_right" v-if="(positionInfo.rewardAmount&&isInnerEmp==1)||recomType==2">
-              </div>
-              </dt>
-              <dd class="position_detail_money">
-                <span>{{filter(list.workCity)}}</span>
-                <span>{{list.positionType == 1 ? '全职' : list.positionType == 2 ? '兼职' : '实习'}}</span>
-                <span>{{list.positionSalaryLowest}}K-{{list.positionSalaryHighest}}K</span>
-                <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
-              </dd>
-              <dd class="position_detail_date">
-                <span>发布时间 : &nbsp;{{list.createTime}}</span> &nbsp;
-                <em>浏览次数 : {{list.views}}次</em>
-              </dd>
-            </dl>
-          </div>
           <div class="logo">
             <div class="logo_img"></div>
 
           </div>
         </div>
       </scroller>
-      <div class="share_btn ">
-        <div>
-          <el-row :gutter="20" v-if="recomType==1 && empAuthSucc==1">
-            <el-col :span="24">
-              <div class="flex-demo flex-demo2" @click="shareTipShow=true">我要分享</div>
-            </el-col>
-          </el-row>
-          <el-row v-else>
-            <el-col :span="12">
-              <div class="flex-demo flex-demo1" @click="shareTipShow=true">
-                <span class="pos_icon1"></span><span class="text">我要分享</span>
-              </div>
-            </el-col>
-            <el-col :span="12">
-              <div class="flex-demo flex-demo2" @click="join">
-                <span class="pos_icon2"></span><span class="text">我要投递</span></div>
-            </el-col>
-          </el-row>
-        </div>
-      </div>
-      <div class="share" v-if="shareTipShow" @click="shareTipShow=false">
-        <div class="share_tip"></div>
-      </div>
     </div>
 
-    <el-dialog
-      class="tips2"
-      title="扫码分享职位"
-      :visible.sync="dialogVisible2"
-      size="small"
-    >
-      <div class="content">
-        <div class="img">
-          <img :src="eLogo" alt="">
-        </div>
-        <div class="des">或使用链接分享</div>
-      </div>
-      <el-form :inline="true" :model="formShare" class="share">
-        <el-form-item>
-          <el-input v-model="formShare.eLink" id="copyLinkInput"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" ref="btn" @click="copyLink">复制链接</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-    <div class="model" v-show="model" @click="close">
-      <div class="share-arrow" v-show="arrow_tip"></div>
-    </div>
-
-    <div v-transfer-dom>
-      <x-dialog v-model="dialogShared" class="dialog-demo">
-        <div @click="dialogShared=false" style="text-align:right;padding-right:10px">
-          <span class="vux-close" style="color:#2C2D31;font-weight:600;"></span>
-        </div>
-        <div class="img-box">
-          <h1>分享成功</h1>
-          <img :src="sharedQrcodeUrl" style="width:165px">
-          <p>扫码关注 - 获取职位分享动态</p>
-        </div>
-      </x-dialog>
-    </div>
   </div>
 </template>
 <script>
   import {Flexbox, FlexboxItem, querystring, XDialog, TransferDomDirective as TransferDom, Scroller} from 'vux';
-  import util from "../common/js/util.js";
+  import util from "../../common/js/util.js";
   import Axios from 'axios';
   export default {
     name: 'interpolateDetail',
@@ -355,7 +165,7 @@
         this.getPositionInfo();
         this.getWzpIndexInfo();
         this.getShareTitleInfo();
-        this.getPositionInfo()
+        // this.getPositionInfo()
       }, 20)
     },
     methods: {
@@ -410,7 +220,9 @@
         let self = this;
         let method = "promotionPage/positionInfo",
           param = JSON.stringify({
-            id: self.positionId
+            id: self.positionId,
+            companyId:self.companyId,
+            fansId:self.fansId
           }),
           successd = (res) => {
             self.positionInfo = res.data.data.positionInfo;
@@ -569,11 +381,13 @@
 </style>
 
 <style scoped lang="less">
+  #app{
+      height: 100%;   
+  }
   #interpolateDetail {
-
+    height: 100%;
+    background:#F8F8FC;
     @media all and (max-width: 767px) {
-      background-color: #fff;
-      padding-bottom: 60px;
       .position_detail {
         padding: 12px 15px;
         font-size: 0.26rem;
@@ -604,7 +418,7 @@
             font-weight: 500;
             color: #FDA732;
             em {
-              background: url(../common/image/money.png) no-repeat center center;
+              background: url(../../common/image/money.png) no-repeat center center;
               display: inline-block;
               width: 0.26rem;
               height: 0.26rem;
@@ -730,8 +544,20 @@
           }
         }
       }
+      
+        // 0117新增
+        .position-classify{
+            padding:.2rem .3rem;
+            background:rgba(232,242,248,1);
+            .p{
+                font-size:.26rem;
+                color:#999;
+                line-height:1.5;
+            }
+        }
 
       .pos_detail {
+        background:#ffffff;
         padding: 0 15px;
         clear: both;
         .description {
@@ -749,7 +575,7 @@
             vertical-align: middle;
             width: 15px;
             height: 17px;
-            background: url("../assets/img/describe.png") no-repeat center;
+            background: url("../../assets/img/describe.png") no-repeat center;
             background-size: cover;
           }
           .text {
@@ -764,7 +590,7 @@
             vertical-align: middle;
             width: 15px;
             height: 17px;
-            background: url("../assets/img/welfare.png") no-repeat center;
+            background: url("../../assets/img/welfare.png") no-repeat center;
             background-size: cover;
           }
           .recommend {
@@ -772,7 +598,7 @@
             vertical-align: middle;
             width: 17px;
             height: 17px;
-            background: url("../assets/img/recommend.png") no-repeat center;
+            background: url("../../assets/img/recommend.png") no-repeat center;
             background-size: cover;
           }
         }
@@ -832,7 +658,7 @@
               font-weight: 500;
               color: #FDA732;
               em {
-                background: url(../assets/img/money.png) no-repeat center center;
+                background: url(../../assets/img/money.png) no-repeat center center;
                 display: inline-block;
                 width: 1rem;
                 height: 1rem;
@@ -866,21 +692,7 @@
         }
       }
 
-      .logo {
-        width: 100%;
-        height: 57px;
-        line-height: 57px;
-        text-align: center;
-        .logo_img {
-          display: inline-block;
-          width: 114px;
-          height: 14px;
-          line-height: 14px;
-          background: url("../assets/img/footLogo2.png") no-repeat center;
-          background-size: 103px auto;
-        }
-
-      }
+      
 
       .split {
         width: 100%;
@@ -888,131 +700,15 @@
         background: #F8F8FC;
       }
 
-      // .vux-1px-tb:before{
-      //   display: none;
-      // }
-      // .position_detail_money .position_detail_right{color: #46BE8A;}
-      .have_bonus {
-        width: 75px;
-        height: 75px;
-        position: absolute;
-        top: -5px;
-        right: 25px;
-      }
-
-      .have_bonus img {
-        width: 100%
-      }
-
-      .share_btn {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        height: 46px;
-        background-color: #fff;
-      }
-
-      .share_btn .flex-demo {
-        text-align: center;
-        background: red;
-        line-height: 38px;
-        height: 46px;
-      }
-
-      .share_btn .flex-demo1 {
-        background-color: #5AA2E7;
-        color: #fff;
-      }
-
-      .share_btn .flex-demo1 .pos_icon1 {
-        display: inline-block;
-        width: 17px;
-        height: 20px;
-        vertical-align: middle;
-        background: url("../assets/img/share.png") no-repeat center;
-        background-size: cover;
-      }
-
-      .share_btn .flex-demo1 .text {
-        display: inline-block;
-        height: 20px;
-        line-height: 20px;
-        vertical-align: middle;
-        margin-left: 7px;
-        font-size: 0.36rem;
-      }
-
-      .share_btn .flex-demo2 .pos_icon2 {
-        display: inline-block;
-        width: 17px;
-        height: 20px;
-        vertical-align: middle;
-        background: url("../assets/img/deliver.png") no-repeat center;
-        background-size: cover;
-      }
-
-      .share_btn .flex-demo2 .text {
-        display: inline-block;
-        height: 20px;
-        line-height: 20px;
-        vertical-align: middle;
-        margin-left: 7px;
-        font-size: 0.36rem;
-      }
-
-      .share_btn .flex-demo2 {
-        background-color: #F2A654;
-        color: #fff;
-      }
-
-      .share_btn_con {
-        display: flex;
-        list-style: none;
-        justify-content: center;
-      }
-
-      .share_btn_con li {
-        margin-left: 10px;
-      }
-
-      .share {
-        background-color: rgba(0, 0, 0, 0.8);
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        z-index: 999;
-        top: 0;
-        left: 0;
-      }
-
-      .share_tip {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 200px;
-        background: url(https://aijuhr.com/images/yidong/sharePng.png) no-repeat center center;
-        background-size: 80% auto;
-        z-index: 1000;
-      }
-
-      .img-box h1 {
-        font-size: 0.4rem;
-      }
-
-      .img-box p {
-        font-size: 0.26rem;
-        color: #888;
-        margin-bottom: 20px;
-      }
+ 
     }
 
   }
 
 </style>
 <style lang="stylus">
-  @import "../common/stylus/mixin.styl"
-  @import "../common/stylus/base.styl"
+  @import "../../common/stylus/mixin.styl"
+  @import "../../common/stylus/base.styl"
   #interpolateDetail
     .tips2
       .el-dialog--small
@@ -1026,8 +722,8 @@
           height: 424px
 </style>
 <style lang="stylus" scoped>
-  @import "../common/stylus/mixin.styl"
-  @import "../common/stylus/base.styl"
+  @import "../../common/stylus/mixin.styl"
+  @import "../../common/stylus/base.styl"
   #interpolateDetail
     .tips2
       .el-dialog--small
@@ -1170,7 +866,7 @@
           color: #5c6170
           font-size: 28px
           margin: 0 auto
-          background: url(../common/image/footer_logo.png) no-repeat center
+          background: url(../../common/image/footer_logo.png) no-repeat center
         }
       }
     }
