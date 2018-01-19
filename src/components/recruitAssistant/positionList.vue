@@ -1,7 +1,7 @@
 <template>
   <div class="ra-position-list">
       
-      <scroller lock-x ref="scrollerBottom">
+      <scroller lock-x ref="scrollerBottom" @on-scroll-bottom="loadMore">
         <div class="no_result" v-if="!list.length">
             <div class="tips">
                 <p class="">你还没有发布任何职位！ </p>
@@ -14,21 +14,22 @@
           <dl class="position_detail" v-for="item in list" @click="selectItem(item)">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
-              <img src="../../components/images/urgent2.png" alt="" width="35px" class="img" v-if="item.isUrgent==1">
+              <!-- <img src="../../components/images/urgent2.png" alt="" width="35px" class="img" v-if="item.isUrgent==1"> -->
               <span class="position_name">{{item.positionName}}</span>
             </dt>
             <dd class="position_detail_money">
               <span>{{filter(item.workCity)}}</span>
 
-              <span>{{item.positionType == 1 ? '全职' : item.positionType == 2 ? '兼职' : '实习'}}</span>
-              <span>{{item.positionSalaryLowest}}K-{{item.positionSalaryHighest}}K</span>
+              <span>{{item.positionType}}</span>
+              <span>{{item.salary}}</span>
               <!-- <div class="position_list_right">{{item.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
-              <span>发布时间 : &nbsp;{{item.createTime}}</span> &nbsp;
-              <em>招聘人数 : {{item.posiNum}}人</em>
+              <span>发布时间 : &nbsp;{{item.createDate.replace(/-/g,'.')}}</span> &nbsp;
+              <em>招聘人数 : {{item.zhaopinNum}}人</em>
             </dd>
           </dl>
+           <load-more v-show="showMore" tip="正在加载"></load-more>
           <div class="footer_icon" v-show="list.length>4">
             <a href="https://aijuhr.com">
               <div class="img_detail"></div>
@@ -40,7 +41,7 @@
         <div class="us" @click="getIndex">关于我们</div>
         <div class="online_p" :class="{'activeColor':active}">在招职位</div>
       </div> -->
-    <!--<loading v-show="!list.length"></loading>-->
+    <loading v-show="!list.length"></loading>
   </div>
 </template>
 
@@ -57,36 +58,38 @@
       return {
         companyId: '',
         list: [],
-        active: true,
-        showMore: false
+        // active: true,
+        showMore: false,
+        onFetching:false,
       }
     },
     methods: {
       getOnlinePosition() {
         var _this = this;
-        var method = "companyWeb/getWeWebsitePositionByCategoryId";
+        var method = "recruitPosition/getPositionListByCondition";
         var param = JSON.stringify({
           companyId: this.companyId,
           type: 2,
-        //   pageNum:1,
-        //   pageSize:10,
+          pageNum:1,
+          pageSize:5,
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-            _this.list = res.data.data    
-
+            _this.list = res.data.data.positionList;
+            _this.page = res.data.data.page  
+            console.log(_this.list)
           }
         }
         _this.$http(method, param, successd);
       },
-      getIndex(){
-        this.$router.push({
-          name: 'about',
-          query: {
-            companyId: this.companyId
-          }
-        })
-      },
+      // getIndex(){
+      //   this.$router.push({
+      //     name: 'about',
+      //     query: {
+      //       companyId: this.companyId
+      //     }
+      //   })
+      // },
       selectItem(item) {
         this.$router.push({
           name: 'raPositionDetail',
@@ -100,9 +103,14 @@
         })
       },
       filter(item){
-        return item.split(',')[1]
+        if(typeof item == "string" && item.indexOf(',') > -1){
+          return item.split(',')[1]
+        }else{
+          return item
+        }     
       },
-      onScrollBottom () {
+      loadMore () {
+        console.log('loadmore')
         if (this.onFetching) {
           // do nothing
         } else {
@@ -123,7 +131,6 @@
       }
     },
     created(){
-        console.log(this.$route.query)
       this.companyId = this.$route.query.companyId
       this.$nextTick(() => {
         this.getOnlinePosition()

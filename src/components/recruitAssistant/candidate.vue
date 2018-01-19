@@ -87,6 +87,7 @@
 <script>
  import loading from '../../components/base/loading/loading2.vue'
  import FootLogo from '../../components/base/foot.vue'
+ import { urlParse } from '../../common/js/index.js'
 
   import {
     Scroller,
@@ -104,19 +105,76 @@ export default {
   },
   data(){
       return {
+          options:null,
+          code:'',
+          companyId:this.$route.query.companyId || '',
           showLoadMore:false,
 
       }
   },
   created(){
-
-  },
-  mounted(){
-
+    this.options = urlParse()
+    this.code = this.options.code
+    if(!localStorage.userInfo){
+      this.getCodeUrl()
+    }
+    this.getAll()
   },
   methods:{
     onItemClick (index) {
       console.log('on item click:', index)
+    },
+    //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值
+    getCodeUrl(){
+      var _this = this;
+      var method = "account/aijuAssistantAutoLogin";
+      var param = {
+        redirectUri: 'https://aijuhr.com/miniRecruit/#/candidate?companyId=' + _this.companyId,
+        code:_this.code
+      };
+      var successd = function (response) {
+        let res = response.data;
+         console.log(res)
+        if (res.code == "0") {
+            //登录成功
+           localStorage.userInfo = res.data;
+          alert(res.message)
+        
+        }else if(res.code == "2018"){
+            //微信授权登录
+             location.href = res.data.codeUrl
+        } else if(res.code == "2019"){
+            //登录失败，请尝试账号登录         
+            _this.$router.push({
+              path: `/raLogin`,
+              name: 'raLogin',
+              params: {
+                urlType:'candidate',
+              },
+              query: {
+                companyId: _this.companyId,
+              }
+          })
+        }
+      }
+      _this.$webHttp(method, param, successd);
+    },
+    //
+    getAll() {
+      var _this = this;
+      var method = "queryResume/queryAllRepo";
+      var param = JSON.stringify({
+        companyId:_this.companyId,
+        pageNum: 1,
+        pageSize: 10
+      });
+      var successd = function (res) {
+        
+        if (res.data.code == 0) {
+          
+        }
+      }
+      _this.$http(method, param, successd);
     },
     loadMore(e){
       console.log("loadmore")

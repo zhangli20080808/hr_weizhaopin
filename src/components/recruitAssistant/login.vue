@@ -3,12 +3,12 @@
     <div class="form">
       <div class="tip">您是首次微信登录，请绑定爱聚账号，实现信息同步！</div>
        <group class="group" label-width="5em">
-         <x-input title="用户名" type="text" placeholder="请输入注册手机号或邮箱" v-model="userName"></x-input>
+         <x-input title="用户名" type="text" placeholder="请输入注册手机号或邮箱" v-model="account"></x-input>
          <x-input title="密码" type="password" placeholder="请输入密码" v-model="password"></x-input>
       </group>
     </div>
     <div class="btn-area">
-      <button class="btn-login" :class="{disabled:disabled}" >绑定</button>
+      <button class="btn-login" @click="login" :class="{disabled:disabled}" >绑定</button>
     </div>
     <div class="contact">
       <p class="word">如需帮助，请联系客服：</p>
@@ -38,19 +38,69 @@ export default {
   data(){
     return {
         wh:'',
-        userName:'',
+        account:'',
         password:'',
         disabled:false,
+        companyId:this.$route.query.companyId || '',
+        code:'',
     }
   },
   created(){
 
   },
   mounted(){
-      this.wh = window.innerHeight;
+     this.$nextTick(() => {
+        this.wh = window.innerHeight;
+        console.log('routeObj',this.$route)
+     })
+      
   },
   methods:{
+    login(){
+      var _this = this;
+      
+      var method = "account/aijuAssistantLogin";
+      var param = {
+        redirectUri: _this.getRedirectUri(_this.$route.params.urlType),
+        code:_this.code,
+        openId:localStorage.userInfo ? localStorage.userInfo.openId : '',
+        account:_this.account,
+        password:_this.password,
+      };
+      var successd = function (response) {
+         let res = response.data;
+         if(res.code == "0"){
+           location.href =  _this.getRedirectUri(_this.$route.params.urlType)
+         }else{
+           alert(res.message)
+         }
+         console.log('aijuAssistantLogin',res.data)
+          // location.href = res.data.data.codeUrl
+        //   _this.$router.push({
+        //   path: `/raLogin`,
+        //   name: 'raLogin',
+        //   params: {
+        //     urlType:'candidate',
 
+        //   },
+        //   query: {
+        //     companyId: _this.companyId,
+        //   }
+        // })
+        
+      }
+      _this.$webHttp(method, param, successd);
+    },
+    getRedirectUri(urlType){
+      let url = 'https://aijuhr.com/miniRecruit/#/';
+      let companyId = this.companyId;
+      switch(urlType){
+        case "candidate":
+         return `${url}${urlType}?companyId=${companyId}`
+        case "offer":
+        return `${url}${urlType}?companyId=${companyId}`
+      }
+    },
   },
   
 }
