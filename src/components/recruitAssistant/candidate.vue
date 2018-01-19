@@ -150,7 +150,7 @@ export default {
               name: 'raLogin',
               params: {
                 urlType:'candidate',
-                openId:res.data.openId
+                openId:res.data
               },
               query: {
                 companyId: _this.companyId,

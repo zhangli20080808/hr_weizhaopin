@@ -170,16 +170,6 @@ export default new Router({
       component: jobRecordDetail
     },
     {
-      path:'/sceneh5',
-      name:'sceneh5',
-      component:sceneh5
-    },
-    {
-      path:'/onlinePosition',
-      name:'onlinePosition',
-      component:onlinePosition
-    },
-    {
       path: '/authentification',
       name: 'authentification',
       component: authentification
@@ -188,11 +178,6 @@ export default new Router({
       path: '/authentificationResult',
       name: 'authentificationResult',
       component: authentificationResult
-    },
-    {
-      path:'/resumePreview',
-      name:'resumePreview',
-      component:resumePreview
     },
     {
       path:'/raPositionList',

@@ -3,37 +3,37 @@
     <div class="hidden-sm hidden-lg">
       <scroller lock-x height="-50">
         <div>
-          <dl class="position_detail" v-show="name">
+          <dl class="position_detail">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
-              <img src="../../common/image/urgent2.png" alt="" width="35px" class="img" v-if="positionInfo.isUrgent==1">
+              <!-- <img src="../../common/image/urgent2.png" alt="" width="35px" class="img" v-if="positionInfo.isUrgent==1"> -->
               <span class="position_name">{{positionInfo.positionName}}</span>
             <div class="position_detail_right">
               <!--<em></em>-->
               <!--<span>简历悬赏: <span style="font-weight:700;">{{positionInfo.rewardAmount}}</span>元</span>-->
             </div>
             </dt>
-            <dd class="position_detail_money" v-show="positionInfo.workCitySpilt">
-              <span>{{positionInfo.workCitySpilt}}</span>
-              <span>{{positionInfo.positionType == 1 ? '全职' : positionInfo.positionType == 2 ? '兼职' : '实习'}}</span>
-              <span>本科</span>
-              <span>1-3年</span>
-              <span>{{positionInfo.positionSalaryLowest}}K-{{positionInfo.positionSalaryHighest}}K</span>
+            <dd class="position_detail_money" v-show="positionInfo.workCity">
+              <span>{{positionInfo.workCity}}</span>
+              <span>{{positionInfo.positionTypeStr}}</span>
+              <span>{{positionInfo.educationRequire}}</span>
+              <span>{{positionInfo.workYear}}</span>
+              <span>{{positionInfo.salary}}</span>
               <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
-              <span>创建人 : &nbsp;{{positionInfo.createTime}}</span> &nbsp;
-              <em>招聘人数 : {{positionInfo.views}}人</em>
+              <span>创建人 : &nbsp;{{positionInfo.creatorName}}</span> &nbsp;
+              <em>招聘人数 : {{positionInfo.posiNum}}人</em>
             </dd>
           </dl>
 
          
           <div class="split"></div>
           <div class="position-classify">
-              <p class="p">职位分类：<span>产品类</span></p>
+              <p class="p">职位分类：<span>{{positionInfo.categoryName}}</span></p>
               <p class="p">职位类别：<span>产品/需求/项目类</span></p>
               <p class="p">工作地址：<span>杭州市西湖区文一西路</span></p>
-              <p class="p">接收简历邮箱：<span>yeqiu@iyenei.com</span></p>
+              <p class="p">接收简历邮箱：<span>{{positionInfo.receiveEmail}}</span></p>
           </div>
           <div class="split"></div>
            <!-- 职位描述 -->
@@ -46,7 +46,6 @@
               <p v-html="positionInfo.positionDesc"></p>
             </div>
           </div>
-          <div class="split" v-if="positionInfo.positionTagList"></div>
           <div class="logo">
             <div class="logo_img"></div>
 
@@ -68,7 +67,6 @@
         shareTipShow: false,
         //职位详情信息
         positionInfo: {
-          isUrgent: 0,
           posiPublishTime: "",
           positionDesc: "",
           positionName: "",
@@ -132,10 +130,6 @@
           label: '未融资'
         }],
         //从url里拿值
-        isInnerEmp: this.$route.query.isInnerEmp,//是否显示金额
-        empEmail: this.$route.query.empEmail,
-        pageFrom: this.$route.query.pageFrom,//2:内推详情,4:捕手详情
-        recomType: this.$route.query.recomType,//1:内推,2:捕手
         positionId: this.$route.query.positionId,
         companyId: this.$route.query.companyId,
         shareFansId: this.$route.query.shareFansId,
@@ -163,9 +157,7 @@
 
       setTimeout(() => {
         this.getPositionInfo();
-        this.getWzpIndexInfo();
         this.getShareTitleInfo();
-        // this.getPositionInfo()
       }, 20)
     },
     methods: {
@@ -187,8 +179,7 @@
             dataUrl: '',
             success: function () {
               //分享成功回调
-              self.sharePosition();
-              self.getWeChatOfficialAccountInfo();
+              
             },
             cancel: function () {
               console.log('用户取消分享后执行的回调函数1');
@@ -207,8 +198,7 @@
             imgUrl: self.imgUrl,//分享图标
             success: function () {
               //分享成功回调
-              self.sharePosition();
-              self.getWeChatOfficialAccountInfo();
+             
             },
             cancel: function () {
               console.log('用户取消分享后执行的回调函数2');
@@ -218,92 +208,22 @@
       },
       getPositionInfo(){
         let self = this;
-        let method = "promotionPage/positionInfo",
+        let method = "recruitPosition/getPositionDetail",
           param = JSON.stringify({
             id: self.positionId,
-            companyId:self.companyId,
-            fansId:self.fansId
+            type:1,
           }),
-          successd = (res) => {
-            self.positionInfo = res.data.data.positionInfo;
-
+          successd = (response) => {
+           
+            let res = response.data;
+            if(res.code == "0"){
+              self.positionInfo = res.data;
+               console.log(self.positionInfo )
+            }         
           };
         self.$http(method, param, successd);
       },
-      getWzpIndexInfo(){
-        let self = this;
-        let methods = "wzpCompany/getWzpCompanyInfo",
-          param = JSON.stringify({
-            type: 2,
-            companyId: self.companyId
-          }),
-          successd = (res) => {
-            console.log(res);
-            self.companyHeadImg = res.data.data.companyHeadImg;
-            self.companyUrl = res.data.data.companyUrl;
-            self.name = res.data.data.name;
-            self.companyValues = res.data.data.companyValues;
-            self.address = res.data.data.address;
-            self.domain = res.data.data.domain;
-            self.status = res.data.data.status;
-            self.dimensions = res.data.data.dimensions;
-          };
-        self.$http(methods, param, successd);
-      },
-      toCompany(){
-        location.href = "https://aijuhr.com/miniRecruit/#/about?companyId=" + this.companyId;
-      },
-      join(){
-        // self.$router.push({path:'/addResume',query:{id:this.positionId,shareFansId:self.shareFansId}})
-        location.href = "https://aijuhr.com/miniRecruit/#/addResume?id=" + this.positionId
-          + '&shareFansId=' + this.shareFansId
-          + "&companyId=" + this.companyId
-          + "&recomType=" + this.recomType
-          + "&fansId=" + this.fansId;
-      },
-      join1(){
-        this.$router.push({
-          name: 'apply',
-          query: {
-            companyId: this.companyId,
-            id: this.positionId
-          }
-        })
-      },
-      share() {
-        if (document.documentElement.clientWidth > 768) {
-          this.dialogVisible2 = true
-          var _this = this;
-          var method = "recruitPosition/sharePosition";
-          var param = JSON.stringify({
-            positionId: _this.positionId
-          });
-          var successd = function (res) {
-            if (res.data.code == 0) {
-              console.log(res.data)
-              _this.eLogo = res.data.data[0]
-              _this.formShare.eLink = res.data.data[1]
-            }
-          }
-          _this.$http(method, param, successd);
-        } else {
-          this.model = true
-          this.arrow_tip = true
-        }
-      },
-      copyLink(){
-        var self = this;
-        document.getElementById("copyLinkInput").children[0].select();
-        document.execCommand("Copy");
-        self.$message({
-          message: "复制成功",
-          type: 'success'
-        })
-      },
-      close(){
-        this.model = false
-        this.arrow_tip = false
-      },
+
       filter(item){
         return item.split(',')[1]
       },
@@ -320,48 +240,6 @@
           };
         self.$http(method, param, successd);
       },
-      sharePosition(){
-        var self = this;
-        var method = "positionRecommend/sharePosition",
-          param = JSON.stringify({
-            shareFansId: self.shareFansId,
-            fansId: self.fansId,
-            positionId: self.positionId,
-          }),
-          successd = function (res) {
-
-          };
-        self.$http(method, param, successd);
-      },
-      //分享之后调用服务号二维码
-      getWeChatOfficialAccountInfo(){
-        let self = this;
-        let method = "positionRecommend/getWeChatOfficialAccountInfo",
-          param = JSON.stringify({companyId: self.companyId, type: 2, fansId: self.fansId}),
-          successd = function (res) {
-            if (res.data.data.qrcodeUrl) {
-              self.sharedQrcodeUrl = res.data.data.qrcodeUrl;
-              self.accountName = res.data.data.accountName;
-              self.isSubscribe = res.data.data.isSubscribe;
-              if (self.isSubscribe == 0 && self.sharedQrcodeUrl) {
-                self.dialogShared = true;
-              }
-            }
-          }
-        self.$http(method, param, successd);
-      },
-      goDetail(positionId){
-        var self = this;
-
-        self.$router.push({
-          name: 'listDetail',
-          query: {
-            companyId: self.companyId,
-            positionId: positionId,
-          }
-        });
-        window.location.reload()
-      }
     },
     components: {
       Flexbox, FlexboxItem, querystring, XDialog, Scroller

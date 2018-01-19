@@ -1,7 +1,7 @@
 <template>
   <div class="ra-position-list">
       
-      <scroller lock-x ref="scrollerBottom" @on-scroll-bottom="loadMore">
+      <scroller lock-x ref="scrollerBottom" @on-scroll-bottom="loadMore" :scroll-bottom-offst="100">
         <div class="no_result" v-if="!list.length">
             <div class="tips">
                 <p class="">你还没有发布任何职位！ </p>
@@ -18,18 +18,18 @@
               <span class="position_name">{{item.positionName}}</span>
             </dt>
             <dd class="position_detail_money">
-              <span>{{filter(item.workCity)}}</span>
+              <span>{{item.workCity}}</span>
 
               <span>{{item.positionType}}</span>
               <span>{{item.salary}}</span>
               <!-- <div class="position_list_right">{{item.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
-              <span>发布时间 : &nbsp;{{item.createDate.replace(/-/g,'.')}}</span> &nbsp;
+              <span>发布时间 : &nbsp;{{item.createDate | repalceLine}}</span> &nbsp;
               <em>招聘人数 : {{item.zhaopinNum}}人</em>
             </dd>
           </dl>
-           <load-more v-show="showMore" tip="正在加载"></load-more>
+           <load-more v-show="showMore" tip="加载更多"></load-more>
           <div class="footer_icon" v-show="list.length>4">
             <a href="https://aijuhr.com">
               <div class="img_detail"></div>
@@ -50,6 +50,11 @@
   } from 'vux'
 
   export default {
+    components: {
+      Scroller,
+      LoadMore,
+      loading
+    },
     data(){
       return {
         companyId: '',
@@ -59,7 +64,16 @@
         onFetching:false,
       }
     },
+    created(){
+      this.companyId = this.$route.query.companyId
+      this.$nextTick(() => {
+        this.getOnlinePosition()
+      })
+    },
     methods: {
+      /**
+       * 获取职位列表
+       */
       getOnlinePosition() {
         var _this = this;
         var method = "recruitPosition/getPositionListByCondition";
@@ -67,21 +81,21 @@
           companyId: this.companyId,
           type: 2,
           pageNum:this.pageNum,
-          pageSize:5,
+          pageSize:10,
         });
         var successd = function (response) {
           let res = response.data;
           if (res.code == 0) {
-            _this.list.push(res.data.positionList);
+            _this.list = _this.list.concat(res.data.positionList);
             _this.page = res.data.page  
-            
-            _this.showMore = false
-            // _this.onFetching = false
-            console.log(_this.list)
+            _this.showMore = false             
           }
         }
         _this.$http(method, param, successd);
       },
+      /**
+       * 跳转至职位详情
+       */
       selectItem(item) {
         this.$router.push({
           name: 'raPositionDetail',
@@ -94,37 +108,37 @@
           }
         })
       },
-      filter(item){
-        if(typeof item == "string" && item.indexOf(',') > -1){
-          return item.split(',')[1]
-        }else{
-          return item
-        }     
-      },
+      /**
+       * 加载更多
+       */
       loadMore () {
         console.log('loadmore')
-        if (this.onFetching) {
+        if (this.onFetching || !this.page.hasNext) {
           // do nothing
         } else {
           this.onFetching = true
-          this.pageNum++
-          this.showMore = true
-          this.getOnlinePosition()
-          
-        }
+          setTimeout(() => {
+            this.pageNum++
+            this.showMore = true
+            this.getOnlinePosition()
+            this.$nextTick(() => {
+              this.$refs.scrollerBottom.reset()
+            })
+            this.onFetching = false
+         }, 2000)     
+       }
       }
     },
-    created(){
-      this.companyId = this.$route.query.companyId
-      this.$nextTick(() => {
-        this.getOnlinePosition()
-      })
-    },
-    components: {
-      Scroller,
-      LoadMore,
-      loading
+    filters:{
+      repalceLine(val){
+         if(val){
+           return val.replace(/-/g,'.')
+         }else{
+           return val
+         }
+      },
     }
+    
   }
 
 </script>
