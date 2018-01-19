@@ -23,7 +23,7 @@
           <div>
           </div>
         </div>
-        <div class="detail_header_item" @click="joinRecord">
+        <div class="detail_header_item" @click="jobRecord">
           <span class="item_icon_2"></span>
           <span class="text">求职记录</span>
 
@@ -74,8 +74,7 @@
         description: '确认难割难舍开工',
         authSuccess: this.$route.query.authSuccess,
         companyId: this.$route.query.companyId,
-//        fansId: this.$route.query.fansId,
-        fansId: 88,
+        fansId: this.$route.query.fansId,
         personalInfo: {}
 //        isEmployeeCertification: 0,     //员工认证 （0：没有认证过，1:已经认证过）
 //        isNotEmployeeCertification: 0,  //求职者认证 （0：没有认证过，1:已经认证过）
@@ -100,7 +99,7 @@
           alert(msg)
         }
       },
-      joinRecord(){
+      jobRecord(){
         this.$router.push({
           name: 'jobRecord',
           query: {
@@ -158,10 +157,10 @@
         self.$webHttp(method, param, successd);
       },
       joinCommend(){
-        location.href = "https://aijuhr.com/miniRecruit/#/resumePreview?companyId=" + this.companyId+ + "&fansId=" + this.fansId;;
+        location.href = "https://aijuhr.com/wx/dist/#/recommendedSchedule?companyId=" + this.companyId+ "&fansId=" + this.fansId;
       },
       joinRecord(){
-        location.href = "https://aijuhr.com/miniRecruit/#/resumePreview?companyId=" + this.companyId+ + "&fansId=" + this.fansId;;
+        location.href = "https://aijuhr.com/wx/dist/#/wx/resumePreview?companyId=" + this.companyId + "&fansId=" + this.fansId;
       }
     },
     mounted(){
