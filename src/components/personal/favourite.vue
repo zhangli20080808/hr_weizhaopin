@@ -16,7 +16,7 @@
               <span class="position_name">{{fav.positionName}}</span>
             </dt>
             <dd class="position_detail_money">
-              <span>{{filter(fav.workCity)}}</span>
+              <span>{{filterCity(fav.workCity)}}</span>
               <span>{{fav.positionType == 1 ? '全职' : fav.positionType == 2 ? '兼职' : '实习'}}</span>
               <span>{{fav.positionSalaryLowest}}K-{{fav.positionSalaryHighest}}K</span>
               <!-- <div class="position_list_right">{{item.views}}人看过</div> -->
@@ -74,7 +74,7 @@
         description: '确认要取消收藏该职位嘛？',
         fansId: this.$route.query.fansId,
         companyId: this.$route.query.companyId,
-        list: [],
+        list:[],
         listShow:true
       }
     },
@@ -131,7 +131,7 @@
         }
         _this.$http(method, param, successd);
       },
-      filter(item){
+      filterCity(item){
         return item.split(',')[1]
       },
       joinPositonDetail(item){
@@ -262,7 +262,7 @@
           color: #666;
           span {
             margin-right: 2px;
-            background-color: #e5e5e5;
+            background-color: #F5F5F5;
             padding: 3px 5px;
             border-radius: 2px;
             color: #999999;
@@ -307,15 +307,14 @@
       text-align: center;
       width: 100%;
       .morePosition {
-        display: inline-block;
-        text-align: center;
-        margin-top: 2.23rem;
         font-size: 0.36rem;
-        width: 6.7rem;
-        height: 0.94rem;
-        line-height: 0.94rem;
+        width: 3.6rem;
+        height: 0.84rem;
+        line-height: 0.84rem;
+        text-align: center;
         color: #fff;
         background: #5AA2E7;
+        margin: 0 auto;
         border-radius: 5px;
       }
 

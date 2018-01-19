@@ -158,7 +158,7 @@
       }
     },
     mounted(){
-      this.userAuthUrl()
+//      this.userAuthUrl()
       this.getWeixinPersonalInfo();
     },
     directives: {
@@ -197,12 +197,13 @@
           border-radius: 50%;
         }
         .name {
-          margin: 0.22rem 0 0.3rem 0;
+          margin: 0.22rem 0 0.2rem 0;
           font-size: 0.37rem;
           color: #000;
         }
         .personal_sign {
           display: inline-block;
+          width: 100%;
           height: 0.41rem;
           margin-top: 0.15rem;
           margin-bottom: 0.56rem;
