@@ -7,11 +7,13 @@
             <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
 
 
+
             </el-breadcrumb-item>
             <el-breadcrumb-item
               :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
               class="tips_2">
               职位列表
+
 
 
             </el-breadcrumb-item>
@@ -364,12 +366,10 @@
       document.title = "职位详情";
       document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
 
-      setTimeout(() => {
-        this.getFansId();
-        this.userAuthUrl();
-        this.getWzpIndexInfo();
-        this.getShareTitleInfo();
-      }, 20)
+      this.getFansId();
+      this.userAuthUrl();
+      this.getWzpIndexInfo();
+      this.getShareTitleInfo();
     },
     methods: {
       getSignature(){
@@ -496,6 +496,25 @@
           message: "复制成功",
           type: 'success'
         })
+      },
+      //获取url参数
+      urlParse() {
+
+        let url = window.location.href;
+        let obj = {};
+        let reg = /[?&][^?&]+=[^?&]+/g;
+        let arr = url.match(reg);
+        if (arr) {
+          arr.forEach((item) => {
+            let tempArr = item.substring(1).split('=');
+            let key = decodeURIComponent(tempArr[0]);
+
+            let val = decodeURIComponent(tempArr[1]);
+
+            obj[key] = val;
+          });
+        }
+        return obj;
       },
       close(){
         this.model = false

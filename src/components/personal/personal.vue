@@ -186,7 +186,6 @@
     overflow: hidden;
     background: #F8F8FC;
     .personal_top {
-      height: 4.06rem;
       background: #fff;
       .personal_content {
         text-align: center;
@@ -206,6 +205,7 @@
           display: inline-block;
           height: 0.41rem;
           margin-top: 0.15rem;
+          margin-bottom: 0.56rem;
           .personal_yg {
             display: inline-block;
             vertical-align: middle;
