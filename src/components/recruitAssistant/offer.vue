@@ -88,11 +88,7 @@
  import loading from '../../components/base/loading/loading2.vue'
  import FootLogo from '../../components/base/foot.vue'
 
-  import {
-    Scroller,
-    LoadMore,
-     Tab, TabItem,
-  } from 'vux'
+import {Scroller,LoadMore,Tab, TabItem} from 'vux'
 
 export default {
   components: {

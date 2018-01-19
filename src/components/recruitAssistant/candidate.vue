@@ -92,7 +92,7 @@
   import {
     Scroller,
     LoadMore,
-     Tab, TabItem,
+     Tab, TabItem
   } from 'vux'
 
 export default {
