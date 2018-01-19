@@ -109,7 +109,7 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-              _this.listShow = false;
+            _this.listShow = false;
 
             _this.list = res.data.data.collectPositions;
           }
