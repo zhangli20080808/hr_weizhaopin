@@ -28,6 +28,17 @@ import onlinePosition from 'components/wxIndex/onlinePosition';
 
 //简历
 import resumePreview from 'components/resume/preview';
+import information from 'components/resume/information';
+import selfIntroduction from "components/resume/selfIntroduction";
+import work from "components/resume/work";
+import language from 'components/resume/language';
+import skill from "components/resume/skill";
+import personalLink from "components/resume/personalLink";
+import aspiration from "components/resume/aspiration";
+import project from "components/resume/project";
+import education from "components/resume/education";
+import certificate from "components/resume/certificate";
+import awards from "components/resume/awards";
 
 //招聘助手
 import raPositionList from 'components/recruitAssistant/positionList';
@@ -36,6 +47,18 @@ import candidate from 'components/recruitAssistant/candidate';
 import offer from 'components/recruitAssistant/offer';
 import raLogin from 'components/recruitAssistant/login';
 import resumeDetail from 'components/resume/resumeDetail';
+//PC端简历
+import pcLogin from "components/pcresume/pcLogin";
+import login from "components/pcresume/login";
+import pcResume from "components/pcresume/pcResume";
+
+//个人中心
+import favourite from 'components/personal/favourite';
+import jobRecord from 'components/personal/jobRecord';
+import personal from 'components/personal/personal';
+import jobRecordDetail from 'components/personal/jobRecordDetail';
+import authentification from 'components/personal/authentification';
+import authentificationResult from 'components/personal/authentificationResult';
 
 
 Vue.use(Router)
@@ -72,44 +95,79 @@ export default new Router({
     //   redirect: '/'
     // },
     {
-      path:'/addResume',
-      name:'addResume',
-      component:addResume
+      path: '/addResume',
+      name: 'addResume',
+      component: addResume
     },
     {
-      path:"/preview",
-      name:'preview',
-      component:preview
+      path: "/preview",
+      name: 'preview',
+      component: preview
     },
     {
-      path:'/results',
-      name:'results',
-      component:results
+      path: '/results',
+      name: 'results',
+      component: results
     },
     {
-      path:'/loginResume',
-      name:'loginResume',
-      component:loginResume
+      path: '/loginResume',
+      name: 'loginResume',
+      component: loginResume
     },
     {
-      path:'/positionList',
-      name:'positionList',
-      component:positionList
+      path: '/positionList',
+      name: 'positionList',
+      component: positionList
     },
     {
-      path:'/about',
-      name:'about',
-      component:aboutUs
+      path: '/about',
+      name: 'about',
+      component: aboutUs
     },
     {
-      path:'/teamwork',
-      name:'teamwork',
-      component:teamwork
+      path: '/teamwork',
+      name: 'teamwork',
+      component: teamwork
     },
     {
-      path:'/interpolate',
-      name:'interpolate',
-      component:interpolate
+      path: '/interpolate',
+      name: 'interpolate',
+      component: interpolate
+    },
+    {
+      path: '/sceneh5',
+      name: 'sceneh5',
+      component: sceneh5
+    },
+    {
+      path: '/onlinePosition',
+      name: 'onlinePosition',
+      component: onlinePosition
+    },
+    {
+      path: '/resumePreview',
+      name: 'resumePreview',
+      component: resumePreview
+    },
+    {
+      path: '/jobRecord',
+      name: 'jobRecord',
+      component: jobRecord
+    },
+    {
+      path: '/favourite',
+      name: 'favourite',
+      component: favourite
+    },
+    {
+      path: '/personal',
+      name: 'personal',
+      component: personal
+    },
+    {
+      path: '/jobRecordDetail',
+      name: 'jobRecordDetail',
+      component: jobRecordDetail
     },
     {
       path:'/sceneh5',
@@ -120,6 +178,16 @@ export default new Router({
       path:'/onlinePosition',
       name:'onlinePosition',
       component:onlinePosition
+    },
+    {
+      path: '/authentification',
+      name: 'authentification',
+      component: authentification
+    },
+    {
+      path: '/authentificationResult',
+      name: 'authentificationResult',
+      component: authentificationResult
     },
     {
       path:'/resumePreview',
@@ -156,5 +224,77 @@ export default new Router({
       name:'resumeDetail',
       component:resumeDetail
     },
+    {
+      path:'/information',
+      name:'information',
+      component:information
+    },
+    {
+      path:'/selfIntroduction',
+      name:'selfIntroduction',
+      component:selfIntroduction
+    },
+    {
+      path:'/work',
+      name:'work',
+      component:work
+    },
+    {
+      path:'/language',
+      name:'language',
+      component:language
+    },
+    {
+      path:'/skill',
+      name:'skill',
+      component:skill
+    },
+    {
+      path:'/personalLink',
+      name:'personalLink',
+      component:personalLink
+    },
+    {
+      path:'/aspiration',
+      name:'aspiration',
+      component:aspiration
+    },
+    {
+      path:'/project',
+      name:'project',
+      component:project
+    },
+    {
+      path:'/education',
+      name:'education',
+      component:education
+    },
+    {
+      path:'/certificate',
+      name:'certificate',
+      component:certificate
+    },
+    {
+      path:'/awards',
+      name:'awards',
+      component:awards
+    },
+    {
+      path:'/pc',
+      name:'pcLogin',
+      component:pcLogin,
+      children:[
+        {
+          path:'/pc/login',
+          name:'login',
+          component:login
+        },
+        {
+          path:'/pc/pcResume',
+          name:'pcResume',
+          component:pcResume
+        }
+      ]
+    }
   ]
 })

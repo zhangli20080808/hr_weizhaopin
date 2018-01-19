@@ -13,6 +13,7 @@ export default {
         if (res.data.code == 0) {
           succeed(res);
         } else {
+          self.$vux.toast.text(res.data.message);
           errord&&errord(res);
         }
       }).catch(function (err) {
@@ -134,7 +135,7 @@ export default {
         url: Util.url.split("/api.do").join("")+'/'+method + '.do',
         params: param,
       }).then(function (res) {
-          succeed(res)
+        succeed&&succeed(res)
       }).catch(function (err) {
       });
     }
