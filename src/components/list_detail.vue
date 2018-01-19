@@ -367,7 +367,13 @@
       document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
 
       this.getFansId();
-      this.userAuthUrl();
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        this.userAuthUrl();
+      }else{
+        this.getPositionInfo();
+      }
       this.getWzpIndexInfo();
       this.getShareTitleInfo();
     },
