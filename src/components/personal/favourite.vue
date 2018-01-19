@@ -22,10 +22,10 @@
               <!-- <div class="position_list_right">{{item.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
-              <span>发布时间 : &nbsp;{{fav.createTime}}</span> &nbsp;
+              <span>发布时间 : &nbsp;{{filter(fav.createTime)}}</span> &nbsp;
               <em>浏览次数 : {{fav.views}}次</em>
             </dd>
-            <div class="star" @click="cancel(fav.id)"></div>
+            <div class="star" @click.stop="cancel(fav.id)"></div>
           </dl>
         </div>
 
@@ -151,7 +151,10 @@
             companyId: this.companyId
           }
         })
-      }
+      },
+      filter(item){
+        return item.substr(0, 10)
+      },
 
     },
     directives: {
