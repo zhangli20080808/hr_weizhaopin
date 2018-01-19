@@ -137,19 +137,20 @@ export default {
          console.log(res)
         if (res.code == "0") {
             //登录成功
-           localStorage.userInfo = res.data;
+           localStorage.userInfo = JSON.stringify(res.data);
           alert(res.message)
         
         }else if(res.code == "2018"){
             //微信授权登录
              location.href = res.data.codeUrl
         } else if(res.code == "2019"){
-            //登录失败，请尝试账号登录         
+            //登录失败，请尝试账号登录                  
             _this.$router.push({
               path: `/raLogin`,
               name: 'raLogin',
               params: {
                 urlType:'candidate',
+                openId:res.data.openId
               },
               query: {
                 companyId: _this.companyId,
@@ -166,7 +167,8 @@ export default {
       var param = JSON.stringify({
         companyId:_this.companyId,
         pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
+        parameter:'',
       });
       var successd = function (res) {
         

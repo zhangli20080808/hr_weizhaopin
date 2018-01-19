@@ -61,9 +61,9 @@ export default {
       
       var method = "account/aijuAssistantLogin";
       var param = {
-        redirectUri: _this.getRedirectUri(_this.$route.params.urlType),
+        redirectUri:`https://aijuhr.com/miniRecruit/#/${_this.$route.params.urlType}?companyId=${_this.companyId}`,
         code:_this.code,
-        openId:localStorage.userInfo ? localStorage.userInfo.openId : '',
+        openId:_this.$route.params.openId,
         account:_this.account,
         password:_this.password,
       };
@@ -74,32 +74,8 @@ export default {
          }else{
            alert(res.message)
          }
-         console.log('aijuAssistantLogin',res.data)
-          // location.href = res.data.data.codeUrl
-        //   _this.$router.push({
-        //   path: `/raLogin`,
-        //   name: 'raLogin',
-        //   params: {
-        //     urlType:'candidate',
-
-        //   },
-        //   query: {
-        //     companyId: _this.companyId,
-        //   }
-        // })
-        
       }
       _this.$webHttp(method, param, successd);
-    },
-    getRedirectUri(urlType){
-      let url = 'https://aijuhr.com/miniRecruit/#/';
-      let companyId = this.companyId;
-      switch(urlType){
-        case "candidate":
-         return `${url}${urlType}?companyId=${companyId}`
-        case "offer":
-        return `${url}${urlType}?companyId=${companyId}`
-      }
     },
   },
   

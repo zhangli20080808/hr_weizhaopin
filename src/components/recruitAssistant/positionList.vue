@@ -37,10 +37,6 @@
           </div>
         </div>
       </scroller>
-      <!-- <div class="about_online">
-        <div class="us" @click="getIndex">关于我们</div>
-        <div class="online_p" :class="{'activeColor':active}">在招职位</div>
-      </div> -->
     <loading v-show="!list.length"></loading>
   </div>
 </template>
@@ -57,8 +53,8 @@
     data(){
       return {
         companyId: '',
+        pageNum:1,
         list: [],
-        // active: true,
         showMore: false,
         onFetching:false,
       }
@@ -70,26 +66,22 @@
         var param = JSON.stringify({
           companyId: this.companyId,
           type: 2,
-          pageNum:1,
+          pageNum:this.pageNum,
           pageSize:5,
         });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            _this.list = res.data.data.positionList;
-            _this.page = res.data.data.page  
+        var successd = function (response) {
+          let res = response.data;
+          if (res.code == 0) {
+            _this.list.push(res.data.positionList);
+            _this.page = res.data.page  
+            
+            _this.showMore = false
+            // _this.onFetching = false
             console.log(_this.list)
           }
         }
         _this.$http(method, param, successd);
       },
-      // getIndex(){
-      //   this.$router.push({
-      //     name: 'about',
-      //     query: {
-      //       companyId: this.companyId
-      //     }
-      //   })
-      // },
       selectItem(item) {
         this.$router.push({
           name: 'raPositionDetail',
@@ -115,18 +107,10 @@
           // do nothing
         } else {
           this.onFetching = true
-//          if (this.config.pageSize < this.config.totalCount) {
-//            this.config.pageSize += 5
-//            this.showMore = true
-//            this.getOnlinePosition()
-//          } else {
-////            this.showMore = false
-//          }
-          setTimeout(() => {
-            this.$nextTick(() => {
-            })
-            this.onFetching = false
-          }, 2000)
+          this.pageNum++
+          this.showMore = true
+          this.getOnlinePosition()
+          
         }
       }
     },
