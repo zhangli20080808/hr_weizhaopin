@@ -343,6 +343,7 @@
         shareFansId: this.$route.query.shareFansId,
         authSuccess: this.$route.query.authSuccess,
         fansId: '',
+        activityId:this.$route.query.activityId,
         empId: this.$route.query.empId,
         empAuthSucc: this.$route.query.empAuthSucc,//1:认证成功的内部员工
 
@@ -590,7 +591,8 @@
           param = JSON.stringify({
             id: self.positionId,
             companyId: self.companyId,
-            fansId: self.fansId
+            fansId: self.fansId,
+            activityId:self.activityId
           }),
           successd = (res) => {
             self.positionInfo = res.data.data.positionInfo;
