@@ -76,7 +76,8 @@
         companyId: this.$route.query.companyId,
         list:[],
         listShow:true,
-        favId:''
+        favId:'',
+        activityId:''
       }
     },
     methods: {
@@ -136,11 +137,13 @@
       },
       joinPositonDetail(item){
 //          console.log(item.id)
+        this.activityId = item.activityId;
         this.$router.push({
           name: 'listDetail',
           query: {
             positionId: item.id,
-            companyId: this.companyId
+            companyId: this.companyId,
+            activityId:this.activityId
           }
         })
       },
