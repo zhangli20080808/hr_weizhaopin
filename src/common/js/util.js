@@ -16,7 +16,7 @@ var user = "http://192.168.4.65:8080/hrm";  //鹿丸
 
 var user="http://121.199.182.2:30004/hrm" //测试
 
-// var user = "https://aijuhr.com/hrm"; // 正式环境
+var user = "https://aijuhr.com/hrm"; // 正式环境
 
 
 exports.url = user + '/api.do';

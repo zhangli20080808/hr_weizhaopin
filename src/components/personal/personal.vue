@@ -158,10 +158,10 @@
         self.$webHttp(method, param, successd);
       },
       joinCommend(){
-        location.href = "https://aijuhr.com/miniRecruit/#/resumePreview?companyId=" + this.companyId+ + "&fansId=" + this.fansId;;
+        location.href = "https://aijuhr.com/wx/dist/#/recommendedSchedule?companyId=" + this.companyId+ "&fansId=" + this.fansId;
       },
       joinRecord(){
-        location.href = "https://aijuhr.com/miniRecruit/#/resumePreview?companyId=" + this.companyId+ + "&fansId=" + this.fansId;;
+        location.href = "https://aijuhr.com/wx/dist/#/wx/resumePreview?companyId=" + this.companyId + "&fansId=" + this.fansId;
       }
     },
     mounted(){
