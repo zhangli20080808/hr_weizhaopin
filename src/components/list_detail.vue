@@ -730,7 +730,7 @@
           color: #666;
           span {
             margin-right: 2px;
-            background-color: #e5e5e5;
+            background-color: #F5F5F5;
             padding: 3px 5px;
             border-radius: 2px;
             color: #999999;
@@ -957,7 +957,7 @@
             color: #666;
             span {
               margin-right: 2px;
-              background-color: #e5e5e5;
+              background-color: #F5F5F5;
               padding: 3px 5px;
               border-radius: 2px;
               color: #999999;
