@@ -123,7 +123,7 @@
       filterTime(item){
         let time;
         item.forEach((item) => {
-          if (item.operateStatus == 1) {
+          if (item.operateStatus == 0) {
             time = item.operateTime
           }
         })

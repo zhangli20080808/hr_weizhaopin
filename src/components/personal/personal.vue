@@ -14,7 +14,7 @@
     </div>
     <!--个人档案 求职纪录 收藏职位 我的推荐-->
     <div class="personal_bottom">
-      <div class="container_content">
+      <div class="container_content" @click="joinRecord">
         <div class="detail_header_item">
           <span class="item_icon_1"></span>
           <span class="text">个人档案</span>
@@ -39,7 +39,7 @@
           <div>
           </div>
         </div>
-        <div class="detail_header_item detail_no_border">
+        <div class="detail_header_item detail_no_border" @click="joinCommend">
           <span class="item_icon_4"></span>
           <span class="text">我的推荐</span>
 
@@ -74,7 +74,8 @@
         description: '确认难割难舍开工',
         authSuccess: this.$route.query.authSuccess,
         companyId: this.$route.query.companyId,
-        fansId: this.$route.query.fansId,
+//        fansId: this.$route.query.fansId,
+        fansId: 88,
         personalInfo: {}
 //        isEmployeeCertification: 0,     //员工认证 （0：没有认证过，1:已经认证过）
 //        isNotEmployeeCertification: 0,  //求职者认证 （0：没有认证过，1:已经认证过）
@@ -155,10 +156,16 @@
             }
           };
         self.$webHttp(method, param, successd);
+      },
+      joinCommend(){
+        location.href = "https://aijuhr.com/miniRecruit/#/resumePreview?companyId=" + this.companyId+ + "&fansId=" + this.fansId;;
+      },
+      joinRecord(){
+        location.href = "https://aijuhr.com/miniRecruit/#/resumePreview?companyId=" + this.companyId+ + "&fansId=" + this.fansId;;
       }
     },
     mounted(){
-//      this.userAuthUrl()
+      this.userAuthUrl()
       this.getWeixinPersonalInfo();
     },
     directives: {
