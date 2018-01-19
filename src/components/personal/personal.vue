@@ -74,7 +74,8 @@
         description: '确认难割难舍开工',
         authSuccess: this.$route.query.authSuccess,
         companyId: this.$route.query.companyId,
-        fansId: this.$route.query.fansId,
+//        fansId: this.$route.query.fansId,
+        fansId: 87,
         personalInfo: {}
 //        isEmployeeCertification: 0,     //员工认证 （0：没有认证过，1:已经认证过）
 //        isNotEmployeeCertification: 0,  //求职者认证 （0：没有认证过，1:已经认证过）

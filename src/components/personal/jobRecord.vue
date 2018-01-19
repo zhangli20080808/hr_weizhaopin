@@ -38,8 +38,7 @@
       return {
         companyId: this.$route.query.companyId || null,
         fansId: this.$route.query.fansId,
-        recordList: [],
-        listShow:true
+        recordList:[]
       }
     },
     methods: {
@@ -68,8 +67,8 @@
       }
     },
     mounted(){
-      this.getDeliverHistory()
-      document.title = '求职纪录'
+      document.title = '求职记录';
+      this.getDeliverHistory();
     },
     components: {
       Scroller,
@@ -151,7 +150,7 @@
             }
           }
           .companyName {
-            margin-bottom: 0.18rem;
+            margin-bottom: 0.12rem;
             .company_icon {
               display: inline-block;
               vertical-align: middle;
@@ -172,7 +171,6 @@
             font-size: 0.26rem;
             color: #999;
           }
-
         }
       }
 

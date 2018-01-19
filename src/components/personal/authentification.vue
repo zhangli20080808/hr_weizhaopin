@@ -146,10 +146,14 @@
           }),
           successd = (res) => {
             self.btnLoading = false;
+            console.log(res.data.data)
+
             if (res.data.data.resCode == 1) {
+                console.log(res.data.data.resCode)
               self.empId = res.data.data.empId;
               self.$router.push({
-                name: 'interpolateResult',
+                name: 'authentificationResult',
+                path:'/authentificationResult',
                 query: {
                   fansId: self.fansId,
                   companyId: self.companyId,
