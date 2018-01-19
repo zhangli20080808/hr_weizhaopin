@@ -75,15 +75,14 @@
         fansId: this.$route.query.fansId,
         companyId: this.$route.query.companyId,
         list:[],
-        listShow:true
+        listShow:true,
+        favId:''
       }
     },
     methods: {
       cancel(item){
-        let clear = confirm('确定要取消收藏该职位吗？',)
-        if (clear == true) {
-          this.cancelPositionStore(item)
-        }
+       this.show = true;
+       this.favId = item;
       },
       onHide () {
         console.log('on hide')
@@ -94,10 +93,10 @@
       onCancel () {
         console.log('on cancel')
       },
-      onConfirm (msg) {
+      onConfirm () {
         console.log('on confirm')
-        if (msg) {
-          alert(msg)
+        if (this.favId) {
+          this.cancelPositionStore(this.favId)
         }
       },
       getStorePositionList() {
@@ -126,6 +125,7 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
+              _this.show = false;
             _this.getStorePositionList()
           }
         }
@@ -333,6 +333,11 @@
 
   }
 
+</style>
+<style scoped lang="less">
+  .favourite{
+
+  }
 </style>
 
 
