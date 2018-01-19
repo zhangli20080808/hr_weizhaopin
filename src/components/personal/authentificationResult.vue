@@ -40,7 +40,7 @@
       }
     },
     mounted(){
-      document.title = "求职者认证";
+      document.title = "个人中心";
       document.getElementById("interpolateResult").style.minHeight = window.innerHeight + "px";
     },
     methods: {
@@ -51,7 +51,8 @@
             empId: self.empId
           }),
           successd = function (res) {
-            if (res.data.resCode == 2) {
+            console.log(res.data.data.resCode)
+            if (res.data.data.resCode == 2) {
               self.$router.push({
                 name: 'authentification',
                 path: '/authentification',
