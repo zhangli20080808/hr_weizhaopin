@@ -23,7 +23,7 @@
           <div>
           </div>
         </div>
-        <div class="detail_header_item" @click="joinRecord">
+        <div class="detail_header_item" @click="jobRecord">
           <span class="item_icon_2"></span>
           <span class="text">求职记录</span>
 
@@ -99,7 +99,7 @@
           alert(msg)
         }
       },
-      joinRecord(){
+      jobRecord(){
         this.$router.push({
           name: 'jobRecord',
           query: {
