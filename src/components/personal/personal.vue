@@ -158,7 +158,7 @@
       }
     },
     mounted(){
-//      this.userAuthUrl()
+      this.userAuthUrl()
       this.getWeixinPersonalInfo();
     },
     directives: {
