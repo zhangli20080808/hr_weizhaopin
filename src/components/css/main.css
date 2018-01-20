@@ -15,9 +15,9 @@
 /*顶部通栏*/
 .personal_header {background-color: #2C2D31;color: #9B9B9C;padding: 0 15px;line-height: 40px;position: relative;}
 .personal_header img{width:24px;height: 24px;background-color: #5aa2e7;display: inline-block;line-height: 40px;vertical-align: middle;border-radius: 50%;}
-.personal_header h2{font-size: 0.26rem;display: inline-block;}
+.personal_header h2{font-size: 0.26rem;display: inline-block;vertical-align: middle;}
 .personal_header .header_right{float: right;height: .32rem;position: absolute;top:0.26rem;right:15px;line-height: .32rem;}
-.personal_header .header_right p{display: inline-block;font-size: 0.26rem;}
+.personal_header .header_right p{display: inline-block;font-size: 0.26rem;vertical-align: middle;}
 .personal_header .header_right p.vux-1px-r{padding-right:10px;}
 .personal_header .header_right h6{position: absolute;color: #fff;font-weight: 400;right: -15px;z-index: 999;bottom: -38px;border-radius: 5px;background: url(../../common/image/tuijian_03.png) no-repeat 116px 0px;padding-top:10px; }
 .personal_header .header_right h6>span{background-color: #5aa2e7;display: block;padding: 7px 5px 5px 15px;width: 210px;line-height: 0.26rem;font-size: 13px;}
