@@ -305,7 +305,7 @@ export default {
   .self-evaluation{
    .hd{
       .icon{
-        background: url("../../common/image/icon-base.png") left top no-repeat;
+        background: url("../../common/image/icon-evaluation.png") left top no-repeat;
         background-size: 100% 100%;
       }
     }

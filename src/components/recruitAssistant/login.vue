@@ -78,6 +78,7 @@ export default {
       var successd = function (response) {
          let res = response.data;
          if(res.code == "0"){
+           localStorage.userInfo = res.data
            location.href =  redirectUri
          }else{
            alert(res.message)

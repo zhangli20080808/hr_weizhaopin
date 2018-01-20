@@ -82,7 +82,7 @@ export default {
     this.options = urlParse()
     this.code = this.options.code
     if(!localStorage.userInfo){
-      // this.getCodeUrl()
+      this.getCodeUrl()
     }
     this.getOfferList(0)
   },
