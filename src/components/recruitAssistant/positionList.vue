@@ -49,7 +49,7 @@
 
   import {
     Scroller,
-    LoadMore,
+    LoadMore
     
   } from 'vux'
 
