@@ -14,8 +14,8 @@
     </div>
     <!--个人档案 求职纪录 收藏职位 我的推荐-->
     <div class="personal_bottom">
-      <div class="container_content" @click="joinRecord">
-        <div class="detail_header_item">
+      <div class="container_content">
+        <div class="detail_header_item" @click="joinRecord">
           <span class="item_icon_1"></span>
           <span class="text">个人档案</span>
 
@@ -157,10 +157,16 @@
         self.$webHttp(method, param, successd);
       },
       joinCommend(){
-        location.href = "https://aijuhr.com/wx/dist/#/recommendedSchedule?companyId=" + this.companyId+ "&fansId=" + this.fansId;
+        location.href = "https://aijuhr.com/wx/dist/#/wx/recommendedSchedule?companyId=" + this.companyId+ "&fansId=" + this.fansId;
       },
       joinRecord(){
-        location.href = "https://aijuhr.com/wx/dist/#/wx/resumePreview?companyId=" + this.companyId + "&fansId=" + this.fansId;
+         this.$router.push({
+          name: 'resumePreview',
+          query: {
+            companyId: this.companyId,
+            fansId: this.fansId
+          }
+        })
       }
     },
     mounted(){

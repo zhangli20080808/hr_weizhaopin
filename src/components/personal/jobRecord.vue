@@ -1,8 +1,8 @@
 <template>
   <div class="jobRecord">
     <scroller lock-x ref="scrollerBottom" :scroll-bottom-offst="100" class="scorll_list">
-      <ul>
-        <li class="list_content" @click="goDetail(item)" :key="item.positionApplyId" v-for="item in recordList">
+      <div>
+        <div class="list_content" @click="goDetail(item)" :key="item.positionApplyId" v-for="item in recordList">
           <div class="positionName">
             <span class="text">{{item.positionName}}</span>
             <span class="status" :class="{'status_fail':item.currentStatus=='已淘汰'}">{{item.currentStatus}}</span>
@@ -13,8 +13,8 @@
           </div>
           <!--<div class="applyTime">申请时间：2018-01-18 18:19:10</div>-->
           <div class="applyTime">申请时间：{{getdate(item.createTime)}}</div>
-        </li>
-      </ul>
+        </div>
+      </div>
       <div class="noTips"  v-if="!recordList||(recordList&&recordList.length==0)">
         <div class="imgTips">
           <div class="img"></div>
@@ -24,7 +24,7 @@
         </div>
       </div>
     </scroller>
-    <loading v-show="listShow"></loading>
+    <!-- <loading v-show="listShow"></loading> -->
 
   </div>
 </template>
@@ -35,10 +35,12 @@
 
   export default {
     data(){
+      document.title = '求职记录';      
       return {
         companyId: this.$route.query.companyId || null,
         fansId: this.$route.query.fansId,
-        recordList:[]
+        recordList:[],
+        listShow:true
       }
     },
     methods: {
@@ -67,9 +69,7 @@
       }
     },
     mounted(){
-      document.title = '求职记录';
       this.getDeliverHistory();
-
     },
     components: {
       Scroller,
@@ -110,71 +110,68 @@
           }
         }
       }
-      ul{
-        .list_content {
-          height: 1.92rem;
-          background: #fff;
-          padding: 0.3rem 0.3rem 0.28rem 0.3rem;
-          margin-top: 0.25rem;
-          &:first-child {
-            margin-top: 0;
+      .list_content {
+        height: 1.92rem;
+        background: #fff;
+        padding: 0.3rem 0.3rem 0.28rem 0.3rem;
+        margin-top: 0.25rem;
+        &:first-child {
+          margin-top: 0;
+        }
+        .positionName {
+          color: #222;
+          font-size: 0.34rem;
+          margin-bottom: 6px;
+          .text {
+            display: inline-block;
+            vertical-align: middle;
           }
-          .positionName {
-            color: #222;
-            font-size: 0.34rem;
-            margin-bottom: 6px;
-            .text {
-              display: inline-block;
-              vertical-align: middle;
-            }
-            .status {
-              display: inline-block;
-              vertical-align: top;
-              background: #E8F1F8;
-              padding: 4px 8px;
-              border-radius: 5px;
-              float: right;
-              color: #5AA2E7;
-              font-size: 0.26rem;
-              margin-top: -2px;
-            }
-            .status_fail {
-              display: inline-block;
-              vertical-align: top;
-              background: #FFEAEA;
-              padding: 4px 8px;
-              border-radius: 5px;
-              float: right;
-              color: #F96868;
-              font-size: 0.26rem;
-              margin-top: -2px;
-            }
-          }
-          .companyName {
-            margin-bottom: 6px;
-            .company_icon {
-              display: inline-block;
-              vertical-align: middle;
-              width: 0.3rem;
-              height: 0.25rem;
-              background: url(../../common/image/personal/company.png) no-repeat center;
-              background-size: 100%;
-            }
-            .company_text {
-              display: inline-block;
-              vertical-align: middle;
-              font-size: 0.26rem;
-              height: 0.24rem;
-              color: #999;
-            }
-          }
-          .applyTime {
+          .status {
+            display: inline-block;
+            vertical-align: top;
+            background: #E8F1F8;
+            padding: 4px 8px;
+            border-radius: 5px;
+            float: right;
+            color: #5AA2E7;
             font-size: 0.26rem;
+            margin-top: -2px;
+          }
+          .status_fail {
+            display: inline-block;
+            vertical-align: top;
+            background: #FFEAEA;
+            padding: 4px 8px;
+            border-radius: 5px;
+            float: right;
+            color: #F96868;
+            font-size: 0.26rem;
+            margin-top: -2px;
+          }
+        }
+        .companyName {
+          margin-bottom: 6px;
+          .company_icon {
+            display: inline-block;
+            vertical-align: middle;
+            width: 0.3rem;
+            height: 0.25rem;
+            background: url(../../common/image/personal/company.png) no-repeat center;
+            background-size: 100%;
+          }
+          .company_text {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 0.26rem;
+            height: 0.24rem;
             color: #999;
           }
         }
+        .applyTime {
+          font-size: 0.26rem;
+          color: #999;
+        }
       }
-
     }
   }
 </style>

@@ -247,7 +247,7 @@
         })
       }
     },
-    created(){
+    mounted(){
       this.getSignature();
       if(this.$route.path.indexOf('/pc/')==-1){
         this.$nextTick(() => {
@@ -283,7 +283,13 @@
   }
 
 </script>
-
+<style lang="less">
+  @import '~vux/src/styles/1px.less';
+  @import '~vux/src/styles/close';
+  .vux-close:before, .vux-close:after{height: 2px;}
+  .search .weui-icon-clear{display: none !important}
+  .search .weui-search-bar{background-color: #f8f8fc;}
+</style>
 <style lang="stylus" rel="stylesheet/stylus">
   @import "common/stylus/mixin.styl"
   @import "common/stylus/base.styl"

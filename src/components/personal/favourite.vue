@@ -48,7 +48,7 @@
 
       </div>
     </scroller>
-    <loading v-show="listShow"></loading>
+    <!-- <loading v-show="listShow"></loading> -->
 
     <div v-transfer-dom>
       <confirm v-model="show"
