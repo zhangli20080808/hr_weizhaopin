@@ -31,8 +31,8 @@
           <div class="split"></div>
           <div class="position-classify">
               <p class="p">职位分类：<span>{{positionInfo.categoryName}}</span></p>
-              <p class="p">职位类别：<span>产品/需求/项目类</span></p>
-              <p class="p">工作地址：<span>杭州市西湖区文一西路</span></p>
+              <!-- <p class="p">职位类别：<span>{{positionInfo.classifyName}}</span></p> -->
+              <p class="p">工作地址：<span>{{positionInfo.workAddress}}</span></p>
               <p class="p">接收简历邮箱：<span>{{positionInfo.receiveEmail}}</span></p>
           </div>
           <div class="split"></div>
@@ -46,10 +46,7 @@
               <p v-html="positionInfo.positionDesc"></p>
             </div>
           </div>
-          <div class="logo">
-            <div class="logo_img"></div>
-
-          </div>
+          <footer-logo></footer-logo>
         </div>
       </scroller>
     </div>
@@ -57,9 +54,11 @@
   </div>
 </template>
 <script>
-  import {Flexbox, FlexboxItem, querystring, XDialog, TransferDomDirective as TransferDom, Scroller} from 'vux';
+  import {Scroller} from 'vux';
   import util from "../../common/js/util.js";
   import Axios from 'axios';
+  import FooterLogo from '../../components/base/footerLogo.vue'
+
   export default {
     name: 'interpolateDetail',
     data(){
@@ -157,7 +156,7 @@
 
       setTimeout(() => {
         this.getPositionInfo();
-        this.getShareTitleInfo();
+        // this.getShareTitleInfo();
       }, 20)
     },
     methods: {
@@ -211,7 +210,7 @@
         let method = "recruitPosition/getPositionDetail",
           param = JSON.stringify({
             id: self.positionId,
-            type:1,
+            // type:1,
           }),
           successd = (response) => {
            
@@ -242,11 +241,8 @@
       },
     },
     components: {
-      Flexbox, FlexboxItem, querystring, XDialog, Scroller
+      Scroller,FooterLogo
     },
-    directives: {
-      TransferDom
-    }
   }
 </script>
 <style lang="less">
@@ -255,6 +251,10 @@
 
   .vux-close:before, .vux-close:after {
     height: 2px;
+  }
+  #app{
+    height: 100%;
+    background-color: #F8F8FC;
   }
 </style>
 

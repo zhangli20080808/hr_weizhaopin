@@ -1,6 +1,6 @@
 <template>
   <div class="resume-detail">
-    <resume-item></resume-item>
+    <resume-item :interviewerInfo="interviewerInfo"></resume-item>
     <!-- 基本信息 -->
     <div class="base-info item-wrap">
       <div class="hd">
@@ -203,17 +203,53 @@ export default {
   },
   data(){
       return {
-
+          interviewerInfo:{},
+          qualification:[],
+          zpRecord:[],
+          workHistory:[],
+          interviewerProject:[],
+          trainingHistory:[],
+          languageSkill:[],
+          educationHistory:[],
+          resumeInterviewResults:[],
       }
   },
   created(){
-
+    this.getResumeDetail()
   },
   mounted(){
-
+    console.log(this.$route)
   },
   methods:{
+    getResumeDetail(){
+      var _this = this;
+      var method = "queryResume/getResumeDetails";
+      var param = JSON.stringify({
+        companyId:_this.$route.query.companyId,
+        interviewerId: _this.$route.query.interviewerId,
+      });
+      var successd = function (response) {
+        let res = response.data;
 
+        if (res.code == 0) {
+           _this.qualification = res.data.qualification;
+           _this.zpRecord = res.data.zpRecord;
+           _this.workHistory = res.data.workHistory;
+           _this.interviewerProject = res.data.interviewerProject;
+           _this.trainingHistory = res.data.trainingHistory;
+           _this.languageSkill = res.data.languageSkill;
+           _this.educationHistory = res.data.educationHistory;
+           _this.resumeInterviewResults = res.data.resumeInterviewResults;
+           _this.interviewerInfo = res.data.interviewerInfo;
+            
+           
+        }else if(res.code == 400){
+          //登录超时，重新登录
+
+        }
+      }
+      _this.$http(method, param, successd);
+    },
   },
 
 }

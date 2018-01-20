@@ -374,7 +374,6 @@
     }
 
     #app {
-
       .slide-left-enter, .slide-right-leave-active {
         opacity: 0;
         -webkit-transform: translate(50px, 0);
