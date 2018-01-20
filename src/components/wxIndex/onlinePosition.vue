@@ -179,7 +179,7 @@
         var self=this;
         var method="weixin/userAuthUrl",
             param={
-              scope:'snsapi_base',
+              scope:'snsapi_userinfo',
               pageFrom:5,
               companyId:self.companyId
             },

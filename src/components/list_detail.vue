@@ -78,7 +78,7 @@
       </div>
     </div>
     <div class="hidden-sm hidden-lg">
-      <div>
+      <div class="personal_header">
         <img :src="tuijianObj.headImg" alt="">
         <h2>{{tuijianObj.nickname}}</h2>
         <div class="header_right">
@@ -681,7 +681,7 @@
         var self = this;
         var method = "weixin/userAuthUrl",
           param = {
-            scope: 'snsapi_base',
+            scope: 'snsapi_userinfo',
             pageFrom: 3,
             companyId: self.companyId,
             positionId: self.positionId
@@ -708,6 +708,16 @@
             };
         self.$webHttp(method,param,successd);
       },
+      recommendedSchedule(){
+        // location.href="https://aijuhr.com/miniRecruit/#/personal?companyId="+this.companyId;
+        this.$router.push({
+          name:'personal',
+          query:{company:this.companyId}
+        })
+      },
+      choseTag(){
+        this.tag=!this.tag;
+      },
     },
     components: {
       Flexbox, FlexboxItem, querystring, XDialog, Scroller
@@ -720,7 +730,7 @@
 <style lang="less">
   @import '~vux/src/styles/1px.less';
   @import '~vux/src/styles/close';
-
+  @import "./css/main.css";
   .vux-close:before, .vux-close:after {
     height: 2px;
   }
