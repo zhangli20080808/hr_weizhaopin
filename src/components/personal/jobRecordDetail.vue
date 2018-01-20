@@ -250,7 +250,6 @@
         .time{
           margin-bottom: 5px;
         }
-        .describe{}
       }
     }
   }
