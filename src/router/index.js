@@ -35,6 +35,7 @@ import jobRecord from 'components/personal/jobRecord';
 import personal from 'components/personal/personal';
 import jobRecordDetail from 'components/personal/jobRecordDetail';
 import authentification from 'components/personal/authentification';
+import authentification_gzh from 'components/personal/authentification_gzh';
 import authentificationResult from 'components/personal/authentificationResult';
 
 
@@ -150,6 +151,11 @@ export default new Router({
       path: '/authentification',
       name: 'authentification',
       component: authentification
+    },
+    {
+      path: '/authentification_gzh',
+      name: 'authentification_gzh',
+      component: authentification_gzh
     },
     {
       path: '/authentificationResult',
