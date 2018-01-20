@@ -164,15 +164,11 @@
                   pageFrom: self.pageFrom
                 }
               });
-            }else{
-             self.$message({
-                message: res.data.message,
-                type: "warning"
-              });
             }
           },
           errord = (res) => {
             self.btnLoading = false;
+            self.$vux.toast.text(res.data.message, 'top');
           };
         self.$http(methods, param, successd, errord);
       },
