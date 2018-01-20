@@ -30,36 +30,42 @@
             </dd>
           </dl>
            <load-more v-show="showMore" tip="加载更多"></load-more>
-          <div class="footer_icon" v-show="list.length>4">
+          <!-- <div class="footer_icon" v-show="list.length>4">
             <a href="https://aijuhr.com">
               <div class="img_detail"></div>
             </a>
-          </div>
+          </div> -->
+          <footer-logo></footer-logo>
         </div>
       </scroller>
-    <loading v-show="!list.length"></loading>
+    <loading v-show="showLoading"></loading>
+    
   </div>
 </template>
 
 <script>
   import loading from '../../components/base/loading/loading2.vue'
+  import FooterLogo from '../../components/base/footerLogo.vue'
 
   import {
     Scroller,
-    LoadMore
+    LoadMore,
+    
   } from 'vux'
 
   export default {
     components: {
       Scroller,
       LoadMore,
-      loading
+      loading,
+      FooterLogo
     },
     data(){
       return {
         companyId: '',
         pageNum:1,
         list: [],
+        showLoading:true,
         showMore: false,
         onFetching:false,
       }
@@ -84,11 +90,13 @@
           pageSize:10,
         });
         var successd = function (response) {
+          _this.showLoading = false 
           let res = response.data;
           if (res.code == 0) {
             _this.list = _this.list.concat(res.data.positionList);
             _this.page = res.data.page  
-            _this.showMore = false             
+            _this.showMore = false     
+                   
           }
         }
         _this.$http(method, param, successd);
@@ -113,7 +121,7 @@
        */
       loadMore () {
         console.log('loadmore')
-        if (this.onFetching || !this.page.hasNext) {
+        if (this.onFetching || !this.page.hasNext || this.list.length == this.page.totalCount) {
           // do nothing
         } else {
           this.onFetching = true
@@ -146,10 +154,9 @@
 <style lang="stylus" rel="stylesheet/stylus">
     #app {
         height:100%;
+        background-color: #F8F8FC;
     }
-  .ra-position-list {
-      height:100%;
-      background-color: #F8F8FC;
+  .ra-position-list {     
       .xs-container{
         height :100%;
       }
@@ -178,22 +185,6 @@
           background-size :100%;
         }
       }
-    .list_content {
-    
-      .footer_icon {
-        height: 0.89rem;
-        line-height: 0.89rem;
-        text-align: center;
-        .img_detail {
-          display: inline-block;
-          vertical-align: middle;
-          width: 106px;
-          height: 15px;
-          background: url(../../common/image/footLogo2.jpg) no-repeat center;
-          background-size: 103px auto;
-        }
-      }
-    }
     .banner_img {
       img {
         width: 100%;

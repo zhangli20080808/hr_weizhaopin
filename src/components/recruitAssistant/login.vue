@@ -15,7 +15,7 @@
       <p class="tel">176-0654-1988</p>
     </div>
    
-    
+     <!-- <toast v-model="toastShow" type="text" :text="toastText" position="top"></toast> -->
   </div>
 </template>
 
@@ -56,9 +56,16 @@ export default {
       
   },
   methods:{
+    checkForm(){
+      if(!this.account){
+        
+      }
+    },
     login(){
       var _this = this;
-      
+      // if(!this.checkForm()){
+      //   return
+      // }
       var method = "account/aijuAssistantLogin";
       var param = {
         redirectUri:`https://aijuhr.com/miniRecruit/#/${_this.$route.params.urlType}?companyId=${_this.companyId}`,
@@ -70,7 +77,7 @@ export default {
       var successd = function (response) {
          let res = response.data;
          if(res.code == "0"){
-           location.href =  _this.getRedirectUri(_this.$route.params.urlType)
+           location.href =  `https://aijuhr.com/miniRecruit/#/${_this.$route.params.urlType}?companyId=${_this.companyId}`
          }else{
            alert(res.message)
          }
@@ -112,7 +119,7 @@ export default {
   .btn-area{
     text-align: center;
     margin-top:.95rem;
-    margin-bottom:6.16rem;
+    // margin-bottom:6.16rem;
     .btn-login{
       width:6.7rem;
       height: .94rem;
@@ -130,6 +137,9 @@ export default {
     }
   }
   .contact{
+    position: fixed;
+    bottom:.8rem;
+    width:100%;
     font-size:.28rem;
     color: #888;
     text-align: center;
