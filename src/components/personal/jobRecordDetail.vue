@@ -34,7 +34,7 @@
   import Steps from '../base/step.vue'
 
   export default {
-    name: 'positionList',
+    name: 'jobRecordDetail',
     data(){
       document.title = "职位申请状态";
       return {
