@@ -5,11 +5,17 @@
         <div class="detail_des hidden-xs hidden-sm">
           <el-breadcrumb separator="/" class="tips">
             <el-breadcrumb-item :to="{ path: '/',query:{ companyId: this.companyId} }" class="tips_1">招聘首页
+
+
+
             </el-breadcrumb-item>
             <el-breadcrumb-item
               :to="{ path: '/list' ,query:{ companyId: this.companyId},params:{id:this.$route.params.id}}"
               class="tips_2">
               职位列表
+
+
+
             </el-breadcrumb-item>
             <el-breadcrumb-item>职位详情</el-breadcrumb-item>
           </el-breadcrumb>
@@ -72,6 +78,16 @@
       </div>
     </div>
     <div class="hidden-sm hidden-lg">
+      <div>
+        <img :src="tuijianObj.headImg" alt="">
+        <h2>{{tuijianObj.nickname}}</h2>
+        <div class="header_right">
+          <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0" @click="showTuijianDialog=true;" class="vux-1px-r">关注</p>
+          <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==1" class="vux-1px-r">已关注</p>
+          <p @click="recommendedSchedule"> &nbsp;我的</p>
+          <h6 v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0&&tag" @click="choseTag"><span>关注公众号获取职位分享动态</span></h6>
+        </div>
+      </div>
       <scroller lock-x height="-50">
         <div>
           <!--     <dl class="position_detail">
@@ -183,7 +199,7 @@
           </div>
         </div>
       </scroller>
-      <div class="share_btn ">
+      <div class="share_btn">
         <div>
           <el-row :gutter="20" v-if="recomType==1 && empAuthSucc==1">
             <el-col :span="24">
@@ -191,12 +207,17 @@
             </el-col>
           </el-row>
           <el-row v-else>
-            <el-col :span="12">
+            <el-col :span="8">
+              <div class="flex-demo flex-demo3" @click="star">
+                <span :class="{'pos_icon3':isStore == true,'pos_icon4':isStore== false}"></span><span
+                class="text">收藏</span></div>
+            </el-col>
+            <el-col :span="8">
               <div class="flex-demo flex-demo1" @click="shareTipShow=true">
                 <span class="pos_icon1"></span><span class="text">我要分享</span>
               </div>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="8">
               <div class="flex-demo flex-demo2" @click="join">
                 <span class="pos_icon2"></span><span class="text">我要投递</span></div>
             </el-col>
@@ -245,6 +266,19 @@
         </div>
       </x-dialog>
     </div>
+
+    <div v-transfer-dom>
+      <x-dialog v-model="showTuijianDialog" class="dialog-demo">
+        <div @click="showTuijianDialog=false" style="text-align:right;padding-right:5px">
+          <span class="vux-close" style="color:#2C2D31;font-weight:600;"></span>
+        </div>
+        <div class="img-box">
+          <img :src="tuijianObj.companyGzh.qrcodeUrl" style="width:165px" v-if="tuijianObj.haveGzh==1">
+          <p>长按关注</p>
+        </div>
+      </x-dialog>
+    </div>
+
   </div>
 </template>
 <script>
@@ -268,7 +302,8 @@
           rewardAmount: "",
           views: 0,
           workCity: "",
-          workCitySpilt: ""
+          workCitySpilt: "",
+          isStore: true
         },
         //分享的参数
         companyHeadImg: null,
@@ -329,7 +364,9 @@
         positionId: this.$route.query.positionId,
         companyId: this.$route.query.companyId,
         shareFansId: this.$route.query.shareFansId,
-        fansId: this.$route.query.fansId,
+        authSuccess: this.$route.query.authSuccess,
+        fansId: '',
+        activityId:this.$route.query.activityId,
         empId: this.$route.query.empId,
         empAuthSucc: this.$route.query.empAuthSucc,//1:认证成功的内部员工
 
@@ -345,18 +382,37 @@
         show: false,
         arrow_tip: false,
         model: false,
+        //1：已收藏 ， 0：未收藏
+        isStore: false,
+        tuijianObj:{//个人顶部通栏
+          nickname:'',
+          isSubscribe:0,
+          headImg:null,
+          haveGzh:1,
+          companyGzh:{
+            accountName:'',
+            qrcodeUrl:''
+          }
+        },
+        tag:true,
+        fansId:this.$route.query.fansId,
+        showTuijianDialog:false,
       }
     },
     mounted(){
       document.title = "职位详情";
       document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
 
-      setTimeout(() => {
+      this.getFansId();
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        this.userAuthUrl();
+      }else{
         this.getPositionInfo();
-        this.getWzpIndexInfo();
-        this.getShareTitleInfo();
-        this.getPositionInfo()
-      }, 20)
+      }
+      this.getWzpIndexInfo();
+      this.getShareTitleInfo();
     },
     methods: {
       getSignature(){
@@ -406,18 +462,6 @@
           })
         })
       },
-      getPositionInfo(){
-        let self = this;
-        let method = "promotionPage/positionInfo",
-          param = JSON.stringify({
-            id: self.positionId
-          }),
-          successd = (res) => {
-            self.positionInfo = res.data.data.positionInfo;
-
-          };
-        self.$http(method, param, successd);
-      },
       getWzpIndexInfo(){
         let self = this;
         let methods = "wzpCompany/getWzpCompanyInfo",
@@ -437,6 +481,14 @@
             self.dimensions = res.data.data.dimensions;
           };
         self.$http(methods, param, successd);
+      },
+      getFansId(){
+        let queryParam = this.urlParse();
+        if (!queryParam.fansId) {
+          return
+        }
+        this.fansId = queryParam.fansId
+        return this.fansId;
       },
       toCompany(){
         location.href = "https://aijuhr.com/miniRecruit/#/about?companyId=" + this.companyId;
@@ -487,6 +539,25 @@
           message: "复制成功",
           type: 'success'
         })
+      },
+      //获取url参数
+      urlParse() {
+
+        let url = window.location.href;
+        let obj = {};
+        let reg = /[?&][^?&]+=[^?&]+/g;
+        let arr = url.match(reg);
+        if (arr) {
+          arr.forEach((item) => {
+            let tempArr = item.substring(1).split('=');
+            let key = decodeURIComponent(tempArr[0]);
+
+            let val = decodeURIComponent(tempArr[1]);
+
+            obj[key] = val;
+          });
+        }
+        return obj;
       },
       close(){
         this.model = false
@@ -549,7 +620,94 @@
           }
         });
         window.location.reload()
-      }
+      },
+      getPositionInfo(){
+        let self = this;
+        let method = "promotionPage/positionInfo",
+          param = JSON.stringify({
+            id: self.positionId,
+            companyId: self.companyId,
+            fansId: self.fansId,
+            activityId:self.activityId
+          }),
+          successd = (res) => {
+            self.positionInfo = res.data.data.positionInfo;
+            self.isStore = res.data.data.positionInfo.isStore == 1 ? true : false;
+          };
+        self.$http(method, param, successd);
+      },
+      star(){
+        if (this.isStore) {
+          //取消
+          this.cancelPositionStore();
+
+        } else {
+          //收藏
+          this.getStorePosition();
+        }
+      },
+      getStorePosition(){
+        var _this = this;
+        var method = "wexinPersonalInfo/storePosition";
+        var param = JSON.stringify({
+          companyId: _this.companyId,
+          positionId: _this.positionId,
+          fansId: _this.fansId
+        });
+        console.log(param)
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            _this.isStore = true;
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      cancelPositionStore(){
+        var _this = this;
+        var method = "wexinPersonalInfo/cancelPositionStore";
+        var param = JSON.stringify({
+          companyId: _this.companyId,
+          positionId: _this.positionId,
+          fansId: _this.fansId
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            _this.isStore = false;
+          }
+        }
+        _this.$http(method, param, successd);
+      },
+      userAuthUrl(){
+        var self = this;
+        var method = "weixin/userAuthUrl",
+          param = {
+            scope: 'snsapi_base',
+            pageFrom: 3,
+            companyId: self.companyId,
+            positionId: self.positionId
+          },
+          successd = function (res) {
+            if (res.data.userSession == 0 && self.authSuccess != 1) {
+              location.href = res.data.userAuthUrl;
+            } else {
+              self.getPositionInfo();
+            }
+            self.getUserInfo();
+          };
+        self.$webHttp(method, param, successd);
+      },
+      getUserInfo(){
+        var self=this;
+        var method="weixin/getUserInfo",
+            param={
+              companyId:self.companyId,
+              fansId:self.fansId
+            },
+            successd=function(res){
+              self.tuijianObj=res.data;
+            };
+        self.$webHttp(method,param,successd);
+      },
     },
     components: {
       Flexbox, FlexboxItem, querystring, XDialog, Scroller
@@ -569,6 +727,8 @@
 </style>
 
 <style scoped lang="less">
+  @import "../common/stylus/boder";
+
   #interpolateDetail {
 
     @media all and (max-width: 767px) {
@@ -621,7 +781,7 @@
           color: #666;
           span {
             margin-right: 2px;
-            background-color: #e5e5e5;
+            background-color: #F5F5F5;
             padding: 3px 5px;
             border-radius: 2px;
             color: #999999;
@@ -848,7 +1008,7 @@
             color: #666;
             span {
               margin-right: 2px;
-              background-color: #e5e5e5;
+              background-color: #F5F5F5;
               padding: 3px 5px;
               border-radius: 2px;
               color: #999999;
@@ -914,7 +1074,6 @@
 
       .share_btn .flex-demo {
         text-align: center;
-        background: red;
         line-height: 38px;
         height: 46px;
       }
@@ -922,6 +1081,14 @@
       .share_btn .flex-demo1 {
         background-color: #5AA2E7;
         color: #fff;
+      }
+
+      .share_btn .flex-demo3 {
+        background-color: #fff;
+        color: #5AA2E7;
+        position: relative;
+        .borderTop(1px, #e5e5e5)
+
       }
 
       .share_btn .flex-demo1 .pos_icon1 {
@@ -933,15 +1100,6 @@
         background-size: cover;
       }
 
-      .share_btn .flex-demo1 .text {
-        display: inline-block;
-        height: 20px;
-        line-height: 20px;
-        vertical-align: middle;
-        margin-left: 7px;
-        font-size: 0.36rem;
-      }
-
       .share_btn .flex-demo2 .pos_icon2 {
         display: inline-block;
         width: 17px;
@@ -951,10 +1109,28 @@
         background-size: cover;
       }
 
-      .share_btn .flex-demo2 .text {
+      .share_btn .flex-demo3 .pos_icon3 {
+        display: inline-block;
+        width: 0.42rem;
+        height: 0.4rem;
+        vertical-align: middle;
+        background: url(../common/image/personal/personal_stars.png) no-repeat center;
+        background-size: 100%;
+      }
+
+      .share_btn .flex-demo3 .pos_icon4 {
+        display: inline-block;
+        width: 0.42rem;
+        height: 0.4rem;
+        vertical-align: middle;
+        background: url(../common/image/personal/personal_stars2.png) no-repeat center;
+        background-size: 100%;
+      }
+
+      .share_btn .flex-demo3 .text, .share_btn .flex-demo2 .text, .share_btn .flex-demo1 .text {
         display: inline-block;
         height: 20px;
-        line-height: 20px;
+        line-height: 23px;
         vertical-align: middle;
         margin-left: 7px;
         font-size: 0.36rem;
@@ -1016,7 +1192,7 @@
   #interpolateDetail
     .tips2
       .el-dialog--small
-        width: 428px!important;
+        width: 428px !important;
         height: 404px
         box-sizing: border-box
         top: 50% !important
@@ -1031,7 +1207,7 @@
   #interpolateDetail
     .tips2
       .el-dialog--small
-        width: 428px!important;
+        width: 428px !important;
         height: 404px
         box-sizing: border-box
         top: 50% !important

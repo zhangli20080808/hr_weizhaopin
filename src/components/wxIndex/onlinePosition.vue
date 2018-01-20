@@ -49,16 +49,16 @@
     </div>
 
     <div v-transfer-dom>
-        <x-dialog v-model="showTuijianDialog" class="dialog-demo">
-          <div @click="showTuijianDialog=false" style="text-align:right;padding-right:5px">
-            <span class="vux-close" style="color:#2C2D31;font-weight:600;"></span>
-          </div>
-          <div class="img-box">
-            <img :src="tuijianObj.companyGzh.qrcodeUrl" style="width:165px" v-if="tuijianObj.haveGzh==1">
-            <p>长按关注</p>
-          </div>
-        </x-dialog>
-      </div>
+      <x-dialog v-model="showTuijianDialog" class="dialog-demo">
+        <div @click="showTuijianDialog=false" style="text-align:right;padding-right:5px">
+          <span class="vux-close" style="color:#2C2D31;font-weight:600;"></span>
+        </div>
+        <div class="img-box">
+          <img :src="tuijianObj.companyGzh.qrcodeUrl" style="width:165px" v-if="tuijianObj.haveGzh==1">
+          <p>长按关注</p>
+        </div>
+      </x-dialog>
+    </div>
     <!--<loading v-show="!list.length"></loading>-->
   </div>
 </template>
