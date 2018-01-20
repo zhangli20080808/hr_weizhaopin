@@ -1,21 +1,10 @@
 <template>
-
   <div class="authentification">
-    <tab :line-width=0>
-      <tab-item :selected="staff === item" v-for="(item, index) in rememberList" @on-item-click="onItemClick"
-                :key="index">{{item}}
-
-
-
-
-      </tab-item>
-    </tab>
     <!--我是员工-->
-    <div class="loginInterpolate" v-show="nowIndex==0" id="interpolate">
+    <div class="loginInterpolate" id="interpolate">
       <!-- <div class="title">身份认证</div> -->
       <!-- <x-header :left-options="{backText: ''}" class="header">身份认证</x-header> -->
       <group class="group" v-show="personalInfo.isEmployeeCertification==0">
-
         <div class="info">
           <div class="img"></div>
           <div class="text">员工认证后即可以以公司推荐人身份分享职位给好友，获得相应奖励！</div>
@@ -27,7 +16,6 @@
           <x-button type="primary" @click.native="verification" class="hrm_primary_btn" :show-loading="btnLoading"
                     :disabled="name.length==0&&email.length==0">
             身份验证
-
           </x-button>
         </div>
       </group>
@@ -59,37 +47,8 @@
         <x-button type="primary" @click.native="verification(1)" class="hrm_primary_btn">我已完成认证</x-button>
         <p><a href="javascript:;" @click="retransmission">重新发送邮件</a>
           <a href="javascript:;" style="float: right;" @click="showScrollBox1=false;">重新认证</a></p>
-
       </x-dialog>
-
-
     </div>
-    <!--我不是员工(求职者)-->
-    <div v-show="nowIndex==1" class="authentification_qz">
-      <group class="check_code" v-show="personalInfo.isNotEmployeeCertification ==0">
-        <x-input title="手机号" placeholder="请输入手机号码" v-model="phone">
-          <x-button class="codePhone" slot="right" type="primary" mini @click.native="sendCheckCode"
-                    :disabled="daojishi">{{verificationCode}}
-          </x-button>
-        </x-input>
-        <x-input title="验证码" placeholder="输入验证码" v-model="checkCode" class="check_code2">
-        </x-input>
-        <div class="btn_content">
-          <x-button type="primary" class="hrm_primary_btn" @click.native="finishCheck"
-                    :disabled="checkCode.length==0&&phone.length==0">前往认证
-          </x-button>
-        </div>
-      </group>
-      <div class="noTips" v-show="personalInfo.isNotEmployeeCertification ==1">
-        <div class="imgTips">
-          <div class="img"></div>
-          <div class="text">
-            <p>您已验证成功</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -99,9 +58,6 @@
   export default {
     data(){
       return {
-        rememberList: ['我是员工', '我不是员工（求职者）'],
-        staff: '我是员工',
-        nowIndex: 0,
         //员工认证
         type: '',
         companyId: this.$route.query.companyId,
@@ -110,24 +66,45 @@
         name: '',
         showScrollBox: false,
         showScrollBox1: false,
-        shareOpenId: this.$route.query.shareOpenId,
-        positionId: this.$route.query.positionId || 0,
-        shareFansId: this.$route.query.shareFansId,
         fansId: this.$route.query.fansId,
-        recomType: this.$route.query.recomType,
-        pageFrom: this.$route.query.pageFrom,
+        authSuccess: this.$route.query.authSuccess,
         btnLoading: false,
-        //求职者认证
-        phone: '',
-        checkCode: '',
-        daojishi: false,
-        verificationCode: "获取验证码",
+        pageFrom: 2,
         personalInfo: {}
       }
     },
     methods: {
-      onItemClick(index){
-        this.nowIndex = index
+      userAuthUrl(){
+        var self = this;
+        var method = "weixin/userAuthUrl",
+          param = {
+            scope: 'snsapi_base',
+            pageFrom: 2,
+            companyId: self.companyId
+          },
+          successd = function (res) {
+            if (res.data.userSession == 0 && !self.fansId) {
+              location.href = res.data.userAuthUrl;
+            }else{
+                console.log('  this.getWeixinPersonalInfo();')
+                self.getWeixinPersonalInfo();
+            }
+          };
+        self.$webHttp(method, param, successd);
+      },
+       getWeixinPersonalInfo(){
+        var _this = this;
+        var method = "wexinPersonalInfo/getWeixinPersonalInfo";
+        var param = JSON.stringify({
+          companyId: this.companyId,
+          fansId: this.fansId
+        });
+        var successd = function (res) {
+          if (res.data.code == 0) {
+            _this.personalInfo = res.data.data.weixinPersonalInfo;
+          }
+        }
+        _this.$http(method, param, successd);
       },
       verification(){
         //景麒45  xiaohui@iyenei.com
@@ -146,10 +123,7 @@
           }),
           successd = (res) => {
             self.btnLoading = false;
-            console.log(res.data.data)
-
             if (res.data.data.resCode == 1) {
-                console.log(res.data.data.resCode)
               self.empId = res.data.data.empId;
               self.$router.push({
                 name: 'authentificationResult',
@@ -231,20 +205,6 @@
           };
         self.$webHttp(method, param, successd);
       },
-      getWeixinPersonalInfo(){
-        var _this = this;
-        var method = "wexinPersonalInfo/getWeixinPersonalInfo";
-        var param = JSON.stringify({
-          companyId: this.companyId,
-          fansId: this.fansId
-        });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            _this.personalInfo = res.data.data.weixinPersonalInfo;
-          }
-        }
-        _this.$http(method, param, successd);
-      }
     },
     components: {
       Tab,
@@ -252,10 +212,7 @@
       XInput, Group, XButton, Cell, XDialog, XImg, Popup, XHeader, Toast
     },
     mounted(){
-      this.nowIndex = 0;
-      console.log(this.$route)
-      this.getWeixinPersonalInfo()
-
+        this.userAuthUrl();
     },
     directives: {
       TransferDom
