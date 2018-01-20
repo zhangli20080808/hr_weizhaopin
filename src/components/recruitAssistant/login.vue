@@ -67,8 +67,9 @@ export default {
       //   return
       // }
       var method = "account/aijuAssistantLogin";
+      var redirectUri = `https://aijuhr.com/miniRecruit/#/${_this.$route.params.urlType}?companyId=${_this.companyId}`;
       var param = {
-        redirectUri:`https://aijuhr.com/miniRecruit/#/${_this.$route.params.urlType}?companyId=${_this.companyId}`,
+        redirectUri:redirectUri,
         code:_this.code,
         openId:_this.$route.params.openId,
         account:_this.account,
@@ -77,7 +78,7 @@ export default {
       var successd = function (response) {
          let res = response.data;
          if(res.code == "0"){
-           location.href =  `https://aijuhr.com/miniRecruit/#/${_this.$route.params.urlType}?companyId=${_this.companyId}`
+           location.href =  redirectUri
          }else{
            alert(res.message)
          }
