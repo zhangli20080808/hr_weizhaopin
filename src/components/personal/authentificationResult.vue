@@ -52,20 +52,38 @@
           }),
           successd = function (res) {
             console.log(res.data.data.resCode)
+           
             if (res.data.data.resCode == 2) {
-              self.$router.push({
-                name: 'authentification',
-                path: '/authentification',
-                query: {
-                  fansId: self.fansId,
-                  shareFansId: self.shareFansId,
-                  companyId: self.companyId,
-                  empId: self.empId,
-                  recomType: self.recomType,
-                  pageFrom: self.pageFrom,
-                  isInnerEmp: 1
+               if(self.pageFrom == 1){
+                self.$router.push({
+                  name: 'authentification',
+                  path: '/authentification',
+                  query: {
+                    fansId: self.fansId,
+                    shareFansId: self.shareFansId,
+                    companyId: self.companyId,
+                    empId: self.empId,
+                    recomType: self.recomType,
+                    pageFrom: self.pageFrom,
+                    isInnerEmp: 1
+                  }
+                });
+                }else{
+                   self.$router.push({
+                    name: 'authentification_gzh',
+                    path: '/authentification_gzh',
+                    query: {
+                      fansId: self.fansId,
+                      shareFansId: self.shareFansId,
+                      companyId: self.companyId,
+                      empId: self.empId,
+                      recomType: self.recomType,
+                      pageFrom: self.pageFrom,
+                      isInnerEmp: 1
+                    }
+                  });
                 }
-              });
+             
             }else {
               self.$message({
                 message: res.data.message,
