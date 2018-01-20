@@ -145,6 +145,12 @@ export default {
       var noHeadImage = Util.noHeadImage[value]||"";
       return noHeadImage;
     })
+    //过滤器
+    // Vue.filter("portrait",function(value){
+    //   console.log(typeof value);
+    //   var noHeadImage = Util.noHeadImage[value]||"";
+    //   return noHeadImage;
+    // })
   }
 }
 

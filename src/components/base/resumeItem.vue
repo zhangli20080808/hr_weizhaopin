@@ -5,7 +5,7 @@
            </div>
            <div class="content">
               <div class="top-box">
-                <div class="name">叶秋<img src="../../common/image/sex_male.png" alt="sex"></div>
+                <div class="name">{{interviewerInfo.name}}<img src="../../common/image/sex_male.png" alt="sex"></div>
                 <div class="state">待率先</div>
 
               </div>
@@ -23,7 +23,7 @@
 
 <script>
 export default {
- props:[], 
+ props:['interviewerInfo'], 
 }
 </script>
 
