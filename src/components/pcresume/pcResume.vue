@@ -102,7 +102,7 @@
             <el-form-item label="毕业学校" :rules="[{required:true,message:'请输入学校名称',trigger:'blur'}]" :prop="'educationHistoryList.'+index+'.graduateSchool'">
               <el-input v-model="edu.graduateSchool"></el-input>
             </el-form-item>
-            <el-form-item label="学历" :rules="[{required:true,message:'请选择学历',trigger:'blur'}]" :prop="'educationHistoryList.'+index+'.educationLev'">
+            <el-form-item label="学历" :rules="[{required:true,type:'number',message:'请选择学历',trigger:'blur'}]" :prop="'educationHistoryList.'+index+'.educationLev'">
               <el-select v-model="edu.educationLev" placeholder="请选择">
                 <el-option
                   v-for="item in educationLevArr"
@@ -337,11 +337,20 @@ import footerNav from '../base/foot';
               self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone;
               self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
               self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
+              res.data.data.EducationHistory.forEach((item)=>{
+                item.educationLev=item.educationLev-0;
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
+              res.data.data.WorkHistory.forEach((item)=>{
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
               self.InterviewerInfo.educationHistoryList=res.data.data.EducationHistory;
               self.InterviewerInfo.workHistoryList=res.data.data.WorkHistory;
               self.resumeUrl=res.data.data.InterviewerInfo.resumeUrl;
               self.$message({
-                message:'简历上传成功,请确认保存简历',
+                message:'简历解析成功,请确认保存简历',
                 type:'success'
               });
             };
