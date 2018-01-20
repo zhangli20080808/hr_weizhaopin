@@ -24,7 +24,7 @@
         </div>
       </div>
     </scroller>
-    <loading v-show="listShow"></loading>
+    <!-- <loading v-show="listShow"></loading> -->
 
   </div>
 </template>
@@ -70,7 +70,6 @@
     },
     mounted(){
       this.getDeliverHistory();
-s
     },
     components: {
       Scroller,
