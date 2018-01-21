@@ -1,6 +1,6 @@
 <template>
   <div class="resume-detail">
-    <resume-item :interviewerInfo="interviewerInfo" processStatus="daiding"></resume-item>
+    <resume-item :interviewerInfo="interviewerInfo" :processStatus="processStatus"></resume-item>
     <!-- 基本信息 -->
     <div class="base-info item-wrap">
       <div class="hd">
@@ -196,6 +196,7 @@ export default {
   },
   data(){
       return {
+          processStatus:this.$route.params.processStatus,
           interviewerInfo:{},
           //荣誉证书
           qualification:[], 
@@ -261,12 +262,17 @@ export default {
 }
 </script>
 
+<style >
+#app{
+  height: 100%;
+  background-color: #F8F8FC;
+}
+</style>
 <style lang="less" scoped>
 @import '~vux/src/styles/1px.less';
 
 .resume-detail{
   background-color: #F8F8FC;
-  height: 100%;
   padding-top:.3rem;
   .item-wrap{
     padding:.3rem;

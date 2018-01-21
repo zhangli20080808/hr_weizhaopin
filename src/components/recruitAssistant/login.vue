@@ -3,19 +3,19 @@
     <div class="form">
       <div class="tip">您是首次微信登录，请绑定爱聚账号，实现信息同步！</div>
        <group class="group" label-width="5em">
-         <x-input title="用户名" type="text" placeholder="请输入注册手机号或邮箱" v-model="account"></x-input>
-         <x-input title="密码" type="password" placeholder="请输入密码" v-model="password"></x-input>
+         <x-input title="用户名" type="text" placeholder="请输入注册手机号或邮箱" v-model.trim="account"></x-input>
+         <x-input title="密码" type="password" placeholder="请输入密码" v-model.trim="password"></x-input>
       </group>
     </div>
     <div class="btn-area">
-      <button class="btn-login" @click="login" :class="{disabled:disabled}" >绑定</button>
+      <button class="btn-login" @click="login" :class="{disabled:disabled}" :disabled="disabled">绑定</button>
     </div>
     <div class="contact">
       <p class="word">如需帮助，请联系客服：</p>
       <p class="tel">176-0654-1988</p>
     </div>
    
-     <!-- <toast v-model="toastShow" type="text" :text="toastText" position="top"></toast> -->
+     <toast v-model="toastShow" type="text" :text="toastText" position="top"></toast>
   </div>
 </template>
 
@@ -25,22 +25,24 @@
 
   import {
     Group,
-    XInput
-
+    XInput,
+    Toast
   } from 'vux'
 
 export default {
   components: {
     XInput,
     Group,
-    
+    Toast
   },
   data(){
     return {
         wh:'',
         account:'',
         password:'',
-        disabled:false,
+        disabled:true,
+        toastShow:false,
+        toastText:'',
         companyId:this.$route.query.companyId || '',
         code:'',
     }
@@ -57,15 +59,20 @@ export default {
   },
   methods:{
     checkForm(){
-      if(!this.account){
-        
+      let regPhone = /^1\d{10}$/;
+      let regEmail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;   
+      if(!regPhone.test(this.account) && !regEmail.test(this.account)){
+        this.toastShow = true
+        this.toastText = "用户名格式不对"
+        return false;
       }
+      return true;
     },
     login(){
       var _this = this;
-      // if(!this.checkForm()){
-      //   return
-      // }
+      if(!this.checkForm()){
+        return
+      }
       var method = "account/aijuAssistantLogin";
       var redirectUri = `https://aijuhr.com/miniRecruit/#/${_this.$route.params.urlType}?companyId=${_this.companyId}`;
       var param = {
@@ -81,12 +88,30 @@ export default {
            localStorage.userInfo = res.data
            location.href =  redirectUri
          }else{
-           alert(res.message)
+           _this.toastShow = true
+           _this.toastText = res.message
+           console.log(res.code,res.message)
          }
       }
       _this.$webHttp(method, param, successd);
     },
   },
+  watch:{
+    account(val){
+         if(val && this.password){
+           this.disabled = false
+         }else{
+           this.disabled = true
+         }
+    },
+    password(val){
+         if(val && this.account){
+           this.disabled = false
+         }else{
+           this.disabled = true
+         }
+    },
+  }
   
 }
 </script>

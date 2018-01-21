@@ -10,7 +10,7 @@
                   <img v-if="interviewerInfo.sex == 1" src="../../common/image/sex_male.png" alt="sex">
                   <img v-else src="../../common/image/sex_female.png" alt="sex">
                 </div>
-                <div class="state">{{processStatus}}</div>
+                <div class="state" :class="{'red-state':processStatus == '淘汰','gray-state':processStatus == '已入职'}">{{processStatus}}</div>
 
               </div>
               <div class="middle-box">
@@ -80,6 +80,14 @@ export default {
             font-size:.26rem;
             color: #5AA2E7;
             border-radius: 3px;
+            &.red-state{
+              color:#F96868;
+              background-color: #FFEAEA;
+            }
+            &.gray-state{
+              color:#5E6D82;
+              background:rgba(192,204,218,0.3);
+            }
           }
         }
         .middle-box{

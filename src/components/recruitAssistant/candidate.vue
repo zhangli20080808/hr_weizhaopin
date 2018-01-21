@@ -1,27 +1,30 @@
 <template>
   <div class="candidate-wrap">
      <tab :line-width=0 active-color="#5AA2E7">
-      <tab-item selected @on-item-click="onItemClick">全部</tab-item>
-      <tab-item @on-item-click="onItemClick">待筛选</tab-item>
-      <tab-item @on-item-click="onItemClick">待接收面试</tab-item>
-      <tab-item @on-item-click="onItemClick">已接收面试</tab-item>
-      <tab-item @on-item-click="onItemClick">淘汰</tab-item>
+       <tab-item v-for="(item,index) in statuList" :key="index"  :selected="index == 0" @on-item-click="onItemClick">{{item}}</tab-item>
     </tab>
-    <scroller lock-x ref="scrollerBottom" height="-44" @on-scroll-bottom="loadMore" v-if="resultList && resultList.length > 0">
+    <scroller lock-x ref="scrollerBottom" height="-44" @on-scroll-bottom="loadMore" :scroll-bottom-offst="100" v-if="resultList && resultList.length > 0" >
       <div class="resume-list-wrap">
-        <div class="resume-item" v-for="(item,index) in resultList" @click="selectItem(item)">
+        <div class="resume-item" v-for="(item,index) in resultList" :key="index" @click="selectItem(item)" :data-id="item.id">
            <div class="avatar">
               <img v-if="!item.headImg" src="../../common/image/default_avatar.png" alt="头像">
               <img v-else :src="item.headImg" alt="头像">
            </div>
            <div class="content">
               <div class="top-box">
-                <div class="name">{{item.name}}<img src="../../common/image/sex_male.png" alt="sex"></div>
-                <div class="state"></div>
+                <div class="name">{{item.name}}
+                  <img v-if="item.sexStr == '男'" src="../../common/image/sex_male.png" alt="sex">
+                  <img v-else-if="item.sexStr == '女'" src="../../common/image/sex_female.png" alt="sex">
+                </div>
+                <div class="state" :class="{'red-state':item.processStatusStr == '淘汰'}" v-if="tabIndex == 0">{{item.processStatusStr}}</div>
 
               </div>
               <div class="middle-box">
-                <p class="base-info"><span>26岁</span><span>{{item.eduStr}}</span><span>{{item.workYearStr}}</span></p>
+                <p class="base-info">
+                  <span v-if="interviewInfoList[index].birthday">{{interviewInfoList[index].birthday | gloBirthday}}</span>
+                  <span v-if="item.eduStr">{{item.eduStr}}</span>
+                  <span v-if="item.workYearStr">{{item.workYearStr}}</span>
+                </p>
                 <!-- <p class="company">杭州爱聚科技有限公司</p> -->
               </div>
               <div class="bottom-box">
@@ -30,24 +33,22 @@
               </div>
            </div>
         </div>
-
-
       </div>
-      <load-more v-show="showLoadMore" tip="正在加载"></load-more>
+      <load-more v-show="showMore" tip="加载更多"></load-more>
       <footer-logo></footer-logo>
-          <!-- <loading v-show="showLoading"></loading> -->
     </scroller>
     <div class="no-result" v-else>
        <div class="img-box"></div>
        <p>暂无数据</p>
     </div>
+    <loading v-show="showLoading"></loading>
   </div>
 </template>
 
 
 <script>
  import loading from '../../components/base/loading/loading2.vue'
-  import FooterLogo from '../../components/base/footerLogo.vue'
+ import FooterLogo from '../../components/base/footerLogo.vue'
  import { urlParse } from '../../common/js/index.js'
 
   import {
@@ -70,16 +71,16 @@ export default {
           options:null,
           code:'',
           companyId:this.$route.query.companyId || '',
-          showLoadMore:false,
-          showLoading:true,
+          showMore:false,
+          showLoading:false,
+          onFetching:false,
           tabIndex:0,
           resultList:[],
-          resultListArr:[
-            {
-
-            }
-          ],
-
+          interviewInfoList:[],
+          pageNum:1,
+          pageSize:10,
+          page:{},
+          statuList:['全部','待筛选','待接收面试','已接收面试','淘汰'],
       }
   },
   created(){
@@ -88,17 +89,24 @@ export default {
     if(!localStorage.userInfo){
       this.getCodeUrl()
     }
-    this.getAll('1,3,6')
+    this.showLoading = true
+    this.getAll('1,2,3,6')
   },
   methods:{
     onItemClick (index) {
       this.tabIndex = index;
       this.resultList = []
-      switch(index){
+      this.interviewInfoList = []
+      this.pageNum = 1
+      this.showLoading = true
+      this.selectRequest(index)
+    },
+    selectRequest(index){
+       switch(index){
         case 0:
         case 4:
          if(index == 0){
-             this.getAll('1,3,6')
+             this.getAll('1,2,3,6')
           }else{
              this.getAll('6')
           }
@@ -112,8 +120,7 @@ export default {
              this.getInterviewRepo(1)
           }else{
              this.getInterviewRepo(2)
-          }
-         
+          }   
           break;
       }
     },
@@ -127,7 +134,6 @@ export default {
       };
       var successd = function (response) {
         let res = response.data;
-         console.log(res)
         if (res.code == "0") {
             //登录成功
            localStorage.userInfo = JSON.stringify(res.data);
@@ -158,8 +164,8 @@ export default {
       var method = "queryResume/queryAllRepo";
       var param = JSON.stringify({
         companyId:_this.companyId,
-        pageNum: 1,
-        pageSize: 10,
+        pageNum: _this.pageNum,
+        pageSize: _this.pageSize,
         keyWord:"",
         parameter:JSON.stringify({
           sex:'',
@@ -174,12 +180,19 @@ export default {
         }),
       });
       var successd = function (response) {
+        _this.showLoading = false
+        _this.showMore = false
+        _this.onFetching = false
         let res = response.data;
-
-        if (res.code == 0) {
+        if (res.code == 0 && res.data.resultList) {
             _this.resultList = _this.resultList.concat(res.data.resultList)
-            // _this.resultList = []
-            _this.showMore = false     
+            _this.interviewInfoList = _this.interviewInfoList.concat(res.data.interviewInfoList)
+            _this.page = res.data.page  
+        }else if(res.code == 400){
+          //登录超时，重新登录
+            _this.getCodeUrl()
+        }else{
+          console.log(res.code,res.message)
         }
       }
       _this.$http(method, param, successd);
@@ -190,8 +203,8 @@ export default {
       var method = "queryResume/queryNewOrSpareRepo";
       var param = JSON.stringify({
         companyId:_this.companyId,
-        pageNum: 1,
-        pageSize: 10,
+        pageNum: _this.pageNum,
+        pageSize: _this.pageSize,
         processStatus:2,
         keyWord:"",
         parameter:JSON.stringify({
@@ -205,11 +218,19 @@ export default {
         }),
       });
       var successd = function (response) {
+        _this.showLoading = false
+        _this.showMore = false 
+        _this.onFetching = false
         let res = response.data;
-
-        if (res.code == 0) {
+        if (res.code == 0 && res.data.resultList) {
            _this.resultList = _this.resultList.concat(res.data.resultList)
-            _this.showMore = false     
+           _this.interviewInfoList = _this.interviewInfoList.concat(res.data.interviewInfoList)
+          _this.page = res.data.page  
+        }else if(res.code == 400){
+          //登录超时，重新登录
+           _this.getCodeUrl()
+        }else{
+          console.log(res.code,res.message)
         }
       }
       _this.$http(method, param, successd);
@@ -220,8 +241,8 @@ export default {
       var method = "queryResume/queryInterviewRepo";
       var param = JSON.stringify({
         companyId:_this.companyId,
-        pageNum: 1,
-        pageSize: 10,
+        pageNum: _this.pageNum,
+        pageSize: _this.pageSize,
         processStatus:statu,     //1-待接收，2-已接收
         keyWord:"",
         parameter:JSON.stringify({
@@ -235,35 +256,71 @@ export default {
         }),
       });
       var successd = function (response) {
+        _this.showLoading = false
+        _this.showMore = false 
+        _this.onFetching = false 
         let res = response.data;
-
-        if (res.code == 0) {
-           _this.resultList = _this.resultList.concat(res.data.resultList)
-            _this.showMore = false     
+        if (res.code == 0 && res.data.resultList) {
+          let resultList = res.data.resultList
+          let interviewInfoList = res.data.interviewInfoList
+          for(let i = 0; i < interviewInfoList.length; i++){
+            switch(interviewInfoList[i].sex){
+              case 1:
+                resultList[i].sexStr = "男"
+                break;
+              case 2:
+                resultList[i].sexStr = "女"
+                break;
+              default:
+                resultList[i].sexStr = "未知"
+                break;
+            }
+          }
+           _this.resultList = _this.resultList.concat(resultList)
+           _this.interviewInfoList = _this.interviewInfoList.concat(interviewInfoList)      
+           _this.page = res.data.page  
+        }else if(res.code == 400){
+          //登录超时，重新登录
+           _this.getCodeUrl()
+        }else{
+          console.log(res.code,res.message)
         }
       }
       _this.$http(method, param, successd);
     },
     //load more
     loadMore(e){
-      console.log("loadmore")
-      console.log(e)
-      this.showLoadMore = true;
+      if (this.onFetching || !this.page.hasNext || this.resultList.length == this.page.totalCount) {
+          // do nothing
+        } else {
+          this.onFetching = true
+          setTimeout(() => {
+            this.pageNum++
+            this.showMore = true
+            this.selectRequest(this.tabIndex)
+            this.$nextTick(() => {
+              this.$refs.scrollerBottom.reset()
+            })
+         }, 0)     
+       }
     },
      /**
        * 跳转至简历详情
        */
       selectItem(item) {
-        this.$router.push({
-          name: 'resumeDetail',
-          query: {
-            companyId: this.companyId,
-            interviewerId: item.id,
-          },
-          params: {
-            interviewerId: item.id
-          }
-        })
+        if(item.id && item.id != -1){
+          this.$router.push({
+            name: 'resumeDetail',
+            query: {
+              companyId: this.companyId,
+              interviewerId: item.id,
+            },
+            params: {
+              interviewerId: item.id,
+              processStatus: this.tabIndex == 0 ? item.processStatusStr : this.statuList[this.tabIndex]
+            }
+         })
+        }   
       },
   },
   
@@ -289,9 +346,11 @@ export default {
     width: auto;
   }
 }
-
+.mask{
+  top:56px!important;
+}
 .candidate-wrap{
-  // background-color: #F8F8FC;
+  background-color: #F8F8FC;
   // height: 100%;
   .resume-list-wrap{
     margin-top:12px;
@@ -340,6 +399,10 @@ export default {
             font-size:.26rem;
             color: #5AA2E7;
             border-radius: 3px;
+            &.red-state{
+              color:#F96868;
+              background-color: #FFEAEA;
+            }
           }
         }
         .middle-box{
