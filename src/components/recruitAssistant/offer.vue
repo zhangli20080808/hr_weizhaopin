@@ -87,13 +87,14 @@ export default {
   },
   created(){
     this.options = urlParse()
-    console.log('offer-options:' , this.options)
     this.code = this.options.code
     if(!localStorage.userInfo){
       this.getCodeUrl()
+    }else{
+      this.showLoading = true
+      this.getOfferList(0)
     }
-    this.showLoading = true
-    this.getOfferList(0)
+    
   },
   methods:{
     onItemClick (index) {
@@ -117,7 +118,8 @@ export default {
         if (res.code == "0") {
             //登录成功
            localStorage.userInfo = JSON.stringify(res.data);
-        
+           _this.showLoading = true
+           _this.getOfferList(0)
         }else if(res.code == "2018"){
             //微信授权登录
              location.href = res.data.codeUrl

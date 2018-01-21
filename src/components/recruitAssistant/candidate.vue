@@ -88,9 +88,10 @@ export default {
     this.code = this.options.code
     if(!localStorage.userInfo){
       this.getCodeUrl()
+    }else{
+      this.showLoading = true
+      this.getAll('1,2,3,6')
     }
-    this.showLoading = true
-    this.getAll('1,2,3,6')
   },
   methods:{
     onItemClick (index) {
@@ -137,7 +138,8 @@ export default {
         if (res.code == "0") {
             //登录成功
            localStorage.userInfo = JSON.stringify(res.data);
-        
+           _this.showLoading = true
+           _this.getAll('1,2,3,6')
         }else if(res.code == "2018"){
             //微信授权登录
              location.href = res.data.codeUrl
@@ -184,12 +186,14 @@ export default {
         _this.showMore = false
         _this.onFetching = false
         let res = response.data;
+        console.log('getall',res)
         if (res.code == 0 && res.data.resultList) {
             _this.resultList = _this.resultList.concat(res.data.resultList)
             _this.interviewInfoList = _this.interviewInfoList.concat(res.data.interviewInfoList)
             _this.page = res.data.page  
         }else if(res.code == 400){
           //登录超时，重新登录
+           console.log('登录超时，重新登录')
             _this.getCodeUrl()
         }else{
           console.log(res.code,res.message)

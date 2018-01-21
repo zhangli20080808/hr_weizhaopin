@@ -69,13 +69,13 @@
       }
     },
     created(){
-       this.options = urlParse()
-      console.log('p-options:' , this.options)
+      this.options = urlParse()
       this.code = this.options.code
+      this.companyId = this.options.companyId
       if(!localStorage.userInfo){
         this.getCodeUrl()
       }
-      this.companyId = this.$route.query.companyId
+      
       this.$nextTick(() => {
         this.getOnlinePosition()
       })
