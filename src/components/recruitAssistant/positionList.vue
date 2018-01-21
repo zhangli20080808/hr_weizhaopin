@@ -70,7 +70,7 @@
     },
     created(){
        this.options = urlParse()
-      console.log('p-options:' + this.options)
+      console.log('p-options:' , this.options)
       this.code = this.options.code
       if(!localStorage.userInfo){
         this.getCodeUrl()
@@ -125,7 +125,7 @@
           companyId: this.companyId,
           type: 2,
           pageNum:this.pageNum,
-          pageSize:3,
+          pageSize:10,
         });
         var successd = function (response) {
           _this.showLoading = false 

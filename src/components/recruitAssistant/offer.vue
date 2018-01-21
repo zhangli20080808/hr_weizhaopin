@@ -87,7 +87,7 @@ export default {
   },
   created(){
     this.options = urlParse()
-    console.log('offer-options:' + this.options)
+    console.log('offer-options:' , this.options)
     this.code = this.options.code
     if(!localStorage.userInfo){
       this.getCodeUrl()
