@@ -1,27 +1,30 @@
 <template>
   <div class="offer-wrap">
      <tab :line-width=0 active-color="#5AA2E7">
-      <tab-item selected @on-item-click="onItemClick">全部</tab-item>
-      <tab-item @on-item-click="onItemClick">待发offer</tab-item>
-      <tab-item @on-item-click="onItemClick">待接收offer</tab-item>
-      <tab-item @on-item-click="onItemClick">待入职</tab-item>
-      <tab-item @on-item-click="onItemClick">已入职</tab-item>
+      <tab-item v-for="(item,index) in statuList" :key="index"  :selected="index == 0" @on-item-click="onItemClick">{{item}}</tab-item>
     </tab>
-    <scroller lock-x ref="scrollerBottom" height="-44" @on-scroll-bottom="loadMore" v-if="resultList && resultList.length > 0">
+    <scroller lock-x ref="scrollerBottom" height="-44" @on-scroll-bottom="loadMore" :scroll-bottom-offst="100" v-if="resultList && resultList.length > 0">
       <div class="resume-list-wrap">
-        <div class="resume-item" v-for="(item,index) in resultList" @click="selectItem(item)">
+        <div class="resume-item" v-for="(item,index) in resultList" :key="index" @click="selectItem(item)" :data-id="item.interviewerId">
            <div class="avatar">
               <img v-if="!item.headImg" src="../../common/image/default_avatar.png" alt="头像">
               <img v-else :src="item.headImg" alt="头像">
            </div>
            <div class="content">
               <div class="top-box">
-                <div class="name">{{item.name}}<img src="../../common/image/sex_male.png" alt="sex"></div>
-                <div class="state" v-if="tabIndex == 0">{{item.joinStatus | parseStatus}}</div>
+                <div class="name">{{item.name}}
+                  <img v-if="item.interSex == 1" src="../../common/image/sex_male.png" alt="sex">
+                  <img v-else-if="item.interSex == 2" src="../../common/image/sex_female.png" alt="sex">
+                </div>
+                <div class="state" :class="{'gray-state':item.joinStatus == 3}" v-if="tabIndex == 0">{{item.joinStatus | parseStatus}}</div>
 
               </div>
               <div class="middle-box">
-                <p class="base-info"><span>{{item.interBirthday | parseAge}}岁</span><span>{{item.eduStr}}</span><span>{{item.workYearStr}}</span></p>
+                <p class="base-info">
+                  <span v-if="item.interBirthday">{{item.interBirthday | gloBirthday}}</span>
+                  <span v-if="item.interEducationLev">{{item.interEducationLev | gloEducationLev}}</span>
+                  <span v-if="item.interWorkYear">{{item.interWorkYear}}年</span>
+                </p>
                 <!-- <p class="company">杭州爱聚科技有限公司</p> -->
               </div>
               <div class="bottom-box">
@@ -33,14 +36,14 @@
 
 
       </div>
-      <load-more v-show="showLoadMore" tip="正在加载"></load-more>
+      <load-more v-show="showMore" tip="加载更多"></load-more>
       <footer-logo></footer-logo>
-          <!-- <loading v-show="showLoading"></loading> -->
     </scroller>
     <div class="no-result" v-else>
        <div class="img-box"></div>
        <p>暂无数据</p>
     </div>
+   <loading v-show="showLoading"></loading>
   </div>
 </template>
 
@@ -70,12 +73,16 @@ export default {
           options:null,
           code:'',
           companyId:this.$route.query.companyId || '',
-          showLoadMore:false,
-          showLoading:true,
+          showMore:false,
+          showLoading:false,
+          onFetching:false,
           tabIndex:0,
           resultList:[],
+          pageNum:1,
+          pageSize:10,
+          page:{},
           methods:['hasSentOfferRecords','awaitSentOfferRecords','awaitReceiveOfferRecords','awaitEntryOfferRecords','getHasHiredList'],
-
+          statuList:['全部','待发offer','待接收offer','待入职','已入职'],
       }
   },
   created(){
@@ -83,13 +90,18 @@ export default {
     this.code = this.options.code
     if(!localStorage.userInfo){
       this.getCodeUrl()
+    }else{
+      this.showLoading = true
+      this.getOfferList(0)
     }
-    this.getOfferList(0)
+    
   },
   methods:{
     onItemClick (index) {
       this.tabIndex = index
       this.resultList = []
+      this.pageNum = 1
+      this.showLoading = true
       this.getOfferList(index)
 
     },
@@ -103,11 +115,11 @@ export default {
       };
       var successd = function (response) {
         let res = response.data;
-         console.log(res)
         if (res.code == "0") {
             //登录成功
            localStorage.userInfo = JSON.stringify(res.data);
-        
+           _this.showLoading = true
+           _this.getOfferList(0)
         }else if(res.code == "2018"){
             //微信授权登录
              location.href = res.data.codeUrl
@@ -134,14 +146,16 @@ export default {
       var method = "TalentPool/" + _this.methods[index];
       var param = JSON.stringify({
         companyId:_this.companyId,
-        pageNum: 1,
-        pageSize: 10,
+        // type:2,
+        pageNum: _this.pageNum,
+        pageSize: _this.pageSize,
       });
       var successd = function (response) {
+        _this.showLoading = false
+        _this.showMore = false
+        _this.onFetching = false
         let res = response.data;
-
         if (res.code == 0) {
-           _this.showMore = false 
            if(index == 0 || index == 1 || index == 2){
               _this.resultList = _this.resultList.concat(res.data.awaitSentOfferRecords)
            }else if(indx == 3){
@@ -149,7 +163,12 @@ export default {
            }else if(indx == 4){
               _this.resultList = _this.resultList.concat(res.data.hasHiredList)
            }    
-               
+          _this.page = res.data.page    
+        }else if(res.code == 400){
+          //登录超时，重新登录
+           _this.getCodeUrl()
+        }else{
+          console.log(res.code,res.message)
         }
       }
       _this.$http(method, param, successd);
@@ -157,9 +176,20 @@ export default {
 
     //load more
     loadMore(e){
-      console.log("loadmore")
-      console.log(e)
-      this.showLoadMore = true;
+       console.log("loadmore")
+      if (this.onFetching || !this.page.hasNext || this.resultList.length == this.page.totalCount) {
+          // do nothing
+        } else {
+          this.onFetching = true
+          setTimeout(() => {
+            this.pageNum++
+            this.showMore = true
+            this.getOfferList(this.tabIndex)
+            this.$nextTick(() => {
+              this.$refs.scrollerBottom.reset()
+            })
+         }, 0)     
+       }
     },
      /**
        * 跳转至简历详情
@@ -173,7 +203,8 @@ export default {
               interviewerId: item.interviewerId,
             },
             params: {
-              interviewerId: item.id
+              interviewerId: item.id,
+              processStatus: this.tabIndex == 0 ? this.$options.filters['parseStatus'](item.joinStatus): this.statuList[this.tabIndex]
             }
           })
         }  
@@ -223,9 +254,11 @@ export default {
     width: auto;
   }
 }
-
+.mask{
+  top:56px!important;
+}
 .offer-wrap{
-  // background-color: #F8F8FC;
+  background-color: #F8F8FC;
   // height: 100%;
   .resume-list-wrap{
     margin-top:12px;
@@ -274,6 +307,10 @@ export default {
             font-size:.26rem;
             color: #5AA2E7;
             border-radius: 3px;
+            &.gray-state{
+              color:#5E6D82;
+              background:rgba(192,204,218,0.3);
+            }
           }
         }
         .middle-box{

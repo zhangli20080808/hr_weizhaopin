@@ -1,17 +1,13 @@
 <template>
   <div id="interpolateDetail">
     <div class="hidden-sm hidden-lg">
-      <scroller lock-x height="-50">
+      <scroller lock-x >
         <div>
           <dl class="position_detail">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
               <!-- <img src="../../common/image/urgent2.png" alt="" width="35px" class="img" v-if="positionInfo.isUrgent==1"> -->
               <span class="position_name">{{positionInfo.positionName}}</span>
-            <div class="position_detail_right">
-              <!--<em></em>-->
-              <!--<span>简历悬赏: <span style="font-weight:700;">{{positionInfo.rewardAmount}}</span>元</span>-->
-            </div>
             </dt>
             <dd class="position_detail_money" v-show="positionInfo.workCity">
               <span>{{positionInfo.workCity}}</span>
@@ -134,13 +130,8 @@
         shareFansId: this.$route.query.shareFansId,
         fansId: this.$route.query.fansId,
         empId: this.$route.query.empId,
-        empAuthSucc: this.$route.query.empAuthSucc,//1:认证成功的内部员工
 
         accountName: '',
-        sharedQrcodeUrl: '',
-        dialogShared: false,
-        isSubscribe: 0,//用户是否关注1:已关注,0:未关注,
-        dialogVisible2: false,
         formShare: {
           eLink: ''
         },

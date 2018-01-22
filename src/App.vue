@@ -260,7 +260,7 @@
       }
     },
     watch:{
-      $route (to, from) {
+      $route(to, from) {
         let isBack = this.$router.isBack;
         if (isBack) {
           this.transitionName = 'slide-right'

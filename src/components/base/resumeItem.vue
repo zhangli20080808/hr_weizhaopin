@@ -1,21 +1,28 @@
 <template>
       <div class="resume-item">
            <div class="avatar">
-              <img src="../../common/image/default_avatar.png" alt="头像">
+              <img v-if="interviewerInfo.headImg" :src="interviewerInfo.headImg" alt="头像">
+              <img v-else src="../../common/image/default_avatar.png" alt="头像">
            </div>
            <div class="content">
               <div class="top-box">
-                <div class="name">{{interviewerInfo.name}}<img src="../../common/image/sex_male.png" alt="sex"></div>
-                <div class="state">待率先</div>
+                <div class="name">{{interviewerInfo.name}}
+                  <img v-if="interviewerInfo.sex == 1" src="../../common/image/sex_male.png" alt="sex">
+                  <img v-else src="../../common/image/sex_female.png" alt="sex">
+                </div>
+                <div class="state" :class="{'red-state':processStatus == '淘汰','gray-state':processStatus == '已入职'}">{{processStatus}}</div>
 
               </div>
               <div class="middle-box">
-                <p class="base-info"><span>26岁</span><span>大专</span><span>6年</span><span>杭州市西湖区</span></p>
-                <p class="company">杭州爱聚科技有限公司</p>
+                <p class="base-info">
+                  <span v-if="interviewerInfo.birthday">{{interviewerInfo.birthday | gloBirthday}}</span>
+                  <span>{{interviewerInfo.educationLev | gloEducationLev}}</span>
+                  <span v-if="interviewerInfo.workYear">{{interviewerInfo.workYear}}年</span></p>
+                <!-- <p class="company">杭州爱聚科技有限公司</p> -->
               </div>
               <div class="bottom-box">
                 <label class="label" for="">应聘</label>
-                <span class="position-name">前端开发</span>
+                <span class="position-name">{{interviewerInfo.positionName}}</span>
               </div>
            </div>
         </div>
@@ -23,7 +30,7 @@
 
 <script>
 export default {
- props:['interviewerInfo'], 
+ props:['interviewerInfo','processStatus'], 
 }
 </script>
 
@@ -73,6 +80,14 @@ export default {
             font-size:.26rem;
             color: #5AA2E7;
             border-radius: 3px;
+            &.red-state{
+              color:#F96868;
+              background-color: #FFEAEA;
+            }
+            &.gray-state{
+              color:#5E6D82;
+              background:rgba(192,204,218,0.3);
+            }
           }
         }
         .middle-box{

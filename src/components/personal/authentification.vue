@@ -95,6 +95,7 @@
 
 <script>
   import {Tab, TabItem, XInput, Group, XButton, Cell, XDialog, XImg, TransferDom, Popup, XHeader, Toast} from 'vux'
+import { setFlagsFromString } from 'v8';
 
   export default {
     data(){
@@ -164,15 +165,11 @@
                   pageFrom: self.pageFrom
                 }
               });
-            }else{
-             self.$message({
-                message: res.data.message,
-                type: "warning"
-              });
             }
           },
           errord = (res) => {
             self.btnLoading = false;
+            self.$vux.toast.text(res.data.message, 'top');
           };
         self.$http(methods, param, successd, errord);
       },
@@ -226,8 +223,15 @@
             if (res.data.code == 0) {
               self.renzhengShow = false;
               self.shareTipShow = true;
+              self.$vux.toast.text(res.data.resMsg, 'top');      
+              self.$router.push({
+                name: 'authentification',
+                query: {
+                  companyId: self.companyId,
+                  fansId: self.fansId
+                }
+              })                     
             }
-            self.$vux.toast.text(res.data.resMsg, 'top');
           };
         self.$webHttp(method, param, successd);
       },
@@ -241,6 +245,12 @@
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.personalInfo = res.data.data.weixinPersonalInfo;
+            if(_this.personalInfo.isEmployeeCertification == 0){
+              _this.nowIndex == 0;
+            }
+           if(_this.personalInfo.isNotEmployeeCertification == 0){
+              _this.nowIndex == 1;
+            }            
           }
         }
         _this.$http(method, param, successd);

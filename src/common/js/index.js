@@ -65,3 +65,9 @@ export function urlParse() {
   }
   return obj;
 }
+
+
+
+export function weixinLogin(){
+
+}
