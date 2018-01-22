@@ -89,18 +89,6 @@ export default {
     this.options = urlParse()
     this.code = this.options.code
     this.getCodeUrl()
-    // if(!localStorage.userInfo){
-    //   this.getCodeUrl()
-    // }else{
-      // if(this.options.companyId){
-      //   this.companyId = this.options.companyId
-      // }else{
-      //   this.companyId = JSON.parse(localStorage.userInfo).companyId
-      // }
-      
-      // this.showLoading = true
-      // this.getOfferList(0)
-  //  }
     
   },
   methods:{
@@ -174,14 +162,18 @@ export default {
               _this.resultList = _this.resultList.concat(res.data.hasHiredList)
            }    
           _this.page = res.data.page    
-        }else if(res.code == 400){
+        }
+      }
+      var error = function(response){
+        let res = response.data;
+        if(res.code == 400){
           //登录超时，重新登录
-           _this.getCodeUrl()
+            _this.getCodeUrl()
         }else{
           console.log(res.code,res.message)
         }
       }
-      _this.$http(method, param, successd);
+      _this.$http(method, param, successd, error);
     },
 
     //load more

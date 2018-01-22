@@ -3,7 +3,7 @@
      <tab :line-width=0 active-color="#5AA2E7">
        <tab-item v-for="(item,index) in statuList" :key="index"  :selected="index == 0" @on-item-click="onItemClick">{{item}}</tab-item>
     </tab>
-    <scroller lock-x ref="scrollerBottom" height="-44" @on-scroll-bottom="loadMore" :scroll-bottom-offst="100" v-if="resultList && resultList.length > 0" >
+    <scroller lock-x ref="scrollerBottom" height="-44" @on-scroll-bottom="loadMore" :scroll-bottom-offst="200" v-if="resultList && resultList.length > 0" >
       <div class="resume-list-wrap">
         <div class="resume-item" v-for="(item,index) in resultList" :key="index" @click="selectItem(item)" :data-id="item.id">
            <div class="avatar">
@@ -13,17 +13,17 @@
            <div class="content">
               <div class="top-box">
                 <div class="name">{{item.name}}
-                  <img v-if="item.sexStr == '男'" src="../../common/image/sex_male.png" alt="sex">
-                  <img v-else-if="item.sexStr == '女'" src="../../common/image/sex_female.png" alt="sex">
+                  <img v-if="item.sex == 1" src="../../common/image/sex_male.png" alt="sex">
+                  <img v-else-if="item.sex == 2" src="../../common/image/sex_female.png" alt="sex">
                 </div>
-                <div class="state" :class="{'red-state':item.processStatusStr == '淘汰'}" v-if="tabIndex == 0">{{item.processStatusStr}}</div>
+                <div class="state" :class="{'red-state':item.processStatus == 6}" v-if="tabIndex == 0">{{item.processStatus | parseStatus}}</div>
 
               </div>
               <div class="middle-box">
                 <p class="base-info">
-                  <span v-if="interviewInfoList[index].birthday">{{interviewInfoList[index].birthday | gloBirthday}}</span>
-                  <span v-if="item.eduStr">{{item.eduStr}}</span>
-                  <span v-if="item.workYearStr">{{item.workYearStr}}</span>
+                  <span v-if="item.birthday">{{item.birthday | gloBirthday}}</span>
+                  <span v-if="item.educationLev">{{item.educationLev | gloEducationLev}}</span>
+                  <span v-if="item.workYear">{{item.workYear}}年</span>
                 </p>
                 <!-- <p class="company">杭州爱聚科技有限公司</p> -->
               </div>
@@ -86,15 +86,8 @@ export default {
   created(){
     this.options = urlParse()
     this.code = this.options.code
-    console.log(this.$route.query)
     this.getCodeUrl()
-    // if(!localStorage.userInfo){
-    //   this.getCodeUrl()
-    // }else{
-    //   this.companyId = JSON.parse(localStorage.userInfo).companyId
-    //   this.showLoading = true
-    //   this.getAll('1,2,3,6')
-    // }
+        
   },
   methods:{
     onItemClick (index) {
@@ -103,30 +96,7 @@ export default {
       this.interviewInfoList = []
       this.pageNum = 1
       this.showLoading = true
-      this.selectRequest(index)
-    },
-    selectRequest(index){
-       switch(index){
-        case 0:
-        case 4:
-         if(index == 0){
-             this.getAll('1,2,3,6')
-          }else{
-             this.getAll('6')
-          }
-          break;
-        case 1:
-          this.getSpareRepo()
-          break;
-        case 2:
-        case 3:
-          if(index == 2){
-             this.getInterviewRepo(1)
-          }else{
-             this.getInterviewRepo(2)
-          }   
-          break;
-      }
+      this.newApi(index)
     },
     //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值
     getCodeUrl(){
@@ -144,7 +114,7 @@ export default {
            localStorage.userInfo = JSON.stringify(res.data);
            
            _this.showLoading = true
-           _this.getAll('1,2,3,6')
+           this.newApi(0)
         }else if(res.code == "2018"){
             //微信授权登录
              location.href = res.data.codeUrl
@@ -165,137 +135,35 @@ export default {
       }
       _this.$webHttp(method, param, successd);
     },
-    //全部和淘汰
-    getAll(processStr) {
-      var _this = this;
-      var method = "queryResume/queryAllRepo";
+    newApi:function(state){
+       var _this = this;
+      var method = "queryResume/getCandidateListWithCondition";
       var param = JSON.stringify({
         companyId:_this.companyId,
         pageNum: _this.pageNum,
         pageSize: _this.pageSize,
-        keyWord:"",
-        parameter:JSON.stringify({
-          sex:'',
-          resumeStatus:'',
-          resumeFrom:'',
-          workYearLow:'',
-          workYearHigh:'',
-          educationLev:'',
-          interviewTimeType:'',
-          talentRepoNo:0,
-          processStr:processStr,
-        }),
+        conditionNum:state,        //conditionNum:0，全部；1，待筛选；2，待接收；3，已接收；4，淘汰
       });
-      var successd = function (response) {
+      var successd = function (response) {      
         _this.showLoading = false
         _this.showMore = false
         _this.onFetching = false
         let res = response.data;
-        console.log('getall',res)
-        if (res.code == 0 && res.data.resultList) {
-            _this.resultList = _this.resultList.concat(res.data.resultList)
-            _this.interviewInfoList = _this.interviewInfoList.concat(res.data.interviewInfoList)
+        if (res.code == 0 && res.data.interviewInfoList) {
+            _this.resultList = _this.resultList.concat(res.data.interviewInfoList)
             _this.page = res.data.page  
-        }else if(res.code == 400){
+        }
+      }
+      var error = function(response){
+        let res = response.data;
+        if(res.code == 400){
           //登录超时，重新登录
-           console.log('登录超时，重新登录')
             _this.getCodeUrl()
         }else{
           console.log(res.code,res.message)
         }
       }
-      _this.$http(method, param, successd);
-    },
-    //筛选 
-    getSpareRepo() {
-      var _this = this;
-      var method = "queryResume/queryNewOrSpareRepo";
-      var param = JSON.stringify({
-        companyId:_this.companyId,
-        pageNum: _this.pageNum,
-        pageSize: _this.pageSize,
-        processStatus:2,
-        keyWord:"",
-        parameter:JSON.stringify({
-          sex:'',
-          resumeStatus:'',
-          resumeFrom:'',
-          workYearLow:'',
-          workYearHigh:'',
-          educationLev:'',
-          interviewTimeType:'',
-        }),
-      });
-      var successd = function (response) {
-        _this.showLoading = false
-        _this.showMore = false 
-        _this.onFetching = false
-        let res = response.data;
-        if (res.code == 0 && res.data.resultList) {
-           _this.resultList = _this.resultList.concat(res.data.resultList)
-           _this.interviewInfoList = _this.interviewInfoList.concat(res.data.interviewInfoList)
-          _this.page = res.data.page  
-        }else if(res.code == 400){
-          //登录超时，重新登录
-           _this.getCodeUrl()
-        }else{
-          console.log(res.code,res.message)
-        }
-      }
-      _this.$http(method, param, successd);
-    },
-    //待接收面试和已接收面试
-    getInterviewRepo(statu) {
-      var _this = this;
-      var method = "queryResume/queryInterviewRepo";
-      var param = JSON.stringify({
-        companyId:_this.companyId,
-        pageNum: _this.pageNum,
-        pageSize: _this.pageSize,
-        processStatus:statu,     //1-待接收，2-已接收
-        keyWord:"",
-        parameter:JSON.stringify({
-          sex:'',
-          resumeStatus:'',
-          resumeFrom:'',
-          workYearLow:'',
-          workYearHigh:'',
-          educationLev:'',
-          interviewTimeType:'',
-        }),
-      });
-      var successd = function (response) {
-        _this.showLoading = false
-        _this.showMore = false 
-        _this.onFetching = false 
-        let res = response.data;
-        if (res.code == 0 && res.data.resultList) {
-          let resultList = res.data.resultList
-          let interviewInfoList = res.data.interviewInfoList
-          for(let i = 0; i < interviewInfoList.length; i++){
-            switch(interviewInfoList[i].sex){
-              case 1:
-                resultList[i].sexStr = "男"
-                break;
-              case 2:
-                resultList[i].sexStr = "女"
-                break;
-              default:
-                resultList[i].sexStr = "未知"
-                break;
-            }
-          }
-           _this.resultList = _this.resultList.concat(resultList)
-           _this.interviewInfoList = _this.interviewInfoList.concat(interviewInfoList)      
-           _this.page = res.data.page  
-        }else if(res.code == 400){
-          //登录超时，重新登录
-           _this.getCodeUrl()
-        }else{
-          console.log(res.code,res.message)
-        }
-      }
-      _this.$http(method, param, successd);
+      _this.$http(method, param, successd, error);
     },
     //load more
     loadMore(e){
@@ -306,7 +174,7 @@ export default {
           setTimeout(() => {
             this.pageNum++
             this.showMore = true
-            this.selectRequest(this.tabIndex)
+            this.newApi(this.tabIndex)
             this.$nextTick(() => {
               this.$refs.scrollerBottom.reset()
             })
@@ -326,11 +194,32 @@ export default {
             },
             params: {
               interviewerId: item.id,
-              processStatus: this.tabIndex == 0 ? item.processStatusStr : this.statuList[this.tabIndex]
+              processStatus: this.tabIndex == 0 ? this.$options.filters['parseStatus'](item.processStatus) : this.statuList[this.tabIndex]
             }
          })
         }   
       },
+  },
+  filters:{
+    //
+    parseStatus(val){
+      switch(val){
+         case 1:
+         case 2:
+         case 3:
+          return '已接收面试';
+         case 6:
+          return '淘汰';
+         case 13:
+          return '待接收面试';
+         case 11:
+         case 14:
+         case 17:
+          return '待筛选';
+        default:
+          break;
+      }
+    }
   },
   
 }
