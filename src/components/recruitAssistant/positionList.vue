@@ -72,10 +72,11 @@
       this.options = urlParse()
       console.log('p-options', this.options)
       this.code = this.options.code
-      this.companyId = this.options.companyId
+      // this.companyId = this.options.companyId
       if(!localStorage.userInfo){
         this.getCodeUrl()
       }else{
+        this.companyId = JSON.parse(localStorage.userInfo).companyId
         this.getOnlinePosition()
       }  
     },

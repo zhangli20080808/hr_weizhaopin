@@ -90,6 +90,7 @@ export default {
     if(!localStorage.userInfo){
       this.getCodeUrl()
     }else{
+      this.companyId = JSON.parse(localStorage.userInfo).companyId
       this.showLoading = true
       this.getAll('1,2,3,6')
     }

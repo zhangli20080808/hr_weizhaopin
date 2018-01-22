@@ -91,6 +91,7 @@ export default {
     if(!localStorage.userInfo){
       this.getCodeUrl()
     }else{
+      this.companyId = JSON.parse(localStorage.userInfo).companyId
       this.showLoading = true
       this.getOfferList(0)
     }
