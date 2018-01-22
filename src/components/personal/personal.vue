@@ -248,6 +248,7 @@
           height: 0.41rem;
           margin-top: 0.15rem;
           margin-bottom: 0.56rem;
+          font-size: 
           .personal_yg {
             display: inline-block;
             vertical-align: middle;
