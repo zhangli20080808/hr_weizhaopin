@@ -144,6 +144,7 @@
     color: #333;
     width: 75%;
     margin: 0 auto;
+    font-size: 16px;
   }
 
   .hrm_primary_btn {

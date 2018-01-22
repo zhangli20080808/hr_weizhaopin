@@ -32,8 +32,6 @@
 <script>
   import {XHeader, Search, Group, Cell, Scroller, LoadMore} from 'vux'
   import loading from '../../components/base/loading/loading2.vue'
-import { setFlagsFromString } from 'v8';
-
   export default {
     data(){
       document.title = '求职记录';      
@@ -151,6 +149,7 @@ import { setFlagsFromString } from 'v8';
           }
         }
         .companyName {
+          font-size: 0.26rem;
           margin-bottom: 6px;
           .company_icon {
             display: inline-block;
