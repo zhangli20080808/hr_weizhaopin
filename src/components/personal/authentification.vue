@@ -95,7 +95,6 @@
 
 <script>
   import {Tab, TabItem, XInput, Group, XButton, Cell, XDialog, XImg, TransferDom, Popup, XHeader, Toast} from 'vux'
-import { setFlagsFromString } from 'v8';
 
   export default {
     data(){
