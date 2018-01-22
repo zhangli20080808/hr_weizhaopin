@@ -192,7 +192,7 @@ import { triggerAsyncId } from 'async_hooks';
       Group,
       XSwitch,
       XButton
-    },
+    }
   }
 
 </script>
