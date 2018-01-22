@@ -6,9 +6,9 @@
         <img class="img" :src="personalInfo.headImgUrl">
         <div class="name">{{personalInfo.name}}</div>
         <div class="personal_sign">
-          <span class="personal_yg" v-if="personalInfo.isEmployeeCertification == 1"  @click="goAuthentification('1')"></span>
-          <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"  @click="goAuthentification('2')"></span>
-          <span class="authentication" @click="goAuthentification" v-if="personalInfo.isEmployeeCertification == 0||personalInfo.isNotEmployeeCertification == 0"></span>
+          <span class="personal_yg" v-if="personalInfo.isEmployeeCertification == 1"  @click="goAuthentification"></span>
+          <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"  @click="goAuthentification"></span>
+          <span class="authentication" @click="goAuthentification('3')" v-if="personalInfo.isEmployeeCertification == 0||personalInfo.isNotEmployeeCertification == 0"></span>
         </div>
       </div>
     </div>
@@ -65,8 +65,6 @@
 
 <script>
   import {Confirm, Group, XSwitch, XButton, TransferDomDirective as TransferDom} from 'vux'
-import { triggerAsyncId } from 'async_hooks';
-
   export default {
     data(){
       document.title = '个人中心';
@@ -77,9 +75,9 @@ import { triggerAsyncId } from 'async_hooks';
         companyId: this.$route.query.companyId,
         fansId: this.$route.query.fansId,
         personalInfo: {},
-        pageFrom:1
-//        isEmployeeCertification: 0,     //员工认证 （0：没有认证过，1:已经认证过）
-//        isNotEmployeeCertification: 0,  //求职者认证 （0：没有认证过，1:已经认证过）
+        pageFrom:1,
+        isEmployeeCertification: 0,     //员工认证 （0：没有认证过，1:已经认证过）
+        isNotEmployeeCertification: 0,  //求职者认证 （0：没有认证过，1:已经认证过）
       }
     },
     methods: {
@@ -130,16 +128,32 @@ import { triggerAsyncId } from 'async_hooks';
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.personalInfo = res.data.data.weixinPersonalInfo;
+           _this.isEmployeeCertification =  _this.personalInfo.isEmployeeCertification;
+           _this.isNotEmployeeCertification =  _this.personalInfo.isNotEmployeeCertification;
           }
         }
         _this.$http(method, param, successd);
       },
       goAuthentification(item){
-        let yg,hunt;
-        if(item == 1){
-          yg = true;
+        let firstOption,SecondOption,thridOption,forthOption,thirdSign,fourSign;
+        //都没验证 firstOption
+        //都验证  SecondOption
+        //员工验证 求职者没验证  thridOption
+        //求职者验证 员工美验证 forthOption
+        if(this.isEmployeeCertification==0&&this.isNotEmployeeCertification==0){
+          firstOption = true;
+        }else if(this.isEmployeeCertification==1&&this.isNotEmployeeCertification==1){
+          SecondOption = true;
+        }else if(this.isEmployeeCertification==1&&this.isNotEmployeeCertification==0){
+          thridOption = true;     
+          if(item == 3){
+            thirdSign = true;
+          }    
         }else{
-          hunt = true;
+          forthOption = true;
+          if(item == 3){
+            fourSign = true;
+          }
         }
         this.$router.push({
           name: 'authentification',
@@ -147,8 +161,12 @@ import { triggerAsyncId } from 'async_hooks';
           query: {
             companyId: this.companyId,
             fansId: this.fansId,
-            yg:yg,
-            hunt:hunt
+            firstOption:firstOption,
+            SecondOption:SecondOption,
+            thridOption:thridOption,
+            forthOption:forthOption,
+            thirdSign:thirdSign,
+            fourSign:fourSign
           }
         })
       },
@@ -181,7 +199,7 @@ import { triggerAsyncId } from 'async_hooks';
       }
     },
     mounted(){
-      this.userAuthUrl()
+      this.userAuthUrl();
       this.getWeixinPersonalInfo();
     },
     directives: {

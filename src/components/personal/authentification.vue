@@ -2,7 +2,7 @@
 
   <div class="authentification">
     <tab :line-width=0>
-      <tab-item :selected="staff === item" v-for="(item, index) in rememberList" @on-item-click="onItemClick"
+      <tab-item :selected="staff == index" v-for="(item, index) in rememberList" @on-item-click="onItemClick(index)"
                 :key="index">{{item}}
 
 
@@ -10,6 +10,7 @@
 
       </tab-item>
     </tab>
+    {{nowIndex}}
     <!--我是员工-->
     <div class="loginInterpolate" v-show="nowIndex==0" id="interpolate">
       <!-- <div class="title">身份认证</div> -->
@@ -94,420 +95,454 @@
 </template>
 
 <script>
-  import {Tab, TabItem, XInput, Group, XButton, Cell, XDialog, XImg, TransferDom, Popup, XHeader, Toast} from 'vux'
-  export default {
-    data(){
-      return {
-        rememberList: ['我是员工', '我不是员工（求职者）'],
-        staff: '我是员工',
-        nowIndex: 0,
-        //员工认证
-        type: '',
-        companyId: this.$route.query.companyId,
-        vcode: '',
-        email: '',
-        name: '',
-        showScrollBox: false,
-        showScrollBox1: false,
-        shareOpenId: this.$route.query.shareOpenId,
-        positionId: this.$route.query.positionId || 0,
-        shareFansId: this.$route.query.shareFansId,
-        fansId: this.$route.query.fansId,
-        recomType: this.$route.query.recomType,
-        pageFrom: this.$route.query.pageFrom,
-        btnLoading: false,
-        //求职者认证
-        phone: '',
-        checkCode: '',
-        daojishi: false,
-        verificationCode: "获取验证码",
-        personalInfo: {}
-      }
+import {
+  Tab,
+  TabItem,
+  XInput,
+  Group,
+  XButton,
+  Cell,
+  XDialog,
+  XImg,
+  TransferDom,
+  Popup,
+  XHeader,
+  Toast
+} from "vux";
+export default {
+  data() {
+    return {
+      rememberList: ["我是员工", "我不是员工（求职者）"],
+      staff: this.$route.query.staff || 0,
+      nowIndex: 0,
+      //员工认证
+      type: "",
+      companyId: this.$route.query.companyId,
+      vcode: "",
+      email: "",
+      name: "",
+      showScrollBox: false,
+      showScrollBox1: false,
+      shareOpenId: this.$route.query.shareOpenId,
+      positionId: this.$route.query.positionId || 0,
+      shareFansId: this.$route.query.shareFansId,
+      fansId: this.$route.query.fansId,
+      recomType: this.$route.query.recomType,
+      pageFrom: this.$route.query.pageFrom,
+      btnLoading: false,
+      //求职者认证
+      phone: "",
+      checkCode: "",
+      daojishi: false,
+      verificationCode: "获取验证码",
+      personalInfo: {},
+      isEmployeeCertification: 0,     //员工认证 （0：没有认证过，1:已经认证过）
+      isNotEmployeeCertification: 0,  //求职者认证 （0：没有认证过，1:已经认证过）
+    };
+  },
+  methods: {
+    onItemClick(index) {
+      this.nowIndex = index;
     },
-    methods: {
-      onItemClick(index){
-        this.nowIndex = index
-      },
-      verification(){
-        //景麒45  xiaohui@iyenei.com
-        let self = this;
-        if (self.btnLoading) {
-          return false
-        } else {
-          self.btnLoading = true;
-        }
-        let methods = "positionRecommend/innerEmpAuth",
-          param = JSON.stringify({
-            companyId: self.companyId,
-            fansId: self.fansId,
-            empName: self.name,
-            empEmail: self.email,
-          }),
-          successd = (res) => {
-            self.btnLoading = false;
-            console.log(res.data.data)
+    verification() {
+      //景麒45  xiaohui@iyenei.com
+      let self = this;
+      if (self.btnLoading) {
+        return false;
+      } else {
+        self.btnLoading = true;
+      }
+      let methods = "positionRecommend/innerEmpAuth",
+        param = JSON.stringify({
+          companyId: self.companyId,
+          fansId: self.fansId,
+          empName: self.name,
+          empEmail: self.email
+        }),
+        successd = res => {
+          self.btnLoading = false;
+          console.log(res.data.data);
 
-            if (res.data.data.resCode == 1) {
-                console.log(res.data.data.resCode)
-              self.empId = res.data.data.empId;
-              self.$router.push({
-                name: 'authentificationResult',
-                path:'/authentificationResult',
-                query: {
-                  fansId: self.fansId,
-                  companyId: self.companyId,
-                  empId: self.empId,
-                  email: self.empEmail,
-                  shareFansId: self.shareFansId,
-                  recomType: self.recomType,
-                  pageFrom: self.pageFrom
-                }
-              });
-            }
-          },
-          errord = (res) => {
-            self.btnLoading = false;
-            self.$vux.toast.text(res.data.message, 'top');
-          };
-        self.$http(methods, param, successd, errord);
-      },
-      retransmission(){
-        let self = this;
-        let methods = "positionRecommend/sendEmailAgain",
-          param = JSON.stringify({
-            empId: self.empId
-          }),
-          successd = (res) => {
-            self.showScrollBox1 = true;
-          };
-        self.$http(methods, param, successd);
-      },
-      sendCheckCode(){
-        var self = this;
-        if (self.daojishi) {
-          return false;
-        }
-        var method = "weixin/sendCheckCode",
-          param = {phone: self.phone},
-          successd = function (res) {
-            self.$vux.toast.text(res.data.resMsg, 'top');
-            if (res.data.code == 0) {
-              self.daojishi = true;
-              var t = 60;
-              var timer = setInterval(() => {
-                if (t <= 0) {
-                  self.verificationCode = "发送验证码";
-                  self.daojishi = false;
-                  clearInterval(timer);
-                  return false;
-                }
-                self.verificationCode = "发送验证码" + t + 's';
-                t--;
-              }, 1000);
-            }
-          };
-        self.$webHttp(method, param, successd);
-      },
-      finishCheck(){
-        var self = this;
-        var method = "weixin/finishCheck",
-          param = {
-            phone: self.phone,
-            checkCode: self.checkCode,
-            companyId: self.companyId,
-            fansId: self.fansId
-          },
-          successd = function (res) {
-            if (res.data.code == 0) {
-              self.renzhengShow = false;
-              self.shareTipShow = true;
-              self.$vux.toast.text(res.data.resMsg, 'top');      
-              location.reload();                  
-            }else{
-              self.$vux.toast.text(res.data.resMsg, 'top');      
-            }
-          };
-        self.$webHttp(method, param, successd);
-      },
-      getWeixinPersonalInfo(){
-        var _this = this;
-        var method = "wexinPersonalInfo/getWeixinPersonalInfo";
-        var param = JSON.stringify({
-          companyId: this.companyId,
-          fansId: this.fansId
-        });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            _this.personalInfo = res.data.data.weixinPersonalInfo;
-          //   if(_this.personalInfo.isEmployeeCertification == 0){
-          //     _this.nowIndex = 0;
-          //   }
-          //  if(_this.personalInfo.isNotEmployeeCertification == 0){
-          //     _this.nowIndex = 1;
-          //   }            
+          if (res.data.data.resCode == 1) {
+            console.log(res.data.data.resCode);
+            self.empId = res.data.data.empId;
+            self.$router.push({
+              name: "authentificationResult",
+              path: "/authentificationResult",
+              query: {
+                fansId: self.fansId,
+                companyId: self.companyId,
+                empId: self.empId,
+                email: self.empEmail,
+                shareFansId: self.shareFansId,
+                recomType: self.recomType,
+                pageFrom: self.pageFrom
+              }
+            });
           }
+        },
+        errord = res => {
+          self.btnLoading = false;
+          self.$vux.toast.text(res.data.message, "top");
+        };
+      self.$http(methods, param, successd, errord);
+    },
+    retransmission() {
+      let self = this;
+      let methods = "positionRecommend/sendEmailAgain",
+        param = JSON.stringify({
+          empId: self.empId
+        }),
+        successd = res => {
+          self.showScrollBox1 = true;
+        };
+      self.$http(methods, param, successd);
+    },
+    sendCheckCode() {
+      var self = this;
+      if (self.daojishi) {
+        return false;
+      }
+      var method = "weixin/sendCheckCode",
+        param = { phone: self.phone },
+        successd = function(res) {
+          self.$vux.toast.text(res.data.resMsg, "top");
+          if (res.data.code == 0) {
+            self.daojishi = true;
+            var t = 60;
+            var timer = setInterval(() => {
+              if (t <= 0) {
+                self.verificationCode = "发送验证码";
+                self.daojishi = false;
+                clearInterval(timer);
+                return false;
+              }
+              self.verificationCode = "发送验证码" + t + "s";
+              t--;
+            }, 1000);
+          }
+        };
+      self.$webHttp(method, param, successd);
+    },
+    finishCheck() {
+      var self = this;
+      var method = "weixin/finishCheck",
+        param = {
+          phone: self.phone,
+          checkCode: self.checkCode,
+          companyId: self.companyId,
+          fansId: self.fansId
+        },
+        successd = function(res) {
+          if (res.data.code == 0) {
+            self.renzhengShow = false;
+            self.shareTipShow = true;
+            self.$vux.toast.text(res.data.resMsg, "top");
+            location.reload();
+          } else {
+            self.$vux.toast.text(res.data.resMsg, "top");
+          }
+        };
+      self.$webHttp(method, param, successd);
+    },
+    getWeixinPersonalInfo() {
+      var _this = this;
+      var method = "wexinPersonalInfo/getWeixinPersonalInfo";
+      var param = JSON.stringify({
+        companyId: this.companyId,
+        fansId: this.fansId
+      });
+      var successd = function(res) {
+        if (res.data.code == 0) {
+          _this.personalInfo = res.data.data.weixinPersonalInfo;
+          _this.isEmployeeCertification =  _this.personalInfo.isEmployeeCertification
+          _this.isNotEmployeeCertification =  _this.personalInfo.isNotEmployeeCertification
         }
-        _this.$http(method, param, successd);
-      }
-    },
-    components: {
-      Tab,
-      TabItem,
-      XInput, Group, XButton, Cell, XDialog, XImg, Popup, XHeader, Toast
-    },
-    mounted(){
-      console.log(this.$route)
-      this.getWeixinPersonalInfo()      
-      if(this.$route.query.yg){
-        this.nowIndex = 0;
-      }
-      if(this.$route.query.hunt){
-        this.nowIndex = 1;
-      }
-    },
-    directives: {
-      TransferDom
+      };
+      _this.$http(method, param, successd);
     }
+  },
+  components: {
+    Tab,
+    TabItem,
+    XInput,
+    Group,
+    XButton,
+    Cell,
+    XDialog,
+    XImg,
+    Popup,
+    XHeader,
+    Toast
+  },
+  mounted() {
+    this.getWeixinPersonalInfo();
+    if (this.$route.query.firstOption) {
+      this.nowIndex = 0;
+      this.staff = 0;
+    } else if (this.$route.query.SecondOption) {
+      this.nowIndex = 0;
+      this.staff = 0;
+    } else if (this.$route.query.thridOption) {
+      this.nowIndex = 0;
+      this.staff = 0;
+      if(this.$route.query.thirdSign){
+       this.nowIndex = 1;
+      this.staff = 1;
+      }
+    } else {
+        this.nowIndex = 1;
+      this.staff = 1;
+      if(this.$route.query.fourSign){
+      this.nowIndex = 0;
+      this.staff = 0;
+      }
+    }
+  },
+  directives: {
+    TransferDom
   }
-
+};
 </script>
 <style lang="less">
-  .authentification {
-    .loginInterpolate {
-      .group {
-        .vux-no-group-title {
-          margin-top: 0.31rem;
-          &:before {
-            border-top: none;
-          }
+.authentification {
+  .loginInterpolate {
+    .group {
+      .vux-no-group-title {
+        margin-top: 0.31rem;
+        &:before {
+          border-top: none;
         }
       }
-      .noTips {
-        .imgTips {
-          margin-top: 56px;
-          .img {
-            display: block;
-            width: 130px;
-            height: 130px;
-            background: url("../../common/image/personal/noResutl_icon.png") no-repeat center;
-            background-size: 60%;
-            margin: 0 auto;
-          }
+    }
+    .noTips {
+      .imgTips {
+        margin-top: 56px;
+        .img {
+          display: block;
+          width: 130px;
+          height: 130px;
+          background: url("../../common/image/personal/noResutl_icon.png")
+            no-repeat center;
+          background-size: 60%;
+          margin: 0 auto;
         }
-        .text {
-          font-size: 0.28rem;
-          color: #99a9bf;
-          text-align: center;
-          margin-top: 0.2rem;
-          p {
-            margin-top: 10px;
-            &:last-child {
-              margin-bottom: 100px;
-            }
+      }
+      .text {
+        font-size: 0.28rem;
+        color: #99a9bf;
+        text-align: center;
+        margin-top: 0.2rem;
+        p {
+          margin-top: 10px;
+          &:last-child {
+            margin-bottom: 100px;
           }
         }
       }
     }
-    .authentification_qz {
-      .check_code {
-        .weui-cells:after {
+  }
+  .authentification_qz {
+    .check_code {
+      .weui-cells:after {
+        border-bottom: none;
+      }
+    }
+    .noTips {
+      .imgTips {
+        margin-top: 56px;
+        .img {
+          display: block;
+          width: 130px;
+          height: 130px;
+          background: url("../../common/image/personal/noResutl_icon.png")
+            no-repeat center;
+          background-size: 60%;
+          margin: 0 auto;
+        }
+      }
+      .text {
+        font-size: 0.28rem;
+        color: #99a9bf;
+        text-align: center;
+        margin-top: 0.2rem;
+        p {
+          margin-top: 10px;
+          &:last-child {
+            margin-bottom: 100px;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
+<style scoped lang="less">
+.authentification {
+  background: #f8f8fc;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  .vux-tab .vux-tab-item {
+    background: #ebebf1;
+  }
+  .vux-tab .vux-tab-item.vux-tab-selected {
+    color: #353535;
+    background: #fff;
+  }
+  .loginInterpolate {
+    .group {
+      .info {
+        display: flex;
+        padding: 10px 30px;
+        .img {
+          display: inline-block;
+          float: left;
+          width: 0.34rem;
+          height: 0.34rem;
+          background: url(../../common/image/personal/info.png) no-repeat center;
+          background-size: 100%;
+          margin-top: 2px;
+          padding-top: 10px;
+        }
+        .text {
+          flex: 1;
+          padding-left: 3px;
+          font-size: 0.28rem;
+          color: #fda94f;
+          line-height: 25px;
+          text-align: left;
+          background-color: #fff;
+        }
+      }
+      .yzInfo {
+      }
+    }
+  }
+  .authentification_qz {
+    .check_code {
+      .codePhone {
+        background: #fff;
+        color: #5aa2e7;
+      }
+      .btn_content {
+        padding: 10px 15px;
+        margin-top: 0.5rem;
+        &:after {
           border-bottom: none;
         }
       }
-      .noTips {
-        .imgTips {
-          margin-top: 56px;
-          .img {
-            display: block;
-            width: 130px;
-            height: 130px;
-            background: url("../../common/image/personal/noResutl_icon.png") no-repeat center;
-            background-size: 60%;
-            margin: 0 auto;
-          }
-        }
-        .text {
-          font-size: 0.28rem;
-          color: #99a9bf;
-          text-align: center;
-          margin-top: 0.2rem;
-          p {
-            margin-top: 10px;
-            &:last-child {
-              margin-bottom: 100px;
-            }
+    }
+    .check_code2 {
+      .weui-cell__primary {
+        .weui-input {
+          font-size: 15px;
+          &::placeholder {
+            font-size: 14px;
           }
         }
       }
     }
   }
-</style>
-<style scoped lang="less">
-  .authentification {
-    background: #F8F8FC;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    .vux-tab .vux-tab-item {
-      background: #EBEBF1;
-    }
-    .vux-tab .vux-tab-item.vux-tab-selected {
-      color: #353535;
-      background: #fff;
-    }
-    .loginInterpolate {
-      .group {
-        .info {
-          display: flex;
-          padding: 10px 30px;
-          .img {
-            display: inline-block;
-            float: left;
-            width: 0.34rem;
-            height: 0.34rem;
-            background: url(../../common/image/personal/info.png) no-repeat center;
-            background-size: 100%;
-            margin-top: 2px;
-            padding-top: 10px;
-          }
-          .text {
-            flex: 1;
-            padding-left: 3px;
-            font-size: 0.28rem;
-            color: #FDA94F;
-            line-height: 25px;
-            text-align: left;
-            background-color: #fff;
-          }
-        }
-        .yzInfo {
-
-        }
-      }
-
-    }
-    .authentification_qz {
-      .check_code {
-        .codePhone {
-          background: #fff;
-          color: #5AA2E7;
-        }
-        .btn_content {
-          padding: 10px 15px;
-          margin-top: 0.5rem;
-          &:after {
-            border-bottom: none;
-          }
-        }
-      }
-      .check_code2 {
-        .weui-cell__primary {
-          .weui-input {
-            font-size: 15px;
-            &::placeholder {
-              font-size: 14px;
-            }
-          }
-        }
-
-      }
-    }
-    #interpolate .weui-dialog {
-      padding: 0 20px;
-    }
-    #interpolate button.weui-btn, input.weui-btn {
-      /* margin:10px 5% 15px;
+  #interpolate .weui-dialog {
+    padding: 0 20px;
+  }
+  #interpolate button.weui-btn,
+  input.weui-btn {
+    /* margin:10px 5% 15px;
       width: 90%; */
-    }
-    #interpolate .vueCloseWrap {
-      position: absolute;
-      right: 10px;
-      top: 10px;
-    }
-    #interpolate .weui-cells:before, #interpolate .weui-cells:after, #interpolate .weui-cell:before {
-      border: none;
-    }
-    #interpolate .weui-cell {
-      padding-left: 0;
-      margin: 0 30px;
-      border-bottom: 1px solid #D9D9D9;
-    }
-    #interpolate .weui-btn_primary {
-      background-color: #5aa2e7;
-    }
-    .login_lagou {
-      text-align: center;
-    }
-    img {
-      width: 35px;
-      margin-top: 20px;
-    }
-    .title {
-      font-size: 17px;
-      width: 100%;
-      height: 3.5rem;
-      line-height: 3.5rem;
-      background: #64B5F6;
-      color: #fff;
-    }
-    .weui-dialog p {
-      font-size: 14px;
-    }
-    a {
-      text-align: left;
-      font-size: 14px;
-      margin-bottom: 15px;
-      display: inline-block;
-      color: #3399FF;
-      text-decoration: none;
-    }
-    .header {
-      background-color: #64b5f6;
-    }
   }
-
-</style>
-<style>
-  .authentification .check_code .weui-cells:before {
-    border: none;
-  }
-
-  .authentification .check_code .codePhone:after {
-    border: none;
-    border-left: 1px solid #ccc;
-    border-radius: 0
-  }
-
-  .authentification .check_code2.weui-cell::after {
-    content: '';
+  #interpolate .vueCloseWrap {
     position: absolute;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    height: 1px;
-    border-bottom: 1px solid #D9D9D9;
-    color: #D9D9D9;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
+    right: 10px;
+    top: 10px;
   }
-
-  .authentification .weui-btn {
-    background-color: #5AA2E7;
+  #interpolate .weui-cells:before,
+  #interpolate .weui-cells:after,
+  #interpolate .weui-cell:before {
+    border: none;
   }
-
-  .authentification .btn_content .weui-btn_disabled, .authentification .loginInterpolate .group .yzInfo .weui-btn_disabled {
-    background-color: #b8d5f4 !important;
+  #interpolate .weui-cell {
+    padding-left: 0;
+    margin: 0 30px;
+    border-bottom: 1px solid #d9d9d9;
+  }
+  #interpolate .weui-btn_primary {
+    background-color: #5aa2e7;
+  }
+  .login_lagou {
+    text-align: center;
+  }
+  img {
+    width: 35px;
+    margin-top: 20px;
+  }
+  .title {
+    font-size: 17px;
+    width: 100%;
+    height: 3.5rem;
+    line-height: 3.5rem;
+    background: #64b5f6;
     color: #fff;
   }
-
-  .authentification .weui-btn:active {
-    background-color: #5AA2E7 !important;
+  .weui-dialog p {
+    font-size: 14px;
   }
+  a {
+    text-align: left;
+    font-size: 14px;
+    margin-bottom: 15px;
+    display: inline-block;
+    color: #3399ff;
+    text-decoration: none;
+  }
+  .header {
+    background-color: #64b5f6;
+  }
+}
+</style>
+<style>
+.authentification .check_code .weui-cells:before {
+  border: none;
+}
+
+.authentification .check_code .codePhone:after {
+  border: none;
+  border-left: 1px solid #ccc;
+  border-radius: 0;
+}
+
+.authentification .check_code2.weui-cell::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 1px;
+  border-bottom: 1px solid #d9d9d9;
+  color: #d9d9d9;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  left: 15px;
+}
+
+.authentification .weui-btn {
+  background-color: #5aa2e7;
+}
+
+.authentification .btn_content .weui-btn_disabled,
+.authentification .loginInterpolate .group .yzInfo .weui-btn_disabled {
+  background-color: #b8d5f4 !important;
+  color: #fff;
+}
+
+.authentification .weui-btn:active {
+  background-color: #5aa2e7 !important;
+}
 </style>
 
 
