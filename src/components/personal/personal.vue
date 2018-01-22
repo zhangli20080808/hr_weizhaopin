@@ -65,8 +65,6 @@
 
 <script>
   import {Confirm, Group, XSwitch, XButton, TransferDomDirective as TransferDom} from 'vux'
-import { triggerAsyncId } from 'async_hooks';
-
   export default {
     data(){
       document.title = '个人中心';
