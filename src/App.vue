@@ -254,7 +254,8 @@
     },
     mounted(){
       this.getSignature();
-      if(this.$route.path.indexOf('/pc/')==-1){
+      let path = this.$route.path;
+      if(path.indexOf('/pc/')==-1 && path.indexOf('raPositionList')==-1 && path.indexOf('candidate')==-1 && path.indexOf('offer')==-1 && path.indexOf('raLogin')==-1){
         this.$nextTick(() => {
           this._getIndexInfo()
           this.all = ''
@@ -274,7 +275,7 @@
         }
         this.$router.isBack = false;
         //判断需不需要展示头部nav
-        if(to.path.indexOf('/pc/')==-1){
+        if(to.path.indexOf('/pc/')==-1 && path.indexOf('raPositionList')==-1 && path.indexOf('candidate')==-1 && path.indexOf('offer')==-1 && path.indexOf('raLogin')==-1){
           is.$nextTick(() => {
             this._getIndexInfo()
             this.all = ''

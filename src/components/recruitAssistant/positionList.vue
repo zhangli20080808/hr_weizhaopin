@@ -76,9 +76,7 @@
       if(!localStorage.userInfo){
         this.getCodeUrl()
       }else{
-        this.$nextTick(() => {
         this.getOnlinePosition()
-       })
       }  
     },
     methods: {
@@ -96,7 +94,7 @@
             //登录成功
              _this.companyId = res.data.companyId
            localStorage.userInfo = JSON.stringify(res.data);
-        
+           _this.getOnlinePosition()
         }else if(res.code == "2018"){
             //微信授权登录
              location.href = res.data.codeUrl
