@@ -32,7 +32,6 @@
 <script>
   import {XHeader, Search, Group, Cell, Scroller, LoadMore} from 'vux'
   import loading from '../../components/base/loading/loading2.vue'
-import { setFlagsFromString } from 'v8';
 
   export default {
     data(){
