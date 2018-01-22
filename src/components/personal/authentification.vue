@@ -239,12 +239,12 @@
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.personalInfo = res.data.data.weixinPersonalInfo;
-            if(_this.personalInfo.isEmployeeCertification == 0){
-              _this.nowIndex = 0;
-            }
-           if(_this.personalInfo.isNotEmployeeCertification == 0){
-              _this.nowIndex = 1;
-            }            
+          //   if(_this.personalInfo.isEmployeeCertification == 0){
+          //     _this.nowIndex = 0;
+          //   }
+          //  if(_this.personalInfo.isNotEmployeeCertification == 0){
+          //     _this.nowIndex = 1;
+          //   }            
           }
         }
         _this.$http(method, param, successd);

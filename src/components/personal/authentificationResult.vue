@@ -27,7 +27,7 @@
   export default {
     name: 'authentificationResult',
     data(){
-      document.title = "个人中心";      
+      document.title = "认证";      
       return {
         email: this.$route.query.email,
         empId: this.$route.query.empId,

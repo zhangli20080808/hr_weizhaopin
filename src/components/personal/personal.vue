@@ -6,8 +6,8 @@
         <img class="img" :src="personalInfo.headImgUrl">
         <div class="name">{{personalInfo.name}}</div>
         <div class="personal_sign">
-          <span class="personal_yg" v-if="personalInfo.isEmployeeCertification == 1"  @click="goAuthentification('yg')"></span>
-          <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"  @click="goAuthentification('hunt')"></span>
+          <span class="personal_yg" v-if="personalInfo.isEmployeeCertification == 1"  @click="goAuthentification('1')"></span>
+          <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"  @click="goAuthentification('2')"></span>
           <span class="authentication" @click="goAuthentification" v-if="personalInfo.isEmployeeCertification == 0||personalInfo.isNotEmployeeCertification == 0"></span>
         </div>
       </div>
@@ -65,6 +65,7 @@
 
 <script>
   import {Confirm, Group, XSwitch, XButton, TransferDomDirective as TransferDom} from 'vux'
+import { triggerAsyncId } from 'async_hooks';
 
   export default {
     data(){
@@ -134,13 +135,20 @@
         _this.$http(method, param, successd);
       },
       goAuthentification(item){
+        let yg,hunt;
+        if(item == 1){
+          yg = true;
+        }else{
+          hunt = true;
+        }
         this.$router.push({
           name: 'authentification',
+          path:'/authentification',
           query: {
             companyId: this.companyId,
             fansId: this.fansId,
-            yg:item,
-            hunt:item
+            yg:yg,
+            hunt:hunt
           }
         })
       },
