@@ -120,7 +120,7 @@
         .positionName {
           color: #222;
           font-size: 0.34rem;
-          margin-bottom: 6px;
+          margin-bottom: 0.2rem;
           .text {
             display: inline-block;
             vertical-align: middle;
@@ -150,7 +150,7 @@
         }
         .companyName {
           font-size: 0.26rem;
-          margin-bottom: 6px;
+          margin-bottom: 0.2rem;
           .company_icon {
             display: inline-block;
             vertical-align: middle;
