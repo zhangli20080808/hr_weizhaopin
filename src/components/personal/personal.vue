@@ -6,8 +6,8 @@
         <img class="img" :src="personalInfo.headImgUrl">
         <div class="name">{{personalInfo.name}}</div>
         <div class="personal_sign">
-          <span class="personal_yg" v-if="personalInfo.isEmployeeCertification == 1"></span>
-          <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"></span>
+          <span class="personal_yg" v-if="personalInfo.isEmployeeCertification == 1"  @click="goAuthentification"></span>
+          <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"  @click="goAuthentification"></span>
           <span class="authentication" @click="goAuthentification" v-if="personalInfo.isEmployeeCertification == 0||personalInfo.isNotEmployeeCertification == 0"></span>
         </div>
       </div>
