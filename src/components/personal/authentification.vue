@@ -224,6 +224,7 @@
               self.$vux.toast.text(res.data.resMsg, 'top');      
               self.$router.push({
                 name: 'authentification',
+                path:'/authentification',
                 query: {
                   companyId: self.companyId,
                   fansId: self.fansId
