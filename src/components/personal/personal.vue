@@ -6,8 +6,8 @@
         <img class="img" :src="personalInfo.headImgUrl">
         <div class="name">{{personalInfo.name}}</div>
         <div class="personal_sign">
-          <span class="personal_yg" v-if="personalInfo.isEmployeeCertification == 1"  @click="goAuthentification"></span>
-          <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"  @click="goAuthentification"></span>
+          <span class="personal_yg" v-if="personalInfo.isEmployeeCertification == 1"  @click="goAuthentification(yg)"></span>
+          <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"  @click="goAuthentification(hunt)"></span>
           <span class="authentication" @click="goAuthentification" v-if="personalInfo.isEmployeeCertification == 0||personalInfo.isNotEmployeeCertification == 0"></span>
         </div>
       </div>
@@ -133,12 +133,14 @@
         }
         _this.$http(method, param, successd);
       },
-      goAuthentification(){
+      goAuthentification(item){
         this.$router.push({
           name: 'authentification',
           query: {
             companyId: this.companyId,
-            fansId: this.fansId
+            fansId: this.fansId,
+            yg:item,
+            hunt:item
           }
         })
       },
