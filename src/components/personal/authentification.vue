@@ -95,7 +95,6 @@
 
 <script>
   import {Tab, TabItem, XInput, Group, XButton, Cell, XDialog, XImg, TransferDom, Popup, XHeader, Toast} from 'vux'
-
   export default {
     data(){
       return {
@@ -230,6 +229,8 @@
                   fansId: self.fansId
                 }
               })                     
+            }else{
+              self.$vux.toast.text(res.data.resMsg, 'top');      
             }
           };
         self.$webHttp(method, param, successd);
@@ -245,10 +246,10 @@
           if (res.data.code == 0) {
             _this.personalInfo = res.data.data.weixinPersonalInfo;
             if(_this.personalInfo.isEmployeeCertification == 0){
-              _this.nowIndex == 0;
+              _this.nowIndex = 0;
             }
            if(_this.personalInfo.isNotEmployeeCertification == 0){
-              _this.nowIndex == 1;
+              _this.nowIndex = 1;
             }            
           }
         }
@@ -265,10 +266,10 @@
       console.log(this.$route)
       this.getWeixinPersonalInfo()      
       if(this.$route.query.yg){
-        this.nowIndex == 0;
+        this.nowIndex = 0;
       }
       if(this.$route.query.hunt){
-        this.nowIndex == 1;
+        this.nowIndex = 1;
       }
     },
     directives: {
