@@ -43,7 +43,7 @@
           <span class="vux-close"></span>
         </div>
         <img src="./../../assets/img/email.png" alt="succ">
-        <p>已给您的邮箱{{email}}发送了一封邮件，请查看并完成认证</p>
+        <p style="font-size:14px;">已给您的邮箱{{email}}发送了一封邮件，请查看并完成认证</p>
         <x-button type="primary" @click.native="verification(1)" class="hrm_primary_btn">我已完成认证</x-button>
         <p><a href="javascript:;" @click="retransmission">重新发送邮件</a>
           <a href="javascript:;" style="float: right;" @click="showScrollBox1=false;">重新认证</a></p>
@@ -375,6 +375,10 @@
       right: 10px;
       top: 10px;
     }
+    #interpolate .vueCloseWrap p{
+      font-size:14px;
+    }
+
     #interpolate .weui-cells:before, #interpolate .weui-cells:after, #interpolate .weui-cell:before {
       border: none;
     }

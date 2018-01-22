@@ -228,6 +228,7 @@
     background: #F8F8FC;
     .personal_top {
       background: #fff;
+      height: 3.8rem;
       .personal_content {
         text-align: center;
         padding-top: 0.3rem;
@@ -243,11 +244,10 @@
           color: #000;
         }
         .personal_sign {
-          display: inline-block;
           width: 100%;
           height: 0.41rem;
           margin-top: 0.15rem;
-          margin-bottom: 0.56rem;
+          font-size: 14px;
           .personal_yg {
             display: inline-block;
             vertical-align: middle;
