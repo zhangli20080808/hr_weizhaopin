@@ -87,13 +87,14 @@ export default {
     this.options = urlParse()
     this.code = this.options.code
     console.log(this.$route.query)
-    if(!localStorage.userInfo){
-      this.getCodeUrl()
-    }else{
-      this.companyId = JSON.parse(localStorage.userInfo).companyId
-      this.showLoading = true
-      this.getAll('1,2,3,6')
-    }
+    this.getCodeUrl()
+    // if(!localStorage.userInfo){
+    //   this.getCodeUrl()
+    // }else{
+    //   this.companyId = JSON.parse(localStorage.userInfo).companyId
+    //   this.showLoading = true
+    //   this.getAll('1,2,3,6')
+    // }
   },
   methods:{
     onItemClick (index) {

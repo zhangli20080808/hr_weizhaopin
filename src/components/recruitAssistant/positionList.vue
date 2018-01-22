@@ -63,7 +63,7 @@
         pageNum:1,
         page:{},
         list: [],
-        showLoading:true,
+        showLoading:false,
         showMore: false,
         onFetching:false,
       }
@@ -72,13 +72,13 @@
       this.options = urlParse()
       console.log('p-options', this.options)
       this.code = this.options.code
-      // this.companyId = this.options.companyId
-      if(!localStorage.userInfo){
-        this.getCodeUrl()
-      }else{
-        this.companyId = JSON.parse(localStorage.userInfo).companyId
-        this.getOnlinePosition()
-      }  
+      this.getCodeUrl()
+      // if(!localStorage.userInfo){
+      //   this.getCodeUrl()
+      // }else{
+      //   this.companyId = JSON.parse(localStorage.userInfo).companyId
+      //   this.getOnlinePosition()
+      // }  
     },
     methods: {
        //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值
@@ -95,6 +95,7 @@
             //登录成功
              _this.companyId = res.data.companyId
            localStorage.userInfo = JSON.stringify(res.data);
+            _this.showLoading = true
            _this.getOnlinePosition()
         }else if(res.code == "2018"){
             //微信授权登录

@@ -81,20 +81,26 @@ export default {
           pageNum:1,
           pageSize:10,
           page:{},
-          methods:['hasSentOfferRecords','awaitSentOfferRecords','awaitReceiveOfferRecords','awaitEntryOfferRecords','getHasHiredList'],
+          methods:['getAllOfferList','awaitSentOfferRecords','awaitReceiveOfferRecords','awaitEntryOfferRecords','getHasHiredList'],
           statuList:['全部','待发offer','待接收offer','待入职','已入职'],
       }
   },
   created(){
     this.options = urlParse()
     this.code = this.options.code
-    if(!localStorage.userInfo){
-      this.getCodeUrl()
-    }else{
-      this.companyId = JSON.parse(localStorage.userInfo).companyId
-      this.showLoading = true
-      this.getOfferList(0)
-    }
+    this.getCodeUrl()
+    // if(!localStorage.userInfo){
+    //   this.getCodeUrl()
+    // }else{
+      // if(this.options.companyId){
+      //   this.companyId = this.options.companyId
+      // }else{
+      //   this.companyId = JSON.parse(localStorage.userInfo).companyId
+      // }
+      
+      // this.showLoading = true
+      // this.getOfferList(0)
+  //  }
     
   },
   methods:{
@@ -158,11 +164,13 @@ export default {
         _this.onFetching = false
         let res = response.data;
         if (res.code == 0) {
-           if(index == 0 || index == 1 || index == 2){
+           if(index == 0){
+              _this.resultList = _this.resultList.concat(res.data.weixinAllOffer)
+           }else if(index == 1 || index == 2){
               _this.resultList = _this.resultList.concat(res.data.awaitSentOfferRecords)
-           }else if(indx == 3){
+           }else if(index == 3){
               _this.resultList = _this.resultList.concat(res.data.awaitEntryOfferRecords)
-           }else if(indx == 4){
+           }else if(index == 4){
               _this.resultList = _this.resultList.concat(res.data.hasHiredList)
            }    
           _this.page = res.data.page    
