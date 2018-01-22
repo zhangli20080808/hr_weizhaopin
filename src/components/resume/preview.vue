@@ -131,7 +131,7 @@
     </div>
     <div class="footer_btn">
       <div style="padding:15px;">
-        <x-button @click.native="sendResume" type="primary" class="weizhaopin_btn">立即投递</x-button>
+        <x-button @click.native="sendResume" type="primary" class="weizhaopin_btn" v-if="resume.positionId">立即投递</x-button>
       </div>
     </div>
 
@@ -196,6 +196,7 @@ export default {
             fansId:self.fansId
           }),
           sucessd=function(res){
+            res.data.data.positionId=self.$route.query.positionId;
             self.resume=res.data.data;
             self.loadingShow=false;
           };
