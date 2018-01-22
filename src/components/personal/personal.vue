@@ -73,7 +73,7 @@
         show: false,
         description: '确认难割难舍开工',
         authSuccess: this.$route.query.authSuccess,
-        companyId: this.$route.query.companyId,
+        companyId: 61,
         fansId: this.$route.query.fansId,
         personalInfo: {},
         pageFrom:1
