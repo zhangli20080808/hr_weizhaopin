@@ -70,6 +70,7 @@
     },
     created(){
       this.options = urlParse()
+      console.log('p-options', this.options)
       this.code = this.options.code
       this.companyId = this.options.companyId
       if(!localStorage.userInfo){
@@ -86,13 +87,14 @@
       var _this = this;
       var method = "account/aijuAssistantAutoLogin";
       var param = {
-        redirectUri: 'https://aijuhr.com/miniRecruit/#/raPositionList?companyId=' + _this.companyId,
+        redirectUri: 'https://aijuhr.com/miniRecruit/#/raPositionList',
         code:_this.code
       };
       var successd = function (response) {
         let res = response.data;
         if (res.code == "0") {
             //登录成功
+             _this.companyId = res.data.companyId
            localStorage.userInfo = JSON.stringify(res.data);
         
         }else if(res.code == "2018"){
@@ -108,7 +110,7 @@
                 openId:res.data
               },
               query: {
-                companyId: _this.companyId,
+                // companyId: _this.companyId,
               }
           })
         }
