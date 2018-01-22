@@ -114,7 +114,7 @@ export default {
            localStorage.userInfo = JSON.stringify(res.data);
            
            _this.showLoading = true
-           this.newApi(0)
+           _this.newApi(0)
         }else if(res.code == "2018"){
             //微信授权登录
              location.href = res.data.codeUrl
