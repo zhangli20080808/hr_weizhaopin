@@ -75,11 +75,11 @@
       this.companyId = this.options.companyId
       if(!localStorage.userInfo){
         this.getCodeUrl()
-      }
-      
-      this.$nextTick(() => {
+      }else{
+        this.$nextTick(() => {
         this.getOnlinePosition()
-      })
+       })
+      }  
     },
     methods: {
        //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值

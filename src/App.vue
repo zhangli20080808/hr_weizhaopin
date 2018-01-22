@@ -29,7 +29,12 @@
         all:'',
         companyId: (() => {
           let queryParam = this.urlParse();
-          return queryParam.companyId;
+          if(queryParam.companyId){
+              return queryParam.companyId;
+          }else if(localStorage.userInfo){
+              return JSON.parse(localStorage.userInfo).companyId;
+          }
+          
         })(),
         homeData: {
           s_log_back: '',
