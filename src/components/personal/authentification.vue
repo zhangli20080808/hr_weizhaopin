@@ -222,13 +222,7 @@
               self.renzhengShow = false;
               self.shareTipShow = true;
               self.$vux.toast.text(res.data.resMsg, 'top');      
-              self.$router.push({
-                name: 'authentification',
-                query: {
-                  companyId: self.companyId,
-                  fansId: self.fansId
-                }
-              })                     
+              location.reload();                  
             }else{
               self.$vux.toast.text(res.data.resMsg, 'top');      
             }
@@ -262,7 +256,6 @@
       XInput, Group, XButton, Cell, XDialog, XImg, Popup, XHeader, Toast
     },
     mounted(){
-      this.nowIndex = 0;
       console.log(this.$route)
       this.getWeixinPersonalInfo()      
       if(this.$route.query.yg){
