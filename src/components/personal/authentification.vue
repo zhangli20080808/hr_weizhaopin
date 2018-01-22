@@ -10,7 +10,6 @@
 
       </tab-item>
     </tab>
-    {{nowIndex}}
     <!--我是员工-->
     <div class="loginInterpolate" v-show="nowIndex==0" id="interpolate">
       <!-- <div class="title">身份认证</div> -->
