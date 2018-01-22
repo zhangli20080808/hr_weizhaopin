@@ -150,7 +150,7 @@ export default {
       activityId:this.$route.query.activityId,
       recomType:this.$route.query.recomType,
       resume:{
-        positionId: this.$route.query.id,
+        positionId: this.$route.query.positionId,
         basic:{
           name:'',
           motto:'',
