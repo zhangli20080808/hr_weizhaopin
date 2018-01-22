@@ -91,7 +91,7 @@
         return timestamp4.toLocaleDateString().replace(/\//g, "-") + " " + timestamp4.toTimeString().substr(0, 8)
       },
       filterStatus(item){
-        if (item == 1) {
+        if (item == 0) {
           item = '简历提交成功'
         } else if (item == 2) {
           item = 'HR将移入备选库'
@@ -158,7 +158,7 @@
       .positionName {
         color: #222;
         font-size: 0.34rem;
-        margin-bottom: 0.12rem;
+        margin-bottom: 0.2rem;
         .text {
           display: inline-block;
           vertical-align: middle;
@@ -187,7 +187,7 @@
         }
       }
       .companyName {
-        margin-bottom: 0.12rem;
+        margin-bottom: 0.2rem;
         .company_icon {
           display: inline-block;
           vertical-align: middle;

@@ -32,7 +32,6 @@
 <script>
   import {XHeader, Search, Group, Cell, Scroller, LoadMore} from 'vux'
   import loading from '../../components/base/loading/loading2.vue'
-
   export default {
     data(){
       document.title = '求职记录';      
@@ -121,7 +120,7 @@
         .positionName {
           color: #222;
           font-size: 0.34rem;
-          margin-bottom: 6px;
+          margin-bottom: 0.2rem;
           .text {
             display: inline-block;
             vertical-align: middle;
@@ -150,7 +149,8 @@
           }
         }
         .companyName {
-          margin-bottom: 6px;
+          font-size: 0.26rem;
+          margin-bottom: 0.2rem;
           .company_icon {
             display: inline-block;
             vertical-align: middle;
