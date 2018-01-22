@@ -43,7 +43,7 @@ export default {
         disabled:true,
         toastShow:false,
         toastText:'',
-        companyId:this.$route.query.companyId || '',
+        // companyId:this.$route.query.companyId || '',
         code:'',
     }
   },
@@ -74,7 +74,7 @@ export default {
         return
       }
       var method = "account/aijuAssistantLogin";
-      var redirectUri = `https://aijuhr.com/miniRecruit/#/${_this.$route.params.urlType}?companyId=${_this.companyId}`;
+      var redirectUri = `https://aijuhr.com/miniRecruit/#/${_this.$route.params.urlType}`;
       var param = {
         redirectUri:redirectUri,
         code:_this.code,
@@ -84,9 +84,15 @@ export default {
       };
       var successd = function (response) {
          let res = response.data;
+         let companyId;
          if(res.code == "0"){
-           localStorage.userInfo = res.data
-           location.href =  redirectUri
+           localStorage.userInfo = JSON.stringify(res.data)
+           if(res.data.user && res.data.user.companyId){
+             companyId = res.data.user.companyId
+           }else{
+             companyId = res.data.companyId
+           }
+           location.href =  redirectUri + '?companyId=' + companyId;
          }else{
            _this.toastShow = true
            _this.toastText = res.message

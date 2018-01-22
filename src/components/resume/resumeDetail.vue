@@ -13,7 +13,7 @@
           <p class="pItem"><span class="key">出生日期：</span><span class="value">{{interviewerInfo.birthday | filBirthday}}</span></p>
           <p class="pItem"><span class="key">现住地：</span><span class="value">{{interviewerInfo.nowLiveAddress}}</span></p>
           <p class="pItem"><span class="key">婚姻状况：</span><span class="value">{{interviewerInfo.marryStatus | gloMarryStatus}}</span></p>
-          <p class="pItem"><span class="key">座右铭： </span><span class="value"> </span></p>
+          <p class="pItem"><span class="key">座右铭： </span><span class="value">{{interviewerInfo.motto}}</span></p>
       </div>
     </div>
      <!-- 自我评价 -->
@@ -143,7 +143,7 @@
       </div>
     </div>
     <!-- 个人链接 -->
-    <div class="self-link item-wrap" style="display:none;">
+    <div class="self-link item-wrap">
       <div class="hd">
         <span class="icon"></span>
         <span class="title">个人链接</span>
@@ -152,9 +152,9 @@
          <div class="exp-list">
           <div class="exp-item">
             <div class="exp-base">
-              <p class="pItem">www.lvbowen.site</p>
+              <p class="pItem">{{interviewerInfo.linkUrl}}</p>
             </div>
-            <div class="exp-content">工作职责：1.指导客户使用直通车软件及在操作过程中出 现的问题进行处理 2.根据客户情况和相关数据进行分析 调整,为客户提供解决方案和建议,提高客户直通车营销效 果,提升 客户对产品的满意度 </div>
+            <div class="exp-content" v-html="interviewerInfo.linkDescription"></div>
           </div>
         </div>
       </div>

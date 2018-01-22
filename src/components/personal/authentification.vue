@@ -263,8 +263,13 @@
     mounted(){
       this.nowIndex = 0;
       console.log(this.$route)
-      this.getWeixinPersonalInfo()
-
+      this.getWeixinPersonalInfo()      
+      if(this.$route.query.yg){
+        this.nowIndex == 0;
+      }
+      if(this.$route.query.hunt){
+        this.nowIndex == 1;
+      }
     },
     directives: {
       TransferDom

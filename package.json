@@ -18,6 +18,7 @@
     "js-md5": "^0.4.2",
     "less-loader": "^4.0.5",
     "moment": "^2.19.1",
+    "v8": "^0.1.0",
     "vue": "^2.4.2",
     "vue-awesome-swiper": "^2.6.7",
     "vue-pull-to": "^0.1.5",

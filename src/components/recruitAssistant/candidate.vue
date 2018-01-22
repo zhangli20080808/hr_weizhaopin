@@ -86,6 +86,7 @@ export default {
   created(){
     this.options = urlParse()
     this.code = this.options.code
+    console.log(this.$route.query)
     if(!localStorage.userInfo){
       this.getCodeUrl()
     }else{
@@ -130,14 +131,16 @@ export default {
       var _this = this;
       var method = "account/aijuAssistantAutoLogin";
       var param = {
-        redirectUri: 'https://aijuhr.com/miniRecruit/#/candidate?companyId=' + _this.companyId,
+        redirectUri: 'https://aijuhr.com/miniRecruit/#/candidate',
         code:_this.code
       };
       var successd = function (response) {
         let res = response.data;
         if (res.code == "0") {
             //登录成功
+            _this.companyId = res.data.companyId
            localStorage.userInfo = JSON.stringify(res.data);
+           
            _this.showLoading = true
            _this.getAll('1,2,3,6')
         }else if(res.code == "2018"){
@@ -153,7 +156,7 @@ export default {
                 openId:res.data
               },
               query: {
-                companyId: _this.companyId,
+                // companyId: _this.companyId,
               }
           })
         }
