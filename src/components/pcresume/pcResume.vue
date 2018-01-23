@@ -336,7 +336,7 @@ import footerNav from '../base/foot';
               self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
               self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone-0;
               self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
-              self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
+              self.InterviewerInfo.birthday=new Date(res.data.data.InterviewerInfo.birthday);
               res.data.data.EducationHistory.forEach((item)=>{
                 item.educationLev=item.educationLev-0;
                 item.startDate=new Date(item.startDate);
@@ -489,7 +489,16 @@ import footerNav from '../base/foot';
               self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
               self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone-0;
               self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
-              self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
+              self.InterviewerInfo.birthday=new Date(res.data.data.InterviewerInfo.birthday);
+              res.data.data.EducationHistory.forEach((item)=>{
+                item.educationLev=item.educationLev-0;
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
+              res.data.data.WorkHistory.forEach((item)=>{
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
               self.InterviewerInfo.educationHistoryList=res.data.data.EducationHistory;
               self.InterviewerInfo.workHistoryList=res.data.data.WorkHistory;
               self.resumeUrl=res.data.data.InterviewerInfo.resumeUrl;
@@ -520,17 +529,17 @@ import footerNav from '../base/foot';
               self.InterviewerInfo.sex=res.data.data.sex.toString();
               self.InterviewerInfo.phone=res.data.data.phone-0;
               self.InterviewerInfo.email=res.data.data.email;
-              self.InterviewerInfo.birthday=res.data.data.birthday;
+              self.InterviewerInfo.birthday=new Date(res.data.data.birthday);
               res.data.data.educationHistoryList.forEach((item)=>{
                 item.isReading=item.isReading==1;
-                item.startDate=item.startDateStr;
-                item.endDate=item.endDateStr;
+                item.startDate=new Date(item.startDateStr);
+                item.endDate=new Date(item.endDateStr);
               })
               self.InterviewerInfo.educationHistoryList=res.data.data.educationHistoryList;
               res.data.data.workHistoryList.forEach((item)=>{
                 item.isWorking=item.isWorking==1;
-                item.startDate=item.startDateStr;
-                item.endDate=item.endDateStr;
+                item.startDate=new Date(item.startDateStr);
+                item.endDate=new Date(item.endDateStr);
               })
               self.InterviewerInfo.workHistoryList=res.data.data.workHistoryList;
               self.resumeUrl=res.data.data.resumeUrl;
