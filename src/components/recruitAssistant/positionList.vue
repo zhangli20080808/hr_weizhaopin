@@ -26,7 +26,7 @@
             </dd>
             <dd class="position_detail_date">
               <span>发布时间 : &nbsp;{{item.createDate | repalceLine}}</span> &nbsp;
-              <em>招聘人数 : {{item.zhaopinNum}}人</em>
+              <em>招聘人数 : {{item.zhaopinNum > 0 ? item.zhaopinNum + "人" : "不限"}}</em>
             </dd>
           </dl>
            <load-more v-show="showMore" tip="加载更多"></load-more>
