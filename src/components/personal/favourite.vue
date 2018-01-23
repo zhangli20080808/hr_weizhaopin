@@ -48,7 +48,7 @@
 
       </div>
     </scroller>
-    <!-- <loading v-show="listShow"></loading> -->
+    <loading v-show="listShow"></loading>
 
     <div v-transfer-dom>
       <confirm v-model="show"
@@ -126,8 +126,8 @@
         });
         var successd = function (res) {
           if (res.data.code == 0) {
-              _this.show = false;
             _this.getStorePositionList()
+              _this.show = false;            
           }
         }
         _this.$http(method, param, successd);

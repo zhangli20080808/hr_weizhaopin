@@ -24,7 +24,7 @@
         </div>
       </div>
     </scroller>
-    <!-- <loading v-show="listShow"></loading> -->
+    <loading v-show="listShow"></loading>
 
   </div>
 </template>
@@ -53,8 +53,8 @@
           successd = function (res) {
             console.log(res);
            if(res.data.code == 0){
-             self.listShow = false;
              self.recordList = res.data.data;
+             self.listShow = false;             
              }
           };
         self.$webHttp(method, param, successd);
