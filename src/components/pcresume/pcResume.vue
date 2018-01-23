@@ -18,7 +18,7 @@
                 :show-file-list="false"
               >
                 <el-button size="small" type="primary">点击上传</el-button>
-                <div class="tips hidden-sm hidden-lg">仅限于安卓手机</div>
+                <!-- <div class="tips hidden-sm hidden-lg">仅限于安卓手机</div> -->
                 <div slot="tip" class="el-upload__tip">支持PDF、HTML、Word等简历格式</div>
               </el-upload>
             </el-form-item>
@@ -247,7 +247,7 @@ import footerNav from '../base/foot';
             {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change'}
           ],
           birthday:[
-            {required: true, message: '请选择出生日期', trigger: 'blur'}
+            {required: true,type:'date', message: '请选择出生日期', trigger: 'blur'}
           ],
           startDate:[{required:true,message:'请选择开始时间',trigger:"blur"}],
           endDate:[{required:true,message:'请选择结束时间',trigger:"blur"}],
@@ -334,7 +334,7 @@ import footerNav from '../base/foot';
               console.log(res.data.data.InterviewerInfo.resumeUrl,"resumeUrl");
               self.InterviewerInfo.name=res.data.data.InterviewerInfo.name;
               self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
-              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone;
+              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone-0;
               self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
               self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
               res.data.data.EducationHistory.forEach((item)=>{
@@ -383,8 +383,6 @@ import footerNav from '../base/foot';
       //保存简历
       submitInterivewApplicationNew(formName){
         var self=this;
-        console.log(formName);
-        console.log(self.$refs[formName]);
         self.$refs[formName].validate((valid) => {
           if (valid) {
               var method="resume/updateSimpleResume";
@@ -420,7 +418,7 @@ import footerNav from '../base/foot';
               InterviewerInfo.resumeFrom=self.login.type;
               InterviewerInfo.resumeUrl=self.resumeUrl;
 
-              var param=JSON.stringify({simpleResumeInfo:InterviewerInfo,fansId:self.fansId,step:'3'}),
+              var param=JSON.stringify({simpleResumeInfo:InterviewerInfo,fansId:self.fansId,step:'-1'}),
                   successd=function(res){
                     self.$message({
                       message:"保存成功!",
@@ -489,7 +487,7 @@ import footerNav from '../base/foot';
               self.loginResume=false;
               self.InterviewerInfo.name=res.data.data.InterviewerInfo.name;
               self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
-              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone;
+              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone-0;
               self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
               self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
               self.InterviewerInfo.educationHistoryList=res.data.data.EducationHistory;
@@ -520,7 +518,7 @@ import footerNav from '../base/foot';
             successd=(res)=>{
               self.InterviewerInfo.name=res.data.data.name;
               self.InterviewerInfo.sex=res.data.data.sex.toString();
-              self.InterviewerInfo.phone=res.data.data.phone;
+              self.InterviewerInfo.phone=res.data.data.phone-0;
               self.InterviewerInfo.email=res.data.data.email;
               self.InterviewerInfo.birthday=res.data.data.birthday;
               res.data.data.educationHistoryList.forEach((item)=>{
