@@ -12,6 +12,7 @@
       <!--<div class="applyTime">申请时间：2018-01-18 18:19:10</div>-->
       <div class="applyTime" v-show="createTime">申请时间：{{getdate(createTime)}}</div>
     </div>
+    <div class="spilt"></div>
 
     <div class="status">
       <div class="status_content">
@@ -145,7 +146,7 @@
   @import "../../common/stylus/boder";
 
   .mainWrap {
-    background: #faf7fe;
+    background: #ffffff;
     font-size: 14px;
     .list_content {
       height: 1.92rem;
@@ -210,8 +211,11 @@
       }
 
     }
+    .spilt{
+      height: 0.26rem;
+      background: #faf7fe; 
+    }
     .status {
-      margin-top: 10px;
       background: #fff;
       padding-left: 0.3rem;
       .status_content {
