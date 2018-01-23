@@ -72,7 +72,7 @@
       </div>
     </div>
     <div class="hidden-sm hidden-lg">
-      <scroller lock-x height="-50">
+      <scroller lock-x height="-40">
         <div>
           <!--     <dl class="position_detail">
             <dt>
@@ -151,7 +151,7 @@
           </div>
           <div class="split"></div>
           <!-- 相关职位推荐 -->
-          <div class="pos_detail">
+          <div class="pos_detail" v-if="positionInfo.similarPositions&&positionInfo.similarPositions.length!=0">
             <h2 class="description vux-1px-tb">
               <span class="recommend"></span>
               <span class="text">相关职位推荐</span>
@@ -177,10 +177,12 @@
               </dd>
             </dl>
           </div>
-          <div class="logo">
+          <!-- <div class="logo">
             <div class="logo_img"></div>
-
-          </div>
+          </div> -->
+        <div class="footer_icon">
+          <div class="img_detail"></div>
+        </div>          
         </div>
       </scroller>
       <div class="share_btn ">
@@ -414,7 +416,6 @@
           }),
           successd = (res) => {
             self.positionInfo = res.data.data.positionInfo;
-
           };
         self.$http(method, param, successd);
       },
@@ -792,7 +793,7 @@
               padding: 2px 4px;
               list-style: none;
               height: 22px;
-              line-height: 22px;
+              line-height: 19px;
               border-radius: 5px;
               text-align: center;
               color: #fff;
@@ -866,22 +867,37 @@
         }
       }
 
-      .logo {
-        width: 100%;
-        height: 57px;
-        line-height: 57px;
+      // .logo {
+      //   width: 100%;
+      //   height: 57px;
+      //   line-height: 57px;
+      //   text-align: center;
+      //   .logo_img {
+      //     display: inline-block;
+      //     width: 114px;
+      //     height: 14px;
+      //     line-height: 14px;
+      //     background: url("../assets/img/footLogo2.png") no-repeat center;
+      //     background-size: 103px auto;
+      //   }
+      // }
+     .footer_icon {
+        height: 0.89rem;
+        line-height: 0.89rem;
         text-align: center;
-        .logo_img {
-          display: inline-block;
-          width: 114px;
-          height: 14px;
-          line-height: 14px;
-          background: url("../assets/img/footLogo2.png") no-repeat center;
-          background-size: 103px auto;
-        }
-
+        background: #F8F8FC;
       }
 
+      .footer_icon{
+        .img_detail {
+          display: inline-block;
+          vertical-align: middle;
+          width: 106px;
+          height: 15px;
+          background: url(../common/image/footLogo2.jpg) no-repeat center;
+          background-size: 103px auto;
+        }
+      } 
       .split {
         width: 100%;
         height: 13px;

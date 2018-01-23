@@ -49,7 +49,7 @@
                       <span class="address" @click="toMainMap"></span>
                     </div>
                     <div class="shortName" v-if="companyInfo.companyShortName">({{companyInfo.companyShortName}})</div>
-                    <div class="address" v-if="companyInfo.address || companyInfo.region"><span class="address_icon"></span><span class="text">{{companyInfo.region}}{{companyInfo.address}}</span></div>
+                    <div class="address" v-if="companyInfo.address"><span class="address_icon"></span><span class="text">{{companyInfo.address}}</span></div>
                     <div class="tel"><span class="tel_icon"></span><span class="text">{{companyInfo.phone}}</span></div>
                   </li>
                   <li class="vertical-list vux-1px-t" v-for="(item,index) in branchCompanyList">
@@ -58,7 +58,7 @@
                       <span class="address" @click="toMap(item)"></span>
                     </div>
                     <div class="shortName">({{item.companyShortName}})</div>
-                    <div class="address"><span class="address_icon"></span><span class="text">{{filter(item.region)}}{{item.address}}</span></div>
+                    <div class="address"><span class="address_icon"></span><span class="text">{{item.address}}</span></div>
                     <div class="tel"><span class="tel_icon"></span><span class="text">{{item.branchPhone}}</span></div>
                   </li>
 
@@ -548,7 +548,7 @@
                 longitude:  self.longitude, // 经度，浮点数，范围为180 ~ -180。
                 name: self.companyName , // 位置名
                 address: self.detailAddress, // 地址详情说明
-                scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                scale: 28, // 地图缩放级别,整形值,范围从1~28。默认为最大
                 infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
               });
             })
@@ -641,7 +641,7 @@
               _this.latitude = parseFloat(res.data.data.latitude);
               _this.companyName = res.data.data.companyName;
               _this.companyInfo.address = res.data.data.address;
-              _this.detailAddress = _this.companyInfo.region + _this.companyInfo.address;
+              _this.detailAddress = _this.companyInfo.address;
           }
         }
         _this.$http(method, param, successd);
@@ -673,7 +673,7 @@
         this.latitude = parseFloat(item.latitude);
         this.longitude = parseFloat(item.longitude);
         this.companyName = item.companyName;
-        this.detailAddress = item.region + item.address;
+        this.detailAddress = item.address;
         this.getSignature2()
       }
     },
@@ -1080,7 +1080,6 @@
   .g-container .cards .vertical-list .address .text{
     display: inline-block;
     vertical-align: middle;
-    height:0.48rem;
     line-height: 0.48rem;
   }
 
