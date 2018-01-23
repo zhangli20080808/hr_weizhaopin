@@ -228,7 +228,7 @@
     background: #F8F8FC;
     .personal_top {
       background: #fff;
-      height: 3.8rem;
+      height: 4.06rem;
       .personal_content {
         text-align: center;
         padding-top: 0.3rem;
@@ -239,7 +239,7 @@
           border-radius: 50%;
         }
         .name {
-          margin: 0.22rem 0 0.2rem 0;
+          margin: 0.22rem 0 0.46rem 0;
           font-size: 0.37rem;
           color: #000;
         }
