@@ -19,7 +19,7 @@
             </dd>
             <dd class="position_detail_date">
               <span>创建人 : &nbsp;{{positionInfo.creatorName}}</span> &nbsp;
-              <em>招聘人数 : {{positionInfo.posiNum}}人</em>
+              <em>招聘人数 : {{positionInfo.posiNum > 0 ? positionInfo.posiNum + "人" : "不限"}}</em>
             </dd>
           </dl>
 
