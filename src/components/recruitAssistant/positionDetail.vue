@@ -58,6 +58,7 @@
   export default {
     name: 'interpolateDetail',
     data(){
+      document.title = '职位详情';
       return {
         shareTipShow: false,
         //职位详情信息

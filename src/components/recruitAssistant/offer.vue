@@ -69,6 +69,7 @@ export default {
     loading
   },
   data(){
+      document.title = 'offer处理';
       return {
           options:null,
           code:'',

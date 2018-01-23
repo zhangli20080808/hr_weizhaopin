@@ -36,6 +36,7 @@ export default {
     Toast
   },
   data(){
+    document.title = '绑定爱聚微招聘';
     return {
         wh:'',
         account:'',

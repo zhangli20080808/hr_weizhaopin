@@ -67,6 +67,7 @@ export default {
     loading
   },
   data(){
+      document.title = '候选人';
       return {
           options:null,
           code:'',

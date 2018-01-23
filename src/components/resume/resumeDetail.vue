@@ -195,6 +195,7 @@ export default {
     FooterLogo
   },
   data(){
+     document.title = '简历详情';
       return {
           processStatus:this.$route.params.processStatus,
           interviewerInfo:{},
