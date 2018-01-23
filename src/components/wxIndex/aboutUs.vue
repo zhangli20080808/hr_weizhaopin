@@ -1171,7 +1171,6 @@
   .g-container .cards .vertical-list .address .text {
     display: inline-block;
     vertical-align: middle;
-    height: 0.48rem;
     line-height: 0.48rem;
   }
 
