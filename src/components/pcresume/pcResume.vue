@@ -333,7 +333,7 @@ import footerNav from '../base/foot';
             successd=function(res){
               console.log(res.data.data.InterviewerInfo.resumeUrl,"resumeUrl");
               self.InterviewerInfo.name=res.data.data.InterviewerInfo.name;
-              self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
+              self.InterviewerInfo.sex=res.data.data.sex?res.data.data.sex.toString():'1';
               self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone-0;
               self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
               self.InterviewerInfo.birthday=new Date(res.data.data.InterviewerInfo.birthday);
@@ -486,7 +486,7 @@ import footerNav from '../base/foot';
             successd=function(res){
               self.loginResume=false;
               self.InterviewerInfo.name=res.data.data.InterviewerInfo.name;
-              self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
+              self.InterviewerInfo.sex=res.data.data.sex?res.data.data.sex.toString():'1';
               self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone-0;
               self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
               self.InterviewerInfo.birthday=new Date(res.data.data.InterviewerInfo.birthday);
@@ -526,7 +526,7 @@ import footerNav from '../base/foot';
             }),
             successd=(res)=>{
               self.InterviewerInfo.name=res.data.data.name;
-              self.InterviewerInfo.sex=res.data.data.sex.toString();
+              self.InterviewerInfo.sex=res.data.data.sex?res.data.data.sex.toString():'1';
               self.InterviewerInfo.phone=res.data.data.phone-0;
               self.InterviewerInfo.email=res.data.data.email;
               self.InterviewerInfo.birthday=new Date(res.data.data.birthday);
