@@ -197,6 +197,7 @@ export default {
           }),
           sucessd=function(res){
             res.data.data.positionId=self.$route.query.positionId;
+            res.data.data.basic.headImg=res.data.data.basic.headImg?res.data.data.basic.headImg:"https://aijuhr.com/images/yidong/head_wx.png"
             self.resume=res.data.data;
             self.loadingShow=false;
           };

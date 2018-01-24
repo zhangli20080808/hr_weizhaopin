@@ -732,6 +732,7 @@
               fansId:self.fansId
             },
             successd=function(res){
+              res.data.headImg=res.data.headImg?res.data.headImg:'https://aijuhr.com/images/yidong/head_wx.png';
               self.tuijianObj=res.data;
             };
         self.$webHttp(method,param,successd);

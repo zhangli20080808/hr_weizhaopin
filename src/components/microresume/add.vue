@@ -1,8 +1,12 @@
 <template>
   <div id="add_resume" class="add_resume" :style="{'height':wh+'px'}">
     <div v-show="type==1">
-      <div class="createText"><span class="text">创建个人简历</span></div>
-      <div class="first" @click="getSimpleResume">
+      <div class="createText"><span class="text">{{step==3?'个人档案':'创建个人简历'}}</span></div>
+      <div class="first" @click="previewResume" v-if="step==3">
+        <div class="resume_icon"></div>
+        <div class="resume_text">个人档案</div>
+      </div>
+      <div class="first" @click="getSimpleResume" v-else>
         <div class="resume_icon"></div>
         <div class="resume_text">一分钟创建微简历</div>
       </div>
@@ -10,10 +14,10 @@
         <div class="resume_icon resume_icon2"></div>
         <div class="resume_text2">
           <h1>PC扫码填简历</h1>
-          <h2>https://aijuhr.com/miniRecruit/#/pc/login</h2>
+          <h2>resume.aijuhr.com</h2>
         </div>
       </div>
-      <div class="createText"><span class="text">快速导入简历</span></div>
+      <div class="createText"><span class="text"> </span></div>
     </div>
 
     <div class="content" v-show="type==2">
@@ -253,6 +257,7 @@
         activityId:this.$route.query.activityId,
         wh:wh,
         btnLoading:false,
+        step:"0",
       }
     },
     mounted(){
@@ -436,6 +441,7 @@
             }),
             successd=function(res){
               self.type=2;
+              self.step=res.data.data.step;
               if(res.data.data.step==1||res.data.data.step==2){
                 self.$vux.confirm.show({
                   title: '微简历',
@@ -456,7 +462,7 @@
                     self.interviewResumeInfo.name=res.data.data.name;
                     self.interviewResumeInfo.phone=res.data.data.phone;
                     self.interviewResumeInfo.email=res.data.data.email;
-                    self.sexValue[0]=res.data.data.sex-0;
+                    self.sexValue[0]=res.data.data.sex?res.data.data.sex-0:1;
                     self.interviewResumeInfo.birthday=res.data.data.birthday;
                     self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList?res.data.data.educationHistoryList:[];
                     self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList?res.data.data.workHistoryList:[];
@@ -477,7 +483,7 @@
                 self.interviewResumeInfo.name=res.data.data.name;
                 self.interviewResumeInfo.phone=res.data.data.phone;
                 self.interviewResumeInfo.email=res.data.data.email;
-                self.sexValue[0]=res.data.data.sex-0;
+                self.sexValue[0]=res.data.data.sex?res.data.data.sex-0:1;
                 self.interviewResumeInfo.birthday=res.data.data.birthday;
                 self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList;
                 self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList;
@@ -535,6 +541,9 @@
             var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
           }
         });
+      },
+      toPreview(){
+        this.$router.push({name:'resumePreview',query:{fansId:this.fansId}})
       }
     },
     components: {
