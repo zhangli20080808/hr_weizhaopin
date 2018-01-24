@@ -407,7 +407,7 @@
       var ua = navigator.userAgent.toLowerCase();
       var isWeixin = ua.indexOf('micromessenger') != -1;
       if (isWeixin) {
-        this.userAuthUrl();
+        // this.userAuthUrl();
       }else{
         this.getPositionInfo();
       }

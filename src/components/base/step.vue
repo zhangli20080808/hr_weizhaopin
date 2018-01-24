@@ -55,7 +55,7 @@
     height: 1px;
     position: relative;
     top: 14px;
-    left: -54px;
+    left: -50px;
     margin: 0 10px;
     width: 68%;
   }
