@@ -1,7 +1,7 @@
 <template>
   <div class="ra-position-list" v-show="showOuterWrap">
       
-      <scroller class="scroller" lock-x ref="scrollerBottom" height="-1" @on-scroll-bottom="loadMore" :scroll-bottom-offst="100">
+      <scroller class="scroller" lock-x ref="scrollerBottom" height="-0" @on-scroll-bottom="loadMore" :scroll-bottom-offst="100">
         <div class="no_result" v-if="!list.length">
             <div class="tips">
                 <p class="">你还没有发布任何职位！ </p>
@@ -10,7 +10,7 @@
             </div>
             <div class="img"></div>
         </div>
-        <div class="list_content" v-else>
+        <div class="list_content" :style="{'min-height':wh+'px'}" v-else>
           <dl class="position_detail" v-for="(item,index) in list" :key="index" @click="selectItem(item)">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
@@ -67,6 +67,7 @@
         showLoading:false,
         showMore: false,
         onFetching:false,
+        wh:'',
       }
     },
     created(){
@@ -75,6 +76,11 @@
       this.code = this.options.code
       this.getCodeUrl() 
 
+    },
+    mounted(){
+      this.$nextTick(() => {
+        this.wh = window.innerHeight;
+      })
     },
     methods: {
        //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值

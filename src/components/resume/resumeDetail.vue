@@ -341,6 +341,8 @@ export default {
           border-bottom: 1px solid #eee;
           margin-bottom:.3rem;
           &:last-child{
+            padding-bottom: 0;
+            border-bottom: none;
             margin-bottom: 0;
           }
           .exp-content{
