@@ -78,7 +78,17 @@
       </div>
     </div>
     <div class="hidden-sm hidden-lg">
-      <scroller lock-x height="-40">
+      <div class="personal_header">
+        <img :src="tuijianObj.headImg" alt="">
+        <h2>{{tuijianObj.nickname}}</h2>
+        <div class="header_right">
+          <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0" @click="showTuijianDialog=true;" class="vux-1px-r">关注</p>
+          <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==1" class="vux-1px-r">已关注</p>
+          <p @click="recommendedSchedule"> &nbsp;我的</p>
+          <h6 v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0&&tag" @click="choseTag"><span>关注公众号获取职位分享动态</span></h6>
+        </div>
+      </div>
+      <scroller lock-x height="-50">
         <div>
           <!--     <dl class="position_detail">
             <dt>
@@ -259,6 +269,19 @@
         </div>
       </x-dialog>
     </div>
+
+    <div v-transfer-dom>
+      <x-dialog v-model="showTuijianDialog" class="dialog-demo">
+        <div @click="showTuijianDialog=false" style="text-align:right;padding-right:5px">
+          <span class="vux-close" style="color:#2C2D31;font-weight:600;"></span>
+        </div>
+        <div class="img-box">
+          <img :src="tuijianObj.companyGzh.qrcodeUrl" style="width:165px" v-if="tuijianObj.haveGzh==1">
+          <p>长按关注</p>
+        </div>
+      </x-dialog>
+    </div>
+
   </div>
 </template>
 <script>
@@ -363,7 +386,20 @@
         arrow_tip: false,
         model: false,
         //1：已收藏 ， 0：未收藏
-        isStore: false
+        isStore: false,
+        tuijianObj:{//个人顶部通栏
+          nickname:'',
+          isSubscribe:0,
+          headImg:null,
+          haveGzh:1,
+          companyGzh:{
+            accountName:'',
+            qrcodeUrl:''
+          }
+        },
+        tag:true,
+        fansId:this.$route.query.fansId,
+        showTuijianDialog:false,
       }
     },
     mounted(){
@@ -648,7 +684,7 @@
         var self = this;
         var method = "weixin/userAuthUrl",
           param = {
-            scope: 'snsapi_base',
+            scope: 'snsapi_userinfo',
             pageFrom: 3,
             companyId: self.companyId,
             positionId: self.positionId
@@ -659,9 +695,35 @@
             } else {
               self.getPositionInfo();
             }
+            self.getUserInfo();
           };
         self.$webHttp(method, param, successd);
-      }
+      },
+      getUserInfo(){
+        var self=this;
+        var method="weixin/getUserInfo",
+            param={
+              companyId:self.companyId,
+              fansId:self.fansId
+            },
+            successd=function(res){
+              self.tuijianObj=res.data;
+              if(self.tuijianObj.headImg == ''||self.tuijianObj.headImg == null){
+                  self.tuijianObj.headImg = 'https://aijuhr.com/images/yidong/head_wx.png'
+                }             
+              };
+        self.$webHttp(method,param,successd);
+      },
+      recommendedSchedule(){
+        // location.href="https://aijuhr.com/miniRecruit/#/personal?companyId="+this.companyId;
+        this.$router.push({
+          name:'personal',
+          query:{company:this.companyId}
+        })
+      },
+      choseTag(){
+        this.tag=!this.tag;
+      },
     },
     components: {
       Flexbox, FlexboxItem, querystring, XDialog, Scroller
@@ -674,7 +736,7 @@
 <style lang="less">
   @import '~vux/src/styles/1px.less';
   @import '~vux/src/styles/close';
-
+  @import "./css/main.css";
   .vux-close:before, .vux-close:after {
     height: 2px;
   }

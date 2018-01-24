@@ -18,12 +18,12 @@
                 :show-file-list="false"
               >
                 <el-button size="small" type="primary">点击上传</el-button>
-                <div class="tips hidden-sm hidden-lg">仅限于安卓手机</div>
+                <!-- <div class="tips hidden-sm hidden-lg">仅限于安卓手机</div> -->
                 <div slot="tip" class="el-upload__tip">支持PDF、HTML、Word等简历格式</div>
               </el-upload>
             </el-form-item>
             <!--上传附件-->
-            <el-form-item label="上传附件" class="post_f">
+            <!-- <el-form-item label="上传附件" class="post_f">
               <el-upload
                 class="post1"
                 :action="upLogoUrl"
@@ -35,7 +35,7 @@
                 <el-button size="small" type="primary">点击上传</el-button>
                 <div slot="tip" class="el-upload__tip">附件大小总和不超过50MB</div>
               </el-upload>
-            </el-form-item>
+            </el-form-item> -->
             <!-- <div class="line" >
               萨达
             </div> -->
@@ -50,22 +50,22 @@
 
       <div class="apply_personal">
         <h1>创建简历</h1>
-        <el-form label-position="right" label-width="100px" class="clearfix" ref="AddInterviewer">
+        <el-form label-position="right" label-width="100px" class="clearfix" ref="AddInterviewer":rules="rules" :model="InterviewerInfo">
           <h2 class="resume_title">基本信息</h2>
           <el-form-item label="姓    名" prop="name">
             <el-input v-model="InterviewerInfo.name"></el-input>
           </el-form-item>
-          <el-form-item label="性别" prop="name">
+          <el-form-item label="性别">
             <el-radio v-model="InterviewerInfo.sex" label="1">男</el-radio>
             <el-radio v-model="InterviewerInfo.sex" label="2">女</el-radio>
           </el-form-item>
-          <el-form-item label="手机号" prop="name">
+          <el-form-item label="手机号" prop="phone">
             <el-input v-model.number="InterviewerInfo.phone"></el-input>
           </el-form-item>
-          <el-form-item label="邮箱" prop="name">
+          <el-form-item label="邮箱" prop="email">
             <el-input v-model="InterviewerInfo.email"></el-input>
           </el-form-item>
-          <el-form-item label="出生日期" prop="name" class="">
+          <el-form-item label="出生日期" prop="birthday" class="">
             <el-date-picker
               v-model="InterviewerInfo.birthday"
               type="date"
@@ -76,7 +76,7 @@
           <h2 class="resume_title">教育经历</h2>
 
           <div class="EducationHistory clearfix" v-for="(edu,index) in InterviewerInfo.educationHistoryList">
-            <el-form-item label="开始时间" prop="name">
+            <el-form-item label="开始时间" :rules="[{type:'date',required:true,message:'请选择开始时间',trigger:'blur'}]" :prop="'educationHistoryList.'+index+'.startDate'">
               <el-date-picker
                 v-model="edu.startDate"
                 type="month"
@@ -91,7 +91,7 @@
               off-text="">
               </el-switch>
             </el-form-item>
-            <el-form-item label="结束时间" prop="name" v-if="!edu.isReading">
+            <el-form-item label="结束时间" v-if="!edu.isReading" :rules="[{type:'date',required:true,message:'请选择结束时间',trigger:'blur'}]" :prop="'educationHistoryList.'+index+'.endDate'">
                 <el-date-picker
                   v-model="edu.endDate"
                   type="month"
@@ -99,10 +99,10 @@
                   placeholder="选择日期">
                 </el-date-picker>
               </el-form-item>
-            <el-form-item label="毕业学校" prop="name">
+            <el-form-item label="毕业学校" :rules="[{required:true,message:'请输入学校名称',trigger:'blur'}]" :prop="'educationHistoryList.'+index+'.graduateSchool'">
               <el-input v-model="edu.graduateSchool"></el-input>
             </el-form-item>
-            <el-form-item label="学历" prop="name">
+            <el-form-item label="学历" :rules="[{required:true,type:'number',message:'请选择学历',trigger:'blur'}]" :prop="'educationHistoryList.'+index+'.educationLev'">
               <el-select v-model="edu.educationLev" placeholder="请选择">
                 <el-option
                   v-for="item in educationLevArr"
@@ -112,7 +112,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="专业" prop="name">
+            <el-form-item label="专业" :rules="[{required:true,message:'请输入专业',trigger:'blur'}]" :prop="'educationHistoryList.'+index+'.major'">
               <el-input v-model="edu.major"></el-input>
             </el-form-item>
             <el-button class="EducationHistory_dele" type="danger" @click.native="deleEducationHistory(index)" v-if="index!=0">删除</el-button>
@@ -123,7 +123,7 @@
 
           <h2 class="resume_title">工作经历</h2>
           <div class="EducationHistory clearfix" v-for="(work,index) in InterviewerInfo.workHistoryList">
-              <el-form-item label="开始时间" prop="name">
+              <el-form-item label="开始时间" :rules="[{type:'date',required:true,message:'请选择开始时间',trigger:'blur'}]" :prop="'workHistoryList.'+index+'.startDate'">
                 <el-date-picker
                   v-model="work.startDate"
                   type="month"
@@ -138,7 +138,7 @@
                 off-text="">
                 </el-switch>
               </el-form-item>
-              <el-form-item label="结束时间" prop="name" v-if="!work.isWorking">
+              <el-form-item label="结束时间" v-if="!work.isWorking" :rules="[{type:'date',required:true,message:'请选择结束时间',trigger:'blur'}]" :prop="'workHistoryList.'+index+'.endDate'">
                   <el-date-picker
                     v-model="work.endDate"
                     type="month"
@@ -146,10 +146,10 @@
                     placeholder="选择日期">
                   </el-date-picker>
                 </el-form-item>
-              <el-form-item label="所在公司" prop="name">
+              <el-form-item label="所在公司" :rules="[{required:true,message:'请输入公司名称',trigger:'blur'}]" :prop="'workHistoryList.'+index+'.workCompany'">
                 <el-input v-model="work.workCompany"></el-input>
               </el-form-item>
-              <el-form-item label="职位" prop="name">
+              <el-form-item label="职位" :rules="[{required:true,message:'请输入职位',trigger:'blur'}]" :prop="'workHistoryList.'+index+'.position'">
                 <el-input v-model="work.position"></el-input>
               </el-form-item>
               <el-button class="EducationHistory_dele" type="danger" @click.native="deleworkHistory(index)" v-if="index!=0">删除</el-button>
@@ -159,22 +159,7 @@
             </el-form-item>
         </el-form>
       </div>
-      <el-button @click.native="submitInterivewApplicationNew" type="primary" class="submitInterivewApplicationNew">保存简历</el-button>
-
-      <el-dialog
-        class="tips1"
-        title="提示"
-        :visible.sync="dialogVisible"
-        size="small"
-      >
-        <div class="content">
-          <div class="img" style="text-align:center;">
-            <img src="../../common/image/micresume/successd.png" alt="">
-          </div>
-          <div class="title">提交成功</div>
-          <div class="des">感谢您的申请，我们将会尽快给您回复</div>
-        </div>
-      </el-dialog>
+      <el-button @click.native="submitInterivewApplicationNew('AddInterviewer')" type="primary" class="submitInterivewApplicationNew">保存简历</el-button>
 
       <el-dialog
         title="登录并导入简历"
@@ -257,13 +242,20 @@ import footerNav from '../base/foot';
             {required: true, message: '手机号不能为空'},
             {type: 'number', message: '必须为数字值'}
           ],
-          mail: [
+          email: [
             {required: true, message: '请输入邮箱地址', trigger: 'blur'},
             {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change'}
           ],
-          post_j: [
-            {required: true, message: '请上传简历', trigger: 'change'}
-          ]
+          birthday:[
+            {required: true,type:'date', message: '请选择出生日期', trigger: 'blur'}
+          ],
+          startDate:[{required:true,message:'请选择开始时间',trigger:"blur"}],
+          endDate:[{required:true,message:'请选择结束时间',trigger:"blur"}],
+          graduateSchool:[{required:true,message:'请输入毕业学校',trigger:"blur"}],
+          educationLev:[{required:true,message:'请选择学历',trigger:"blur"}],
+          major:[{required:true,message:'请输入专业',trigger:"blur"}],
+          workCompany:[{required:true,message:'请输入公司名称',trigger:"blur"}],
+          position:[{required:true,message:'请输入职位名称名称',trigger:"blur"}]
         },
         dialogVisible: false,
         params: {
@@ -341,15 +333,24 @@ import footerNav from '../base/foot';
             successd=function(res){
               console.log(res.data.data.InterviewerInfo.resumeUrl,"resumeUrl");
               self.InterviewerInfo.name=res.data.data.InterviewerInfo.name;
-              self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
-              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone;
+              self.InterviewerInfo.sex=res.data.data.sex?res.data.data.sex.toString():'1';
+              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone-0;
               self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
-              self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
+              self.InterviewerInfo.birthday=new Date(res.data.data.InterviewerInfo.birthday);
+              res.data.data.EducationHistory.forEach((item)=>{
+                item.educationLev=item.educationLev-0;
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
+              res.data.data.WorkHistory.forEach((item)=>{
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
               self.InterviewerInfo.educationHistoryList=res.data.data.EducationHistory;
               self.InterviewerInfo.workHistoryList=res.data.data.WorkHistory;
               self.resumeUrl=res.data.data.InterviewerInfo.resumeUrl;
               self.$message({
-                message:'简历上传成功,请确认保存简历',
+                message:'简历解析成功,请确认保存简历',
                 type:'success'
               });
             };
@@ -380,48 +381,62 @@ import footerNav from '../base/foot';
         self.InterviewerInfo.workHistoryList.splice(index,1);
       },
       //保存简历
-      submitInterivewApplicationNew(){
+      submitInterivewApplicationNew(formName){
         var self=this;
-        var method="resume/updateSimpleResume";
-        var InterviewerInfo=JSON.parse(JSON.stringify(self.InterviewerInfo));
-        InterviewerInfo.educationHistoryList.forEach(function(item) {
-          item.startDateStr=self.$date(item.startDate,'month');
-          if(!item.isReading){
-            item.endDateStr=self.$date(item.startDate,'month');
-            item.isReading=0;
-          }else{
-            item.endDate="";
-            item.isReading=1;
-          }
-        });
-        InterviewerInfo.workHistoryList.forEach(function(item) {
-          item.startDateStr=self.$date(item.startDate,'month');
-          if(!item.isWorking){
-            item.endDateStr=self.$date(item.startDate,'month');
-            item.isWorking=0;
-          }else{
-            item.endDate="";
-            item.isWorking=1;
-          }
-        });
-        InterviewerInfo.birthday=self.$date(InterviewerInfo.birthday);
-        InterviewerInfo.positionId=self.id;
-        InterviewerInfo.attachmentIds=self.attachmentIds.toString();
-        InterviewerInfo.resumeId=self.resumeId.toString();
-        InterviewerInfo.resumeFrom=self.login.type;
-        InterviewerInfo.resumeUrl=self.resumeUrl;
+        self.$refs[formName].validate((valid) => {
+          if (valid) {
+              var method="resume/updateSimpleResume";
+              var InterviewerInfo=JSON.parse(JSON.stringify(self.InterviewerInfo));
+              InterviewerInfo.educationHistoryList.forEach(function(item) {
+                item.startDateStr=self.$date(item.startDate,'month');
+                item.startDate = "";
+                if(!item.isReading){
+                  item.endDateStr=self.$date(item.endDate,'month');
+                  item.endDate = "";
+                  item.isReading = 0;
+                }else{
+                  item.endDate = "";
+                  item.isReading = 1;
+                }
+              });
+              InterviewerInfo.workHistoryList.forEach(function(item) {
+                item.startDateStr=self.$date(item.startDate,'month');
+                item.startDate = "";
+                if(!item.isWorking){
+                  item.endDateStr=self.$date(item.endDate,'month');
+                  item.endDate = "";
+                  item.isWorking = 0;
+                }else{
+                  item.endDate="";
+                  item.isWorking=1;
+                }
+              });
+              InterviewerInfo.birthday=self.$date(InterviewerInfo.birthday);
+              InterviewerInfo.positionId=self.id;
+              InterviewerInfo.attachmentIds=self.attachmentIds.toString();
+              InterviewerInfo.resumeId=self.resumeId.toString();
+              InterviewerInfo.resumeFrom=self.login.type;
+              InterviewerInfo.resumeUrl=self.resumeUrl;
 
-        var param=JSON.stringify({simpleResumeInfo:InterviewerInfo,fansId:self.fansId,step:'3'}),
-            successd=function(res){
-              self.dialogVisible=true;
-            },
-            errored=function(res){
-              self.$message({
-                message:res.data.message,
-                type:"error"
-              })
-            };
-        self.$http(method,param,successd,errored);
+              var param=JSON.stringify({simpleResumeInfo:InterviewerInfo,fansId:self.fansId,step:'-1'}),
+                  successd=function(res){
+                    self.$message({
+                      message:"保存成功!",
+                      type:'success'
+                    })
+                  },
+                  errored=function(res){
+                    self.$message({
+                      message:res.data.message,
+                      type:"error"
+                    })
+                  };
+              self.$http(method,param,successd,errored);
+            } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
       },
       loginFun(type){
         var self=this;
@@ -471,10 +486,19 @@ import footerNav from '../base/foot';
             successd=function(res){
               self.loginResume=false;
               self.InterviewerInfo.name=res.data.data.InterviewerInfo.name;
-              self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
-              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone;
+              self.InterviewerInfo.sex=res.data.data.sex?res.data.data.sex.toString():'1';
+              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone-0;
               self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
-              self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
+              self.InterviewerInfo.birthday=new Date(res.data.data.InterviewerInfo.birthday);
+              res.data.data.EducationHistory.forEach((item)=>{
+                item.educationLev=item.educationLev-0;
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
+              res.data.data.WorkHistory.forEach((item)=>{
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
               self.InterviewerInfo.educationHistoryList=res.data.data.EducationHistory;
               self.InterviewerInfo.workHistoryList=res.data.data.WorkHistory;
               self.resumeUrl=res.data.data.InterviewerInfo.resumeUrl;
@@ -502,20 +526,20 @@ import footerNav from '../base/foot';
             }),
             successd=(res)=>{
               self.InterviewerInfo.name=res.data.data.name;
-              self.InterviewerInfo.sex=res.data.data.sex.toString();
-              self.InterviewerInfo.phone=res.data.data.phone;
+              self.InterviewerInfo.sex=res.data.data.sex?res.data.data.sex.toString():'1';
+              self.InterviewerInfo.phone=res.data.data.phone-0;
               self.InterviewerInfo.email=res.data.data.email;
-              self.InterviewerInfo.birthday=res.data.data.birthday;
+              self.InterviewerInfo.birthday=new Date(res.data.data.birthday);
               res.data.data.educationHistoryList.forEach((item)=>{
                 item.isReading=item.isReading==1;
-                item.startDate=item.startDateStr;
-                item.endDate=item.endDateStr;
+                item.startDate=new Date(item.startDateStr);
+                item.endDate=new Date(item.endDateStr);
               })
               self.InterviewerInfo.educationHistoryList=res.data.data.educationHistoryList;
               res.data.data.workHistoryList.forEach((item)=>{
                 item.isWorking=item.isWorking==1;
-                item.startDate=item.startDateStr;
-                item.endDate=item.endDateStr;
+                item.startDate=new Date(item.startDateStr);
+                item.endDate=new Date(item.endDateStr);
               })
               self.InterviewerInfo.workHistoryList=res.data.data.workHistoryList;
               self.resumeUrl=res.data.data.resumeUrl;
@@ -544,11 +568,11 @@ import footerNav from '../base/foot';
   margin-top:20px;
 }
 .apply_personal h1{
-  height: 68px;
+  height: 40px;
   background-color: #46BE8A;
   color: #fff;
   font-size: 18px;
-  line-height: 68px;
+  line-height: 40px;
   padding-left: 20px;
 }
 .resume_title{
@@ -579,7 +603,7 @@ import footerNav from '../base/foot';
   padding: 0;
 } */
 .submitInterivewApplicationNew{
-  margin-top:20px;
+  margin:20px 0;
 }
 .login_icon{
   height: 100px;
@@ -654,11 +678,11 @@ import footerNav from '../base/foot';
   background: #fff
   margin-top:20px
   h1
-    height: 68px;
+    height: 40px;
     background-color: #46BE8A;
     color: #fff;
     font-size: 18px;
-    line-height: 68px;
+    line-height: 40px;
     padding-left: 20px;
     margin-bottom:20px
   .apply_content

@@ -44,8 +44,7 @@ function padLeftZero(str) {
  */
 
 export function urlParse() {
-
-  let url = window.location.search;
+  let url = window.location.href;
   let obj = {};
   //正则匹配 匹配？&^非+多个  对应    包含？&的字符 后面  非^&的字符 一个或者多个  等号连接
   let reg = /[?&][^?&]+=[^?&]+/g;
@@ -68,3 +67,7 @@ export function urlParse() {
 }
 
 
+
+export function weixinLogin(){
+
+}

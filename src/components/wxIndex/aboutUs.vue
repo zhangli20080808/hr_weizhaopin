@@ -2,6 +2,16 @@
 
   <!--模板-->
   <div class="g-container" id="aboutUs">
+    <div class="personal_header">
+      <img :src="tuijianObj.headImg" alt="">
+      <h2>{{tuijianObj.nickname}}</h2>
+      <div class="header_right">
+        <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0" @click="careQrcode=true;" class="vux-1px-r">关注</p>
+        <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==1" class="vux-1px-r">已关注</p>
+        <p @click="recommendedSchedule"> &nbsp;我的</p>
+        <h6 v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0&&tag" @click="choseTag"><span>关注公众号获取职位分享动态</span></h6>
+      </div>
+    </div>
     <div class="company-profile">
       <div class="g-card profile-header">
         <!--banner-->
@@ -15,7 +25,7 @@
             <div class="template-company">
               <h3 class="info-title g-oneline-text">{{preCompanyWebsite.name}}</h3>
               <div class="description">{{preCompanyWebsite.slogan}}</div>
-              <div class="action" v-if="isAuthorization!==0">
+              <!-- <div class="action" v-if="isAuthorization!==0">
                 <div class="g-ghost-btn" @click="goCare"
                      :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}"
                      v-show="isAuthorization">
@@ -24,7 +34,7 @@
 
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -324,6 +334,24 @@
           companyName: "",
           region: "",
         },
+        latitude:'',
+        longitude:'',
+        companyName:'',
+        detailAddress:'',
+        address:'',
+
+        tuijianObj:{//个人顶部通栏
+          nickname:'',
+          isSubscribe:0,
+          headImg:null,
+          haveGzh:1,
+          companyGzh:{
+            accountName:'',
+            qrcodeUrl:''
+          }
+        },
+        tag:true,
+        fansId:this.$route.query.fansId,
         latitude: '',
         longitude: '',
         companyName: '',
@@ -684,31 +712,66 @@
         this.detailAddress = item.address;
         this.getSignature2()
       },
+
+      //
+      recommendedSchedule(){
+        // location.href="https://aijuhr.com/miniRecruit/#/personal?companyId="+this.companyId;
+        this.$router.push({
+          name:'personal',
+          query:{company:this.companyId}
+        })
+      },
+      choseTag(){
+        this.tag=!this.tag;
+      },
+      getUserInfo(){
+        var self=this;
+        var method="weixin/getUserInfo",
+            param={
+              companyId:self.companyId,
+              fansId:self.fansId
+            },
+            successd=function(res){
+              self.tuijianObj=res.data;
+              if(self.tuijianObj.headImg == ''||self.tuijianObj.headImg == null){
+                self.tuijianObj.headImg = 'https://aijuhr.com/images/yidong/head_wx.png'
+              }
+            };
+        self.$webHttp(method,param,successd);
+      },
       userAuthUrl(){
-        var self = this;
-        var method = "weixin/userAuthUrl",
-          param = {
-            scope: 'snsapi_base',
-            pageFrom: 1,
-            companyId: self.companyId,
-          },
-          successd = function (res) {
-            if (res.data.userSession == 0) {
-              location.href = res.data.userAuthUrl;
-            }
-          };
-        self.$webHttp(method, param, successd);
+        var self=this;
+        var method="weixin/userAuthUrl",
+            param={
+              scope:'snsapi_userinfo',
+              pageFrom:4,
+              companyId:self.companyId
+            },
+            successd=function(res){
+              if(res.data.userSession==0){
+                location.href=res.data.userAuthUrl;
+              }else if(res.data.userSession==0){
+                self.fansId=res.data.fansId;
+              }
+              self.getUserInfo();
+            };
+        self.$webHttp(method,param,successd);
       }
     },
     created(){
       this.$nextTick(() => {
         this.getCode();
-        this.getCodeUrl();
-//        this.userAuthUrl();
+        // this.getCodeUrl();
         this.toCare();
         this.getShareTitleInfo();
         this.getMainCompanyInfo();
         this.getBranchCompanyInfo();
+        if(!this.fansId){
+          this.userAuthUrl();
+        }else{
+          this.getUserInfo();
+        }
+//        this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
       })
@@ -727,8 +790,7 @@
     },
     directives: {
       TransferDom
-    },
-
+    }
   }
 
 </script>

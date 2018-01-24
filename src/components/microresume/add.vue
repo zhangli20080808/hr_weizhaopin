@@ -6,6 +6,13 @@
         <div class="resume_icon"></div>
         <div class="resume_text">一分钟创建微简历</div>
       </div>
+      <div class="first2 first" @click="scanQRCode">
+        <div class="resume_icon resume_icon2"></div>
+        <div class="resume_text2">
+          <h1>PC扫码填简历</h1>
+          <h2>https://aijuhr.com/miniRecruit/#/pc/login</h2>
+        </div>
+      </div>
       <div class="createText"><span class="text">快速导入简历</span></div>
     </div>
 
@@ -503,7 +510,7 @@
         }else{
           self.btnLoading=true;
         }
-        var method="recruitPosition/submitInterivewApplicationNew",
+        var method="recruitPosition/submitApplicationRecord",
             param=JSON.stringify({
               interviewResumeInfo:self.interviewResumeInfo,
               shareFansId:self.shareFansId,
@@ -519,6 +526,15 @@
               self.$vux.toast.text(res.data.message,"top")
             };
         self.$http(method,param,successd,c);
+      },
+      scanQRCode(){
+        this.$wechat.scanQRCode({
+          needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+          scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+          success: function (res) {
+            var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+          }
+        });
       }
     },
     components: {
@@ -678,6 +694,10 @@
     background-color: #fff;
     border-b-1px(#E5E5E5)
     border-t-1px(#E5E5E5)
+  }
+  .first2{
+    border-none-t()
+    border-b-1px(#E5E5E5)
   }
 
   .first img {
@@ -848,9 +868,23 @@
     background-size: cover;
     margin-right: 0.4rem;
   }
+  .resume_icon2{
+    background-color:pink;
+    background: url(../images/resum_5.png) no-repeat center;
+    background-size: cover;
+  }
 
   .resume_text {
     font-size: 0.32rem;
+  }
+
+  .resume_text2 h1{
+    font-size:.34rem;
+  }
+  .resume_text2 h2{
+    font-size:.26rem;
+    margin-top:.1rem;
+    color:#a9a9a9;
   }
 
   .resume_icon i.iconfont {

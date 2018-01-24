@@ -40,6 +40,13 @@ import education from "components/resume/education";
 import certificate from "components/resume/certificate";
 import awards from "components/resume/awards";
 
+//招聘助手
+import raPositionList from 'components/recruitAssistant/positionList';
+import raPositionDetail from 'components/recruitAssistant/positionDetail';
+import candidate from 'components/recruitAssistant/candidate';
+import offer from 'components/recruitAssistant/offer';
+import raLogin from 'components/recruitAssistant/login';
+import resumeDetail from 'components/resume/resumeDetail';
 //PC端简历
 import pcLogin from "components/pcresume/pcLogin";
 import login from "components/pcresume/login";
@@ -174,9 +181,39 @@ export default new Router({
       component: authentification_gzh
     },
     {
-      path:'/resumePreview',
-      name:'resumePreview',
-      component:resumePreview
+      path: '/authentificationResult',
+      name: 'authentificationResult',
+      component: authentificationResult
+    },
+    {
+      path:'/raPositionList',
+      name:'raPositionList',
+      component:raPositionList
+    },
+    {
+      path:'/raPositionDetail',
+      name:'raPositionDetail',
+      component:raPositionDetail
+    },
+    {
+      path:'/candidate',
+      name:'candidate',
+      component:candidate
+    },
+    {
+      path:'/offer',
+      name:'offer',
+      component:offer
+    },
+    {
+      path:'/raLogin',
+      name:'raLogin',
+      component:raLogin
+    },
+    {
+      path:'/resumeDetail',
+      name:'resumeDetail',
+      component:resumeDetail
     },
     {
       path:'/information',
