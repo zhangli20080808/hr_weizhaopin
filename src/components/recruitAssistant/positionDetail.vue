@@ -248,16 +248,23 @@
     height: 100%;
     background-color: #F8F8FC;
   }
-</style>
-
-<style scoped lang="less">
-  .xs-container{
-    height: 100%;
+   .xs-container{
+    min-height:100%; 
   }
   .position-detail-wrap{
     min-height:100%;
     padding-bottom:48px;
+    position: relative;
   }
+</style>
+
+<style scoped lang="less">
+
+  // .position-detail-wrap{
+  //   min-height:100%;
+  //   padding-bottom:48px;
+  //   position: relative;
+  // }
   #interpolateDetail {
     height: 100%;
     background:#F8F8FC;

@@ -246,12 +246,12 @@ export default {
 @import '~vux/src/styles/1px.less';
  
 .vux-tab {
-  // justify-content: space-around;
+  justify-content: space-around;
   border-bottom:1px solid #e5e5e5;
-  overflow-x:scroll;
-  &::-webkit-scrollbar{
-    display: none;
-  }
+  // overflow-x:scroll;
+  // &::-webkit-scrollbar{
+  //   display: none;
+  // }
   .vux-tab-item{
     padding:0 10px;
     background: none;
