@@ -128,6 +128,9 @@
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.personalInfo = res.data.data.weixinPersonalInfo;
+            if( _this.personalInfo.headImgUrl == ''|| _this.personalInfo.headImgUrl== null){
+              _this.personalInfo.headImgUrl = 'https://aijuhr.com/images/yidong/head_wx.png';
+            }
            _this.isEmployeeCertification =  _this.personalInfo.isEmployeeCertification;
            _this.isNotEmployeeCertification =  _this.personalInfo.isNotEmployeeCertification;
           }
