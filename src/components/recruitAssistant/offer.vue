@@ -169,7 +169,7 @@ export default {
         let res = response.data;
         if(res.code == 400){
           //登录超时，重新登录
-            _this.getCodeUrl()
+            _this.getCodeUrl()   
         }else{
           console.log(res.code,res.message)
         }
@@ -207,12 +207,19 @@ export default {
             },
             params: {
               interviewerId: item.id,
-              processStatus: this.tabIndex == 0 ? this.$options.filters['parseStatus'](item.joinStatus): this.statuList[this.tabIndex]
+              processStatus: this.tabIndex == 0 ? this.$options.filters['parseStatus'](item.joinStatus): this.statuList[this.tabIndex],
+              state:this.tabIndex
             }
           })
         }  
       },
   },
+  // watch:{
+  //   '$route'(to, from){
+  //     console.log(to)
+  //     console.log(from)
+  //   }
+  // },
   filters:{
     // 0.待发送offer 1.待接收offer 2.已接受offer（待入职） 3.已经入职 4.表示offer无效5.表示放弃入职
     parseStatus(val){
