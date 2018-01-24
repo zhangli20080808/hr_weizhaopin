@@ -12,20 +12,36 @@
 </script>
 <style lang="less" scoped>
      .footer_icon {
-        // position: absolute;
-        // bottom:15px;
-        // left:135px;
-        // z-index:2;
-        height: 0.89rem;
-        line-height: 0.89rem;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        bottom:5px;
+        left:135px;
+        z-index:2;
+        height: 48px;        
         text-align: center;
-        .img_detail {
-          display: inline-block;
-          vertical-align: middle;
+        a{ 
+         height: 16px;
+         .img_detail {
           width: 103px;
           height: 16px;
-          background: url(../../common/image/footLogo2.jpg) no-repeat center;
+          background: url(../../common/image/footLogo2.jpg) no-repeat left top;
           background-size: 103px auto;
         }
+        }
+        
       }
+      // .footer_icon {
+      //   height: 0.89rem;
+      //   line-height: 0.89rem;
+      //   text-align: center;
+      //   .img_detail {
+      //     display: inline-block;
+      //     vertical-align: middle;
+      //     width: 103px;
+      //     height: 16px;
+      //     background: url(../../common/image/footLogo2.jpg) no-repeat center;
+      //     background-size: 103px auto;
+      //   }
+      // }
 </style>

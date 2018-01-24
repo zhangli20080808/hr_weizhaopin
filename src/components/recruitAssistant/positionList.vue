@@ -33,7 +33,6 @@
           <footer-logo></footer-logo>
         </div>
       </scroller>
-      <!-- <footer-logo></footer-logo> -->
       <loading v-show="showLoading"></loading>
   </div>
 </template>
@@ -74,6 +73,7 @@
       console.log('p-options', this.options)
       this.code = this.options.code
       this.getCodeUrl() 
+
     },
     methods: {
        //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值
@@ -122,7 +122,7 @@
           companyId: this.companyId,
           type: 2,
           pageNum:this.pageNum,
-          pageSize:10,
+          pageSize:10,   
         });
         var successd = function (response) {
           _this.showLoading = false 
@@ -195,6 +195,10 @@
 
       .xs-container{
         height :100%;
+      }
+      .list_content{
+        min-height :100%;
+        padding-bottom:48px;
       }
       .no_result{
         width 100%;
