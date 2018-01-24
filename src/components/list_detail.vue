@@ -957,7 +957,7 @@
         }
         .description_con {
           color: #666;
-          font-size: 0.26rem;
+          font-size: 0.28rem;
           padding: 10px 0;
           text-align: justify;
           line-height: 0.4rem;
