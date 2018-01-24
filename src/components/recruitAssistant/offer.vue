@@ -243,11 +243,15 @@ export default {
   height: 100%;
   background-color: #F8F8FC;
 }
+ .xs-container{
+    min-height:100%; 
+    padding-bottom: 48px;
+  }
 </style>
 
 <style lang="less" scoped>
 @import '~vux/src/styles/1px.less';
- 
+
 .vux-tab {
   justify-content: space-around;
   border-bottom:1px solid #e5e5e5;
@@ -263,6 +267,7 @@ export default {
 .offer-wrap{
   background-color: #F8F8FC;
   // height: 100%;
+   
   .resume-list-wrap{
     margin-top:12px;
     .resume-item{

@@ -2,7 +2,7 @@
   <div id="interpolateDetail">
     <div class="hidden-sm hidden-lg">
       <scroller lock-x >
-        <div>
+        <div class="position-detail-wrap">
           <dl class="position_detail">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
@@ -251,8 +251,12 @@
 </style>
 
 <style scoped lang="less">
-  #app{
-      height: 100%;   
+  .xs-container{
+    height: 100%;
+  }
+  .position-detail-wrap{
+    min-height:100%;
+    padding-bottom:48px;
   }
   #interpolateDetail {
     height: 100%;

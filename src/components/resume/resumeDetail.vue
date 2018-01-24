@@ -17,7 +17,7 @@
       </div>
     </div>
      <!-- 自我评价 -->
-    <div class="self-evaluation item-wrap">
+    <div class="self-evaluation item-wrap" v-if="interviewerInfo.myEvaluation">
       <div class="hd">
         <span class="icon"></span>
         <span class="title">自我评价</span>
@@ -143,7 +143,7 @@
       </div>
     </div>
     <!-- 个人链接 -->
-    <div class="self-link item-wrap">
+    <div class="self-link item-wrap" v-if="interviewerInfo.linkUrl || interviewerInfo.linkDescription">
       <div class="hd">
         <span class="icon"></span>
         <span class="title">个人链接</span>
@@ -275,6 +275,12 @@ export default {
 .resume-detail{
   background-color: #F8F8FC;
   padding-top:.3rem;
+  min-height:100%; 
+  padding-bottom: 48px;
+  position: relative;
+  .foot_icon{
+    bottom:0px;
+  }
   .item-wrap{
     padding:.3rem;
     margin-top:.25rem;
