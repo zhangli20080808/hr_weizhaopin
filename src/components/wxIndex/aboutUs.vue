@@ -733,6 +733,9 @@
             },
             successd=function(res){
               self.tuijianObj=res.data;
+              if(self.tuijianObj.headImg == ''||self.tuijianObj.headImg == null){
+                self.tuijianObj.headImg = 'https://aijuhr.com/images/yidong/head_wx.png'
+              }
             };
         self.$webHttp(method,param,successd);
       },
@@ -787,8 +790,7 @@
     },
     directives: {
       TransferDom
-    },
-
+    }
   }
 
 </script>
