@@ -263,6 +263,7 @@
     mounted(){
       document.title = "创建简历";
       // this.index();
+      this.getSimpleResume();
     },
     methods: {
       index(){
