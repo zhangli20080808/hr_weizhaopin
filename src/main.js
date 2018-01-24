@@ -10,6 +10,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'common/js/index'
 import moment from 'moment'
 import Methods from 'common/js/methods'
+import Filters from 'common/js/filters'
 import { WechatPlugin, AlertPlugin, ToastPlugin,ConfirmPlugin } from 'vux'
 import 'components/css/main.css'
 

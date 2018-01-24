@@ -1,12 +1,23 @@
 <template>
   <div id="add_resume" class="add_resume" :style="{'height':wh+'px'}">
     <div v-show="type==1">
-      <div class="createText"><span class="text">创建个人简历</span></div>
-      <div class="first" @click="getSimpleResume">
+      <div class="createText"><span class="text">{{step==3?'个人档案':'创建个人简历'}}</span></div>
+      <div class="first" @click="previewResume" v-if="step==3">
+        <div class="resume_icon"></div>
+        <div class="resume_text">个人档案</div>
+      </div>
+      <div class="first" @click="getSimpleResume" v-else>
         <div class="resume_icon"></div>
         <div class="resume_text">一分钟创建微简历</div>
       </div>
-      <div class="createText"><span class="text">快速导入简历</span></div>
+      <div class="first2 first" @click="scanQRCode">
+        <div class="resume_icon resume_icon2"></div>
+        <div class="resume_text2">
+          <h1>PC扫码填简历</h1>
+          <h2>resume.aijuhr.com</h2>
+        </div>
+      </div>
+      <div class="createText"><span class="text"> </span></div>
     </div>
 
     <div class="content" v-show="type==2">
@@ -246,6 +257,7 @@
         activityId:this.$route.query.activityId,
         wh:wh,
         btnLoading:false,
+        step:"0",
       }
     },
     mounted(){
@@ -429,6 +441,7 @@
             }),
             successd=function(res){
               self.type=2;
+              self.step=res.data.data.step;
               if(res.data.data.step==1||res.data.data.step==2){
                 self.$vux.confirm.show({
                   title: '微简历',
@@ -449,7 +462,9 @@
                     self.interviewResumeInfo.name=res.data.data.name;
                     self.interviewResumeInfo.phone=res.data.data.phone;
                     self.interviewResumeInfo.email=res.data.data.email;
-                    self.sexValue[0]=res.data.data.sex-0;
+                    var arr=[];
+                    arr[0]=res.data.data.sex?res.data.data.sex-0:1;
+                    self.sexValue[0]=arr;
                     self.interviewResumeInfo.birthday=res.data.data.birthday;
                     self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList?res.data.data.educationHistoryList:[];
                     self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList?res.data.data.workHistoryList:[];
@@ -470,7 +485,9 @@
                 self.interviewResumeInfo.name=res.data.data.name;
                 self.interviewResumeInfo.phone=res.data.data.phone;
                 self.interviewResumeInfo.email=res.data.data.email;
-                self.sexValue[0]=res.data.data.sex-0;
+                var arr=[];
+                arr[0]=res.data.data.sex?res.data.data.sex-0:1;
+                self.sexValue[0]=arr;
                 self.interviewResumeInfo.birthday=res.data.data.birthday;
                 self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList;
                 self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList;
@@ -503,7 +520,7 @@
         }else{
           self.btnLoading=true;
         }
-        var method="recruitPosition/submitInterivewApplicationNew",
+        var method="recruitPosition/submitApplicationRecord",
             param=JSON.stringify({
               interviewResumeInfo:self.interviewResumeInfo,
               shareFansId:self.shareFansId,
@@ -519,6 +536,18 @@
               self.$vux.toast.text(res.data.message,"top")
             };
         self.$http(method,param,successd,c);
+      },
+      scanQRCode(){
+        this.$wechat.scanQRCode({
+          needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+          scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+          success: function (res) {
+            var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+          }
+        });
+      },
+      toPreview(){
+        this.$router.push({name:'resumePreview',query:{fansId:this.fansId}})
       }
     },
     components: {
@@ -678,6 +707,10 @@
     background-color: #fff;
     border-b-1px(#E5E5E5)
     border-t-1px(#E5E5E5)
+  }
+  .first2{
+    border-none-t()
+    border-b-1px(#E5E5E5)
   }
 
   .first img {
@@ -848,9 +881,23 @@
     background-size: cover;
     margin-right: 0.4rem;
   }
+  .resume_icon2{
+    background-color:pink;
+    background: url(../images/resum_5.png) no-repeat center;
+    background-size: cover;
+  }
 
   .resume_text {
     font-size: 0.32rem;
+  }
+
+  .resume_text2 h1{
+    font-size:.34rem;
+  }
+  .resume_text2 h2{
+    font-size:.26rem;
+    margin-top:.1rem;
+    color:#a9a9a9;
   }
 
   .resume_icon i.iconfont {

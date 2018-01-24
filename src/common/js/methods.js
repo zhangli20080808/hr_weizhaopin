@@ -118,14 +118,6 @@ export default {
       }).catch(function (err) {
       });
     }
-    //时间过滤器,去掉时分秒
-    Vue.filter('date-filter', function(value) {
-      console.log(typeof value)
-      if(value!=''){
-        var date = value.slice(0,10)
-      }
-      return date;
-    })
 
     // 获取webDetail
     Vue.prototype.$webHttp=function(method,param,succeed) {
@@ -145,6 +137,7 @@ export default {
       var noHeadImage = Util.noHeadImage[value]||"";
       return noHeadImage;
     })
+    
   }
 }
 

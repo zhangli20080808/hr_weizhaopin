@@ -131,7 +131,7 @@
     </div>
     <div class="footer_btn">
       <div style="padding:15px;">
-        <x-button @click.native="sendResume" type="primary" class="weizhaopin_btn">立即投递</x-button>
+        <x-button @click.native="sendResume" type="primary" class="weizhaopin_btn" v-if="resume.positionId">立即投递</x-button>
       </div>
     </div>
 
@@ -150,7 +150,7 @@ export default {
       activityId:this.$route.query.activityId,
       recomType:this.$route.query.recomType,
       resume:{
-        positionId: this.$route.query.id,
+        positionId: this.$route.query.positionId,
         basic:{
           name:'',
           motto:'',
@@ -196,6 +196,8 @@ export default {
             fansId:self.fansId
           }),
           sucessd=function(res){
+            res.data.data.positionId=self.$route.query.positionId;
+            res.data.data.basic.headImg=res.data.data.basic.headImg?res.data.data.basic.headImg:"https://aijuhr.com/images/yidong/head_wx.png"
             self.resume=res.data.data;
             self.loadingShow=false;
           };

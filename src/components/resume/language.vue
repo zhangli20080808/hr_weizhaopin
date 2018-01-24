@@ -65,6 +65,10 @@ export default {
       var self=this;
       self.model.forEach((item)=>{
         item.languageLevel=item.sexValue[0];
+        if(item.languageSkill==""){
+          self.$vux.toast.text('请完成语言信息!');
+          return
+        }
       });
       var method="resume/updateResumeInfo",
           param=JSON.stringify({
