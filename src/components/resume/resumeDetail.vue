@@ -41,7 +41,7 @@
               <p class="pItem"><span class="key">职位名称:</span><span class="value">{{item.position}}</span></p>
               <p class="pItem"><span class="key">部门名称:</span><span class="value">{{item.workDepartment}}</span></p>
             </div>
-            <div class="exp-content" v-html="item.descript"></div>
+            <div class="exp-content" v-if="item.descript" v-html="item.descript"></div>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
               <p class="pItem"><span class="key">专业名称:</span><span class="value">{{item.major}}</span></p>
               <p class="pItem"><span class="key">最高学历:</span><span class="value">{{item.educationLev | gloEducationLev}}</span></p>
             </div>
-            <div class="exp-content" v-html="item.descript"></div>
+            <div class="exp-content" v-if="item.descript" v-html="item.descript"></div>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@
               <p class="pItem"><span class="key">项目名称：</span><span class="value">{{item.projectName}}</span></p>
               <p class="pItem"><span class="key">项目时间: </span><span class="value">{{item.startDate | date-filter}}至{{item.endDate | date-filter}}</span></p>
             </div>
-            <div class="exp-content" v-html="item.projectDescription"></div>
+            <div class="exp-content" v-if="item.projectDescription" v-html="item.projectDescription"></div>
           </div>
         </div>
       </div>
@@ -97,7 +97,7 @@
               <p class="pItem"><span class="key">培训机构：</span><span class="value">{{item.tranOrganization}}</span></p>
               <p class="pItem"><span class="key">培训时间: </span><span class="value">{{item.startTime | date-filter}}至{{item.endTime | date-filter}}</span></p>
             </div>
-            <div class="exp-content" v-html="item.tranContent"></div>
+            <div class="exp-content" v-if="item.tranContent" v-html="item.tranContent"></div>
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@
             <div class="exp-base">
               <p class="pItem">{{interviewerInfo.linkUrl}}</p>
             </div>
-            <div class="exp-content" v-html="interviewerInfo.linkDescription"></div>
+            <div class="exp-content" v-if="interviewerInfo.linkDescription" v-html="interviewerInfo.linkDescription"></div>
           </div>
         </div>
       </div>
@@ -337,8 +337,12 @@ export default {
     .bd{
       .exp-list{
         .exp-item{
+          padding-bottom: .4rem;
+          border-bottom: 1px solid #eee;
           margin-bottom:.3rem;
           &:last-child{
+            padding-bottom: 0;
+            border-bottom: none;
             margin-bottom: 0;
           }
           .exp-content{
