@@ -88,7 +88,7 @@
           <h6 v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0&&tag" @click="choseTag"><span>关注公众号获取职位分享动态</span></h6>
         </div>
       </div>
-      <scroller lock-x height="-40">
+      <scroller lock-x height="-80">
         <div>
           <!--     <dl class="position_detail">
             <dt>
