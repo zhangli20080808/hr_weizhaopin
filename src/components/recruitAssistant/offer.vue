@@ -1,5 +1,5 @@
 <template>
-  <div class="offer-wrap">
+  <div class="offer-wrap" v-show="showOuterWrap">
      <tab :line-width=0 active-color="#5AA2E7">
       <tab-item v-for="(item,index) in statuList" :key="index"  :selected="index == 0" @on-item-click="onItemClick">{{item}}</tab-item>
     </tab>
@@ -74,6 +74,7 @@ export default {
           options:null,
           code:'',
           companyId:this.$route.query.companyId || '',
+          showOuterWrap:false,
           showMore:false,
           showLoading:false,
           onFetching:false,
@@ -113,6 +114,7 @@ export default {
         let res = response.data;
         if (res.code == "0") {
             //登录成功
+            _this.showOuterWrap = true
            _this.companyId = res.data.companyId
            localStorage.userInfo = JSON.stringify(res.data);
            _this.showLoading = true
