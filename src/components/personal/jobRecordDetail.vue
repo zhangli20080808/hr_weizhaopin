@@ -12,6 +12,7 @@
       <!--<div class="applyTime">申请时间：2018-01-18 18:19:10</div>-->
       <div class="applyTime" v-show="createTime">申请时间：{{getdate(createTime)}}</div>
     </div>
+    <div class="spilt"></div>
 
     <div class="status">
       <div class="status_content">
@@ -91,7 +92,7 @@
         return timestamp4.toLocaleDateString().replace(/\//g, "-") + " " + timestamp4.toTimeString().substr(0, 8)
       },
       filterStatus(item){
-        if (item == 1) {
+        if (item == 0) {
           item = '简历提交成功'
         } else if (item == 2) {
           item = 'HR将移入备选库'
@@ -145,7 +146,7 @@
   @import "../../common/stylus/boder";
 
   .mainWrap {
-    background: #faf7fe;
+    background: #ffffff;
     font-size: 14px;
     .list_content {
       height: 1.92rem;
@@ -158,7 +159,7 @@
       .positionName {
         color: #222;
         font-size: 0.34rem;
-        margin-bottom: 0.12rem;
+        margin-bottom: 0.2rem;
         .text {
           display: inline-block;
           vertical-align: middle;
@@ -187,7 +188,7 @@
         }
       }
       .companyName {
-        margin-bottom: 0.12rem;
+        margin-bottom: 0.2rem;
         .company_icon {
           display: inline-block;
           vertical-align: middle;
@@ -210,8 +211,11 @@
       }
 
     }
+    .spilt{
+      height: 0.26rem;
+      background: #faf7fe; 
+    }
     .status {
-      margin-top: 10px;
       background: #fff;
       padding-left: 0.3rem;
       .status_content {

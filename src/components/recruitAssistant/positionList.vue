@@ -1,7 +1,7 @@
 <template>
   <div class="ra-position-list">
       
-      <scroller lock-x ref="scrollerBottom" @on-scroll-bottom="loadMore" :scroll-bottom-offst="100">
+      <scroller class="scroller" lock-x ref="scrollerBottom" @on-scroll-bottom="loadMore" :scroll-bottom-offst="100">
         <div class="no_result" v-if="!list.length">
             <div class="tips">
                 <p class="">你还没有发布任何职位！ </p>
@@ -11,7 +11,7 @@
             <div class="img"></div>
         </div>
         <div class="list_content" v-else>
-          <dl class="position_detail" v-for="item in list" @click="selectItem(item)">
+          <dl class="position_detail" v-for="(item,index) in list" :key="index" @click="selectItem(item)">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
               <!-- <img src="../../components/images/urgent2.png" alt="" width="35px" class="img" v-if="item.isUrgent==1"> -->
@@ -26,30 +26,24 @@
             </dd>
             <dd class="position_detail_date">
               <span>发布时间 : &nbsp;{{item.createDate | repalceLine}}</span> &nbsp;
-              <em>招聘人数 : {{item.zhaopinNum}}人</em>
+              <em>招聘人数 : {{item.zhaopinNum > 0 ? item.zhaopinNum + "人" : "不限"}}</em>
             </dd>
           </dl>
            <load-more v-show="showMore" tip="加载更多"></load-more>
-          <!-- <div class="footer_icon" v-show="list.length>4">
-            <a href="https://aijuhr.com">
-              <div class="img_detail"></div>
-            </a>
-          </div> -->
           <footer-logo></footer-logo>
         </div>
       </scroller>
-    <loading v-show="showLoading"></loading>
-    
+      <loading v-show="showLoading"></loading>
   </div>
 </template>
 
 <script>
   import loading from '../../components/base/loading/loading2.vue'
   import FooterLogo from '../../components/base/footerLogo.vue'
-
+  import { urlParse } from '../../common/js/index.js'
   import {
     Scroller,
-    LoadMore,
+    LoadMore
     
   } from 'vux'
 
@@ -61,22 +55,65 @@
       FooterLogo
     },
     data(){
+      document.title = '职位列表';
       return {
+        options:null,
+        code:'',
         companyId: '',
         pageNum:1,
+        page:{},
         list: [],
-        showLoading:true,
+        showLoading:false,
         showMore: false,
         onFetching:false,
       }
     },
     created(){
-      this.companyId = this.$route.query.companyId
-      this.$nextTick(() => {
-        this.getOnlinePosition()
-      })
+      this.options = urlParse()
+      console.log('p-options', this.options)
+      this.code = this.options.code
+      this.getCodeUrl() 
+      // this.companyId = "169359"   //test
+      // this.getOnlinePosition()   //test
+
     },
     methods: {
+       //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值
+    getCodeUrl(){
+      var _this = this;
+      var method = "account/aijuAssistantAutoLogin";
+      var param = {
+        redirectUri: 'https://aijuhr.com/miniRecruit/#/raPositionList',
+        code:_this.code
+      };
+      var successd = function (response) {
+        let res = response.data;
+        if (res.code == "0") {
+            //登录成功
+             _this.companyId = res.data.companyId
+           localStorage.userInfo = JSON.stringify(res.data);
+            _this.showLoading = true
+           _this.getOnlinePosition()
+        }else if(res.code == "2018"){
+            //微信授权登录
+             location.href = res.data.codeUrl
+        } else if(res.code == "2019"){
+            //登录失败，请尝试账号登录                  
+            _this.$router.push({
+              path: `/raLogin`,
+              name: 'raLogin',
+              params: {
+                urlType:'raPositionList',
+                openId:res.data
+              },
+              query: {
+                // companyId: _this.companyId,
+              }
+          })
+        }
+      }
+      _this.$webHttp(method, param, successd);
+    },
       /**
        * 获取职位列表
        */
@@ -87,7 +124,7 @@
           companyId: this.companyId,
           type: 2,
           pageNum:this.pageNum,
-          pageSize:10,
+          pageSize:10,   
         });
         var successd = function (response) {
           _this.showLoading = false 
@@ -133,7 +170,7 @@
               this.$refs.scrollerBottom.reset()
             })
             this.onFetching = false
-         }, 2000)     
+         }, 0)     
        }
       }
     },
@@ -156,9 +193,15 @@
         height:100%;
         background-color: #F8F8FC;
     }
-  .ra-position-list {     
+  .ra-position-list {   
+
       .xs-container{
         height :100%;
+        padding-bottom:0!important;
+      }
+      .list_content{
+        min-height :100%;
+        padding-bottom:48px;
       }
       .no_result{
         width 100%;

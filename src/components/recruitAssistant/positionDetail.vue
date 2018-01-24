@@ -1,17 +1,13 @@
 <template>
   <div id="interpolateDetail">
     <div class="hidden-sm hidden-lg">
-      <scroller lock-x height="-50">
-        <div>
+      <!-- <scroller lock-x > -->
+        <div class="position-detail-wrap" :style="{'min-height':wh+'px'}">
           <dl class="position_detail">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
               <!-- <img src="../../common/image/urgent2.png" alt="" width="35px" class="img" v-if="positionInfo.isUrgent==1"> -->
               <span class="position_name">{{positionInfo.positionName}}</span>
-            <div class="position_detail_right">
-              <!--<em></em>-->
-              <!--<span>简历悬赏: <span style="font-weight:700;">{{positionInfo.rewardAmount}}</span>元</span>-->
-            </div>
             </dt>
             <dd class="position_detail_money" v-show="positionInfo.workCity">
               <span>{{positionInfo.workCity}}</span>
@@ -23,7 +19,7 @@
             </dd>
             <dd class="position_detail_date">
               <span>创建人 : &nbsp;{{positionInfo.creatorName}}</span> &nbsp;
-              <em>招聘人数 : {{positionInfo.posiNum}}人</em>
+              <em>招聘人数 : {{positionInfo.posiNum > 0 ? positionInfo.posiNum + "人" : "不限"}}</em>
             </dd>
           </dl>
 
@@ -48,7 +44,7 @@
           </div>
           <footer-logo></footer-logo>
         </div>
-      </scroller>
+      <!-- </scroller> -->
     </div>
 
   </div>
@@ -62,6 +58,7 @@
   export default {
     name: 'interpolateDetail',
     data(){
+      document.title = '职位详情';
       return {
         shareTipShow: false,
         //职位详情信息
@@ -134,13 +131,8 @@
         shareFansId: this.$route.query.shareFansId,
         fansId: this.$route.query.fansId,
         empId: this.$route.query.empId,
-        empAuthSucc: this.$route.query.empAuthSucc,//1:认证成功的内部员工
 
         accountName: '',
-        sharedQrcodeUrl: '',
-        dialogShared: false,
-        isSubscribe: 0,//用户是否关注1:已关注,0:未关注,
-        dialogVisible2: false,
         formShare: {
           eLink: ''
         },
@@ -148,12 +140,13 @@
         show: false,
         arrow_tip: false,
         model: false,
+        wh:'',
       }
     },
     mounted(){
       document.title = "职位详情";
       document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
-
+      this.wh = window.innerHeight;
       setTimeout(() => {
         this.getPositionInfo();
         // this.getShareTitleInfo();
@@ -256,11 +249,21 @@
     height: 100%;
     background-color: #F8F8FC;
   }
+   .xs-container{
+    min-height:100%; 
+  }
 </style>
 
 <style scoped lang="less">
-  #app{
-      height: 100%;   
+
+  .position-detail-wrap{
+    min-height:100%;
+    padding-bottom:48px;
+    position: relative;
+    background:#F8F8FC;
+    .footer_icon{
+      bottom:0px!important;
+    }
   }
   #interpolateDetail {
     height: 100%;
@@ -271,7 +274,7 @@
         font-size: 0.26rem;
         background-color: #fff;
         clear: both;
-        margin-top: 12px;
+        // margin-top: 12px;
         &::before {
           border-top: none;
         }

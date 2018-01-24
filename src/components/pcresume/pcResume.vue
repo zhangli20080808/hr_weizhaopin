@@ -18,7 +18,7 @@
                 :show-file-list="false"
               >
                 <el-button size="small" type="primary">点击上传</el-button>
-                <div class="tips hidden-sm hidden-lg">仅限于安卓手机</div>
+                <!-- <div class="tips hidden-sm hidden-lg">仅限于安卓手机</div> -->
                 <div slot="tip" class="el-upload__tip">支持PDF、HTML、Word等简历格式</div>
               </el-upload>
             </el-form-item>
@@ -102,7 +102,7 @@
             <el-form-item label="毕业学校" :rules="[{required:true,message:'请输入学校名称',trigger:'blur'}]" :prop="'educationHistoryList.'+index+'.graduateSchool'">
               <el-input v-model="edu.graduateSchool"></el-input>
             </el-form-item>
-            <el-form-item label="学历" :rules="[{required:true,message:'请选择学历',trigger:'blur'}]" :prop="'educationHistoryList.'+index+'.educationLev'">
+            <el-form-item label="学历" :rules="[{required:true,type:'number',message:'请选择学历',trigger:'blur'}]" :prop="'educationHistoryList.'+index+'.educationLev'">
               <el-select v-model="edu.educationLev" placeholder="请选择">
                 <el-option
                   v-for="item in educationLevArr"
@@ -247,7 +247,7 @@ import footerNav from '../base/foot';
             {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change'}
           ],
           birthday:[
-            {required: true, message: '请选择出生日期', trigger: 'blur'}
+            {required: true,type:'date', message: '请选择出生日期', trigger: 'blur'}
           ],
           startDate:[{required:true,message:'请选择开始时间',trigger:"blur"}],
           endDate:[{required:true,message:'请选择结束时间',trigger:"blur"}],
@@ -333,15 +333,24 @@ import footerNav from '../base/foot';
             successd=function(res){
               console.log(res.data.data.InterviewerInfo.resumeUrl,"resumeUrl");
               self.InterviewerInfo.name=res.data.data.InterviewerInfo.name;
-              self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
-              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone;
+              self.InterviewerInfo.sex=res.data.data.sex?res.data.data.sex.toString():'1';
+              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone-0;
               self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
-              self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
+              self.InterviewerInfo.birthday=new Date(res.data.data.InterviewerInfo.birthday);
+              res.data.data.EducationHistory.forEach((item)=>{
+                item.educationLev=item.educationLev-0;
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
+              res.data.data.WorkHistory.forEach((item)=>{
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
               self.InterviewerInfo.educationHistoryList=res.data.data.EducationHistory;
               self.InterviewerInfo.workHistoryList=res.data.data.WorkHistory;
               self.resumeUrl=res.data.data.InterviewerInfo.resumeUrl;
               self.$message({
-                message:'简历上传成功,请确认保存简历',
+                message:'简历解析成功,请确认保存简历',
                 type:'success'
               });
             };
@@ -374,8 +383,6 @@ import footerNav from '../base/foot';
       //保存简历
       submitInterivewApplicationNew(formName){
         var self=this;
-        console.log(formName);
-        console.log(self.$refs[formName]);
         self.$refs[formName].validate((valid) => {
           if (valid) {
               var method="resume/updateSimpleResume";
@@ -411,7 +418,7 @@ import footerNav from '../base/foot';
               InterviewerInfo.resumeFrom=self.login.type;
               InterviewerInfo.resumeUrl=self.resumeUrl;
 
-              var param=JSON.stringify({simpleResumeInfo:InterviewerInfo,fansId:self.fansId,step:'3'}),
+              var param=JSON.stringify({simpleResumeInfo:InterviewerInfo,fansId:self.fansId,step:'-1'}),
                   successd=function(res){
                     self.$message({
                       message:"保存成功!",
@@ -479,10 +486,19 @@ import footerNav from '../base/foot';
             successd=function(res){
               self.loginResume=false;
               self.InterviewerInfo.name=res.data.data.InterviewerInfo.name;
-              self.InterviewerInfo.sex=res.data.data.InterviewerInfo.sex.toString();
-              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone;
+              self.InterviewerInfo.sex=res.data.data.sex?res.data.data.sex.toString():'1';
+              self.InterviewerInfo.phone=res.data.data.InterviewerInfo.phone-0;
               self.InterviewerInfo.email=res.data.data.InterviewerInfo.email;
-              self.InterviewerInfo.birthday=res.data.data.InterviewerInfo.birthday;
+              self.InterviewerInfo.birthday=new Date(res.data.data.InterviewerInfo.birthday);
+              res.data.data.EducationHistory.forEach((item)=>{
+                item.educationLev=item.educationLev-0;
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
+              res.data.data.WorkHistory.forEach((item)=>{
+                item.startDate=new Date(item.startDate);
+                item.endDate=new Date(item.endDate);
+              })
               self.InterviewerInfo.educationHistoryList=res.data.data.EducationHistory;
               self.InterviewerInfo.workHistoryList=res.data.data.WorkHistory;
               self.resumeUrl=res.data.data.InterviewerInfo.resumeUrl;
@@ -510,20 +526,20 @@ import footerNav from '../base/foot';
             }),
             successd=(res)=>{
               self.InterviewerInfo.name=res.data.data.name;
-              self.InterviewerInfo.sex=res.data.data.sex.toString();
-              self.InterviewerInfo.phone=res.data.data.phone;
+              self.InterviewerInfo.sex=res.data.data.sex?res.data.data.sex.toString():'1';
+              self.InterviewerInfo.phone=res.data.data.phone-0;
               self.InterviewerInfo.email=res.data.data.email;
-              self.InterviewerInfo.birthday=res.data.data.birthday;
+              self.InterviewerInfo.birthday=new Date(res.data.data.birthday);
               res.data.data.educationHistoryList.forEach((item)=>{
                 item.isReading=item.isReading==1;
-                item.startDate=item.startDateStr;
-                item.endDate=item.endDateStr;
+                item.startDate=new Date(item.startDateStr);
+                item.endDate=new Date(item.endDateStr);
               })
               self.InterviewerInfo.educationHistoryList=res.data.data.educationHistoryList;
               res.data.data.workHistoryList.forEach((item)=>{
                 item.isWorking=item.isWorking==1;
-                item.startDate=item.startDateStr;
-                item.endDate=item.endDateStr;
+                item.startDate=new Date(item.startDateStr);
+                item.endDate=new Date(item.endDateStr);
               })
               self.InterviewerInfo.workHistoryList=res.data.data.workHistoryList;
               self.resumeUrl=res.data.data.resumeUrl;

@@ -1,27 +1,30 @@
 <template>
   <div class="candidate-wrap">
-     <tab :line-width=0 active-color="#5AA2E7">
-      <tab-item selected @on-item-click="onItemClick">全部</tab-item>
-      <tab-item @on-item-click="onItemClick">待筛选</tab-item>
-      <tab-item @on-item-click="onItemClick">待接收面试</tab-item>
-      <tab-item @on-item-click="onItemClick">已接收面试</tab-item>
-      <tab-item @on-item-click="onItemClick">淘汰</tab-item>
+     <tab class="tab-list" :line-width=0 active-color="#5AA2E7">
+       <tab-item v-for="(item,index) in statuList" :key="index"  :selected="index == 0" @on-item-click="onItemClick">{{item}}</tab-item>
     </tab>
-    <scroller lock-x ref="scrollerBottom" height="-44" @on-scroll-bottom="loadMore" v-if="resultList && resultList.length > 0">
+    <scroller lock-x ref="scrollerBottom" height="-44" @on-scroll-bottom="loadMore" :scroll-bottom-offst="200" v-if="resultList && resultList.length > 0" >
       <div class="resume-list-wrap">
-        <div class="resume-item" v-for="(item,index) in resultList" @click="selectItem(item)">
+        <div class="resume-item" v-for="(item,index) in resultList" :key="index" @click="selectItem(item)" :data-id="item.id">
            <div class="avatar">
               <img v-if="!item.headImg" src="../../common/image/default_avatar.png" alt="头像">
               <img v-else :src="item.headImg" alt="头像">
            </div>
            <div class="content">
               <div class="top-box">
-                <div class="name">{{item.name}}<img src="../../common/image/sex_male.png" alt="sex"></div>
-                <div class="state"></div>
+                <div class="name">{{item.name}}
+                  <img v-if="item.sex == 1" src="../../common/image/sex_male.png" alt="sex">
+                  <img v-else-if="item.sex == 2" src="../../common/image/sex_female.png" alt="sex">
+                </div>
+                <div class="state" :class="{'red-state':item.processStatus == 6}" v-if="tabIndex == 0">{{item.processStatus | parseStatus}}</div>
 
               </div>
               <div class="middle-box">
-                <p class="base-info"><span>26岁</span><span>{{item.eduStr}}</span><span>{{item.workYearStr}}</span></p>
+                <p class="base-info">
+                  <span v-if="item.birthday">{{item.birthday | gloBirthday}}</span>
+                  <span v-if="item.educationLev">{{item.educationLev | gloEducationLev}}</span>
+                  <span v-if="item.workYear">{{item.workYear}}年</span>
+                </p>
                 <!-- <p class="company">杭州爱聚科技有限公司</p> -->
               </div>
               <div class="bottom-box">
@@ -30,24 +33,22 @@
               </div>
            </div>
         </div>
-
-
       </div>
-      <load-more v-show="showLoadMore" tip="正在加载"></load-more>
+      <load-more v-show="showMore" tip="加载更多"></load-more>
       <footer-logo></footer-logo>
-          <!-- <loading v-show="showLoading"></loading> -->
     </scroller>
     <div class="no-result" v-else>
        <div class="img-box"></div>
        <p>暂无数据</p>
     </div>
+    <loading v-show="showLoading"></loading>
   </div>
 </template>
 
 
 <script>
  import loading from '../../components/base/loading/loading2.vue'
-  import FooterLogo from '../../components/base/footerLogo.vue'
+ import FooterLogo from '../../components/base/footerLogo.vue'
  import { urlParse } from '../../common/js/index.js'
 
   import {
@@ -66,72 +67,57 @@ export default {
     loading
   },
   data(){
+      document.title = '候选人';
       return {
           options:null,
           code:'',
           companyId:this.$route.query.companyId || '',
-          showLoadMore:false,
-          showLoading:true,
+          showMore:false,
+          showLoading:false,
+          onFetching:false,
+          countMap:{},
+          countMapkeys:['allCount','filterCount','toBeReceivedCount','haveReceivedCount','eliminateCount'],
           tabIndex:0,
           resultList:[],
-          resultListArr:[
-            {
-
-            }
-          ],
-
+          interviewInfoList:[],
+          pageNum:1,
+          pageSize:10,   
+          page:{},
+          statuList:['全部','待筛选','待接收面试','已接收面试','淘汰'],
       }
   },
   created(){
     this.options = urlParse()
     this.code = this.options.code
-    if(!localStorage.userInfo){
-      this.getCodeUrl()
-    }
-    this.getAll('1,3,6')
+    this.getCodeUrl()
+        
   },
   methods:{
     onItemClick (index) {
       this.tabIndex = index;
       this.resultList = []
-      switch(index){
-        case 0:
-        case 4:
-         if(index == 0){
-             this.getAll('1,3,6')
-          }else{
-             this.getAll('6')
-          }
-          break;
-        case 1:
-          this.getSpareRepo()
-          break;
-        case 2:
-        case 3:
-          if(index == 2){
-             this.getInterviewRepo(1)
-          }else{
-             this.getInterviewRepo(2)
-          }
-         
-          break;
-      }
+      this.interviewInfoList = []
+      this.pageNum = 1
+      this.showLoading = true
+      this.newApi(index)
     },
     //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值
     getCodeUrl(){
       var _this = this;
       var method = "account/aijuAssistantAutoLogin";
       var param = {
-        redirectUri: 'https://aijuhr.com/miniRecruit/#/candidate?companyId=' + _this.companyId,
+        redirectUri: 'https://aijuhr.com/miniRecruit/#/candidate',
         code:_this.code
       };
       var successd = function (response) {
         let res = response.data;
-         console.log(res)
         if (res.code == "0") {
             //登录成功
+            _this.companyId = res.data.companyId
            localStorage.userInfo = JSON.stringify(res.data);
-        
+           
+           _this.showLoading = true
+           _this.newApi(0)
         }else if(res.code == "2018"){
             //微信授权登录
              location.href = res.data.codeUrl
@@ -145,126 +131,101 @@ export default {
                 openId:res.data
               },
               query: {
-                companyId: _this.companyId,
+                // companyId: _this.companyId,
               }
           })
         }
       }
       _this.$webHttp(method, param, successd);
     },
-    //全部和淘汰
-    getAll(processStr) {
-      var _this = this;
-      var method = "queryResume/queryAllRepo";
+    newApi:function(state){
+       var _this = this;
+      var method = "queryResume/getCandidateListWithCondition";
       var param = JSON.stringify({
         companyId:_this.companyId,
-        pageNum: 1,
-        pageSize: 10,
-        keyWord:"",
-        parameter:JSON.stringify({
-          sex:'',
-          resumeStatus:'',
-          resumeFrom:'',
-          workYearLow:'',
-          workYearHigh:'',
-          educationLev:'',
-          interviewTimeType:'',
-          talentRepoNo:0,
-          processStr:processStr,
-        }),
+        pageNum: _this.pageNum,
+        pageSize: _this.pageSize,
+        conditionNum:state,        //conditionNum:0，全部；1，待筛选；2，待接收；3，已接收；4，淘汰
       });
-      var successd = function (response) {
+      var successd = function (response) {      
+        _this.showLoading = false
+        _this.showMore = false
+        _this.onFetching = false
         let res = response.data;
-
         if (res.code == 0) {
-            _this.resultList = _this.resultList.concat(res.data.resultList)
-            // _this.resultList = []
-            _this.showMore = false     
+            _this.page =  res.data.page;
+            _this.countMap = res.data.countMap
+            if(res.data.interviewInfoList){
+               _this.resultList = _this.resultList.concat(res.data.interviewInfoList)
+            }
         }
       }
-      _this.$http(method, param, successd);
-    },
-    //筛选 
-    getSpareRepo() {
-      var _this = this;
-      var method = "queryResume/queryNewOrSpareRepo";
-      var param = JSON.stringify({
-        companyId:_this.companyId,
-        pageNum: 1,
-        pageSize: 10,
-        processStatus:2,
-        keyWord:"",
-        parameter:JSON.stringify({
-          sex:'',
-          resumeStatus:'',
-          resumeFrom:'',
-          workYearLow:'',
-          workYearHigh:'',
-          educationLev:'',
-          interviewTimeType:'',
-        }),
-      });
-      var successd = function (response) {
+      var error = function(response){
         let res = response.data;
-
-        if (res.code == 0) {
-           _this.resultList = _this.resultList.concat(res.data.resultList)
-            _this.showMore = false     
+        if(res.code == 400){
+          //登录超时，重新登录
+            _this.getCodeUrl()
+        }else{
+          console.log(res.code,res.message)
         }
       }
-      _this.$http(method, param, successd);
-    },
-    //待接收面试和已接收面试
-    getInterviewRepo(statu) {
-      var _this = this;
-      var method = "queryResume/queryInterviewRepo";
-      var param = JSON.stringify({
-        companyId:_this.companyId,
-        pageNum: 1,
-        pageSize: 10,
-        processStatus:statu,     //1-待接收，2-已接收
-        keyWord:"",
-        parameter:JSON.stringify({
-          sex:'',
-          resumeStatus:'',
-          resumeFrom:'',
-          workYearLow:'',
-          workYearHigh:'',
-          educationLev:'',
-          interviewTimeType:'',
-        }),
-      });
-      var successd = function (response) {
-        let res = response.data;
-
-        if (res.code == 0) {
-           _this.resultList = _this.resultList.concat(res.data.resultList)
-            _this.showMore = false     
-        }
-      }
-      _this.$http(method, param, successd);
+      _this.$http(method, param, successd, error);
     },
     //load more
     loadMore(e){
-      console.log("loadmore")
-      console.log(e)
-      this.showLoadMore = true;
+      if (this.onFetching || !this.page.hasNext || this.resultList.length == this.page.totalCount) {
+          // do nothing
+        } else {
+          this.onFetching = true
+          setTimeout(() => {
+            this.pageNum++
+            this.showMore = true
+            this.newApi(this.tabIndex)
+            this.$nextTick(() => {
+              this.$refs.scrollerBottom.reset()
+            })
+         }, 0)     
+       }
     },
      /**
        * 跳转至简历详情
        */
       selectItem(item) {
-        this.$router.push({
-          name: 'resumeDetail',
-          query: {
-            companyId: this.companyId,
-            interviewerId: item.id,
-          },
-          params: {
-            interviewerId: item.id
-          }
-        })
+        if(item.id && item.id != -1){
+          this.$router.push({
+            name: 'resumeDetail',
+            query: {
+              companyId: this.companyId,
+              interviewerId: item.id,
+            },
+            params: {
+              interviewerId: item.id,
+              processStatus: this.tabIndex == 0 ? this.$options.filters['parseStatus'](item.processStatus) : this.statuList[this.tabIndex]
+            }
+         })
+        }   
       },
+  },
+  filters:{
+    //
+    parseStatus(val){
+      switch(val){
+         case 1:
+         case 2:
+         case 3:
+          return '已接收面试';
+         case 6:
+          return '淘汰';
+         case 13:
+          return '待接收面试';
+         case 11:
+         case 14:
+         case 17:
+          return '待筛选';
+        default:
+          break;
+      }
+    }
   },
   
 }
@@ -275,6 +236,10 @@ export default {
   height: 100%;
   background-color: #F8F8FC;
 }
+ .xs-container{
+    min-height:100%; 
+    padding-bottom: 48px;
+  }
 </style>
 
 <style lang="less" scoped>
@@ -283,16 +248,25 @@ export default {
 .vux-tab {
   justify-content: space-around;
   border-bottom:1px solid #e5e5e5;
+  // overflow-x:scroll;
+  // &::-webkit-scrollbar{
+  //   display: none;
+  // }
   .vux-tab-item{
+    padding:0 10px;
     background: none;
     flex:none;
     width: auto;
   }
 }
+.mask{
+  top:56px!important;
+}
 
 .candidate-wrap{
-  // background-color: #F8F8FC;
+  background-color: #F8F8FC;
   // height: 100%;
+  
   .resume-list-wrap{
     margin-top:12px;
     .resume-item{
@@ -340,6 +314,10 @@ export default {
             font-size:.26rem;
             color: #5AA2E7;
             border-radius: 3px;
+            &.red-state{
+              color:#F96868;
+              background-color: #FFEAEA;
+            }
           }
         }
         .middle-box{

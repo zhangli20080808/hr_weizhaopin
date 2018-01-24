@@ -29,7 +29,12 @@
         all:'',
         companyId: (() => {
           let queryParam = this.urlParse();
-          return queryParam.companyId;
+          if(queryParam.companyId){
+              return queryParam.companyId;
+          }else if(localStorage.userInfo){
+              return JSON.parse(localStorage.userInfo).companyId;
+          }
+          
         })(),
         homeData: {
           s_log_back: '',
@@ -183,7 +188,7 @@
         var _this = this;
         var method = "miniRecruit/getWzpIndexInfo";
         var param = JSON.stringify({
-          companyId: _this.companyId,
+          companyId: _this.companyId?_this.companyId:9169771,
           type: 2
         });
         var successd = function (res) {
@@ -249,7 +254,8 @@
     },
     mounted(){
       this.getSignature();
-      if(this.$route.path.indexOf('/pc/')==-1){
+      let path = this.$route.path;
+      if(path.indexOf('/pc/')==-1 && path.indexOf('raPositionList')==-1 && path.indexOf('candidate')==-1 && path.indexOf('offer')==-1 && path.indexOf('raLogin')==-1){
         this.$nextTick(() => {
           this._getIndexInfo()
           this.all = ''
@@ -260,7 +266,7 @@
       }
     },
     watch:{
-      $route (to, from) {
+      $route(to, from) {
         let isBack = this.$router.isBack;
         if (isBack) {
           this.transitionName = 'slide-right'
@@ -269,7 +275,7 @@
         }
         this.$router.isBack = false;
         //判断需不需要展示头部nav
-        if(to.path.indexOf('/pc/')==-1){
+        if(to.path.indexOf('/pc/')==-1 && to.path.indexOf('raPositionList')==-1 && to.path.indexOf('candidate')==-1 && to.path.indexOf('offer')==-1 && to.path.indexOf('raLogin')==-1){
           is.$nextTick(() => {
             this._getIndexInfo()
             this.all = ''

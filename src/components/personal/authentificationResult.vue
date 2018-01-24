@@ -27,6 +27,7 @@
   export default {
     name: 'authentificationResult',
     data(){
+      document.title = "认证";      
       return {
         email: this.$route.query.email,
         empId: this.$route.query.empId,
@@ -40,7 +41,6 @@
       }
     },
     mounted(){
-      document.title = "个人中心";
       document.getElementById("interpolateResult").style.minHeight = window.innerHeight + "px";
     },
     methods: {
@@ -54,10 +54,10 @@
             console.log(res.data.data.resCode)
            
             if (res.data.data.resCode == 2) {
-               if(self.pageFrom == 1){
+               if(self.pageFrom == 2){
                 self.$router.push({
-                  name: 'authentification',
-                  path: '/authentification',
+                  name: 'authentification_gzh',
+                  path: '/authentification_gzh',
                   query: {
                     fansId: self.fansId,
                     shareFansId: self.shareFansId,
@@ -70,8 +70,8 @@
                 });
                 }else{
                    self.$router.push({
-                    name: 'authentification_gzh',
-                    path: '/authentification_gzh',
+                    name: 'authentification',
+                    path: '/authentification',
                     query: {
                       fansId: self.fansId,
                       shareFansId: self.shareFansId,
@@ -84,14 +84,10 @@
                   });
                 }
              
-            }else {
-              self.$message({
-                message: res.data.message,
-                type: "info"
-              });
             }
           },
           c = function (res) {
+             self.$vux.toast.text(res.data.message, 'top');
           };
         self.$http(method, param, successd, c);
       },
@@ -148,6 +144,7 @@
     color: #333;
     width: 75%;
     margin: 0 auto;
+    font-size: 16px;
   }
 
   .hrm_primary_btn {

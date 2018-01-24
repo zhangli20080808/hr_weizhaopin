@@ -90,7 +90,7 @@
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h2 class="gm-card-title vux-1px-b">
+                  <h2 class="gm-card-title">
                     <span class="pos_ware"></span>
                     <span class="text">发展历程</span>
                   </h2>
@@ -150,7 +150,7 @@
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h2 class="gm-card-title vux-1px-b">
+                  <h2 class="gm-card-title">
                     <span class="env_img"></span>
                     <span class="text">办公环境</span>
                   </h2>
@@ -187,7 +187,7 @@
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h2 class="gm-card-title vux-1px-b">
+                  <h2 class="gm-card-title">
                     <span class="team_icon"></span>
                     <span class="text">我们的团队</span>
                     <div class="allR">
@@ -584,7 +584,7 @@
                 longitude: self.longitude, // 经度，浮点数，范围为180 ~ -180。
                 name: self.companyName, // 位置名
                 address: self.detailAddress, // 地址详情说明
-                scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                scale: 28, // 地图缩放级别,整形值,范围从1~28。默认为最大
                 infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
               });
             })
@@ -733,6 +733,9 @@
             },
             successd=function(res){
               self.tuijianObj=res.data;
+              if(self.tuijianObj.headImg == ''||self.tuijianObj.headImg == null){
+                self.tuijianObj.headImg = 'https://aijuhr.com/images/yidong/head_wx.png'
+              }
             };
         self.$webHttp(method,param,successd);
       },
@@ -787,18 +790,16 @@
     },
     directives: {
       TransferDom
-    },
-
+    }
   }
 
 </script>
-<style lang="less">
-  @import '~vux/src/styles/1px.less';
 
-</style>
-<style scoped>
+<style scoped lang="less">
   @import "../../common/stylus/swiper.css";
   @import "../../components/css/main.css";
+  @import "../../common/stylus/boder";
+
 
   .g-container {
     position: relative;
@@ -1055,6 +1056,7 @@
     position: relative;
     height: 49px;
     line-height: 49px;
+    .borderBottom(1px,#e5e5e5);
   }
 
   .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR {
@@ -1116,6 +1118,7 @@
   .g-container .cards .vertical-list {
     font-size: 0;
     margin: 0.3rem 0;
+    
   }
 
   .g-container .cards .vertical-list:nth-child(1) {
@@ -1171,7 +1174,6 @@
   .g-container .cards .vertical-list .address .text {
     display: inline-block;
     vertical-align: middle;
-    height: 0.48rem;
     line-height: 0.48rem;
   }
 
@@ -1406,7 +1408,7 @@
     line-height: 0.98rem;
     background: #fff;
     z-index: 1000;
-    border-top: 1px solid #e5e5e5;
+    .borderTop(1px,#e5e5e5);
   }
 
   .about_online .us {

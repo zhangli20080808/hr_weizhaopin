@@ -6,13 +6,13 @@
         <img class="img" :src="personalInfo.headImgUrl">
         <div class="name">{{personalInfo.name}}</div>
         <div class="personal_sign">
-          <span class="personal_yg" v-if="personalInfo.isEmployeeCertification == 1"></span>
-          <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"></span>
-          <span class="authentication" @click="goAuthentification" v-if="personalInfo.isEmployeeCertification == 0||personalInfo.isNotEmployeeCertification == 0"></span>
+          <span class="personal_yg" v-if="personalInfo.isEmployeeCertification == 1"  @click="goAuthentification"></span>
+          <span class="personal_hunt" v-if="personalInfo.isNotEmployeeCertification == 1"  @click="goAuthentification"></span>
+          <span class="authentication" @click="goAuthentification('3')" v-if="personalInfo.isEmployeeCertification == 0||personalInfo.isNotEmployeeCertification == 0"></span>
         </div>
       </div>
     </div>
-    <!--个人档案 求职纪录 收藏职位 我的推荐-->
+    <!--个人档案 求职纪录 收藏职位 我的推荐--> 
     <div class="personal_bottom">
       <div class="container_content">
         <div class="detail_header_item" @click="joinRecord">
@@ -65,7 +65,6 @@
 
 <script>
   import {Confirm, Group, XSwitch, XButton, TransferDomDirective as TransferDom} from 'vux'
-
   export default {
     data(){
       document.title = '个人中心';
@@ -75,9 +74,10 @@
         authSuccess: this.$route.query.authSuccess,
         companyId: this.$route.query.companyId,
         fansId: this.$route.query.fansId,
-        personalInfo: {}
-//        isEmployeeCertification: 0,     //员工认证 （0：没有认证过，1:已经认证过）
-//        isNotEmployeeCertification: 0,  //求职者认证 （0：没有认证过，1:已经认证过）
+        personalInfo: {},
+        pageFrom:1,
+        isEmployeeCertification: 0,     //员工认证 （0：没有认证过，1:已经认证过）
+        isNotEmployeeCertification: 0,  //求职者认证 （0：没有认证过，1:已经认证过）
       }
     },
     methods: {
@@ -128,16 +128,48 @@
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.personalInfo = res.data.data.weixinPersonalInfo;
+            if( _this.personalInfo.headImgUrl == ''|| _this.personalInfo.headImgUrl== null){
+              _this.personalInfo.headImgUrl = 'https://aijuhr.com/images/yidong/head_wx.png';
+            }
+           _this.isEmployeeCertification =  _this.personalInfo.isEmployeeCertification;
+           _this.isNotEmployeeCertification =  _this.personalInfo.isNotEmployeeCertification;
           }
         }
         _this.$http(method, param, successd);
       },
-      goAuthentification(){
+      goAuthentification(item){
+        let firstOption,SecondOption,thridOption,forthOption,thirdSign,fourSign;
+        //都没验证 firstOption
+        //都验证  SecondOption
+        //员工验证 求职者没验证  thridOption
+        //求职者验证 员工美验证 forthOption
+        if(this.isEmployeeCertification==0&&this.isNotEmployeeCertification==0){
+          firstOption = true;
+        }else if(this.isEmployeeCertification==1&&this.isNotEmployeeCertification==1){
+          SecondOption = true;
+        }else if(this.isEmployeeCertification==1&&this.isNotEmployeeCertification==0){
+          thridOption = true;     
+          if(item == 3){
+            thirdSign = true;
+          }    
+        }else{
+          forthOption = true;
+          if(item == 3){
+            fourSign = true;
+          }
+        }
         this.$router.push({
           name: 'authentification',
+          path:'/authentification',
           query: {
             companyId: this.companyId,
-            fansId: this.fansId
+            fansId: this.fansId,
+            firstOption:firstOption,
+            SecondOption:SecondOption,
+            thridOption:thridOption,
+            forthOption:forthOption,
+            thirdSign:thirdSign,
+            fourSign:fourSign
           }
         })
       },
@@ -170,7 +202,7 @@
       }
     },
     mounted(){
-      this.userAuthUrl()
+      this.userAuthUrl();
       this.getWeixinPersonalInfo();
     },
     directives: {
@@ -181,7 +213,7 @@
       Group,
       XSwitch,
       XButton
-    },
+    }
   }
 
 </script>
@@ -199,6 +231,7 @@
     background: #F8F8FC;
     .personal_top {
       background: #fff;
+      height: 4.06rem;
       .personal_content {
         text-align: center;
         padding-top: 0.3rem;
@@ -209,16 +242,15 @@
           border-radius: 50%;
         }
         .name {
-          margin: 0.22rem 0 0.2rem 0;
+          margin: 0.22rem 0 0.46rem 0;
           font-size: 0.37rem;
           color: #000;
         }
         .personal_sign {
-          display: inline-block;
           width: 100%;
           height: 0.41rem;
           margin-top: 0.15rem;
-          margin-bottom: 0.56rem;
+          font-size: 14px;
           .personal_yg {
             display: inline-block;
             vertical-align: middle;

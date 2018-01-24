@@ -510,7 +510,7 @@
         }else{
           self.btnLoading=true;
         }
-        var method="recruitPosition/submitInterivewApplicationNew",
+        var method="recruitPosition/submitApplicationRecord",
             param=JSON.stringify({
               interviewResumeInfo:self.interviewResumeInfo,
               shareFansId:self.shareFansId,
