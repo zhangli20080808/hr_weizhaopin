@@ -410,7 +410,7 @@
       var ua = navigator.userAgent.toLowerCase();
       var isWeixin = ua.indexOf('micromessenger') != -1;
       if (isWeixin) {
-        // this.userAuthUrl();
+        this.userAuthUrl();
       }else{
         this.getPositionInfo();
       }
@@ -1126,7 +1126,7 @@
         display: inline-block;
         width: 17px;
         height: 20px;
-        vertical-align: middle;
+        vertical-align: top;
         background: url("../assets/img/share.png") no-repeat center;
         background-size: cover;
       }
@@ -1135,7 +1135,7 @@
         display: inline-block;
         height: 20px;
         line-height:20px;
-        vertical-align: middle;
+        vertical-align: top;
         margin-left: 7px;
         font-size: 0.32rem;
       }
@@ -1144,7 +1144,7 @@
         display: inline-block;
         width: 17px;
         height: 20px;
-        vertical-align: middle;
+        vertical-align: top;
         background: url("../assets/img/deliver.png") no-repeat center;
         background-size: cover;
       }
@@ -1153,7 +1153,7 @@
         display: inline-block;
         width: 0.42rem;
         height: 0.4rem;
-        vertical-align: middle;
+        vertical-align: top;
         background: url(../common/image/personal/personal_stars.png) no-repeat center;
         background-size: 100%;
       }
@@ -1162,7 +1162,7 @@
         display: inline-block;
         width: 0.42rem;
         height: 0.4rem;
-        vertical-align: middle;
+        vertical-align: top;
         background: url(../common/image/personal/personal_stars2.png) no-repeat center;
         background-size: 100%;
       }
@@ -1171,7 +1171,7 @@
         display: inline-block;
         height: 20px;
         line-height:20px;        
-        vertical-align: middle;
+        vertical-align: top;
         margin-left: 7px;
         font-size: 0.32rem;
       }
