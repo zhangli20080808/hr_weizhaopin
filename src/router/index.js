@@ -45,6 +45,14 @@ import pcLogin from "components/pcresume/pcLogin";
 import login from "components/pcresume/login";
 import pcResume from "components/pcresume/pcResume";
 
+//个人中心
+import favourite from 'components/personal/favourite';
+import jobRecord from 'components/personal/jobRecord';
+import personal from 'components/personal/personal';
+import jobRecordDetail from 'components/personal/jobRecordDetail';
+import authentification from 'components/personal/authentification';
+import authentification_gzh from 'components/personal/authentification_gzh';
+import authentificationResult from 'components/personal/authentificationResult';
 
 
 Vue.use(Router)
@@ -81,53 +89,89 @@ export default new Router({
     //   redirect: '/'
     // },
     {
-      path:'/addResume',
-      name:'addResume',
-      component:addResume
+      path: '/addResume',
+      name: 'addResume',
+      component: addResume
     },
     {
-      path:"/preview",
-      name:'preview',
-      component:preview
+      path: "/preview",
+      name: 'preview',
+      component: preview
     },
     {
-      path:'/results',
-      name:'results',
-      component:results
+      path: '/results',
+      name: 'results',
+      component: results
     },
     {
-      path:'/loginResume',
-      name:'loginResume',
-      component:loginResume
+      path: '/loginResume',
+      name: 'loginResume',
+      component: loginResume
     },
     {
-      path:'/positionList',
-      name:'positionList',
-      component:positionList
+      path: '/positionList',
+      name: 'positionList',
+      component: positionList
     },
     {
-      path:'/about',
-      name:'about',
-      component:aboutUs
+      path: '/about',
+      name: 'about',
+      component: aboutUs
     },
     {
-      path:'/teamwork',
-      name:'teamwork',
-      component:teamwork
+      path: '/teamwork',
+      name: 'teamwork',
+      component: teamwork
     },
     {
-      path:'/interpolate',
-      name:'interpolate',
-      component:interpolate
+      path: '/interpolate',
+      name: 'interpolate',
+      component: interpolate
     },
     {
-      path:'/sceneh5',
-      name:'sceneh5',
-      component:sceneh5
+      path: '/sceneh5',
+      name: 'sceneh5',
+      component: sceneh5
     },
-    {path:'/onlinePosition',
-      name:'onlinePosition',
-      component:onlinePosition
+    {
+      path: '/onlinePosition',
+      name: 'onlinePosition',
+      component: onlinePosition
+    },
+    {
+      path: '/resumePreview',
+      name: 'resumePreview',
+      component: resumePreview
+    },
+    {
+      path: '/jobRecord',
+      name: 'jobRecord',
+      component: jobRecord
+    },
+    {
+      path: '/favourite',
+      name: 'favourite',
+      component: favourite
+    },
+    {
+      path: '/personal',
+      name: 'personal',
+      component: personal
+    },
+    {
+      path: '/jobRecordDetail',
+      name: 'jobRecordDetail',
+      component: jobRecordDetail
+    },
+    {
+      path: '/authentification',
+      name: 'authentification',
+      component: authentification
+    },
+    {
+      path: '/authentification_gzh',
+      name: 'authentification_gzh',
+      component: authentification_gzh
     },
     {
       path:'/resumePreview',

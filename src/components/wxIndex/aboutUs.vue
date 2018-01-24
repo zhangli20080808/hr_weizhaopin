@@ -17,9 +17,11 @@
               <div class="description">{{preCompanyWebsite.slogan}}</div>
               <div class="action" v-if="isAuthorization!==0">
                 <div class="g-ghost-btn" @click="goCare"
-                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}" v-show="isAuthorization">
-                  <div class="btn-text" >
+                     :class="{'social-btn':isAuthorization==2,'g-ghost-white-btn':isAuthorization==1}"
+                     v-show="isAuthorization">
+                  <div class="btn-text">
                     {{isAuthorization == 1 ? '已关注' : '关注'}}
+
                   </div>
                 </div>
               </div>
@@ -75,7 +77,7 @@
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h2 class="gm-card-title vux-1px-b">
+                  <h2 class="gm-card-title">
                     <span class="pos_ware"></span>
                     <span class="text">发展历程</span>
                   </h2>
@@ -97,6 +99,7 @@
                                   <div class="gamma-description">
 
                                     {{item.description}}
+
 
 
 
@@ -134,7 +137,7 @@
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h2 class="gm-card-title vux-1px-b">
+                  <h2 class="gm-card-title">
                     <span class="env_img"></span>
                     <span class="text">办公环境</span>
                   </h2>
@@ -149,6 +152,7 @@
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
+
 
 
                       </div>
@@ -170,7 +174,7 @@
             <div class="template-complex">
               <div class="gm-card-offset">
                 <div class="gm-card-header">
-                  <h2 class="gm-card-title vux-1px-b">
+                  <h2 class="gm-card-title">
                     <span class="team_icon"></span>
                     <span class="text">我们的团队</span>
                     <div class="allR">
@@ -189,6 +193,7 @@
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
+
 
 
                       </div>
@@ -311,7 +316,7 @@
         isAuthorization: '',
         code: '',
         active: true,
-        branchCompanyList:[],
+        branchCompanyList: [],
         companyInfo: {
           phone: "",
           address: "",
@@ -319,11 +324,11 @@
           companyName: "",
           region: "",
         },
-        latitude:'',
-        longitude:'',
-        companyName:'',
-        detailAddress:'',
-        address:''
+        latitude: '',
+        longitude: '',
+        companyName: '',
+        detailAddress: '',
+        address: ''
       }
     },
     methods: {
@@ -548,8 +553,8 @@
               //使用微信内置地图查看位置接口
               self.$wechat.openLocation({
                 latitude: self.latitude, // 纬度，浮点数，范围为90 ~ -90
-                longitude:  self.longitude, // 经度，浮点数，范围为180 ~ -180。
-                name: self.companyName , // 位置名
+                longitude: self.longitude, // 经度，浮点数，范围为180 ~ -180。
+                name: self.companyName, // 位置名
                 address: self.detailAddress, // 地址详情说明
                 scale: 28, // 地图缩放级别,整形值,范围从1~28。默认为最大
                 infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
@@ -657,9 +662,9 @@
           type: 2, companyId: _this.companyId
         });
         var successd = function (res) {
-            if(res.data.code == 0){
-               _this.branchCompanyList =  res.data.data
-            }
+          if (res.data.code == 0) {
+            _this.branchCompanyList = res.data.data
+          }
         }
         _this.$http(method, param, successd);
       },
@@ -678,17 +683,32 @@
         this.companyName = item.companyName;
         this.detailAddress = item.address;
         this.getSignature2()
+      },
+      userAuthUrl(){
+        var self = this;
+        var method = "weixin/userAuthUrl",
+          param = {
+            scope: 'snsapi_base',
+            pageFrom: 1,
+            companyId: self.companyId,
+          },
+          successd = function (res) {
+            if (res.data.userSession == 0) {
+              location.href = res.data.userAuthUrl;
+            }
+          };
+        self.$webHttp(method, param, successd);
       }
     },
     created(){
       this.$nextTick(() => {
         this.getCode();
         this.getCodeUrl();
+//        this.userAuthUrl();
         this.toCare();
         this.getShareTitleInfo();
         this.getMainCompanyInfo();
         this.getBranchCompanyInfo();
-//        this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
       })
@@ -712,13 +732,12 @@
   }
 
 </script>
-<style lang="less">
-  @import '~vux/src/styles/1px.less';
 
-</style>
-<style scoped>
+<style scoped lang="less">
   @import "../../common/stylus/swiper.css";
   @import "../../components/css/main.css";
+  @import "../../common/stylus/boder";
+
 
   .g-container {
     position: relative;
@@ -962,6 +981,7 @@
     padding: 0 0 15px 0;
     line-height: 1;
   }
+
   .g-container .cards .gm-card-offset .online_pos {
     padding-bottom: 0;
 
@@ -974,6 +994,7 @@
     position: relative;
     height: 49px;
     line-height: 49px;
+    .borderBottom(1px,#e5e5e5);
   }
 
   .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR {
@@ -1035,8 +1056,10 @@
   .g-container .cards .vertical-list {
     font-size: 0;
     margin: 0.3rem 0;
+    
   }
-  .g-container .cards .vertical-list:nth-child(1){
+
+  .g-container .cards .vertical-list:nth-child(1) {
     margin-top: 0;
   }
 
@@ -1048,65 +1071,73 @@
     line-height: 0.48rem;
     margin-top: 0.3rem;
   }
-  .g-container .cards .vertical-list .name .mainName{
+
+  .g-container .cards .vertical-list .name .mainName {
     display: inline-block;
     vertical-align: middle;
   }
-  .g-container .cards .vertical-list .name .address{
+
+  .g-container .cards .vertical-list .name .address {
     float: right;
     width: 0.82rem;
     height: 0.44rem;
-    background:url(../../common/image/address_icon3.png)no-repeat center;
+    background: url(../../common/image/address_icon3.png) no-repeat center;
     background-size: 50%;
   }
-  .g-container .cards .vertical-list .shortName{
-    font-size:13px;
+
+  .g-container .cards .vertical-list .shortName {
+    font-size: 13px;
     color: #999999;
     margin: 4px 0;
   }
-  .g-container .cards .vertical-list .address{
-    font-size:13px;
+
+  .g-container .cards .vertical-list .address {
+    font-size: 13px;
     color: #A9A9A9;
     position: relative;
     padding-left: 0.3rem;
   }
-  .g-container .cards .vertical-list .address .address_icon{
+
+  .g-container .cards .vertical-list .address .address_icon {
     display: inline-block;
     position: absolute;
     left: -4px;
     top: -1px;
     width: 0.34rem;
-    height:0.48rem;
-    background: url(../../common/image/address_icon2.png)no-repeat center;
+    height: 0.48rem;
+    background: url(../../common/image/address_icon2.png) no-repeat center;
     background-size: 50%;
   }
-  .g-container .cards .vertical-list .address .text{
+
+  .g-container .cards .vertical-list .address .text {
     display: inline-block;
     vertical-align: middle;
     line-height: 0.48rem;
   }
 
-  .g-container .cards .vertical-list .tel{
+  .g-container .cards .vertical-list .tel {
     position: relative;
     padding-left: 0.3rem;
-    font-size:13px;
+    font-size: 13px;
     color: #999;
     margin-bottom: 0.3rem;
   }
-  .g-container .cards .vertical-list .tel .tel_icon{
+
+  .g-container .cards .vertical-list .tel .tel_icon {
     display: inline-block;
     position: absolute;
     left: -6px;
     top: 0px;
     width: 0.44rem;
-    height:0.44rem;
-    background: url(../../common/image/tel.png)no-repeat center;
+    height: 0.44rem;
+    background: url(../../common/image/tel.png) no-repeat center;
     background-size: 45%;
   }
-  .g-container .cards .vertical-list .tel .text{
+
+  .g-container .cards .vertical-list .tel .text {
     display: inline-block;
     vertical-align: middle;
-    height:0.48rem;
+    height: 0.48rem;
     line-height: 0.48rem;
   }
 
@@ -1315,7 +1346,7 @@
     line-height: 0.98rem;
     background: #fff;
     z-index: 1000;
-    border-top: 1px solid #e5e5e5;
+    .borderTop(1px,#e5e5e5);
   }
 
   .about_online .us {
