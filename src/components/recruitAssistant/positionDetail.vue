@@ -1,7 +1,7 @@
 <template>
   <div id="interpolateDetail">
     <div class="hidden-sm hidden-lg">
-      <scroller lock-x >
+      <!-- <scroller lock-x > -->
         <div class="position-detail-wrap" :style="{'min-height':wh+'px'}">
           <dl class="position_detail">
             <dt>
@@ -44,7 +44,7 @@
           </div>
           <footer-logo></footer-logo>
         </div>
-      </scroller>
+      <!-- </scroller> -->
     </div>
 
   </div>
@@ -260,6 +260,10 @@
     min-height:100%;
     padding-bottom:48px;
     position: relative;
+    background:#F8F8FC;
+    .footer_icon{
+      bottom:0px!important;
+    }
   }
   #interpolateDetail {
     height: 100%;
@@ -270,7 +274,7 @@
         font-size: 0.26rem;
         background-color: #fff;
         clear: both;
-        margin-top: 12px;
+        // margin-top: 12px;
         &::before {
           border-top: none;
         }
