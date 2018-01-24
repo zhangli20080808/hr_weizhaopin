@@ -462,7 +462,9 @@
                     self.interviewResumeInfo.name=res.data.data.name;
                     self.interviewResumeInfo.phone=res.data.data.phone;
                     self.interviewResumeInfo.email=res.data.data.email;
-                    self.sexValue[0]=res.data.data.sex?res.data.data.sex-0:1;
+                    var arr=[];
+                    arr[0]=res.data.data.sex?res.data.data.sex-0:1;
+                    self.sexValue[0]=arr;
                     self.interviewResumeInfo.birthday=res.data.data.birthday;
                     self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList?res.data.data.educationHistoryList:[];
                     self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList?res.data.data.workHistoryList:[];
@@ -483,7 +485,9 @@
                 self.interviewResumeInfo.name=res.data.data.name;
                 self.interviewResumeInfo.phone=res.data.data.phone;
                 self.interviewResumeInfo.email=res.data.data.email;
-                self.sexValue[0]=res.data.data.sex?res.data.data.sex-0:1;
+                var arr=[];
+                arr[0]=res.data.data.sex?res.data.data.sex-0:1;
+                self.sexValue[0]=arr;
                 self.interviewResumeInfo.birthday=res.data.data.birthday;
                 self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList;
                 self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList;

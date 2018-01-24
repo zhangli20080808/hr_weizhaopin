@@ -32,7 +32,7 @@ export default {
       ]],
       list2:[[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]],
       sexValue:['1'],
-      value2:[],
+      value2:[5,6],
       value1: [],
       format:()=>{
         return this.value2[0]+'K - '+this.value2[1]+'K'
@@ -61,9 +61,11 @@ export default {
           successd=function(res){
             self.model=res.data.data.model;
             self.sexValue[0]=res.data.data.model.workType+'';
-            self.value2[0]=res.data.data.model.minSalary-0;
-            self.value2[1]=res.data.data.model.maxSalary-0;
             self.value1=res.data.data.model.expectPlace.split(' ');
+            var arr=[];
+            arr.push(res.data.data.model.minSalary);
+            arr.push(res.data.data.model.maxSalary);
+            self.value2=arr;
           };
       self.$http(method,param,successd);
     },
