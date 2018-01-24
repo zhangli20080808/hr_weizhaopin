@@ -78,9 +78,6 @@
       </div>
     </div>
     <div class="hidden-sm hidden-lg">
-<<<<<<< HEAD
-      <scroller lock-x height="-40">
-=======
       <div class="personal_header">
         <img :src="tuijianObj.headImg" alt="">
         <h2>{{tuijianObj.nickname}}</h2>
@@ -91,8 +88,7 @@
           <h6 v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0&&tag" @click="choseTag"><span>关注公众号获取职位分享动态</span></h6>
         </div>
       </div>
-      <scroller lock-x height="-50">
->>>>>>> testing
+      <scroller lock-x height="-40">
         <div>
           <!--     <dl class="position_detail">
             <dt>
@@ -200,9 +196,10 @@
           <!-- <div class="logo">
             <div class="logo_img"></div>
           </div> -->
-        <div class="footer_icon">
+        <div class="footer_icon" @click="goBapp">
           <div class="img_detail"></div>
         </div>          
+        <div style="height:20px;width:100%;background:#fff"></div>
         </div>
       </scroller>
       <div class="share_btn">
@@ -468,20 +465,6 @@
           })
         })
       },
-<<<<<<< HEAD
-      getPositionInfo(){
-        let self = this;
-        let method = "promotionPage/positionInfo",
-          param = JSON.stringify({
-            id: self.positionId
-          }),
-          successd = (res) => {
-            self.positionInfo = res.data.data.positionInfo;
-          };
-        self.$http(method, param, successd);
-      },
-=======
->>>>>>> testing
       getWzpIndexInfo(){
         let self = this;
         let methods = "wzpCompany/getWzpCompanyInfo",
@@ -767,7 +750,6 @@
 
     @media all and (max-width: 767px) {
       background-color: #fff;
-      padding-bottom: 60px;
       .position_detail {
         padding: 12px 15px;
         font-size: 0.26rem;
@@ -1122,9 +1104,9 @@
       }
 
       .share_btn .flex-demo {
-        text-align: center;
-        line-height: 38px;
+       text-align: center;
         height: 46px;
+        padding-top: 13px;
       }
 
       .share_btn .flex-demo1 {
@@ -1147,6 +1129,15 @@
         vertical-align: middle;
         background: url("../assets/img/share.png") no-repeat center;
         background-size: cover;
+      }
+
+      .share_btn .flex-demo1 .text {
+        display: inline-block;
+        height: 20px;
+        line-height:20px;
+        vertical-align: middle;
+        margin-left: 7px;
+        font-size: 0.32rem;
       }
 
       .share_btn .flex-demo2 .pos_icon2 {
@@ -1179,10 +1170,10 @@
       .share_btn .flex-demo3 .text, .share_btn .flex-demo2 .text, .share_btn .flex-demo1 .text {
         display: inline-block;
         height: 20px;
-        line-height: 23px;
+        line-height:20px;        
         vertical-align: middle;
         margin-left: 7px;
-        font-size: 0.36rem;
+        font-size: 0.32rem;
       }
 
       .share_btn .flex-demo2 {
