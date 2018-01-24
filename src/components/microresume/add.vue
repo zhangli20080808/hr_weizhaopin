@@ -493,7 +493,7 @@
                 self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList;
                 self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList;
                 self.headType=res.data.data.step;
-                self.type=3;
+                // self.type=3;
               }
             };
         self.$http(method,param,successd);

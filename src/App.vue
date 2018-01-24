@@ -188,7 +188,7 @@
         var _this = this;
         var method = "miniRecruit/getWzpIndexInfo";
         var param = JSON.stringify({
-          companyId: _this.companyId?_this.companyId:9169771,
+          companyId: _this.companyId?_this.companyId:61,
           type: 2
         });
         var successd = function (res) {
