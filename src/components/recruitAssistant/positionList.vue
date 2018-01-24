@@ -73,6 +73,8 @@
       console.log('p-options', this.options)
       this.code = this.options.code
       this.getCodeUrl() 
+      // this.companyId = "169359"   //test
+      // this.getOnlinePosition()   //test
 
     },
     methods: {
@@ -195,6 +197,7 @@
 
       .xs-container{
         height :100%;
+        padding-bottom:0!important;
       }
       .list_content{
         min-height :100%;

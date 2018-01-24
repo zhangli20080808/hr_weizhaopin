@@ -2,7 +2,7 @@
   <div id="interpolateDetail">
     <div class="hidden-sm hidden-lg">
       <scroller lock-x >
-        <div class="position-detail-wrap">
+        <div class="position-detail-wrap" :style="{'min-height':wh+'px'}">
           <dl class="position_detail">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
@@ -140,12 +140,13 @@
         show: false,
         arrow_tip: false,
         model: false,
+        wh:'',
       }
     },
     mounted(){
       document.title = "职位详情";
       document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
-
+      this.wh = window.innerHeight;
       setTimeout(() => {
         this.getPositionInfo();
         // this.getShareTitleInfo();
@@ -251,20 +252,15 @@
    .xs-container{
     min-height:100%; 
   }
+</style>
+
+<style scoped lang="less">
+
   .position-detail-wrap{
     min-height:100%;
     padding-bottom:48px;
     position: relative;
   }
-</style>
-
-<style scoped lang="less">
-
-  // .position-detail-wrap{
-  //   min-height:100%;
-  //   padding-bottom:48px;
-  //   position: relative;
-  // }
   #interpolateDetail {
     height: 100%;
     background:#F8F8FC;
