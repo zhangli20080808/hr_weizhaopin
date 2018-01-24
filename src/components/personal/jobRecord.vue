@@ -74,9 +74,7 @@
       Scroller,
       loading
     }
-
   }
-
 </script>
 
 <style scoped lang="less">
