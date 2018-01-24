@@ -180,9 +180,10 @@
           <!-- <div class="logo">
             <div class="logo_img"></div>
           </div> -->
-        <div class="footer_icon">
+        <div class="footer_icon" @click="goBapp">
           <div class="img_detail"></div>
         </div>          
+        <div style="height:20px;width:100%;background:#fff"></div>
         </div>
       </scroller>
       <div class="share_btn ">
@@ -550,6 +551,9 @@
           }
         });
         window.location.reload()
+      },
+      goBapp(){
+        location.href = 'https://aijuhr.com/mhr/index.html';
       }
     },
     components: {
@@ -574,7 +578,6 @@
 
     @media all and (max-width: 767px) {
       background-color: #fff;
-      padding-bottom: 60px;
       .position_detail {
         padding: 12px 15px;
         font-size: 0.26rem;
@@ -929,10 +932,9 @@
       }
 
       .share_btn .flex-demo {
-        text-align: center;
-        background: red;
-        line-height: 38px;
+       text-align: center;
         height: 46px;
+        padding-top: 13px;
       }
 
       .share_btn .flex-demo1 {
@@ -952,10 +954,10 @@
       .share_btn .flex-demo1 .text {
         display: inline-block;
         height: 20px;
-        line-height: 20px;
+        line-height:20px;
         vertical-align: middle;
         margin-left: 7px;
-        font-size: 0.36rem;
+        font-size: 0.32rem;
       }
 
       .share_btn .flex-demo2 .pos_icon2 {
@@ -970,10 +972,10 @@
       .share_btn .flex-demo2 .text {
         display: inline-block;
         height: 20px;
-        line-height: 20px;
+        line-height:20px;        
         vertical-align: middle;
         margin-left: 7px;
-        font-size: 0.36rem;
+        font-size: 0.32rem;
       }
 
       .share_btn .flex-demo2 {

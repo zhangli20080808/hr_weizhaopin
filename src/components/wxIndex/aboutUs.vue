@@ -205,7 +205,7 @@
         </div>
       </div>
     </div>
-    <div class="footer_icon" v-show="preCompanyWebsite.name">
+    <div class="footer_icon" v-show="preCompanyWebsite.name" @click="goBapp">
       <div class="img_detail"></div>
     </div>
     <div class="about_online">
@@ -331,6 +331,9 @@
         // console.log(index);
 //         this.doShowToast()
       },
+      goBapp(){
+        location.href = 'https://aijuhr.com/mhr/index.html';
+      },      
       filterTime(item){
         if (item) {
           return item.substr(0, 10)
