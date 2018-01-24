@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <!--个人档案 求职纪录 收藏职位 我的推荐-->
+    <!--个人档案 求职纪录 收藏职位 我的推荐--> 
     <div class="personal_bottom">
       <div class="container_content">
         <div class="detail_header_item" @click="joinRecord">
