@@ -725,6 +725,9 @@
       choseTag(){
         this.tag=!this.tag;
       },
+      goBapp(){
+        location.href = 'https://aijuhr.com/mhr/index.html';
+      }
     },
     components: {
       Flexbox, FlexboxItem, querystring, XDialog, Scroller
