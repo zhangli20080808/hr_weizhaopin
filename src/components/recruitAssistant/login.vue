@@ -10,7 +10,7 @@
     <div class="btn-area">
       <button class="btn-login" @click="login" :class="{disabled:disabled}" :disabled="disabled">绑定</button>
     </div>
-    <div class="contact">
+    <div class="contact" v-show="isShow">
       <p class="word">如需帮助，请联系客服：</p>
       <p class="tel">176-0654-1988</p>
     </div>
@@ -42,6 +42,7 @@ export default {
         account:'',
         password:'',
         disabled:true,
+        isShow:true,
         toastShow:false,
         toastText:'',
         // companyId:this.$route.query.companyId || '',
@@ -55,6 +56,7 @@ export default {
      this.$nextTick(() => {
         this.wh = window.innerHeight;
         console.log('routeObj',this.$route)
+        this.resizeWindow()
      })
       
   },
@@ -101,6 +103,26 @@ export default {
          }
       }
       _this.$webHttp(method, param, successd);
+    },
+    /**
+     * 解决安卓机弹键盘时，底部定位的文字被顶起来的问题
+     */
+    resizeWindow(){
+        var client_h = document.body.clientHeight;  
+        var u = navigator.userAgent;
+        var _this = this;
+        if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
+          window.onresize = function(){
+            var body_h =  document.body.clientHeight;  
+            if(body_h < client_h){  
+                _this.isShow = false; 
+                console.log("小了");  
+            }else{  
+                console.log("正常");  
+                _this.isShow = true;  
+            }  
+          } 
+        }
     },
   },
   watch:{
@@ -173,6 +195,7 @@ export default {
   .contact{
     position: fixed;
     bottom:.8rem;
+    z-index: 9;
     width:100%;
     font-size:.28rem;
     color: #888;

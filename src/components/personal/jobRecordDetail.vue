@@ -229,7 +229,7 @@
           width: 33px;
           height: 0.99rem;
           left: -8px;
-          top: -1px;
+          top: 0;
           background: url(../../common/image/personal/personal.png) no-repeat center;
           background-size: 50%;
         }
@@ -238,6 +238,7 @@
           vertical-align: middle;
           height: 0.99rem;
           margin-left: 23px;
+          font-size: 0.34rem;
         }
       }
 

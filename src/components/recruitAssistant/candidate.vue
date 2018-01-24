@@ -1,6 +1,6 @@
 <template>
-  <div class="candidate-wrap">
-     <tab :line-width=0 active-color="#5AA2E7">
+  <div class="candidate-wrap" v-show="showOuterWrap">
+     <tab class="tab-list" :line-width=0 active-color="#5AA2E7">
        <tab-item v-for="(item,index) in statuList" :key="index"  :selected="index == 0" @on-item-click="onItemClick">{{item}}</tab-item>
     </tab>
     <scroller lock-x ref="scrollerBottom" height="-44" @on-scroll-bottom="loadMore" :scroll-bottom-offst="200" v-if="resultList && resultList.length > 0" >
@@ -72,14 +72,17 @@ export default {
           options:null,
           code:'',
           companyId:this.$route.query.companyId || '',
+          showOuterWrap:false,
           showMore:false,
           showLoading:false,
           onFetching:false,
+          countMap:{},
+          countMapkeys:['allCount','filterCount','toBeReceivedCount','haveReceivedCount','eliminateCount'],
           tabIndex:0,
           resultList:[],
           interviewInfoList:[],
           pageNum:1,
-          pageSize:10,
+          pageSize:10,   
           page:{},
           statuList:['全部','待筛选','待接收面试','已接收面试','淘汰'],
       }
@@ -111,6 +114,7 @@ export default {
         let res = response.data;
         if (res.code == "0") {
             //登录成功
+            _this.showOuterWrap = true
             _this.companyId = res.data.companyId
            localStorage.userInfo = JSON.stringify(res.data);
            
@@ -150,9 +154,12 @@ export default {
         _this.showMore = false
         _this.onFetching = false
         let res = response.data;
-        if (res.code == 0 && res.data.interviewInfoList) {
-            _this.resultList = _this.resultList.concat(res.data.interviewInfoList)
-            _this.page = res.data.page  
+        if (res.code == 0) {
+            _this.page =  res.data.page;
+            _this.countMap = res.data.countMap
+            if(res.data.interviewInfoList){
+               _this.resultList = _this.resultList.concat(res.data.interviewInfoList)
+            }
         }
       }
       var error = function(response){
@@ -231,6 +238,10 @@ export default {
   height: 100%;
   background-color: #F8F8FC;
 }
+ .xs-container{
+    min-height:100%; 
+    padding-bottom: 48px;
+  }
 </style>
 
 <style lang="less" scoped>
@@ -239,7 +250,12 @@ export default {
 .vux-tab {
   justify-content: space-around;
   border-bottom:1px solid #e5e5e5;
+  // overflow-x:scroll;
+  // &::-webkit-scrollbar{
+  //   display: none;
+  // }
   .vux-tab-item{
+    padding:0 10px;
     background: none;
     flex:none;
     width: auto;
@@ -248,9 +264,11 @@ export default {
 .mask{
   top:56px!important;
 }
+
 .candidate-wrap{
   background-color: #F8F8FC;
   // height: 100%;
+  
   .resume-list-wrap{
     margin-top:12px;
     .resume-item{

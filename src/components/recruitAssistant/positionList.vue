@@ -1,7 +1,7 @@
 <template>
-  <div class="ra-position-list">
+  <div class="ra-position-list" v-show="showOuterWrap">
       
-      <scroller class="scroller" lock-x ref="scrollerBottom" @on-scroll-bottom="loadMore" :scroll-bottom-offst="100">
+      <scroller class="scroller" lock-x ref="scrollerBottom" height="-0" @on-scroll-bottom="loadMore" :scroll-bottom-offst="100">
         <div class="no_result" v-if="!list.length">
             <div class="tips">
                 <p class="">你还没有发布任何职位！ </p>
@@ -10,7 +10,7 @@
             </div>
             <div class="img"></div>
         </div>
-        <div class="list_content" v-else>
+        <div class="list_content" :style="{'min-height':wh+'px'}" v-else>
           <dl class="position_detail" v-for="(item,index) in list" :key="index" @click="selectItem(item)">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
@@ -33,7 +33,6 @@
           <footer-logo></footer-logo>
         </div>
       </scroller>
-      <!-- <footer-logo></footer-logo> -->
       <loading v-show="showLoading"></loading>
   </div>
 </template>
@@ -64,9 +63,11 @@
         pageNum:1,
         page:{},
         list: [],
+        showOuterWrap:false,
         showLoading:false,
         showMore: false,
         onFetching:false,
+        wh:'',
       }
     },
     created(){
@@ -74,6 +75,12 @@
       console.log('p-options', this.options)
       this.code = this.options.code
       this.getCodeUrl() 
+
+    },
+    mounted(){
+      this.$nextTick(() => {
+        this.wh = window.innerHeight;
+      })
     },
     methods: {
        //微信内访问移动端页面，获取codeUrl；若返回的codeUrl不为空，则需要前端请求codeUrl地址，获取到code值
@@ -88,9 +95,10 @@
         let res = response.data;
         if (res.code == "0") {
             //登录成功
-             _this.companyId = res.data.companyId
+            _this.showOuterWrap = true
+            _this.companyId = res.data.companyId
            localStorage.userInfo = JSON.stringify(res.data);
-            _this.showLoading = true
+            _this.showLoading = true           
            _this.getOnlinePosition()
         }else if(res.code == "2018"){
             //微信授权登录
@@ -122,7 +130,7 @@
           companyId: this.companyId,
           type: 2,
           pageNum:this.pageNum,
-          pageSize:10,
+          pageSize:10,   
         });
         var successd = function (response) {
           _this.showLoading = false 
@@ -195,6 +203,11 @@
 
       .xs-container{
         height :100%;
+        padding-bottom:0!important;
+      }
+      .list_content{
+        min-height :100%;
+        padding-bottom:48px;
       }
       .no_result{
         width 100%;

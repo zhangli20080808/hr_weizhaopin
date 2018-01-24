@@ -407,7 +407,7 @@
       var ua = navigator.userAgent.toLowerCase();
       var isWeixin = ua.indexOf('micromessenger') != -1;
       if (isWeixin) {
-        this.userAuthUrl();
+        // this.userAuthUrl();
       }else{
         this.getPositionInfo();
       }
@@ -706,7 +706,10 @@
             successd=function(res){
               res.data.headImg=res.data.headImg?res.data.headImg:'https://aijuhr.com/images/yidong/head_wx.png';
               self.tuijianObj=res.data;
-            };
+              if(self.tuijianObj.headImg == ''||self.tuijianObj.headImg == null){
+                  self.tuijianObj.headImg = 'https://aijuhr.com/images/yidong/head_wx.png'
+                }             
+              };
         self.$webHttp(method,param,successd);
       },
       recommendedSchedule(){

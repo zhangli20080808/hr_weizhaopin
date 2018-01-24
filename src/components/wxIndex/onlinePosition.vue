@@ -173,7 +173,10 @@
             successd=function(res){
               res.data.headImg=res.data.headImg?res.data.headImg:'https://aijuhr.com/images/yidong/head_wx.png';
               self.tuijianObj=res.data;
-            };
+              if(self.tuijianObj.headImg == ''||self.tuijianObj.headImg == null){
+                    self.tuijianObj.headImg = 'https://aijuhr.com/images/yidong/head_wx.png'
+                  }              
+                };
         self.$webHttp(method,param,successd);
       },
       userAuthUrl(){
