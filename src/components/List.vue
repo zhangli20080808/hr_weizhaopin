@@ -1496,7 +1496,7 @@
                 margin-bottom: 6px;
                 color: #666;
                 span{
-                  margin-right: 2px;background-color: #e5e5e5;padding: 3px 5px;border-radius: 2px;color: #999999;font-size: 0.26rem;
+                  margin-right: 2px;background-color: #f5f5f5;padding: 3px 5px;border-radius: 2px;color: #999999;font-size: 0.26rem;
                 }
               }
               .position_detail_date{
