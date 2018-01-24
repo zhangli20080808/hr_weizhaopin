@@ -255,7 +255,7 @@ export default {
   //   display: none;
   // }
   .vux-tab-item{
-    padding:0 10px;
+    // padding:0 10px;
     background: none;
     flex:none;
     width: auto;
