@@ -14,7 +14,15 @@
           <!--<div class="applyTime">申请时间：2018-01-18 18:19:10</div>-->
           <div class="applyTime">申请时间：{{getdate(item.createTime)}}</div>
         </div>
+        <div class="morePosition_content">
+          <div class="morePosition"  @click="toOnlinePosition" :class="{'moreTop':(!recordList||(recordList&&recordList.length==0))}">
+            查看更多职位
+          </div>
+          <div style="height:20px;width:100%;"></div>
+          
+        </div>  
       </div>
+      
       <div class="noTips"  v-if="!recordList||(recordList&&recordList.length==0)">
         <div class="imgTips">
           <div class="img"></div>
@@ -65,7 +73,15 @@
       },
       goDetail(item){
         this.$router.push({name:'jobRecordDetail',path:'/jobRecordDetail',query:{positionApplyId: item.positionApplyId,interviewerInfoId:item.interviewerInfoId}})
-      }
+      },
+      toOnlinePosition(){
+        this.$router.push({
+          name: 'onlinePosition',
+          query: {
+            companyId: this.companyId
+          }
+        })
+      }      
     },
     mounted(){
       this.getDeliverHistory();
@@ -169,6 +185,35 @@
           color: #999;
         }
       }
+      .morePosition_content{
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+        margin-top: 20px;
+        .morePosition {
+          font-size: 0.36rem;
+          width: 3.6rem;
+          height: 0.84rem;
+          line-height: 0.84rem;
+          text-align: center;
+          color: #fff;
+          background: #5AA2E7;
+          margin: 0 auto;
+          border-radius: 5px;
+        }
+
+        .moreTop{
+          font-size: 0.36rem;
+          width: 3.6rem;
+          height: 0.84rem;
+          line-height: 0.84rem;
+          text-align: center;
+          color: #fff;
+          background: #5AA2E7;
+          margin: 0 auto;
+          border-radius: 5px;
+        }
+      }      
     }
   }
 </style>

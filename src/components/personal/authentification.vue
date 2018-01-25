@@ -66,7 +66,7 @@
     </div>
     <!--我不是员工(求职者)-->
     <div v-show="nowIndex==1" class="authentification_qz">
-      <group class="check_code" v-show="personalInfo.isNotEmployeeCertification ==0">
+      <group class="check_code"  v-show="personalInfo.isNotEmployeeCertification ==0">
         <x-input title="手机号" placeholder="请输入手机号码" v-model="phone">
           <x-button class="codePhone" slot="right" type="primary" mini @click.native="sendCheckCode"
                     :disabled="daojishi">{{verificationCode}}
@@ -74,12 +74,15 @@
         </x-input>
         <x-input title="验证码" placeholder="输入验证码" v-model="checkCode" class="check_code2">
         </x-input>
-      </group>
         <div class="btn_content">
           <x-button type="primary" class="hrm_primary_btn" @click.native="finishCheck"
                     :disabled="checkCode==''||phone==''">前往认证
           </x-button>
-        </div>      
+        </div>           
+      </group>
+
+      </div>
+   
       <div class="noTips" v-show="personalInfo.isNotEmployeeCertification ==1">
         <div class="imgTips">
           <div class="img"></div>
@@ -426,14 +429,14 @@ export default {
         background: #fff;
         color: #5aa2e7;
       }
+      .btn_content {
+        padding: 10px 15px;
+        margin-top: 0.5rem;
+        &:after {
+          border-bottom: none;
+        }
+      }          
     }
-    .btn_content {
-      padding: 10px 15px;
-      margin-top: 0.5rem;
-      &:after {
-        border-bottom: none;
-      }
-    }    
     .check_code2 {
       .weui-cell__primary {
         .weui-input {

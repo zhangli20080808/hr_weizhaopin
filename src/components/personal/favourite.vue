@@ -1,7 +1,7 @@
 <template>
   <div class="favourite">
     <!--头像 名字 认证-->
-    <scroller lock-x ref="scrollerBottom" :scroll-bottom-offst="100" height="-20">
+    <scroller lock-x ref="scrollerBottom" :scroll-bottom-offst="100" height="-20" class="scroll">
       <div>
         <div class="favourite_top" v-for="item in list" >
 
@@ -41,7 +41,7 @@
           <div class="morePosition"  @click="toOnlinePosition" :class="{'moreTop':(!list||(list&&list.length==0))}">
             查看更多职位
           </div>
-
+          <div style="height:20px;width:100%;"></div>
 
 
         </div>
@@ -191,6 +191,9 @@
     right: 0;
     overflow: hidden;
     background: #F8F8FC;
+    .scroll{
+      height: 100%!important;
+    }
     .favourite_top {
       margin-bottom: 8px;
       &:first-child{
@@ -315,7 +318,7 @@
       display: inline-block;
       text-align: center;
       width: 100%;
-      margin-top: 20px;
+      margin-top: 10px;
       .morePosition {
         font-size: 0.36rem;
         width: 3.6rem;
