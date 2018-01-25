@@ -25,7 +25,7 @@
         <x-input name="password" placeholder="您的姓名" v-model="name" style="margin-top:0.3rem;"></x-input>
         <div style="padding:10px 30px;margin-top:0.6rem;" class="yzInfo">
           <x-button type="primary" @click.native="verification" class="hrm_primary_btn" :show-loading="btnLoading"
-                    :disabled="name.length==0&&email.length==0">
+                    :disabled="name ==''||email ==''">
             身份验证
 
           </x-button>
@@ -74,12 +74,12 @@
         </x-input>
         <x-input title="验证码" placeholder="输入验证码" v-model="checkCode" class="check_code2">
         </x-input>
+      </group>
         <div class="btn_content">
           <x-button type="primary" class="hrm_primary_btn" @click.native="finishCheck"
-                    :disabled="checkCode.length==0&&phone.length==0">前往认证
+                    :disabled="checkCode==''||phone==''">前往认证
           </x-button>
-        </div>
-      </group>
+        </div>      
       <div class="noTips" v-show="personalInfo.isNotEmployeeCertification ==1">
         <div class="imgTips">
           <div class="img"></div>
@@ -254,8 +254,8 @@ export default {
       var successd = function(res) {
         if (res.data.code == 0) {
           _this.personalInfo = res.data.data.weixinPersonalInfo;
-          _this.isEmployeeCertification =  _this.personalInfo.isEmployeeCertification
-          _this.isNotEmployeeCertification =  _this.personalInfo.isNotEmployeeCertification
+          _this.isEmployeeCertification =  _this.personalInfo.isEmployeeCertification;
+          _this.isNotEmployeeCertification =  _this.personalInfo.isNotEmployeeCertification;
         }
       };
       _this.$http(method, param, successd);
@@ -426,14 +426,14 @@ export default {
         background: #fff;
         color: #5aa2e7;
       }
-      .btn_content {
-        padding: 10px 15px;
-        margin-top: 0.5rem;
-        &:after {
-          border-bottom: none;
-        }
-      }
     }
+    .btn_content {
+      padding: 10px 15px;
+      margin-top: 0.5rem;
+      &:after {
+        border-bottom: none;
+      }
+    }    
     .check_code2 {
       .weui-cell__primary {
         .weui-input {

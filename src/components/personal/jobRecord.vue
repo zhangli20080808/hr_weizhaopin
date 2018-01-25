@@ -80,7 +80,6 @@
 <style scoped lang="less">
   .jobRecord {
     background: #F8F8FC;
-    padding-top: 0.25rem;
     .scorll_list {
       .noTips{
         .imgTips{
@@ -112,9 +111,9 @@
         background: #fff;
         padding: 0.3rem 0.3rem 0.28rem 0.3rem;
         margin-top: 0.25rem;
-        &:first-child {
-          margin-top: 0;
-        }
+        // &:first-child {
+        //   margin-top: 0;
+        // }
         .positionName {
           color: #222;
           font-size: 0.34rem;

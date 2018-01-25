@@ -23,7 +23,7 @@
             </dd>
             <dd class="position_detail_date">
               <span>发布时间 : &nbsp;{{filter(fav.createTime)}}</span> &nbsp;
-              <em>浏览次数 : {{fav.views}}次</em>
+              <em>浏览次数 : {{fav.views}}人</em>
             </dd>
             <div class="star" @click.stop="cancel(fav.id)"></div>
           </dl>
@@ -57,6 +57,7 @@
                @on-show="onShow"
                :title="description"
                @on-hide="onHide">
+                 <p style="text-align:center;">确认要取消收藏该职位嘛?</p>
       </confirm>
     </div>
   </div>
@@ -71,7 +72,7 @@
     data(){
       return {
         show: false,
-        description: '确认要取消收藏该职位嘛？',
+        description: '职位',
         fansId: this.$route.query.fansId,
         companyId: this.$route.query.companyId,
         list:[],
@@ -191,6 +192,10 @@
     overflow: hidden;
     background: #F8F8FC;
     .favourite_top {
+      margin-bottom: 8px;
+      &:first-child{
+        margin-top: 0.3rem;
+      }
       .favourite_content {
         position: relative;
         height: 0.99rem;
