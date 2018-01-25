@@ -186,10 +186,9 @@
         }
       }
       .morePosition_content{
-        display: inline-block;
         text-align: center;
         width: 100%;
-        margin-top: 20px;
+        margin-top: 15px;
         .morePosition {
           font-size: 0.36rem;
           width: 3.6rem;
