@@ -48,3 +48,19 @@ Vue.filter("gloMarryStatus",function(val){
         return marryStatus[val - 1]
     }
 })
+
+//工作性质的枚举值
+Vue.filter("gloWorkType",function(val){
+    //1:全职 2：兼职 3实习
+    switch(val){
+        case 0:
+        case 1:
+         return "全职";
+        case 2:
+         return "兼职";
+        case 3:
+         return "实习";
+        default:
+          break;
+    }
+})

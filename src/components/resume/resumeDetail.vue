@@ -169,7 +169,7 @@
           <p class="pItem"><span class="key">期望城市：</span><span class="value">{{interviewerInfo.expectPlace}}</span></p>
           <p class="pItem"><span class="key">期望行业：</span><span class="value">{{interviewerInfo.expectIndustry}}</span></p>
           <p class="pItem"><span class="key">期望薪资：</span><span class="value">{{interviewerInfo.expectSalary}}</span></p>
-          <p class="pItem"><span class="key">工作性质： </span><span class="value">{{interviewerInfo.workType}}</span></p>
+          <p class="pItem"><span class="key">工作性质： </span><span class="value">{{interviewerInfo.workType | gloWorkType}}</span></p>
           <p class="pItem"><span class="key">期望职能： </span><span class="value">{{interviewerInfo.expectPosition}}</span></p>
           <p class="pItem"><span class="key">到岗时间：  </span><span class="value">{{interviewerInfo.joinDate}}</span></p>
       </div>
@@ -278,7 +278,7 @@ export default {
   min-height:100%; 
   padding-bottom: 48px;
   position: relative;
-  .foot_icon{
+  .footer_icon{
     bottom:0px;
   }
   .item-wrap{

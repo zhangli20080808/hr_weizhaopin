@@ -16,17 +16,17 @@
         align-items: center;
         position: absolute;
         bottom:5px;
-        left:135px;
+        left:2.7rem;
         z-index:2;
         height: 48px;        
         text-align: center;
         a{ 
          height: 16px;
          .img_detail {
-          width: 103px;
+          width: 2.08rem;
           height: 16px;
           background: url(../../common/image/footLogo2.jpg) no-repeat left top;
-          background-size: 103px auto;
+          background-size: 2.08rem auto;
          }
         }   
       }
