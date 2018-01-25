@@ -55,7 +55,7 @@
     height: 1px;
     position: relative;
     top: 14px;
-    left: -50px;
+    left: -55px;
     margin: 0 10px;
     width: 68%;
   }
@@ -99,7 +99,6 @@
   }
   .active .step-item-name{
     color: #000000;
-    font-size: 0.32rem;
   }
 
 </style>
