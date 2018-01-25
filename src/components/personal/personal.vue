@@ -207,6 +207,8 @@
       }
     },
     mounted(){
+      console.log(this.$route)
+      this.companyId = this.$route.query.companyId;
       this.userAuthUrl();
       this.getWeixinPersonalInfo();
     },
