@@ -82,8 +82,8 @@
         <img :src="tuijianObj.headImg" alt="">
         <h2>{{tuijianObj.nickname}}</h2>
         <div class="header_right">
-          <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0" @click="showTuijianDialog=true;" class="vux-1px-r">关注</p>
-          <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==1" class="vux-1px-r">已关注</p>
+          <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0" @click="showTuijianDialog=true;"><span  class="vux-1px-r">关注</span></p>
+          <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==1"><span  class="vux-1px-r">已关注</span></p>
           <p @click="recommendedSchedule"> &nbsp;我的</p>
           <h6 v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0&&tag" @click="choseTag"><span>关注公众号获取职位分享动态</span></h6>
         </div>
@@ -368,7 +368,7 @@
         companyId: this.$route.query.companyId,
         shareFansId: this.$route.query.shareFansId,
         authSuccess: this.$route.query.authSuccess,
-        fansId: '',
+        fansId: this.$route.query.fansId,
         activityId:this.$route.query.activityId,
         empId: this.$route.query.empId,
         empAuthSucc: this.$route.query.empAuthSucc,//1:认证成功的内部员工
@@ -391,14 +391,13 @@
           nickname:'',
           isSubscribe:0,
           headImg:null,
-          haveGzh:1,
+          haveGzh:0,
           companyGzh:{
             accountName:'',
             qrcodeUrl:''
           }
         },
         tag:true,
-        fansId:this.$route.query.fansId,
         showTuijianDialog:false,
       }
     },
@@ -498,11 +497,12 @@
       },
       join(){
         // self.$router.push({path:'/addResume',query:{id:this.positionId,shareFansId:self.shareFansId}})
-        location.href = "https://aijuhr.com/miniRecruit/#/addResume?id=" + this.positionId
-          + '&shareFansId=' + this.shareFansId
-          + "&companyId=" + this.companyId
-          + "&recomType=" + this.recomType
-          + "&fansId=" + this.fansId;
+        // location.href = "https://aijuhr.com/miniRecruit/#/addResume?id=" + this.positionId
+        //   + '&shareFansId=' + this.shareFansId
+        //   + "&companyId=" + this.companyId
+        //   + "&recomType=" + this.recomType
+        //   + "&fansId=" + this.fansId;
+        this.$router.push({name:'addResume',query:{id:this.positionId,fansId:this.fansId}})
       },
       join1(){
         this.$router.push({
@@ -957,7 +957,7 @@
         }
         .description_con {
           color: #666;
-          font-size: 0.26rem;
+          font-size: 0.28rem;
           padding: 10px 0;
           text-align: justify;
           line-height: 0.4rem;
@@ -1356,6 +1356,9 @@
           .title
             margin-bottom: 20px
             font-size: 16px
+          .text
+            font-size:.28rem
+            line-height:.48rem
           .el-form
             .el-form-item
               .el-form-item__content

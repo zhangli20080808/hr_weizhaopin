@@ -263,7 +263,7 @@
     mounted(){
       document.title = "创建简历";
       // this.index();
-      this.getSimpleResume();
+      this.getSimpleResume2();
     },
     methods: {
       index(){
@@ -442,7 +442,6 @@
             }),
             successd=function(res){
               self.type=2;
-              self.step=res.data.data.step;
               if(res.data.data.step==1||res.data.data.step==2){
                 self.$vux.confirm.show({
                   title: '微简历',
@@ -493,20 +492,32 @@
                 self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList;
                 self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList;
                 self.headType=res.data.data.step;
-                // self.type=3;
+                self.type=3;
               }
+            };
+        self.$http(method,param,successd);
+      },
+      getSimpleResume2(){
+        let self=this;
+        let method="resume/getSimpleResume",
+            param=JSON.stringify({
+              fansId:self.fansId,
+              companyId:self.companyId
+            }),
+            successd=function(res){
+              self.step=res.data.data.step;
             };
         self.$http(method,param,successd);
       },
       updateSimpleResume(step){
         let self=this;
         if(!step){
-          step=1;
+          step=0;
         }
         let method="resume/updateSimpleResume",
             param=JSON.stringify({
               fansId:self.fansId,
-              step:step,
+              step:step+1,
               simpleResumeInfo:self.interviewResumeInfo
             }),
             successd=function(res){

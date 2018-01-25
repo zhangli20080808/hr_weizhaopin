@@ -6,7 +6,11 @@
           <img :src="resume.basic.headImg" alt="">
         </dt>
         <dd>
-          <h2><span>{{resume.basic.name}}</span><em>{{resume.basic.sex==1?'男':'女'}}</em></h2>
+          <h2>
+            <span>{{resume.basic.name}}</span>
+            <em v-if="resume.basic.sex==1" class="man">男</em>
+            <em v-if="resume.basic.sex==2">女</em>
+          </h2>
           <p>{{resume.basic.motto}}</p>
           <p class="phone">{{resume.basic.phone}}</p>
           <p class="email">{{resume.basic.email}}</p>
@@ -251,7 +255,7 @@ export default {
 <style scoped lang="less">
 @import '~vux/src/styles/1px.less';
 #preview{background-color: #f8f8fc;padding-bottom: 1.5rem;font-size: .28rem;}
-.information{padding:0.24rem 0.3rem;background-color: #fff;}
+.information{padding:0.24rem 0.3rem;background-color: #fff;min-height: 1.5rem;}
 .information dt{width: 1.3rem;overflow: hidden;float: left;text-align: center;}
 .information dt img{width: 1.28rem;height: 1.28rem;border-radius: 50%;}
 .information dd{margin-left:1.56rem;position: relative;}
@@ -263,6 +267,7 @@ export default {
         font-weight: 500;
       }
       em{font-style: normal;font-size: .2rem;width: 0.4rem;height: 0.4rem;background-color: #FB5C7F;color: #fff;display: inline-block;text-align: center;border-radius: 50%;line-height: 0.4rem;margin-left:0.2rem;}
+      .man{background-color: #5aa2e7;}
     }
     p{
       color:#9b9b9b;
@@ -270,13 +275,13 @@ export default {
       margin-top:0.12rem;
     }
     .phone{
-      padding-left:0.35rem;
+      padding-left:0.45rem;
       line-height: 0.4rem;
       background: url(../../common/image/micresume/phone.png) no-repeat left 0;
       background-size: 0.32rem auto;
     }
     .email{
-      padding-left: 0.35rem;
+      padding-left: 0.5rem;
       line-height: 0.4rem;
       background: url(../../common/image/micresume/email.png) no-repeat left 3px;
       background-size: 0.35rem auto;

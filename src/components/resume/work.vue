@@ -98,7 +98,7 @@ export default {
             model:self.work
           }),
           successd=function(res){
-            self.$router.push({name:'resumePreview',query:{fansId:self.fansId}});
+            self.$router.go(-1);
           };
       self.$http(method,param,successd);
     },
