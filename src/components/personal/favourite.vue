@@ -213,6 +213,7 @@
           display: inline-block;
           vertical-align: middle;
           height: 0.99rem;
+          line-height: 0.99rem;
           margin-left: 23px;
           font-size: 0.34rem;
           color: #5AA2E7;
@@ -222,7 +223,7 @@
         padding: 12px 15px;
         font-size: 0.28rem;
         background-color: #fff;
-        margin-bottom: 12px;
+        .borderBottom(1px,#e5e5e5);
         clear: both;
         position: relative;
         &::before {
@@ -232,10 +233,10 @@
           position: absolute;
           top: 12px;
           right: 15px;
-          width: 0.60rem;
-          height: 0.60rem;
+          width: 0.40rem;
+          height: 0.40rem;
           background: url(../../common/image/personal/personal_stars.png) no-repeat center;
-          background-size: 73%;
+          background-size: 100%;
         }
         dt {
           line-height: 0.48rem;
@@ -309,6 +310,7 @@
       display: inline-block;
       text-align: center;
       width: 100%;
+      margin-top: 20px;
       .morePosition {
         font-size: 0.36rem;
         width: 3.6rem;
