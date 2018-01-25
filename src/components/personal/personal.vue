@@ -68,7 +68,6 @@
   export default {
     data(){
       document.title = '个人中心';
-      alert(this.$route.query.companyId);
       return {
         show: false,
         description: '确认难割难舍开工',

@@ -153,6 +153,7 @@ export default {
       shareFansId:this.$route.query.shareFansId,
       activityId:this.$route.query.activityId,
       recomType:this.$route.query.recomType,
+      companyId:this.$route.query.companyId,
       resume:{
         positionId: this.$route.query.positionId,
         basic:{
@@ -235,7 +236,15 @@ export default {
             activityId:self.activityId
           }),
           successd=function (res) {
-              self.$router.push({path:'/results',query:{type:res.data.data,companyId:self.companyId,fansId:self.fansId,recomType:self.recomType}});
+              self.$router.push({
+                path:'/results',
+                query:{
+                  type:res.data.data,
+                  companyId:self.companyId,
+                  fansId:self.fansId,
+                  recomType:self.recomType,
+                  activityId:self.activityId
+                }});
           },
           c=function(res){
             alert(res.data.data.message);
@@ -244,7 +253,7 @@ export default {
     }
   },
   mounted(){
-    document.title="简历预览";
+    document.title="个人档案";
     this.getAllResume();
   },
   components:{
@@ -264,7 +273,7 @@ export default {
     h2{
       font-size: 0.36rem;
       span{
-        font-weight: 500;
+        font-weight: 400;
       }
       em{font-style: normal;font-size: .2rem;width: 0.4rem;height: 0.4rem;background-color: #FB5C7F;color: #fff;display: inline-block;text-align: center;border-radius: 50%;line-height: 0.4rem;margin-left:0.2rem;}
       .man{background-color: #5aa2e7;}
@@ -294,7 +303,7 @@ export default {
   padding: 0.24rem .3rem;
   dt{
     font-size: .34rem;
-    font-weight: 500;
+    font-weight: 400;
     line-height: .48rem;
     position: relative;
   }
@@ -308,7 +317,7 @@ export default {
     height: .7rem;
     background-color: #f8f8f8;
     margin-top:.25rem;
-    line-height: .7rem;
+    line-height: .5rem;
     color:#b2b2b2;
     text-align: center;
     border-radius: 4px;
@@ -320,7 +329,7 @@ export default {
   padding: 0.24rem .3rem;
   dt{
     font-size: .34rem;
-    font-weight: 500;
+    font-weight: 400;
     line-height: .48rem;
     padding-bottom:.2rem;
     position: relative;
@@ -339,7 +348,7 @@ export default {
   font-size: .32rem;
   dt{
     font-size: .34rem;
-    font-weight: 500;
+    font-weight: 400;
     line-height: .48rem;
     padding-bottom:.2rem;
     position: relative;
@@ -355,13 +364,13 @@ export default {
   }
 }
 .work_list{padding: .2rem 0 0;position: relative;}
-.work_list_left{width:1.2rem;height: 1.2rem;overflow: hidden;padding: .3rem;border:1px solid #e5e5e5;border-radius: 50%;float: left;}
+.work_list_left{width:1.2rem;height: 1.2rem;overflow: hidden;padding:.25rem .3rem;border:1px solid #e5e5e5;border-radius: 50%;float: left;}
 .work_list_left img{width:.6rem;}
 .work_list_right{margin-left:1.4rem;}
 .work_list_right h3{font-size: .34rem;line-height: .5rem;}
 .work_list_right p{font-size: .26rem;color: #999;line-height: .4rem;}
 .work_list_edit{width:.3rem;height:.3rem;background: url(../../common/image/micresume/edit.png) no-repeat center center;background-size: 100% 100%;position: absolute;right:0;top:.1rem;}
-.work_list_referral{background-color: #f8f8f8;color:#999;padding: 10px;font-size: .26rem;}
+.work_list_referral{background-color: #f8f8f8;color:#999;padding: 10px;font-size: .26rem;margin-top: .2rem;}
 .project .work_list_right{margin-left:0;}
 .language span:nth-child(1){width: .2rem;height: .2rem;background-color: #F5A623;display: inline-block;border-radius: 50%;}
 .language span:nth-child(2){color: #000;font-size:.34rem;margin-left: .1rem;}

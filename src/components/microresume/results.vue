@@ -34,6 +34,7 @@
         companyId:this.$route.query.companyId,
         fansId:this.$route.query.fansId,
         recomType:this.$route.query.recomType,
+        activityId:this.$route.query.activityId,
         accountName:'',
         sharedQrcodeUrl:null,
         isSubscribe:0,//用户是否关注1:已关注,0:未关注
@@ -69,11 +70,15 @@
         var self=this;
         localStorage.setItem('posId',self.interviewResumeInfo.positionId);
         if(self.recomType==2){
-          location.href="https://aijuhr.com/wx/dist/#/wx/interpolateList?companyId="+self.companyId+"&shareFansId=0&fansId=0&recomType=2&pageFrom=3"
+          location.href="https://aijuhr.com/wx/dist/#/wx/interpolateList?companyId="+self.companyId+"&shareFansId=0&fansId=0&recomType=2&pageFrom=3&activityId="+self.activityId;
         }else if(self.recomType==1){
-          location.href="https://aijuhr.com/wx/dist/#/wx/interpolateList?companyId="+self.companyId+"&shareFansId=0&fansId=0&recomType=1&pageFrom=1"
+          location.href="https://aijuhr.com/wx/dist/#/wx/interpolateList?companyId="+self.companyId+"&shareFansId=0&fansId=0&recomType=1&pageFrom=1&activityId="+selfactivityId;
         }else{
-          self.$router.push({path:'/about',query:{companyId:localStorage.companyId}})
+          if(localStorage.companyId){
+            self.$router.push({path:'/about',query:{companyId:localStorage.companyId}})
+          }else{
+            self.$router.push({path:'/about',query:{companyId:self.companyId}})
+          }
         }
       },
       //分享之后调用服务号二维码

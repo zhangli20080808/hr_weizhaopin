@@ -1,7 +1,7 @@
 <template>
   <div id="apply">
     <div class="container">
-      <div class="apply_post">
+      <div class="apply_post" style="padding-top:0;">
         <h1>上传简历</h1>
         <div class="apply_content">
           <el-form :label-position="labelPosition" label-width="80px" ref="ruleForm" :model="formLabelAlign"
