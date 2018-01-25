@@ -693,6 +693,9 @@
             if (res.data.userSession == 0 && self.authSuccess != 1) {
               location.href = res.data.userAuthUrl;
             } else {
+              if(res.data.fansId){
+                self.fansId=res.data.fansId;
+              }
               self.getPositionInfo();
             }
             self.getUserInfo();

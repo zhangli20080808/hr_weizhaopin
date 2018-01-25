@@ -753,6 +753,10 @@
                 location.href=res.data.userAuthUrl;
               }else if(res.data.userSession==0){
                 self.fansId=res.data.fansId;
+              }else{
+                if(res.data.fansId){
+                  self.fansId=res.data.fansId;
+                }
               }
               self.getUserInfo();
             };

@@ -188,6 +188,10 @@
           successd = function (res) {
             if (res.data.userSession == 0&&self.authSuccess!=1) {
               location.href = res.data.userAuthUrl;
+            }else{
+              if(res.data.fansId){
+                self.fansId=res.data.fansId;
+              }
             }
           };
         self.$webHttp(method, param, successd);

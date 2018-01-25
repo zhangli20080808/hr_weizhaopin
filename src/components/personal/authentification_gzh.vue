@@ -86,7 +86,9 @@
             if (res.data.userSession == 0 && !self.fansId) {
               location.href = res.data.userAuthUrl;
             }else{
-                console.log('  this.getWeixinPersonalInfo();')
+                if(res.data.fansId){
+                  self.fansId=res.data.fansId;
+                }
                 self.getWeixinPersonalInfo();
             }
           };
