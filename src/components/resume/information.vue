@@ -58,9 +58,9 @@ export default {
           }),
           successd=function(res){
             self.basic=res.data.data.basic;
-            self.$nextTick(function(){
-              self.sexValue[0]=res.data.data.basic.sex+'';
-            })
+            let arr =[];
+            arr[0]=res.data.data.basic.sex+'';
+            self.sexValue=arr;
           };
       self.$http(method,param,successd);
     },

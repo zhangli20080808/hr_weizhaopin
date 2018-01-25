@@ -91,5 +91,6 @@ export default {
 </style>
 <style>
 .skill_wrap .weui-cells{padding: 15px;}
+.skill_wrap ..weui-dialog__btn_primary{color:#5aa2e7;}
 </style>
 

@@ -64,12 +64,17 @@ export default {
     },
     save(){
       var self=this;
+      let verify=false;
       self.model.forEach((item)=>{
         if(item.qualificationName==""){
           self.$vux.toast.text('请完成获奖信息!');
+          verify=true;
           return
         }
       })
+      if(verify){
+        return false
+      }
       var method="resume/updateResumeInfo",
           param=JSON.stringify({
             fansId:self.fansId,

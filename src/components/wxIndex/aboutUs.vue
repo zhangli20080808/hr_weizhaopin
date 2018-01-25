@@ -6,8 +6,8 @@
       <img :src="tuijianObj.headImg" alt="">
       <h2>{{tuijianObj.nickname}}</h2>
       <div class="header_right">
-        <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0" @click="careQrcode=true;" class="vux-1px-r">关注</p>
-        <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==1" class="vux-1px-r">已关注</p>
+        <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0" @click="careQrcode=true;"><span class="vux-1px-r">关注</span></p>
+        <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==1"><span class="vux-1px-r">已关注</span></p>
         <p @click="recommendedSchedule"> &nbsp;我的</p>
         <h6 v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0&&tag" @click="choseTag"><span>关注公众号获取职位分享动态</span></h6>
       </div>
@@ -344,7 +344,7 @@
           nickname:'',
           isSubscribe:0,
           headImg:null,
-          haveGzh:1,
+          haveGzh:0,
           companyGzh:{
             accountName:'',
             qrcodeUrl:''
@@ -718,7 +718,7 @@
         // location.href="https://aijuhr.com/miniRecruit/#/personal?companyId="+this.companyId;
         this.$router.push({
           name:'personal',
-          query:{company:this.companyId}
+          query:{companyId:this.companyId}
         })
       },
       choseTag(){

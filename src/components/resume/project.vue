@@ -17,7 +17,7 @@
     </group>
     <div style="padding:15px;">
       <x-button @click.native="save" type="primary" class="weizhaopin_btn">完成</x-button>
-      <x-button @click.native="delExperienceById" type="primary" class="weizhaopin_btn_D64949" v-if="id==0">删除该条工作经历</x-button>
+      <x-button @click.native="delExperienceById" type="primary" class="weizhaopin_btn_D64949" v-if="id!=0">删除该条项目</x-button>
     </div>
   </div>
 </template>

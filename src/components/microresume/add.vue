@@ -14,7 +14,7 @@
         <div class="resume_icon resume_icon2"></div>
         <div class="resume_text2">
           <h1>PC扫码填简历</h1>
-          <h2>resume.aijuhr.com</h2>
+          <h2>请登录 resume.aijuhr.com</h2>
         </div>
       </div>
       <div class="createText"><span class="text"> </span></div>

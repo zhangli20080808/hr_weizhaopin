@@ -78,7 +78,7 @@
           headImgUrl:null,
           name:'',
           isEmployeeCertification:null,
-          isEmployeeCertification:null
+          isEmployeeCertification:null,
         },
         pageFrom:1,
         isEmployeeCertification: 0,     //员工认证 （0：没有认证过，1:已经认证过）
@@ -127,7 +127,6 @@
         var method = "wexinPersonalInfo/getWeixinPersonalInfo";
         var param = JSON.stringify({
           companyId: this.companyId,
-//          fansId: this.fansId
           fansId: this.fansId
         });
         var successd = function (res) {
