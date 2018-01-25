@@ -502,7 +502,7 @@
         //   + "&companyId=" + this.companyId
         //   + "&recomType=" + this.recomType
         //   + "&fansId=" + this.fansId;
-        this.$router.push({name:'addResume',query:{id:this.positionId,fansId:this.fansId}})
+        this.$router.push({name:'addResume',query:{id:this.positionId,fansId:this.fansId,companyId:self.companyId}})
       },
       join1(){
         this.$router.push({

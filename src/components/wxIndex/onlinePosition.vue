@@ -124,9 +124,10 @@
           name: 'listDetail',
           query: {
             companyId: this.companyId,
-            positionId: item.id,
+            positionId: item.id
           },
           params: {
+            companyId: this.companyId,
             id: item.id
           }
         })
