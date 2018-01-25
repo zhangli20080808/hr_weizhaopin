@@ -167,7 +167,7 @@ export default {
         height100:0,
         timer: '',
         weActivityId: '',
-        companyId: '',
+        companyId: this.$route.query.companyId,
         positionList: '',
         value3: '',
         data: {},
