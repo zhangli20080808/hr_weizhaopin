@@ -857,7 +857,7 @@
             }
           }
           .item-time {
-            font-size: 0.26rem;
+            font-size: 0.24rem;
             color: #999;
             margin-top: 4px;
           }
@@ -956,7 +956,7 @@
           }
         }
         .description_con {
-          color: #666;
+          color: #353535;
           font-size: 0.28rem;
           padding: 10px 0;
           text-align: justify;
@@ -1357,8 +1357,8 @@
             margin-bottom: 20px
             font-size: 16px
           .text
-            font-size:.28rem
-            line-height:.48rem
+            font-size:14px;
+            line-height:24px;
           .el-form
             .el-form-item
               .el-form-item__content
