@@ -76,7 +76,7 @@
   export default {
     data(){
       return {
-        companyId: '',
+        companyId: this.$route.query.companyId,
         list: [],
         active: true,
         showMore: false,

@@ -139,7 +139,7 @@
             vertical-align: top;
             background: #FFEAEA;
             padding: 4px 8px;
-            border-radius: 5px;
+            border-radius: 3px;
             float: right;
             color: #F96868;
             font-size: 0.26rem;

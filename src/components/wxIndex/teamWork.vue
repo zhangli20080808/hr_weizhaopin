@@ -453,5 +453,5 @@
         color: #999999 !important
         font-size: 0.14rem !important
         background: url(../../common/image/footLogo2.jpg) no-repeat center !important
-        background-size: 100% !important
+        background-size: 76% !important
 </style>

@@ -135,7 +135,7 @@
                 {{companyValues}}
               </span></p>
               <p class="item-time">
-                {{address}}  | {{domain}} | {{options[status - 1] ? options[status - 1].label : ''}} | {{s_options[dimensions - 1] ? s_options[dimensions - 1].label : ''}}</p>
+                {{address}}  | {{domain}} | {{s_options[status - 1] ? s_options[status - 1].label : ''}} | {{options[dimensions - 1] ? options[dimensions - 1].label : ''}}</p>
             </div>
           </div>
           <!-- 职位描述 -->
