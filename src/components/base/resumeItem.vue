@@ -2,7 +2,7 @@
       <div class="resume-item">
            <div class="avatar">
               <img v-if="interviewerInfo.headImg" :src="interviewerInfo.headImg" alt="头像">
-              <img v-else src="../../common/image/default_avatar.png" alt="头像">
+              <img v-else src="../../common/image/default_avatar2.png" alt="头像">
            </div>
            <div class="content">
               <div class="top-box">

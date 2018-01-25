@@ -7,7 +7,7 @@
       <div class="resume-list-wrap">
         <div class="resume-item" v-for="(item,index) in resultList" :key="index" @click="selectItem(item)" :data-id="item.id">
            <div class="avatar">
-              <img v-if="!item.headImg" src="../../common/image/default_avatar.png" alt="头像">
+              <img v-if="!item.headImg" src="../../common/image/default_avatar2.png" alt="头像">
               <img v-else :src="item.headImg" alt="头像">
            </div>
            <div class="content">
