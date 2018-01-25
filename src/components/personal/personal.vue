@@ -1,6 +1,6 @@
 <template>
   <div class="personal">
-    <!--头像 名字 认证-->
+    <!--头像 名字 认证s-->
     <div class="personal_top">
       <div class="personal_content">
         <img class="img" :src="personalInfo.headImgUrl">
