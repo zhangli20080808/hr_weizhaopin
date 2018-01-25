@@ -221,7 +221,7 @@
           display: inline-block;
           vertical-align: middle;
           height: 0.99rem;
-          line-height: 0.99rem;
+          line-height: 0.89rem;
           margin-left: 23px;
           font-size: 0.34rem;
           color: #5AA2E7;
