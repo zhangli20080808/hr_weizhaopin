@@ -306,7 +306,7 @@
         color: #666;
         span {
           margin-right: 2px;
-          background-color: #e5e5e5;
+          background-color: #f5f5f5;
           padding: 3px 5px;
           border-radius: 2px;
           color: #999999;
