@@ -74,11 +74,7 @@
         }else if(self.recomType==1){
           location.href="https://aijuhr.com/wx/dist/#/wx/interpolateList?companyId="+self.companyId+"&shareFansId=0&fansId=0&recomType=1&pageFrom=1&activityId="+selfactivityId;
         }else{
-          if(localStorage.companyId){
-            self.$router.push({path:'/about',query:{companyId:localStorage.companyId}})
-          }else{
-            self.$router.push({path:'/about',query:{companyId:self.companyId}})
-          }
+          self.$router.push({path:'/about',query:{companyId:self.companyId}})
         }
       },
       //分享之后调用服务号二维码

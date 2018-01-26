@@ -275,7 +275,7 @@
         }
         this.$router.isBack = false;
         //判断需不需要展示头部nav
-        if(to.path.indexOf('/pc/')==-1 && to.path.indexOf('raPositionList')==-1 && to.path.indexOf('candidate')==-1 && to.path.indexOf('offer')==-1 && to.path.indexOf('raLogin')==-1){
+        if(to.path.indexOf('/pc/') == -1 && to.path.indexOf('raPositionList')==-1 && to.path.indexOf('candidate')==-1 && to.path.indexOf('offer')==-1 && to.path.indexOf('raLogin')==-1){
           is.$nextTick(() => {
             this._getIndexInfo()
             this.all = ''
