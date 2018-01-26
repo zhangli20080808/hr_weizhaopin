@@ -64,7 +64,7 @@
                     <div class="address" v-if="companyInfo.address"><span class="address_icon"></span><span class="text">{{companyInfo.address}}</span></div>
                     <div class="tel"><span class="tel_icon"></span><span class="text">{{companyInfo.phone}}</span></div>
                   </li>
-                  <li class="vertical-list" v-for="(item,index) in branchCompanyList">
+                  <li class="vertical-list  vertical_company" v-for="(item,index) in branchCompanyList">
                     <div class="name">
                       <span class="mainName">{{item.companyName}}</span>
                       <span class="address" @click="toMap(item)"></span>
@@ -1131,9 +1131,11 @@
   .g-container .cards .vertical-list {
     font-size: 0;
     margin: 0.3rem 0;
-    
   }
-
+  .g-container .cards .vertical_company{
+    position: relative;
+    .borderTop(1px,#e5e5e5);
+  }
   .g-container .cards .vertical-list:nth-child(1) {
     margin-top: 0;
   }
