@@ -81,7 +81,6 @@
         </div>           
       </group>
 
-      </div>
    
       <div class="noTips" v-show="personalInfo.isNotEmployeeCertification ==1">
         <div class="imgTips">
@@ -92,7 +91,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
