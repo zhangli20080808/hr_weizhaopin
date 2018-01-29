@@ -18,8 +18,8 @@
 .personal_header h2{font-size: 0.26rem;display: inline-block;vertical-align: middle;line-height: 40px}
 .personal_header .header_right{float: right;height: 40px;position: absolute;top:0;right:15px;line-height: 40px;}
 .personal_header .header_right p{display: inline-block;font-size: 0.26rem;vertical-align: middle;}
-.personal_header .header_right p span.vux-1px-r{padding-right:10px;}
-.personal_header .header_right h6{position: absolute;color: #fff;font-weight: 400;right: -8px;z-index: 999;bottom: -33px;border-radius: 5px;background: url(../../common/image/tuijian_03.png) no-repeat 133px 0px;padding-top:10px; }
+.personal_header .header_right p span.vux-1px-r{padding-right:20px;}
+.personal_header .header_right h6{position: absolute;color: #fff;font-weight: 400;right: -8px;z-index: 999;bottom: -33px;border-radius: 5px;background: url(../../common/image/tuijian_03.png) no-repeat 107px 0px;padding-top:10px; }
 .personal_header .header_right h6>span{background-color: #5aa2e7;display: block;padding: 7px 5px 5px 15px;width: 210px;line-height: 0.26rem;font-size: 13px;}
 
 #app .vux-1px-l:after,#app .vux-1px-r:after,#app .vux-1px-t:after,#app .vux-1px-b:after,#app .vux-1px-tb:after,#app .vux-1px:after{color:#d9d9d9;border-color: #d9d9d9;}

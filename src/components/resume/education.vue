@@ -14,7 +14,7 @@
       </cell>
     </group>
     <group :label-width="labelWidth">
-      <x-textarea :max="1000" placeholder="项目描述" v-model="education.descript"></x-textarea>
+      <x-textarea :max="1000" placeholder="教育经验描述" v-model="education.descript"></x-textarea>
     </group>
     <div style="padding:15px;">
       <x-button @click.native="save" type="primary" class="weizhaopin_btn">完成</x-button>

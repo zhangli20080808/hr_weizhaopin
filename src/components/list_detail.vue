@@ -82,7 +82,7 @@
         <img :src="tuijianObj.headImg" alt="">
         <h2>{{tuijianObj.nickname}}</h2>
         <div class="header_right">
-          <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0" @click="careQrcode=true;"><span class="vux-1px-r">关注</span></p>
+          <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0" @click="showTuijianDialog=true;"><span class="vux-1px-r">关注</span></p>
           <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==1"><span class="vux-1px-r">已关注</span></p>
           <p @click="recommendedSchedule"> &nbsp;我的</p>
           <h6 v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0&&tag" @click="choseTag"><span>关注公众号获取职位分享动态</span></h6>
@@ -272,12 +272,12 @@
 
     <div v-transfer-dom>
       <x-dialog v-model="showTuijianDialog" class="dialog-demo">
-        <div @click="showTuijianDialog=false" style="text-align:right;padding-right:5px">
-          <span class="vux-close" style="color:#2C2D31;font-weight:600;"></span>
+        <div @click="showTuijianDialog=false" style="text-align:right;padding-right:5px;padding-top:5px;height:32px;">
+          <span class="vux-close" style="color:#2C2D31;font-weight:600;vertical-align:top;"></span>
         </div>
         <div class="img-box">
           <img :src="tuijianObj.companyGzh.qrcodeUrl" style="width:165px" v-if="tuijianObj.haveGzh==1">
-          <p>长按关注</p>
+          <p style="font-size:14px;margin-bottom:20px;color:#888;">长按关注</p>
         </div>
       </x-dialog>
     </div>

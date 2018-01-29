@@ -50,12 +50,12 @@
 
     <div v-transfer-dom>
       <x-dialog v-model="showTuijianDialog" class="dialog-demo">
-        <div @click="showTuijianDialog=false" style="text-align:right;padding-right:5px">
-          <span class="vux-close" style="color:#2C2D31;font-weight:600;"></span>
+        <div @click="showTuijianDialog=false" style="text-align:right;padding-right:5px;padding-top:5px;height:32px;">
+          <span class="vux-close" style="color:#2C2D31;font-weight:600;vertical-align:top;"></span>
         </div>
         <div class="img-box">
           <img :src="tuijianObj.companyGzh.qrcodeUrl" style="width:165px" v-if="tuijianObj.haveGzh==1">
-          <p>长按关注</p>
+          <p style="font-size:.28rem;font-weight:400;color:#888;margin-bottom:20px;">长按关注</p>
         </div>
       </x-dialog>
     </div>
