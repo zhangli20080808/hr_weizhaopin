@@ -72,7 +72,7 @@
         if(self.recomType==2){
           location.href="https://aijuhr.com/wx/dist/#/wx/interpolateList?companyId="+self.companyId+"&shareFansId=0&fansId=0&recomType=2&pageFrom=3&activityId="+self.activityId;
         }else if(self.recomType==1){
-          location.href="https://aijuhr.com/wx/dist/#/wx/interpolateList?companyId="+self.companyId+"&shareFansId=0&fansId=0&recomType=1&pageFrom=1&activityId="+selfactivityId;
+          location.href="https://aijuhr.com/wx/dist/#/wx/interpolateList?companyId="+self.companyId+"&shareFansId=0&fansId=0&recomType=1&pageFrom=1&activityId="+self.activityId;
         }else{
           self.$router.push({path:'/about',query:{companyId:self.companyId}})
         }
