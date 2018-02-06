@@ -424,7 +424,7 @@
           self.$wechat.onMenuShareAppMessage({
             title: self.title,
             desc: self.desc,
-            link: 'https://aijuhr.com/miniRecruit/#/listDetail?companyId=' + self.companyId,//分享链接
+            link: 'https://aijuhr.com/miniRecruit/#/listDetail?companyId=' + self.companyId +"&positionId="+self.positionId,//分享链接
             imgUrl: self.imgUrl,//分享图标
             type: '',
             dataUrl: '',
@@ -440,7 +440,7 @@
           self.$wechat.onMenuShareTimeline({
             title: self.title,
             desc: self.desc,
-            link: 'https://aijuhr.com/miniRecruit/#/listDetail?companyId=' + self.companyId,//分享链接    
+            link: 'https://aijuhr.com/miniRecruit/#/listDetail?companyId=' + self.companyId +"&positionId="+self.positionId,//分享链接
             imgUrl: self.imgUrl,//分享图标
             success: function () {
               //分享成功回调
