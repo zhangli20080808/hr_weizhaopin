@@ -424,19 +424,13 @@
           self.$wechat.onMenuShareAppMessage({
             title: self.title,
             desc: self.desc,
-            link: 'https://aijuhr.com/wx/dist/#/wx/interpolateDetail?companyId=' + self.companyId
-            + "&shareFansId=" + (self.recomType == 1 ? self.shareFansId : self.fansId)
-            + "&positionId=" + self.positionId
-            + "&empId=" + self.empId
-            + "&pageFrom=" + self.pageFrom
-            + "&recomType=" + self.recomType,//分享链接
+            link: 'https://aijuhr.com/miniRecruit/#/listDetail?companyId=' + self.companyId,//分享链接
             imgUrl: self.imgUrl,//分享图标
             type: '',
             dataUrl: '',
             success: function () {
               //分享成功回调
-              self.sharePosition();
-              self.getWeChatOfficialAccountInfo();
+             console.log('分享成功1');
             },
             cancel: function () {
               console.log('用户取消分享后执行的回调函数1');
@@ -446,17 +440,11 @@
           self.$wechat.onMenuShareTimeline({
             title: self.title,
             desc: self.desc,
-            link: 'https://aijuhr.com/wx/dist/#/wx/interpolateDetail?companyId=' + self.companyId
-            + "&shareFansId=" + (self.recomType == 1 ? self.shareFansId : self.fansId)
-            + "&positionId=" + self.positionId
-            + "&empId=" + self.empId
-            + "&pageFrom=" + self.pageFrom
-            + "&recomType=" + self.recomType,//分享链接
+            link: 'https://aijuhr.com/miniRecruit/#/listDetail?companyId=' + self.companyId,//分享链接    
             imgUrl: self.imgUrl,//分享图标
             success: function () {
               //分享成功回调
-              self.sharePosition();
-              self.getWeChatOfficialAccountInfo();
+              console.log('分享成功1');
             },
             cancel: function () {
               console.log('用户取消分享后执行的回调函数2');
