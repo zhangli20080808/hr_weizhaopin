@@ -394,7 +394,7 @@
 
   .teamwork .cards .member-list .member .member-main {
     margin-bottom: 5px;
-    color: #999;
+    color: #353535;
     line-height: 24px;
   }
 
