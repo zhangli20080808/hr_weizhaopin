@@ -172,7 +172,7 @@
               <span class="recommend"></span>
               <span class="text">相关职位推荐</span>
             </h2>
-            <dl class="recommendList vux-1px-tb" v-for="list in positionInfo.similarPositions"
+            <dl class="recommendList vux-1px-t" v-for="list in positionInfo.similarPositions"
                 @click="goDetail(list.id)">
               <dt>
                 <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
@@ -199,7 +199,7 @@
         <div class="footer_icon" @click="goBapp">
           <div class="img_detail"></div>
         </div>          
-        <div style="height:20px;width:100%;background:#fff"></div>
+        <div style="height:20px;width:100%;background:#F8F8FC"></div>
         </div>
       </scroller>
       <div class="share_btn">
@@ -743,7 +743,7 @@
   #interpolateDetail {
 
     @media all and (max-width: 767px) {
-      background-color: #fff;
+      background-color: #F8F8FC;
       .position_detail {
         padding: 12px 15px;
         font-size: 0.26rem;
@@ -904,6 +904,7 @@
       .pos_detail {
         padding: 0 15px;
         clear: both;
+        background:#fff;
         .description {
           font-size: 0.34rem;
           font-weight: 400;
