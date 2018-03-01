@@ -62,7 +62,7 @@
                     </div>
                     <div class="shortName" v-if="companyInfo.companyShortName">({{companyInfo.companyShortName}})</div>
                     <div class="address" v-if="companyInfo.address"><span class="address_icon"></span><span class="text">{{companyInfo.address}}</span></div>
-                    <div class="tel"><span class="tel_icon"></span><span class="text">{{companyInfo.phone}}</span></div>
+                    <div class="tel" v-if="companyInfo.phone" ><span class="tel_icon"></span><span class="text">{{companyInfo.phone}}</span></div>
                   </li>
                   <li class="vertical-list  vertical_company" v-for="(item,index) in branchCompanyList">
                     <div class="name">
