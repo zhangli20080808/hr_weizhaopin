@@ -760,6 +760,23 @@
         }
         .intro_text {
           font-size: 16px
+          ol{
+            margin:0!important
+            li{
+              margin-top:10px
+            }
+          }
+          ul{
+              margin: 0
+              border: 0
+              padding-left:40px
+              font-size: 100%
+              font-weight: normal
+              vertical-align: baseline
+            li{
+              margin-top:10px
+            }
+          }          
           p {
             line-height: 18px
             img {
