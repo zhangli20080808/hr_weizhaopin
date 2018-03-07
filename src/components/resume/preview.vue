@@ -227,6 +227,11 @@ export default {
     },
     sendResume(){
       var self=this;
+       if(localStorage.resumeFrom){
+          self.resume.resumeFrom = localStorage.resumeFrom
+        }else{
+          self.resume.resumeFrom = ''
+        }
       var method="recruitPosition/submitApplicationRecord",
           param=JSON.stringify({
             interviewResumeInfo:self.resume,
@@ -236,6 +241,7 @@ export default {
             activityId:self.activityId
           }),
           successd=function (res) {
+              localStorage.removeItem('resumeFrom')
               self.$router.push({
                 path:'/results',
                 query:{

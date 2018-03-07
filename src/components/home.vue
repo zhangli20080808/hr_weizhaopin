@@ -500,6 +500,9 @@
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
         localStorage.clear()
+        if(localStorage.resumeFrom != "17"){
+          localStorage.resumeFrom = '17'
+        }
       })
     },
     computed: {
