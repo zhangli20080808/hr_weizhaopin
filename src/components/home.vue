@@ -343,7 +343,11 @@
       SelectTo(item) {
         this.categoryId = item.categoryId
         this.categoryName = item.name
-        localStorage.clear()
+        for(var key in localStorage){
+          if(key != "resumeFrom"){
+            localStorage.removeItem(key)
+          }
+        }
         localStorage.setItem('posId', this.categoryId)
         localStorage.setItem('posName', this.categoryName)
 //        this.selectSearch(this.categoryId)
@@ -359,7 +363,11 @@
         })
       },
       toList(){
-        localStorage.clear()
+        for(var key in localStorage){
+          if(key != "resumeFrom"){
+            localStorage.removeItem(key)
+          }
+        }
         this.$router.push({
           path: '/list',
           name: 'List',
