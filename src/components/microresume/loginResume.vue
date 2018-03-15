@@ -199,9 +199,9 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
                   }),
                   successd2=function(res2){
                     if (res2.data.data==1) {
-                      self.$router.push({path:"/results",query:{type:1}});
+                      self.$router.push({path:"/results",query:{type:1,companyId:self.companyId}});
                     } else {
-                      self.$router.push({path:"/results",query:{type:2}});
+                      self.$router.push({path:"/results",query:{type:2,companyId:self.companyId}});
                     }
                   };
               self.$http(method2,param2,successd2);
