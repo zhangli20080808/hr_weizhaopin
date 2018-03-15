@@ -172,7 +172,7 @@
               <span class="recommend"></span>
               <span class="text">相关职位推荐</span>
             </h2>
-            <dl class="recommendList vux-1px-t" v-for="list in positionInfo.similarPositions"
+            <dl class="recommendList vux-1px-tb" v-for="list in positionInfo.similarPositions"
                 @click="goDetail(list.id)">
               <dt>
                 <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
@@ -735,6 +735,7 @@
   .vux-close:before, .vux-close:after {
     height: 2px;
   }
+
 </style>
 
 <style scoped lang="less">
@@ -851,6 +852,7 @@
             font-size: 0.24rem;
             color: #999;
             margin-top: 4px;
+            line-height:1.4;
           }
         }
       }

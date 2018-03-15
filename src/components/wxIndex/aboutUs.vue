@@ -793,6 +793,9 @@
 //        this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
+        if(localStorage.resumeFrom != "19"){    
+          localStorage.resumeFrom = '19'
+        }
       })
     },
     computed: {

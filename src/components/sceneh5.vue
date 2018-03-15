@@ -359,6 +359,9 @@ export default {
     this.getRoute();
     var self = this;
     self.height100=window.innerHeight;
+    if(localStorage.resumeFrom != "20"){
+        localStorage.resumeFrom = '20'
+    }
   },
   created() {
     this.probeType = 3
