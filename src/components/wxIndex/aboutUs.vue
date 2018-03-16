@@ -40,6 +40,21 @@
         </div>
       </div>
     </div>
+
+
+     <scroller height="128"  lock-y :scrollbar-x=false>
+      <div class="box1" ref="box1Width">
+        <div class="productIntroductionList" v-for="item in productIntroductionList">
+          <div>
+            <img :src="item.productImageUrl" alt="">
+            <p>{{ item.productName }}</p>
+          </div>
+
+        </div>
+      </div>
+    </scroller>
+
+
     <!--办公环境-->
     <div class="cards" v-show="preCompanyMemorabilia.length">
       <div class="card-type-1">
@@ -73,9 +88,7 @@
                     <div class="address"><span class="address_icon"></span><span class="text">{{item.address}}</span></div>
                     <div class="tel"><span class="tel_icon"></span><span class="text">{{item.branchPhone}}</span></div>
                   </li>
-
                 </ul>
-
               </div>
             </div>
           </div>
@@ -107,31 +120,14 @@
                                 <div class="gamma-right-height">
                                   <span>{{filterTime(item.date)}}</span>
                                   <div class="gamma-description">
-
                                     {{item.description}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                   </div>
                                   <div class="gamma-text-cover"></div>
                                 </div>
-
                               </div>
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -162,9 +158,6 @@
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
-
-
-
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -269,12 +262,40 @@
   import util from "../../common/js/util.js";
   import {
     XDialog,
+    Scroller,
     TransferDomDirective as TransferDom
   } from 'vux'
   import Axios from 'axios';
   export default {
     data(){
       return {
+         productIntroductionList:[
+            {
+                productName:"爱聚微招聘",
+                productDescription:"招聘用爱聚",
+                productImageId:4252,
+                productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
+            },
+             {
+                productName:"爱聚微招聘",
+                productDescription:"招聘用爱聚",
+                productImageId:4252,
+                productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
+            },
+             {
+                productName:"爱聚微招聘",
+                productDescription:"招聘用爱聚",
+                productImageId:4252,
+                productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
+            },
+             {
+                productName:"爱聚微招聘",
+                productDescription:"招聘用爱聚",
+                productImageId:4252,
+                productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
+            }
+        ],
+        companyIntroduction: '公司描述',
         //预览
         preWorkTeam: [],
         WorkEnvironment: [],
@@ -421,6 +442,9 @@
             _this.preWorkTeam = res.data.data.WorkTeam;
             _this.WorkEnvironment = res.data.data.WorkEnvironment;
             _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
+            // _this.companyIntroduction = res.data.data.companyIntroduction
+            // _this.productIntroductionList = res.data.data.productIntroductionList
+            _this.$refs.box1Width.style.width = 128*productIntroductionList.length + (productIntroductionList.length-1)*18
           }
         }
         _this.$http(method, param, successd);
@@ -795,6 +819,10 @@
         window.scrollTo(0, 0);
       })
     },
+    mounted () {
+      console.log(this.$refs.box1Width)
+      console.log('this.$refs.box1Width')
+    },
     computed: {
       bgStyle() {
         return `background-image:url(${this.preCompanyWebsite.weBannerUrl})`
@@ -805,7 +833,8 @@
       swiperSlide,
       footerNav,
       XDialog,
-      loading
+      loading,
+      Scroller
     },
     directives: {
       TransferDom
@@ -818,6 +847,36 @@
   @import "../../common/stylus/swiper.css";
   @import "../../components/css/main.css";
   @import "../../common/stylus/boder";
+
+
+.box1 {
+  position: relative;
+  width: 1490px;
+}
+.productIntroductionList{
+  width: 122px;
+  height: 128px;
+  background: #fff;
+  display:inline-block;
+  margin-right: 18px;
+  float: left;
+  text-align: center;
+}
+.productIntroductionList img{
+  width: 100%;
+}
+.productIntroductionList p{
+  display: inline-block;
+  margin-top: 14px;
+}
+.box1-item:first-child {
+  margin-left: 0;
+}
+.box2-wrap {
+  height: 300px;
+  overflow: hidden;
+}
+
 
 
   .g-container {
