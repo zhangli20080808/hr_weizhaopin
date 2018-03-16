@@ -343,7 +343,11 @@
       SelectTo(item) {
         this.categoryId = item.categoryId
         this.categoryName = item.name
-        localStorage.clear()
+        for(var key in localStorage){
+          if(key != "resumeFrom"){
+            localStorage.removeItem(key)
+          }
+        }
         localStorage.setItem('posId', this.categoryId)
         localStorage.setItem('posName', this.categoryName)
 //        this.selectSearch(this.categoryId)
@@ -359,7 +363,11 @@
         })
       },
       toList(){
-        localStorage.clear()
+        for(var key in localStorage){
+          if(key != "resumeFrom"){
+            localStorage.removeItem(key)
+          }
+        }
         this.$router.push({
           path: '/list',
           name: 'List',
@@ -500,6 +508,9 @@
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
         localStorage.clear()
+        if(localStorage.resumeFrom != "17"){
+          localStorage.resumeFrom = '17'
+        }
       })
     },
     computed: {
@@ -760,6 +771,23 @@
         }
         .intro_text {
           font-size: 16px
+          ol{
+            margin:0!important
+            li{
+              margin-top:10px
+            }
+          }
+          ul{
+              margin: 0
+              border: 0
+              padding-left:40px
+              font-size: 100%
+              font-weight: normal
+              vertical-align: baseline
+            li{
+              margin-top:10px
+            }
+          }          
           p {
             line-height: 18px
             img {

@@ -532,6 +532,11 @@
         }else{
           self.btnLoading=true;
         }
+        if(localStorage.resumeFrom){
+          self.interviewResumeInfo.resumeFrom = localStorage.resumeFrom
+        }else{
+          self.interviewResumeInfo.resumeFrom = ''
+        }
         var method="recruitPosition/submitApplicationRecord",
             param=JSON.stringify({
               interviewResumeInfo:self.interviewResumeInfo,
@@ -541,6 +546,7 @@
               activityId:self.activityId
             }),
             successd=function (res) {
+                localStorage.removeItem('resumeFrom')
                 self.$router.push({path:'/results',query:{type:res.data.data,companyId:self.companyId,fansId:self.fansId}});
             },
             c=function(res){

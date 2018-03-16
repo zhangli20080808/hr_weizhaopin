@@ -421,7 +421,11 @@
         this.form.address = []
         this.form.kind = ''
         this.item = ''
-        localStorage.clear()
+        for(var key in localStorage){
+          if(key != "resumeFrom"){
+            localStorage.removeItem(key)
+          }
+        }    
         this.positionList()
       },
       getCity(item){
