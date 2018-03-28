@@ -1411,7 +1411,8 @@
 .visits_head{display:flex;justify-content:space-between;font-size:0.34rem;}
 .visits_head div:nth-child(2){font-size:0.26rem;color:#999;}
 .visits_con{display:flex;justify-content:flex-start;margin-top:20px;}
-.visits_con img{width:.88rem;height:.88rem;border-radius:50%;background-color:#5aa2e7;}
+.visits_con img{width:.80rem;height:.80rem;border-radius:50%;background-color:#5aa2e7;margin-left:.2rem;}
+.visits_con img:nth-child(1){margin-left:0;}
 </style>
 
 
