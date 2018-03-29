@@ -970,6 +970,7 @@ p.companyIntroductionTextMore{
 .el-icon-arrow-down, .el-icon-arrow-up{
   float: left;
   cursor: pointer;
+  margin: 0;
 }
 .box1 {
   position: relative;
