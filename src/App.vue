@@ -382,6 +382,12 @@
         border-top: 1px solid #dddfe3
         color: #5c6170
       }
+      .vux-close:after{
+        display :none;
+      }
+      .vux-close:before{
+        display :none;
+      }
 
     }
 

@@ -138,6 +138,18 @@
                 {{address}}  | {{domain}} | {{s_options[status - 1] ? s_options[status - 1].label : ''}} | {{options[dimensions - 1] ? options[dimensions - 1].label : ''}}</p>
             </div>
           </div>
+
+          <!-- 访问 -->
+          <dl class="position_detail_visits" v-if="positionInfo.visitationHistoryHeadImgs&&positionInfo.visitationHistoryHeadImgs.length!=0">
+            <dt class="visits_head">
+              <div>今日访问</div>
+              <div>历史访问{{positionInfo.historyVisit}}人</div>
+            </dt>
+            <dd class="visits_con">
+              <img :src="item" v-for="item in positionInfo.visitationHistoryHeadImgs" :key="item">
+            </dd>
+          </dl>
+
           <!-- 职位描述 -->
           <div class="split"></div>
           <div class="pos_detail">
@@ -306,7 +318,9 @@
           views: 0,
           workCity: "",
           workCitySpilt: "",
-          isStore: true
+          isStore: true,
+          visitationHistoryHeadImgs:[],
+          historyVisit:0
         },
         //分享的参数
         companyHeadImg: null,
@@ -1392,5 +1406,14 @@
     }
 
 </style>
+<style scoped>
+.position_detail_visits{padding:15px;background-color:#fff;margin-top:20px;}
+.visits_head{display:flex;justify-content:space-between;font-size:0.34rem;}
+.visits_head div:nth-child(2){font-size:0.26rem;color:#999;}
+.visits_con{display:flex;justify-content:flex-start;margin-top:20px;}
+.visits_con img{width:.80rem;height:.80rem;border-radius:50%;background-color:#5aa2e7;margin-left:.2rem;}
+.visits_con img:nth-child(1){margin-left:0;}
+</style>
+
 
 
