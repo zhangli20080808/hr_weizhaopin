@@ -143,7 +143,7 @@
           <dl class="position_detail_visits" v-if="positionInfo.visitationHistoryHeadImgs&&positionInfo.visitationHistoryHeadImgs.length!=0">
             <dt class="visits_head">
               <div>今日访问</div>
-              <div>历史访问{{positionInfo.historyVisit}}人</div>
+              <div>历史访问<span style="color:#46BE8A;">{{positionInfo.historyVisit}}</span>人</div>
             </dt>
             <dd class="visits_con">
               <img :src="item" v-for="item in positionInfo.visitationHistoryHeadImgs" :key="item">
