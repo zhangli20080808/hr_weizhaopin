@@ -329,30 +329,30 @@ import index from 'vue';
     data(){
       return {
          productIntroductionList:[
-            {
-                productName:"爱聚微招聘",
-                productDescription:"招聘用爱聚",
-                productImageId:4252,
-                productImageUrl:"https://diycode.b0.upaiyun.com/photo/2017/fc7727985fd40e43f6b5bd6192dc23b7.jpeg",
-            },
-             {
-                productName:"爱聚微招聘",
-                productDescription:"招聘用爱聚",
-                productImageId:4252,
-                productImageUrl:"https://diycode.b0.upaiyun.com/photo/2017/fc7727985fd40e43f6b5bd6192dc23b7.jpeg",
-            },
-             {
-                productName:"爱聚微招聘",
-                productDescription:"招聘用爱聚",
-                productImageId:4252,
-                productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
-            },
-             {
-                productName:"爱聚微招聘",
-                productDescription:"招聘用爱聚",
-                productImageId:4252,
-                productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
-            }
+            // {
+            //     productName:"爱聚微招聘",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://diycode.b0.upaiyun.com/photo/2017/fc7727985fd40e43f6b5bd6192dc23b7.jpeg",
+            // },
+            //  {
+            //     productName:"爱聚微招聘",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://diycode.b0.upaiyun.com/photo/2017/fc7727985fd40e43f6b5bd6192dc23b7.jpeg",
+            // },
+            //  {
+            //     productName:"爱聚微招聘",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
+            // },
+            //  {
+            //     productName:"爱聚微招聘",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
+            // }
         ],
         companyIntroduction: '',
         companyIntroductionTextShow: false,
