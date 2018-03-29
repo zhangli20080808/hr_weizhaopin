@@ -47,7 +47,7 @@
 
     <!--办公环境-->
     <div class="cards" v-show="preCompanyMemorabilia.length">
-      <div class="card-type-1">
+      <div class="card-type-1" v-show="companyIntroduction">
         <div class="g-card">
           <div class="template-card">
             <div class="template-complex">
@@ -71,7 +71,7 @@
           </div>
         </div>
       </div>
-       <div class="card-type-2" v-show="WorkEnvironment.length">
+       <div class="card-type-2" v-show="productIntroductionList.length && productIntroductionList[0]['productName'] !=null">
         <div class="g-card">
           <div class="template-card">
             <div class="template-complex">
@@ -133,11 +133,12 @@
                   <div class="gamma-type-0">
                     <div style="overflow: hidden; display: block; position: relative;">
                       <div class="slide">
-                        <div class="list-item" v-for="item in preCompanyMemorabilia">
+                        <div class="list-item" :class="{'active': preCompanyMemorabiliaImg}" v-for="(item, index) in preCompanyMemorabilia">
                           <div class="inner">
                             <div class="g-flex">
                               <div class="gamma-left">
-                                <img class="link-image" :src="item.imageUrl">
+                                <img v-show="!preCompanyMemorabiliaImg" class="link-image" :src="item.imageUrl">
+                                <span v-show="preCompanyMemorabiliaImg"  :class="{'active': index ==0 }" class="preCompanyMemorabiliaNum"></span>
                               </div>
                               <div class="g-column gamma-right">
                                 <div class="gamma-right-height">
@@ -360,7 +361,41 @@ import index from 'vue';
         preWorkTeam: [],
         WorkEnvironment: [],
         preCompanyWebsite: [],
-        preCompanyMemorabilia: [],
+        preCompanyMemorabilia: [
+//           {
+//           description:"国sg",
+//           id:1402,
+//           imageId:13510,
+//           imageUrl:"",
+//           // imageUrl:"http://oyeq6oxdm.bkt.clouddn.com/Upload1512048807341.png",
+          
+//           isActivity:0,
+//           date
+// :
+// "2016z发展历程3"
+//         },
+//         {
+//           description:"国sg",
+//           id:1402,
+//           imageId:13510,
+//           imageUrl:"http://oyeq6oxdm.bkt.clouddn.com/Upload1512048807341.png",
+          
+//           isActivity:0,
+//           date
+// :
+// "2016z发展历程3"
+//         },
+//         {
+//           description:"国sg",
+//           id:1402,
+//           imageId:13510,
+//           imageUrl:"http://oyeq6oxdm.bkt.clouddn.com/Upload1512048807341.png",
+//           isActivity:0,
+//           date
+// :
+// "2016z发展历程3"
+//         }
+        ],
         swiperOption: {//以下配置不懂的，可以去swiper官网看api，链接http://www.swiper.com.cn/api/
           // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，<br>　　　　　　　　假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
           notNextTick: true,
@@ -505,9 +540,9 @@ import index from 'vue';
             _this.preCompanyWebsite = res.data.data.CompanyWebsite;
             _this.preWorkTeam = res.data.data.WorkTeam;
             _this.WorkEnvironment = res.data.data.WorkEnvironment;
-            _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
+            // _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
             _this.companyIntroduction = res.data.data.CompanyWebsite.companyIntroduction
-            // _this.productIntroductionList = res.data.data.CompanyWebsite.productIntroductionList
+            _this.productIntroductionList = res.data.data.CompanyWebsite.productIntroductionList
           }
         }
         _this.$http(method, param, successd);
@@ -884,7 +919,7 @@ import index from 'vue';
         this.getMainCompanyInfo();
         this.getBranchCompanyInfo();
         if(!this.fansId){
-          this.userAuthUrl();
+          // this.userAuthUrl();
         }else{
           this.getUserInfo();
         }
@@ -906,8 +941,15 @@ import index from 'vue';
         }else if(this.productIntroductionList.length && this.productIntroductionList.length>1){
          return this.productIntroductionList.length * 140 + 'px'
         }
+      },
+      preCompanyMemorabiliaImg(){
+        var bol = this.preCompanyMemorabilia.some(function(item){
+          console.log(item.imageUrl)
+            return item.imageUrl == '' || item.imageUrl == null
+        })
+        console.log(bol)
+        return bol
       }
-      
     },
     components: {
       swiper,
@@ -929,6 +971,18 @@ import index from 'vue';
   @import "../../components/css/main.css";
   @import "../../common/stylus/boder";
 
+.preCompanyMemorabiliaNum{
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  background: #D8D8D8;
+  position: absolute;
+  left: -8px;
+}
+.preCompanyMemorabiliaNum.active{
+  background: #FF9E2F;
+}
 p.companyIntroductionTextMore{
   max-height: none;
 }
@@ -1309,7 +1363,7 @@ p.companyIntroductionTextMore{
     vertical-align: middle;
     width: 17px;
     height: 17px;
-    background: url(../../common/image/env_img.png) no-repeat center;
+    background: url(../../common/image/environment.png) no-repeat center;
     background-size: cover;
   }
 
@@ -1433,11 +1487,20 @@ p.companyIntroductionTextMore{
     animation-duration: .5s;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    padding-left: 10px;
   }
 
-  .g-container .cards .vertical-list .gamma-type-0 .slide .list-item {
-    margin-bottom: 0.6rem;
+  .g-container .cards .vertical-list .gamma-type-0 .slide .list-item.active {
+    border-left: 1px solid #D8D8D8;
+    
   }
+  .g-container .cards .vertical-list .gamma-type-0 .slide .list-item {
+    padding-bottom: 0.6rem;
+  }
+  
+   .g-container .cards .vertical-list .gamma-type-0 .slide .list-item:nth-last-child(1){
+     border: none;
+   }
 
   .g-container .cards .vertical-list .gamma-type-0 .slide .list-item .inner {
     font-size: 14px
