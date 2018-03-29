@@ -25,6 +25,43 @@
 
 
 
+    <!--办公环境-->
+    <div class="cards" v-show="preCompanyMemorabilia.length">
+      <div class="card-type-1">
+        <div class="g-card">
+          <div class="template-card">
+            <div class="template-complex">
+              <div class="gm-card-offset">
+                <div class="gm-card-header online_pos">
+                  <h2 class="gm-card-title">
+                    <span class="pos_ware1"></span>
+                    <span class="text">公司介绍</span>
+                  </h2>
+                </div>
+                <!--slide-->
+                <p class="companyIntroductionText" :class="[{companyIntroductionTextMore: companyIntroductionTextShow}]">{{ companyIntroduction }}</p>
+               <!-- <p class="companyIntroductionText" v-show="!companyIntroductionText">{{ companyIntroduction }}</p>
+               <p class="companyIntroductionTextMore" v-show="companyIntroductionText">{{ companyIntroduction }}</p> -->
+               <div class="arrowBtnWrap">
+                  <el-button v-show="companyIntroduction && companyIntroduction.length>50 && !companyIntroductionTextShow" type="text" class="el-icon-arrow-down" @click="companyIntroductionTextShow=true"></el-button>
+                  <el-button v-show="companyIntroduction && companyIntroduction.length>50 && companyIntroductionTextShow" type="text" class="el-icon-arrow-up" @click="companyIntroductionTextShow=false"></el-button>
+               </div>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+       <div class="card-type-2 productIntroduct" v-show="WorkEnvironment.length">
+        <div class="g-card">
+          <div class="template-card">
+            <div class="template-complex">
+              <div class="gm-card-offset">
+                <div class="gm-card-header">
+                  <h2 class="gm-card-title">
+                    <span class="env_img"></span>
+                    <span class="text">产品介绍</span>
+                  </h2>
+                </div>
 
                   </div>
                 </div>
@@ -257,6 +294,34 @@
   export default {
     data(){
       return {
+         productIntroductionList:[
+            // {
+            //     productName:"爱聚微招聘爱聚微招聘1",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://diycode.b0.upaiyun.com/photo/2017/fc7727985fd40e43f6b5bd6192dc23b7.jpeg",
+            // },
+            //  {
+            //     productName:"爱聚微招爱聚微招聘聘2",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://diycode.b0.upaiyun.com/photo/2017/fc7727985fd40e43f6b5bd6192dc23b7.jpeg",
+            // },
+            //  {
+            //     productName:"爱聚微招爱聚微招聘聘3",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
+            // },
+            //  {
+            //     productName:"爱爱聚微招聘聚微招聘4",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
+            // }
+        ],
+        companyIntroduction: '',
+        companyIntroductionTextShow: false,
         //预览
         preWorkTeam: [],
         WorkEnvironment: [],
@@ -381,6 +446,8 @@
             _this.preWorkTeam = res.data.data.WorkTeam;
             _this.WorkEnvironment = res.data.data.WorkEnvironment;
             _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
+            _this.companyIntroduction = res.data.data.CompanyWebsite.companyIntroduction
+            _this.productIntroductionList = res.data.data.CompanyWebsite.productIntroductionList
           }
         }
         _this.$http(method, param, successd);
@@ -624,6 +691,10 @@
         this.getSignature()
       }
     },
+    mounted () {
+        window.scrollTo(0, 1);
+        window.scrollTo(0, 0);
+    },
     created(){
       this.$nextTick(() => {
         this.getCode();
@@ -635,6 +706,10 @@
 //        this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
+      
+        if(localStorage.resumeFrom != "19"){    
+          localStorage.resumeFrom = '19'
+        }
       })
     },
     computed: {
@@ -658,11 +733,101 @@
 </script>
 <style lang="less">
   @import '~vux/src/styles/1px.less';
+.productIntroduct .xs-container{
+  padding-bottom: 0;
+}
+</style>
+
 
 </style>
 <style scoped>
   @import "../../common/stylus/swiper.css";
   @import "../../components/css/main.css";
+  @import "../../common/stylus/boder";
+
+
+p.companyIntroductionTextMore{
+  max-height: none;
+}
+.companyIntroductionText{
+  color: #666;
+  font-size: 13px;
+  text-indent: 20px;
+  padding: 20px 0 10px 10px;
+  line-height: 20px;
+  overflow: hidden;
+  transition: all 5s;
+  max-height: 1.8rem;
+  transition: all 5s;
+}
+.arrowBtnWrap{
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.el-icon-arrow-down, .el-icon-arrow-up{
+  float: left;
+  cursor: pointer;
+}
+.box1 {
+  position: relative;
+  width: 1490px;
+  padding-bottom: 20px;
+  overflow: hidden;
+}
+.midBodde{
+  border-top: 1px solid #eee;
+  // margin: 0.2rem 0 0;
+  width: 100%;
+}
+.moreThan .productIntroductionList{
+    width: 122px;
+    height: 128px;
+    margin-right: 9px;
+    margin-left: 9px;
+    float: left;
+}
+
+.productIntroductionList{
+  width: 100%;
+  background: #fff;
+  display:inline-block;
+  text-align: center;
+  overflow: hidden;
+  background:rgba(255,255,255,1);
+  box-shadow: 0px 2px 15px 0px rgba(221,227,235,1) ;
+  border-radius: 8px ; 
+}
+.productIntroductionList img{
+  width: 100%;
+  height: 3.3rem;
+}
+.moreThan .productIntroductionList img{
+  width: 100%;
+  max-height: 1.5rem;
+  border-radius: 0.03rem;
+  padding: .15rem;
+  font-size: 14px;
+  height: 1.5rem;
+}
+  // height: 81px;
+
+.productIntroductionList p{
+  display: inline-block;
+  margin-top: 14px;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+.box1-item:first-child {
+  margin-left: 0;
+}
+.box2-wrap {
+  height: 300px;
+  overflow: hidden;
+}
+
+
 
   .g-container {
     position: relative;
@@ -807,7 +972,7 @@
     margin-top: 0;
     width: 100%;
   }
-
+ 
   .g-container .company-profile .g-card .banner {
     overflow: hidden;
     background-color: #f1f5f8;
