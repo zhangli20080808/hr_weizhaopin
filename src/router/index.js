@@ -62,6 +62,9 @@ import authentification from 'components/personal/authentification';
 import authentification_gzh from 'components/personal/authentification_gzh';
 import authentificationResult from 'components/personal/authentificationResult';
 
+//创建简历
+import createResume from "components/microresume/createResume"
+
 
 Vue.use(Router)
 
@@ -292,6 +295,11 @@ export default new Router({
           component:pcResume
         }
       ]
+    },
+    {
+      path:'/createResume',
+      name:'createResume',
+      component:createResume,
     }
   ]
 })

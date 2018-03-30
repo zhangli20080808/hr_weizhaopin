@@ -24,3 +24,4 @@
 
 #app .vux-1px-l:after,#app .vux-1px-r:after,#app .vux-1px-t:after,#app .vux-1px-b:after,#app .vux-1px-tb:after,#app .vux-1px:after{color:#d9d9d9;border-color: #d9d9d9;}
 #app .vux-1px-l:before,#app .vux-1px-r:before,#app .vux-1px-t:before,#app .vux-1px-b:before,#app .vux-1px-tb:before,#app .vux-1px:before{color:#d9d9d9;border-color: #d9d9d9;}
+#app .weui-btn_primary{background: #5aa2e7;}
