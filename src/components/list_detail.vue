@@ -116,7 +116,8 @@
             <dd class="position_detail_money" v-show="positionInfo.workCitySpilt">
               <span>{{positionInfo.workCitySpilt}}</span>
               <span>{{positionInfo.positionType == 1 ? '全职' : positionInfo.positionType == 2 ? '兼职' : '实习'}}</span>
-              <span>{{positionInfo.positionSalaryLowest}}K-{{positionInfo.positionSalaryHighest}}K</span>
+              <span v-if="positionInfo.showSalaryType==1">{{positionInfo.positionSalaryLowest}}K-{{positionInfo.positionSalaryHighest}}K</span>
+              <span v-if="positionInfo.showSalaryType==2">{{positionInfo.positionSalaryLowest}}-{{positionInfo.positionSalaryHighest}}</span>
               <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
