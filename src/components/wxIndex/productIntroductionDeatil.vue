@@ -1,7 +1,7 @@
 <template>
   <div id="productIntroductionDeatil">
       <tab :line-width="1" custom-bar-width="60px" active-color="#5AA2E7" bar-active-color="#5AA2E7">
-        <tab-item v-for="item in productIntroductionList" @on-item-click="handler" :key="item.productImageId ">{{item.productName }}</tab-item>
+        <tab-item v-for="(item,index) in productIntroductionList" :selected="index == Itemindex" @on-item-click="handler" :key="item.productImageId ">{{item.productName }}</tab-item>
         </tab>
       <!-- <h3>{{productIntroductionNow.productName}}</h3> -->
       <div class="hr"></div>
@@ -20,28 +20,21 @@ import { Tab, TabItem, Sticky, Divider, XButton, Swiper, SwiperItem } from 'vux'
 export default {
   data(){
       return{
-        productIntroductionList: this.$route.query.productIntroductionList,
-        // productIntroductionNow: '',
+        productIntroductionList: JSON.parse(this.$route.query.productIntroductionList),
         productImageUrl: '',
         productName: '',
         productDescription: '',
-        index: this.$route.query.index,
+        Itemindex: this.$route.query.index || localStorage.getItem('Itemindex'),
       }
-  },
-  mounted () {
-      console.log(this.$route.query)
-      
-      console.log(this.productIntroductionList)
-      console.log('productIntroductionList')
   },
   computed: {
       productIntroductionNow(){
-          return this.productIntroductionList[this.index];
+          return this.productIntroductionList[this.Itemindex];
       }
   },
   methods: {
       handler(e){
-          this.index = e;
+          this.Itemindex = e;
       }
   },
    components: {
@@ -78,7 +71,7 @@ img{
 }
 .title{
     background-color: #fff;
-    height:24px; 
+    height:24px;
     font-size:17px;
     font-family:PingFangSC-Regular;
     color:rgba(0,0,0,1);

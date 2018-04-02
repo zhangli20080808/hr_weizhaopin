@@ -42,7 +42,7 @@
     </div>
 
 
-      
+
 
 
     <!--办公环境-->
@@ -94,7 +94,7 @@
                   </div>
                 </div>
               </scroller>
-   
+
                 <!-- <div class="slides" style="height: 239px">
                   <swiper :options="swiperOption2" ref="mySwiper" style="background:#fff;">
                     <swiper-slide style="cursor: pointer;" v-for="(item,index) in productIntroductionList" :key="item.productName">
@@ -466,7 +466,7 @@ import index from 'vue';
       },
       goBapp(){
         location.href = 'https://aijuhr.com/mhr/index.html';
-      },      
+      },
       filterTime(item){
         if (item) {
           return item.substr(0, 10)
@@ -530,7 +530,7 @@ import index from 'vue';
           path: '/productIntroductionDeatil',
           query: {
             index: index,
-            productIntroductionList: list
+            productIntroductionList:JSON.stringify(list)
           }
         })
       },
@@ -892,7 +892,7 @@ import index from 'vue';
 //        this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
-        if(localStorage.resumeFrom != "19"){    
+        if(localStorage.resumeFrom != "19"){
           localStorage.resumeFrom = '19'
         }
       })
@@ -995,11 +995,11 @@ p.companyIntroductionTextMore{
   overflow: hidden;
   background:rgba(255,255,255,1);
   box-shadow: 0px 2px 15px 0px rgba(221,227,235,1) ;
-  border-radius: 8px ; 
+  border-radius: 8px ;
 }
 .productIntroductionList img{
   width: 100%;
-  max-height: 3.3rem;
+  height: 3.3rem;
 }
 .moreThan .productIntroductionList img{
   width: 100%;
@@ -1457,12 +1457,12 @@ p.companyIntroductionTextMore{
 
   .g-container .cards .vertical-list .gamma-type-0 .slide .list-item.active {
     border-left: 1px solid #D8D8D8;
-    
+
   }
   .g-container .cards .vertical-list .gamma-type-0 .slide .list-item {
     padding-bottom: 0.6rem;
   }
-  
+
    .g-container .cards .vertical-list .gamma-type-0 .slide .list-item:nth-last-child(1){
      border: none;
    }
