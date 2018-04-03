@@ -108,6 +108,7 @@ export default {
       var method = "account/aijuAssistantAutoLogin";
       var param = {
         redirectUri: 'https://aijuhr.com/miniRecruit/#/candidate',
+        // redirectUri:'http://localhost:8088/#/candidate',
         code:_this.code
       };
       var successd = function (response) {

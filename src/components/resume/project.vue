@@ -84,7 +84,12 @@ export default {
         self.$vux.toast.text('请选择结束时间');
         return false
       }
-      self.project.untilNow=self.untilNow?1:0;
+      if(self.untilNow){
+          self.project.untilNow = 1
+          self.project.endDateStr = ""
+      }else{
+          self.project.untilNow = 0
+      }
       var method="resume/updateResumeInfo",
           param=JSON.stringify({
             fansId:self.fansId,
