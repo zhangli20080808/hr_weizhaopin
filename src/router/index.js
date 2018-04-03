@@ -23,6 +23,9 @@ import loginResume from 'components/microresume/loginResume.vue'
 //微信
 import positionList from 'components/position/positionList';
 import aboutUs from 'components/wxIndex/aboutUs';
+import developmentHistoryPage from 'components/wxIndex/developmentHistoryPage';
+
+
 import productIntroductionDeatil from 'components/wxIndex/productIntroductionDeatil';
 import teamwork from 'components/wxIndex/teamwork';
 import onlinePosition from 'components/wxIndex/onlinePosition';
@@ -128,6 +131,11 @@ export default new Router({
       path: '/about',
       name: 'about',
       component: aboutUs
+    },
+    {
+      path: '/developmentHistoryPage',
+      name: 'developmentHistoryPage',
+      component: developmentHistoryPage
     },
     {
       path: '/productIntroductionDeatil',
