@@ -126,10 +126,14 @@
                   <h2 class="gm-card-title">
                     <span class="pos_ware"></span>
                     <span class="text">发展历程</span>
+                    <div class="allR" v-if="preCompanyMemorabilia && preCompanyMemorabilia.length>4">
+                      <span class="info" @click="CompanyMemorabiliaDeatil">查看更多信息</span>
+                      <span class="icon"></span>
+                    </div>
                   </h2>
                 </div>
                 <!--slide-->
-                <div class="vertical-list">
+                <!-- <div class="vertical-list">
                   <div class="gamma-type-0">
                     <div style="overflow: hidden; display: block; position: relative;">
                       <div class="slide">
@@ -155,7 +159,8 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
+                <development-history :max-lenth="4" :historyList="preCompanyMemorabilia"/>
               </div>
             </div>
           </div>
@@ -319,6 +324,7 @@
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import footerNav from '../../components/base/foot'
   import util from "../../common/js/util.js";
+  import developmentHistory from './developmentHistory.vue'
   import {
     XDialog,
     Scroller,
@@ -460,6 +466,15 @@ import index from 'vue';
       }
     },
     methods: {
+      CompanyMemorabiliaDeatil(){
+      this.$router.push({
+          name: 'developmentHistoryPage',
+          path: '/developmentHistoryPage',
+          query: {
+            preCompanyMemorabilia: JSON.stringify(this.preCompanyMemorabilia)
+          }
+        })
+      },
       app(index){
         // console.log(index);
 //         this.doShowToast()
@@ -877,6 +892,7 @@ import index from 'vue';
       }
     },
     created(){
+      document.title="关于我们"
       this.$nextTick(() => {
         this.getCode();
         // this.getCodeUrl();
@@ -884,7 +900,7 @@ import index from 'vue';
         this.getShareTitleInfo();
         this.getMainCompanyInfo();
         this.getBranchCompanyInfo();
-        if(!this.fansId){
+        if(!this.fansId && location.href.indexOf('localhost')== '-1'){
           this.userAuthUrl();
         }else{
           this.getUserInfo();
@@ -923,7 +939,8 @@ import index from 'vue';
       footerNav,
       XDialog,
       loading,
-      Scroller
+      Scroller,
+      developmentHistory
     },
     directives: {
       TransferDom
@@ -1285,19 +1302,18 @@ p.companyIntroductionTextMore{
     .borderBottom(1px,#e5e5e5);
   }
 
-  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR {
+ .allR {
     font-size: 0.26rem;
     color: #9a9fac;
     display: inline-block;
     float: right;
   }
 
-  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .info {
+  .allR .info {
     display: inline-block;
     vertical-align: middle;
   }
-
-  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .icon {
+.allR .icon {
     display: inline-block;
     background: url(../../common/image/Backicon.png) no-repeat center;
     width: 10px;
