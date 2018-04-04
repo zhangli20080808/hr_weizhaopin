@@ -412,9 +412,6 @@ import index from 'vue';
           desc: '',
           lists: [],
           showTuijianDialog:false,
-          onClick: function(swiper){
-      alert('你点了Swiper');
-    }
         },
         companyId: (() => {
           let queryParam = this.urlParse();
