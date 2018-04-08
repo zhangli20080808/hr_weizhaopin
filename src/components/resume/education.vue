@@ -104,6 +104,12 @@ export default {
         return false
       }
       self.education.educationLev=self.educationLev[0]-0;
+      if(self.isReading){
+         self.education.isReading = 1
+         self.education.endDateStr = ''
+      }else{
+         self.education.isReading = 0
+      }
       var method="resume/updateResumeInfo",
           param=JSON.stringify({
             fansId:self.fansId,

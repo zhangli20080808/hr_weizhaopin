@@ -57,7 +57,8 @@
         <dd class="work_list" v-for="item in resume.projectList" :key="item.id">
           <div class="work_list_right">
             <h3>{{item.projectName}}</h3>
-            <p>{{item.startDateStr+"至" +item.endDateStr}}</p>
+            <p v-if="item.untilNow">{{item.startDateStr+"至今"}}</p>
+            <p v-else>{{item.startDateStr+"至" +item.endDateStr}}</p>
           </div>
           <div class="work_list_edit" @click="project(item.id)"></div>
         </dd>
