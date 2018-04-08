@@ -294,6 +294,10 @@
         .position_name {
           display: inline-block;
           vertical-align: middle;
+          width:calc(100% - 50px);
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
         .position_detail_right {
           float: right;

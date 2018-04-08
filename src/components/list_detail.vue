@@ -771,7 +771,7 @@
         }
         dt {
           line-height: 0.4rem;
-          height: 0.4rem;
+          // height: 0.4rem;
           margin-bottom: 10px;
           font-size: 0.34rem;
           color: #222;
@@ -779,10 +779,14 @@
             display: inline-block;
             vertical-align: middle;
             line-height: 24px;
+            position: absolute;
           }
           .position_name {
             display: inline-block;
             vertical-align: middle;
+            // text-indent:40px;
+            line-height:24px;
+            padding-left:40px;
           }
           .position_detail_right {
             float: right;
