@@ -1,67 +1,49 @@
 <template>
   <div id="h5">
-       <canvas ref="canvas" id="canvas" width="100%" height="auto">  
-            <p>Your browser does not support the canvas element</p>  
-        </canvas> 
+       <canvas ref="canvas" id="canvas" width="100%" height="auto">
+            <p>Your browser does not support the canvas element</p>
+        </canvas>
       <div class="wrap">
         <!-- <img class="nextPage" @click="nextPageGo()" src="../components/images/nextButton.png" alt=""> -->
         <!-- <Swiper "id="swiper :interval="2000" :height="height100"  direction="vertical" :show-dots="false" v-model="swiper_index" @on-index-change="swiper_onIndexChange"> -->
         <swiper id="swiper" :options="swiperOption" :height="100" ref="mySwiper">
-            <swiper-slide class="swiper-no-swiping">
+            <swiper-slide >
                 <div class="theme">{{ h5.theme }}</div>
                 <img class="title" src="../components/images/bgh5.1_01.png" alt="">
                 <img class="title1" src="../components/images/bgh5.1_03.png" alt="">
                 <img class="ship" src="../components/images/ship.png" alt="">
                 <img class="bird" src="../components/images/go.png"  alt="">
             </swiper-slide>
-             <swiper-slide class="swiper-no-swiping">
-                 <div class="companyIntro">
+             <swiper-slide  :class="{'swiper-no-swiping': mask}">
+               <!-- <div class="companyIntroMask">
+                 <div class="content">
+                      <div v-html="h5.companyDescription"></div>
+                      <img v-show="h5.companyImageUrl" :src="h5.companyImageUrl" class="introImg">
+                  </div>　
+               </div> -->
+                 <div class="companyIntro" :class="{mask: mask}">
                     <img src="../components/images/intro.png" class="intro" alt="公司简介">
                         <div class="content">
-                            <div v-html="h5.companyDescription"></div>
+                            <el-button type="success" class="companyIntroMore" @click="mask = !mask">{{btnMore}}</el-button>
+                            <!-- <div class="close" @click="maskClose">×</div> -->
+                            <div style="overflow-y: hidden" v-html="h5.companyDescription"></div>
                             <img v-show="h5.companyImageUrl" :src="h5.companyImageUrl" class="introImg">
                         </div>　
-                </div>
+                  </div>
              </swiper-slide>
-              <swiper-slide class="swiper-no-swiping">
+              <swiper-slide  v-for="(arr, index) in h5.recruitingPositionList" :key="index">
                  <div class="companyIntro">
                     <img src="../components/images/position.png" class="intro" alt="在招职位">
                     <div class="content">
-                        <!-- <scroll @scroll="scroll" :data ="h5.recruitingPositionList"
-                            :listen-scroll="listenScroll" :probe-type="probeType" class="list" ref="list">
-                          <ul>
-                            <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
-                                <div class="positionName">{{item.positionName}}</div>
-                                <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
-                                <img  class="details" src="../components/images/details.png" alt="详情">
-                            </li>
-                            </ul>
-                        </scroll> -->
                         <scroller lock-x :scrollbar-x="false" :scrollbar-y="false" height="440px">
                              <ul>
-                                <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
+                                <li v-for="(item,index) in arr" :key="index" @click="toDetial(item)">
                                     <div class="positionName">{{item.positionName}}</div>
                                     <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
                                     <img  class="details" src="../components/images/details.png" alt="详情">
                                 </li>
                              </ul>
                         </scroller>
-                        <!-- <div>
-                            <scroller>
-                                <div>
-                                    <ul>
-                                        <li v-for="item in h5.recruitingPositionList" :key="item.categoryId" @click="toDetial(item)">
-                                            <div class="positionName">{{item.positionName}}</div>
-                                            <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
-                                            <img  class="details" src="../components/images/details.png" alt="详情">
-                                        </li>
-                                    </ul>
-                                </div>
-                              
-                                
-                            </scroller>
-                        </div> -->
-                        
                     </div>　
                 </div>
              </swiper-slide>
@@ -100,7 +82,7 @@
                     </div>
                 </div>
              </swiper-item> -->
-             <swiper-slide class="swiper-no-swiping">
+             <swiper-slide  >
                  <div class="companyDetial">
                     <img src="../components/images/1.png" class="topLeft" alt="公司简介">
                     <div class="content">
@@ -162,6 +144,7 @@ export default {
   data() {
     document.title = "团队";
     return {
+        mask: false,
         swiper_index: 0,
         imgSrc: imgSrc2,
         height100:0,
@@ -180,22 +163,26 @@ export default {
             companyDescription: '',
             companyImageUrl: '',
             companyImageId: '',
-            activityPhone: ''
+            activityPhone: '',
+            pageTitle: ''
         },
         title: '',
         desc:'',
         link: '',
         imgUrl: '',
-         swiperOption: {//以下配置不懂的，可以去swiper官网看api，链接http://www.swiper.com.cn/api/
-          // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，<br>　　　　　　　　假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
-        //   notNextTick: true,
-          // swiper configs 所有的配置同swiper官方api配置
+         swiperOption: {
           direction : 'vertical',
-          preventLinksPropagation : false,//拖动Swiper时阻止click事件。
-        }
+          preventLinksPropagation : true,
+          onSlideChangeEnd: (swiper=>{
+              this.swiper_onIndexChange(this.swiper.activeIndex)
+          })
+         }
     };
   },
   methods: {
+    maskClose(){
+      this.mask = false;
+    },
     toDetial(item){
         clearInterval(this.timer)
         this.$router.push({
@@ -232,7 +219,7 @@ export default {
         }
     },
     init() {
-        this.$nextTick(() => {  
+        this.$nextTick(() => {
             this.resize_canvas();
             canvas = document.getElementById("canvas");
             canvasBuffer = document.createElement("canvas");
@@ -269,12 +256,9 @@ export default {
         contextBuffer.drawImage(image,left,0,WIDTH,HEIGHT,dx,dy,WIDTH,HEIGHT);
       }
     },
-    scroll(pos) {
-        console.log(pos)
-      this.scrollY = pos.y
-    },
     nextPageGo(){
-        if(this.swiper.activeIndex < 3){
+      var pages = Math.ceil(this.h5.recruitingPositionList.length/6)
+        if(this.swiper.activeIndex < 3+pages){
             this.swiper.slideTo(this.swiper.activeIndex+1, 1000, false)
             this.swiper_onIndexChange(this.swiper.activeIndex)
         }else{
@@ -305,15 +289,23 @@ export default {
             self.h5.companyDescription = recruitActivity.companyDescription;
             self.h5.companyImageUrl = recruitActivity.companyImageUrl;
             self.h5.activityPhone = recruitActivity.activityPhone;
+            document.title = recruitActivity.pageTitle;
             self.getSignature();
+            self.h5.recruitingPositionList = self.split_array(self.h5.recruitingPositionList, 6)
           };
-      self.$http(method,param,successd);
-    },
+        self.$http(method,param,successd);
+      },
+      split_array(arr, len){
+        var a_len = arr.length;
+        var result = [];
+        for(var i=0;i<a_len;i+=len){
+            result.push(arr.slice(i,i+len));
+        }
+      return result;
+      },
       getSignature(){
       var self=this;
         self.$wechat.ready(function(res){
-            console.log(self.h5.titleDescription )
-            console.log('self.h5.titleDescription ')
           //分享给朋友
           self.$wechat.onMenuShareAppMessage({
             title:self.h5.theme,
@@ -352,7 +344,10 @@ export default {
   computed: {
       swiper() {
         return this.$refs.mySwiper.swiper
-      }  
+      },
+      btnMore() {
+        return this.mask? '返回' : '查看更多'
+      }
   },
   mounted() {
     this.init();
@@ -370,15 +365,15 @@ export default {
   components: {
     loading, swiper, swiperSlide, Scroller,
   },
-  filters: {  
-    workCityFilter: function (value) {  
+  filters: {
+    workCityFilter: function (value) {
       return value.split(',')[1] || value.split(',')[0];
-    },  
+    },
     positionTypeFilter: (value)=> {
       var arr = [,'全职', '兼职', '实习']
       return arr[value]
     }
-  } 
+  }
 };
 </script>
 <style>
@@ -437,6 +432,12 @@ html, body, #app, #h5, .wrap {
         100% {
                 transform: translateY(0);
         }
+}
+.companyIntroMore{
+    position: absolute;
+    top: 11rem;
+    left: 50%;
+    transform: translateX(-50%);
 }
 #canvas{
     position: fixed;
@@ -524,6 +525,15 @@ html, body, #app, #h5, .wrap {
                     display: flex;
                     flex-direction: column;
                     align-items : center;
+                    &.mask{
+                      background-color: rgba(0,0,0, .5)
+                      .close{
+                        display: block;
+                      }
+                    }
+                    .close{
+                      display: none;
+                    }
                     .intro{
                         width : 25%;
                         margin-top: 0.4rem;
@@ -561,11 +571,11 @@ html, body, #app, #h5, .wrap {
                                     float: right;
                                     top: -0.7rem;
                                     position: relative;
-                                }                               
+                                }
                             }
                         }
                     }
-                   
+
                 }
                 .companyDetial{
                     position: reletive;
@@ -583,7 +593,7 @@ html, body, #app, #h5, .wrap {
                         font-size: 14px;
                         line-height: 25px;
                         overflow: auto;
-                        padding: 15px; 
+                        padding: 15px;
                         float: right;
                         margin-right: .4rem;
                         margin-top: -0.5rem;
@@ -605,7 +615,7 @@ html, body, #app, #h5, .wrap {
                                 }
                             }
                         }
-                        
+
                     }
                     .imgBtm{
                         width: 55%;
@@ -640,7 +650,7 @@ html, body, #app, #h5, .wrap {
                                 color: #1F2D3D;
                                 span{
                                     color: #FF8A66;
-                                    
+
                                 }
                             }
                             .headerContent{
@@ -690,7 +700,7 @@ html, body, #app, #h5, .wrap {
                             margin-left: .3rem;
                               &:nth-child(2){
                                 float: right;
-                                margin-right: .3rem; 
+                                margin-right: .3rem;
                               }
                         }
                     }
