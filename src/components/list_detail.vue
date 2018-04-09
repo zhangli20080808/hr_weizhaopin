@@ -107,7 +107,7 @@
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
               <img src="../common/image/urgent2.png" alt="" width="35px" class="img" v-if="positionInfo.isUrgent==1">
-              <span class="position_name">{{positionInfo.positionName}}</span>
+              <span class="position_name" :class="{'position_name_padding':positionInfo.isUrgent==1}">{{positionInfo.positionName}}</span>
             <div class="position_detail_right">
               <!--<em></em>-->
               <!--<span>简历悬赏: <span style="font-weight:700;">{{positionInfo.rewardAmount}}</span>元</span>-->
@@ -786,6 +786,8 @@
             vertical-align: middle;
             // text-indent:40px;
             line-height:24px;
+          }
+          .position_name.position_name_padding{
             padding-left:40px;
           }
           .position_detail_right {
@@ -1017,6 +1019,10 @@
             .position_name {
               display: inline-block;
               vertical-align: middle;
+              width:80%;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
             }
             .position_detail_right {
               float: right;
