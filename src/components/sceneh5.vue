@@ -39,7 +39,7 @@
                              <ul>
                                 <li v-for="(item,index) in arr" :key="index" @click="toDetial(item)">
                                     <div class="positionName">{{item.positionName}}</div>
-                                    <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}k - {{item.positionSalaryHighest}}k</div>
+                                    <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}{{item.showSalaryType==1? 'k': ''}} - {{item.positionSalaryHighest}}{{item.showSalaryType==1? 'k': ''}}</div>
                                     <img  class="details" src="../components/images/details.png" alt="详情">
                                 </li>
                              </ul>
@@ -142,7 +142,6 @@ var contextBuffer;
 
 export default {
   data() {
-    document.title = "团队";
     return {
         mask: false,
         swiper_index: 0,
@@ -289,7 +288,7 @@ export default {
             self.h5.companyDescription = recruitActivity.companyDescription;
             self.h5.companyImageUrl = recruitActivity.companyImageUrl;
             self.h5.activityPhone = recruitActivity.activityPhone;
-            document.title = recruitActivity.pageTitle;
+            document.title = recruitActivity.pageTitle || '微活动';
             self.getSignature();
             self.h5.recruitingPositionList = self.split_array(self.h5.recruitingPositionList, 6)
           };
@@ -435,9 +434,10 @@ html, body, #app, #h5, .wrap {
 }
 .companyIntroMore{
     position: absolute;
-    top: 11rem;
+    bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 10;
 }
 #canvas{
     position: fixed;
@@ -541,9 +541,9 @@ html, body, #app, #h5, .wrap {
                     }
                     .content{
                         width : 90%;
-                        height : 100%;
+                        // height : 100%;
                         background: #fff;
-                        max-height: 70%;
+                        max-height: 74%;
                         border-radius: 10px;
                         border: 2px solid #23FFC9;
                         font-size: 14px;
@@ -562,6 +562,9 @@ html, body, #app, #h5, .wrap {
                                 padding-bottom: .2rem;
                                 .positionName{
                                     color:rgba(31,45,61,1);
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
                                 }
                                 .positionIntroduce{
                                     color:rgba(102,102,102,1);
