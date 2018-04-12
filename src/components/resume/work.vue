@@ -6,8 +6,8 @@
       <x-input title="部门名称" v-model="work.workDepartment" placeholder="请填写部门名称"></x-input>
     </group>
     <group :label-width="labelWidth">
-      <datetime v-model="work.startDateStr" title="开始时间" :min-year="1970" :max-year="2010" placeholder="请选择开始时间" format="YYYY-MM"></datetime>
-      <datetime v-model="work.endDateStr" title="结束时间" :min-year="1970" :max-year="2010" placeholder="请选择结束时间" v-if="!isWorking" format="YYYY-MM"></datetime>
+      <datetime v-model="work.startDateStr" title="开始时间" :min-year="1970" :max-year="2020" placeholder="请选择开始时间" format="YYYY-MM"></datetime>
+      <datetime v-model="work.endDateStr" title="结束时间" :min-year="1970" :max-year="2020" placeholder="请选择结束时间" v-if="!isWorking" format="YYYY-MM"></datetime>
       <cell title="结束时间" value-align="left" v-else is-link>至今</cell>
       <cell title="目前在职" value-align="left">
         <check-icon :value.sync="isWorking">是</check-icon>
