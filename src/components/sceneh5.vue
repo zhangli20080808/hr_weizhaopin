@@ -107,7 +107,8 @@
                 </div>
              </swiper-slide>
                 <div class="swiper-button-next" slot="button-next">
-                    <img class="nextPage" @click="nextPageGo()"   src="../components/images/nextButton.png" alt="">
+                    <!-- <img class="nextPage" @click="nextPageGo()"   src="../components/images/nextButton.png" alt=""> -->
+                    <img class="nextPage" src="../components/images/nextButton.png" alt="">
                 </div>
         </Swiper>
       </div>
