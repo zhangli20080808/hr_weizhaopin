@@ -537,12 +537,12 @@ import index from 'vue';
       },
       productIntroductionDeatil(index, list){
         console.log(index)
+        localStorage.setItem('productIntroductionList',JSON.stringify(list))
         this.$router.push({
           name: 'productIntroductionDeatil',
           path: '/productIntroductionDeatil',
           query: {
-            index: index,
-            productIntroductionList:JSON.stringify(list)
+            index: index
           }
         })
       },
