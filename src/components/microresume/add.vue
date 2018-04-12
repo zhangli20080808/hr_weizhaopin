@@ -2,15 +2,20 @@
   <div id="add_resume" class="add_resume" :style="{'height':wh+'px'}">
     <div v-show="type==1">
       <div class="createText"><span class="text">{{step==3?'个人档案':'创建个人简历'}}</span></div>
-      <div class="first" @click="previewResume" v-if="step==3">
+      <div class="first" @click="previewResume" v-if="step==3&&companyId!=9169858">
         <div class="resume_icon"></div>
         <div class="resume_text">个人档案</div>
       </div>
-      <div class="first" @click="getSimpleResume" v-else>
+      <div class="first" @click="getSimpleResume" v-else-if="companyId!=9169858">
         <div class="resume_icon"></div>
         <div class="resume_text">一分钟创建微简历</div>
       </div>
-      <div class="first2 first" @click="scanQRCode">
+      <!-- 快速投递====针对青岛的需求 -->
+      <div class="first" @click="qingdaoResume" v-if="companyId==9169858">
+        <div class="resume_icon"></div>
+        <div class="resume_text">快速投递</div>
+      </div>
+      <div class="first2 first" @click="scanQRCode" v-else>
         <div class="resume_icon resume_icon2"></div>
         <div class="resume_text2">
           <h1>PC扫码填简历</h1>
@@ -21,21 +26,10 @@
     </div>
 
     <div class="content" v-show="type==2">
-      <!-- <ul class="content_header">
-        <li :class="{active:headType==1,successd:headType>1}">基本信息<span></span><i class="el-icon-check"
-                                                                                  v-if="headType>1"></i></li>
-        <li :class="{active:headType==2,successd:headType>2}">联系方式<span></span><i class="el-icon-check"
-                                                                                  v-if="headType>2"></i></li>
-        <li :class="{active:headType==3,successd:headType>3}">教育经历<span></span><i class="el-icon-check"
-                                                                                  v-if="headType>3"></i></li>
-        <li :class="{active:headType==4,successd:headType>4}">工作经历<span></span><i class="el-icon-check"
-                                                                                  v-if="headType>4"></i></li>
-      </ul> -->
       <!--基本信息-->
       <div v-if="headType==1" class="baseInfo">
         <group class="baseInfoTitle" gutter='0' :label-width="labelWidth" title="基本信息">
           <x-input title="姓名" v-model="interviewResumeInfo.name" class="" placeholder="请填写完整姓名"></x-input>
-          <!-- <cell is-link @click.native="showPopup = true"  :value="value2" title="生日"></cell> -->
           <datetime v-model="interviewResumeInfo.birthday" title="生日" :min-year="1970" :max-year="2010" placeholder="请选择出生年月"></datetime>
           <popup-picker title="性别" :data="sexArr" v-model="sexValue" show-name value-text-align="left"></popup-picker>
         </group>
@@ -54,17 +48,6 @@
           </flexbox-item>
         </flexbox>
       </div>
-      <!-- 联系方式 -->
-      <!-- <div v-if="headType==2" class="baseInfo">
-        <flexbox class="position_bottom" :gutter="15">
-          <flexbox-item>
-            <x-button class="btn last_step" @click.native="changeHeadType('1')">上一步</x-button>
-          </flexbox-item>
-          <flexbox-item>
-            <x-button class="btn" @click.native="changeHeadType('3')">下一步</x-button>
-          </flexbox-item>
-        </flexbox>
-      </div> -->
       <!-- 教育经历 -->
       <div v-if="headType==2" class="baseInfo">
         <group  label-width="100%" 
@@ -87,7 +70,6 @@
         </group>
         <div class="add_education" @click="addEducation=true;" v-if="addEducation==false">添加一条教育经验</div>
         <group v-if="addEducation" label-align="left" :label-width="labelWidth" gutter="0" title="教育经历">
-          <!-- <x-switch title="目前在读" v-model="isReading"></x-switch> -->
           <cell title="目前在读" value-align="left">
             <check-icon :value.sync="isReading">是</check-icon>
           </cell>
@@ -566,6 +548,9 @@
       },
       toPreview(){
         this.$router.push({name:'resumePreview',query:{fansId:this.fansId}})
+      },
+      qingdaoResume(){
+        this.$router.push({name:'createResume',query:{fansId:this.fansId,shareFansId:this.shareFansId,positionId:this.positionId,companyId:this.companyId}})
       }
     },
     components: {

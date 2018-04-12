@@ -107,7 +107,7 @@
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
               <img src="../common/image/urgent2.png" alt="" width="35px" class="img" v-if="positionInfo.isUrgent==1">
-              <span class="position_name">{{positionInfo.positionName}}</span>
+              <span class="position_name" :class="{'position_name_padding':positionInfo.isUrgent==1}">{{positionInfo.positionName}}</span>
             <div class="position_detail_right">
               <!--<em></em>-->
               <!--<span>简历悬赏: <span style="font-weight:700;">{{positionInfo.rewardAmount}}</span>元</span>-->
@@ -116,7 +116,8 @@
             <dd class="position_detail_money" v-show="positionInfo.workCitySpilt">
               <span>{{positionInfo.workCitySpilt}}</span>
               <span>{{positionInfo.positionType == 1 ? '全职' : positionInfo.positionType == 2 ? '兼职' : '实习'}}</span>
-              <span>{{positionInfo.positionSalaryLowest}}K-{{positionInfo.positionSalaryHighest}}K</span>
+              <span v-if="positionInfo.showSalaryType==2">{{positionInfo.positionSalaryLowest}}-{{positionInfo.positionSalaryHighest}}</span>
+              <span v-else>{{positionInfo.positionSalaryLowest}}K-{{positionInfo.positionSalaryHighest}}K</span>
               <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
@@ -138,6 +139,18 @@
                 {{address}}  | {{domain}} | {{s_options[status - 1] ? s_options[status - 1].label : ''}} | {{options[dimensions - 1] ? options[dimensions - 1].label : ''}}</p>
             </div>
           </div>
+
+          <!-- 访问 -->
+          <dl class="position_detail_visits" v-if="positionInfo.visitationHistoryHeadImgs&&positionInfo.visitationHistoryHeadImgs.length!=0">
+            <dt class="visits_head">
+              <div>今日访问</div>
+              <div>历史访问<span style="color:#46BE8A;">{{positionInfo.historyVisit}}</span>人</div>
+            </dt>
+            <dd class="visits_con">
+              <img :src="item" v-for="item in positionInfo.visitationHistoryHeadImgs" :key="item">
+            </dd>
+          </dl>
+
           <!-- 职位描述 -->
           <div class="split"></div>
           <div class="pos_detail">
@@ -184,7 +197,8 @@
               <dd class="position_detail_money">
                 <span>{{filter(list.workCity)}}</span>
                 <span>{{list.positionType == 1 ? '全职' : list.positionType == 2 ? '兼职' : '实习'}}</span>
-                <span>{{list.positionSalaryLowest}}K-{{list.positionSalaryHighest}}K</span>
+                <span v-if="list.showSalaryType==2">{{list.positionSalaryLowest}}-{{list.positionSalaryHighest}}</span>
+                <span v-else>{{list.positionSalaryLowest}}K-{{list.positionSalaryHighest}}K</span>
                 <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
               </dd>
               <dd class="position_detail_date">
@@ -306,7 +320,9 @@
           views: 0,
           workCity: "",
           workCitySpilt: "",
-          isStore: true
+          isStore: true,
+          visitationHistoryHeadImgs:[],
+          historyVisit:0
         },
         //分享的参数
         companyHeadImg: null,
@@ -756,7 +772,7 @@
         }
         dt {
           line-height: 0.4rem;
-          height: 0.4rem;
+          // height: 0.4rem;
           margin-bottom: 10px;
           font-size: 0.34rem;
           color: #222;
@@ -764,10 +780,16 @@
             display: inline-block;
             vertical-align: middle;
             line-height: 24px;
+            position: absolute;
           }
           .position_name {
             display: inline-block;
             vertical-align: middle;
+            // text-indent:40px;
+            line-height:24px;
+          }
+          .position_name.position_name_padding{
+            padding-left:40px;
           }
           .position_detail_right {
             float: right;
@@ -998,6 +1020,10 @@
             .position_name {
               display: inline-block;
               vertical-align: middle;
+              width:80%;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
             }
             .position_detail_right {
               float: right;
@@ -1392,5 +1418,14 @@
     }
 
 </style>
+<style scoped>
+.position_detail_visits{padding:15px;background-color:#fff;margin-top:20px;}
+.visits_head{display:flex;justify-content:space-between;font-size:0.34rem;}
+.visits_head div:nth-child(2){font-size:0.26rem;color:#999;}
+.visits_con{display:flex;justify-content:flex-start;margin-top:20px;}
+.visits_con img{width:10%;height:10%;border-radius:50%;background-color:#5aa2e7;margin-left:2.5%;}
+.visits_con img:nth-child(1){margin-left:0;}
+</style>
+
 
 

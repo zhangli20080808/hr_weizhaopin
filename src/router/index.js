@@ -23,6 +23,10 @@ import loginResume from 'components/microresume/loginResume.vue'
 //微信
 import positionList from 'components/position/positionList';
 import aboutUs from 'components/wxIndex/aboutUs';
+import developmentHistoryPage from 'components/wxIndex/developmentHistoryPage';
+
+
+import productIntroductionDeatil from 'components/wxIndex/productIntroductionDeatil';
 import teamwork from 'components/wxIndex/teamwork';
 import onlinePosition from 'components/wxIndex/onlinePosition';
 
@@ -60,6 +64,9 @@ import jobRecordDetail from 'components/personal/jobRecordDetail';
 import authentification from 'components/personal/authentification';
 import authentification_gzh from 'components/personal/authentification_gzh';
 import authentificationResult from 'components/personal/authentificationResult';
+
+//创建简历
+import createResume from "components/microresume/createResume"
 
 
 Vue.use(Router)
@@ -124,6 +131,16 @@ export default new Router({
       path: '/about',
       name: 'about',
       component: aboutUs
+    },
+    {
+      path: '/developmentHistoryPage',
+      name: 'developmentHistoryPage',
+      component: developmentHistoryPage
+    },
+    {
+      path: '/productIntroductionDeatil',
+      name: 'productIntroductionDeatil',
+      component: productIntroductionDeatil
     },
     {
       path: '/teamwork',
@@ -286,6 +303,11 @@ export default new Router({
           component:pcResume
         }
       ]
+    },
+    {
+      path:'/createResume',
+      name:'createResume',
+      component:createResume,
     }
   ]
 })

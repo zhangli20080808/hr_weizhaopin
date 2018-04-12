@@ -80,7 +80,7 @@ export default {
         self.$vux.toast.text('请选择开始时间');
         return false
       }
-      if(self.project.endDateStr==""){
+      if(self.project.endDateStr=="" && !self.untilNow){
         self.$vux.toast.text('请选择结束时间');
         return false
       }

@@ -6,7 +6,7 @@
       <img :src="tuijianObj.headImg" alt="">
       <h2>{{tuijianObj.nickname}}</h2>
       <div class="header_right">
-        <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0" @click="showTuijianDialog=true;"><span class="vux-1px-r">关注</span></p>
+        <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0" @click="showTuijianDialog=true"><span class="vux-1px-r">关注</span></p>
         <p v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==1"><span class="vux-1px-r">已关注</span></p>
         <p @click="recommendedSchedule"> &nbsp;我的</p>
         <h6 v-if="tuijianObj.haveGzh==1&&tuijianObj.isSubscribe==0&&tag" @click="choseTag"><span>关注公众号获取职位分享动态</span></h6>
@@ -40,9 +40,14 @@
         </div>
       </div>
     </div>
+
+
+
+
+
     <!--办公环境-->
     <div class="cards" v-show="preCompanyMemorabilia.length">
-      <div class="card-type-1">
+      <div class="card-type-1" v-show="companyIntroduction">
         <div class="g-card">
           <div class="template-card">
             <div class="template-complex">
@@ -50,37 +55,68 @@
                 <div class="gm-card-header online_pos">
                   <h2 class="gm-card-title">
                     <span class="pos_ware1"></span>
-                    <span class="text">公司信息</span>
+                    <span class="text">公司介绍</span>
                   </h2>
                 </div>
                 <!--slide-->
-                <ul>
-                  <li class="vertical-list">
-                    <div class="name">
-                      <span class="mainName">{{companyInfo.companyName}}</span>
-                      <span class="address" @click="toMainMap"></span>
-                    </div>
-                    <div class="shortName" v-if="companyInfo.companyShortName">({{companyInfo.companyShortName}})</div>
-                    <div class="address" v-if="companyInfo.address"><span class="address_icon"></span><span class="text">{{companyInfo.address}}</span></div>
-                    <div class="tel" v-if="companyInfo.phone" ><span class="tel_icon"></span><span class="text">{{companyInfo.phone}}</span></div>
-                  </li>
-                  <li class="vertical-list  vertical_company" v-for="(item,index) in branchCompanyList">
-                    <div class="name">
-                      <span class="mainName">{{item.companyName}}</span>
-                      <span class="address" @click="toMap(item)"></span>
-                    </div>
-                    <div class="shortName">({{item.companyShortName}})</div>
-                    <div class="address"><span class="address_icon"></span><span class="text">{{item.address}}</span></div>
-                    <div class="tel"><span class="tel_icon"></span><span class="text">{{item.branchPhone}}</span></div>
-                  </li>
+                <p class="companyIntroductionText" :class="[{companyIntroductionTextMore: companyIntroductionTextShow}]">{{ companyIntroduction }}</p>
+               <!-- <p class="companyIntroductionText" v-show="!companyIntroductionText">{{ companyIntroduction }}</p>
+               <p class="companyIntroductionTextMore" v-show="companyIntroductionText">{{ companyIntroduction }}</p> -->
+               <div class="arrowBtnWrap">
+                  <el-button v-show="companyIntroduction && companyIntroduction.length>50 && !companyIntroductionTextShow" type="text" class="el-icon-arrow-down" @click="companyIntroductionTextShow=true"></el-button>
+                  <el-button v-show="companyIntroduction && companyIntroduction.length>50 && companyIntroductionTextShow" type="text" class="el-icon-arrow-up" @click="companyIntroductionTextShow=false"></el-button>
+               </div>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+       <div class="card-type-2" v-show="productIntroductionList.length && productIntroductionList[0]['productName'] !=null">
+        <div class="g-card">
+          <div class="template-card">
+            <div class="template-complex">
+              <div class="gm-card-offset">
+                <div class="gm-card-header">
+                  <h2 class="gm-card-title">
+                    <span class="env_img"></span>
+                    <span class="text">产品介绍</span>
+                  </h2>
+                </div>
 
-                </ul>
+              <scroller height="128"  lock-y :scrollbar-x=false width="auto">
+                <div class="box1" ref="box1Width" :class="{moreThan: productIntroductionList.length&& productIntroductionList.length>1}" :style="{width: widthauto}">
+                  <div class="productIntroductionList" v-for="(item, index) in productIntroductionList" :key="index" @click="productIntroductionDeatil(index, productIntroductionList)">
+                    <div style="display: flex;flex-direction: column;">
+                      <img :src="item.productImageUrl" alt="暂无图片">
+                      <div class="midBodde"></div>
+                      <p>{{ item.productName }}</p>
+                    </div>
+                  </div>
+                </div>
+              </scroller>
+
+                <!-- <div class="slides" style="height: 239px">
+                  <swiper :options="swiperOption2" ref="mySwiper" style="background:#fff;">
+                    <swiper-slide style="cursor: pointer;" v-for="(item,index) in productIntroductionList" :key="item.productName">
+                      <div @click="productIntroductionDeatil(item)">
+                        <div class="media" style="height: 180px">
+                          <img :src="item.productImageUrl" alt="" width="100%" height="100%">
+                        </div>
+                        <div class="title g-oneline-text">
+                          {{item.productName}}
+                        </div>
+                      </div>
+                    </swiper-slide>
+                    <div class="swiper-pagination" slot="pagination"></div>
+                  </swiper>
+                </div> -->
 
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div class="card-type-1">
         <div class="g-card">
           <div class="template-card">
@@ -90,52 +126,41 @@
                   <h2 class="gm-card-title">
                     <span class="pos_ware"></span>
                     <span class="text">发展历程</span>
+                    <div class="allR" v-if="preCompanyMemorabilia && preCompanyMemorabilia.length>4">
+                      <span class="info" @click="CompanyMemorabiliaDeatil">查看更多信息</span>
+                      <span class="icon"></span>
+                    </div>
                   </h2>
                 </div>
                 <!--slide-->
-                <div class="vertical-list">
+                <!-- <div class="vertical-list">
                   <div class="gamma-type-0">
                     <div style="overflow: hidden; display: block; position: relative;">
                       <div class="slide">
-                        <div class="list-item" v-for="item in preCompanyMemorabilia">
+                        <div class="list-item" :class="{'active': preCompanyMemorabiliaImg}" v-for="(item, index) in preCompanyMemorabilia">
                           <div class="inner">
                             <div class="g-flex">
                               <div class="gamma-left">
-                                <img class="link-image" :src="item.imageUrl">
+                                <img v-show="!preCompanyMemorabiliaImg" class="link-image" :src="item.imageUrl">
+                                <span v-show="preCompanyMemorabiliaImg"  :class="{'active': index ==0 }" class="preCompanyMemorabiliaNum"></span>
                               </div>
                               <div class="g-column gamma-right">
                                 <div class="gamma-right-height">
                                   <span>{{filterTime(item.date)}}</span>
                                   <div class="gamma-description">
-
                                     {{item.description}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                   </div>
                                   <div class="gamma-text-cover"></div>
                                 </div>
-
                               </div>
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
+                <development-history :max-lenth="4" :historyList="preCompanyMemorabilia"/>
               </div>
             </div>
           </div>
@@ -162,9 +187,6 @@
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
-
-
-
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -203,9 +225,6 @@
                       </div>
                       <div class="title g-oneline-text">
                         {{item.description}}
-
-
-
                       </div>
                     </swiper-slide>
                     <!-- Optional controls -->
@@ -219,6 +238,44 @@
           </div>
         </div>
       </div>
+      <div class="card-type-1">
+        <div class="g-card">
+          <div class="template-card">
+            <div class="template-complex">
+              <div class="gm-card-offset">
+                <div class="gm-card-header online_pos">
+                  <h2 class="gm-card-title">
+                    <span class="pos_ware1"></span>
+                    <span class="text">公司信息</span>
+                  </h2>
+                </div>
+                <!--slide-->
+                <ul>
+                  <li class="vertical-list">
+                    <div class="name">
+                      <span class="mainName">{{companyInfo.companyName}}</span>
+                      <span class="address" @click="toMainMap"></span>
+                    </div>
+                    <div class="shortName" v-if="companyInfo.companyShortName">({{companyInfo.companyShortName}})</div>
+                    <div class="address" v-if="companyInfo.address"><span class="address_icon"></span><span class="text">{{companyInfo.address}}</span></div>
+                    <div class="tel" v-if="companyInfo.phone" ><span class="tel_icon"></span><span class="text">{{companyInfo.phone}}</span></div>
+                  </li>
+                  <li class="vertical-list  vertical_company" v-for="(item,index) in branchCompanyList">
+                    <div class="name">
+                      <span class="mainName">{{item.companyName}}</span>
+                      <span class="address" @click="toMap(item)"></span>
+                    </div>
+                    <div class="shortName">({{item.companyShortName}})</div>
+                    <div class="address"><span class="address_icon"></span><span class="text">{{item.address}}</span></div>
+                    <div class="tel"><span class="tel_icon"></span><span class="text">{{item.branchPhone}}</span></div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <div class="footer_icon" v-show="preCompanyWebsite.name" @click="goBapp">
       <div class="img_detail"></div>
@@ -267,14 +324,45 @@
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import footerNav from '../../components/base/foot'
   import util from "../../common/js/util.js";
+  import developmentHistory from './developmentHistory.vue'
   import {
     XDialog,
+    Scroller,
     TransferDomDirective as TransferDom
   } from 'vux'
   import Axios from 'axios';
+import index from 'vue';
   export default {
     data(){
       return {
+         productIntroductionList:[
+            // {
+            //     productName:"爱聚微招聘",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://diycode.b0.upaiyun.com/photo/2017/fc7727985fd40e43f6b5bd6192dc23b7.jpeg",
+            // },
+            //  {
+            //     productName:"爱聚微招聘",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://diycode.b0.upaiyun.com/photo/2017/fc7727985fd40e43f6b5bd6192dc23b7.jpeg",
+            // },
+            //  {
+            //     productName:"爱聚微招聘",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
+            // },
+            //  {
+            //     productName:"爱聚微招聘",
+            //     productDescription:"招聘用爱聚",
+            //     productImageId:4252,
+            //     productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
+            // }
+        ],
+        companyIntroduction: '',
+        companyIntroductionTextShow: false,
         //预览
         preWorkTeam: [],
         WorkEnvironment: [],
@@ -370,17 +458,27 @@
         longitude: '',
         companyName: '',
         detailAddress: '',
-        address: ''
+        address: '',
+        showTuijianDialog:false,
       }
     },
     methods: {
+      CompanyMemorabiliaDeatil(){
+      this.$router.push({
+          name: 'developmentHistoryPage',
+          path: '/developmentHistoryPage',
+          query: {
+            preCompanyMemorabilia: JSON.stringify(this.preCompanyMemorabilia)
+          }
+        })
+      },
       app(index){
         // console.log(index);
 //         this.doShowToast()
       },
       goBapp(){
         location.href = 'https://aijuhr.com/mhr/index.html';
-      },      
+      },
       filterTime(item){
         if (item) {
           return item.substr(0, 10)
@@ -421,6 +519,8 @@
             _this.preWorkTeam = res.data.data.WorkTeam;
             _this.WorkEnvironment = res.data.data.WorkEnvironment;
             _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
+            _this.companyIntroduction = res.data.data.CompanyWebsite.companyIntroduction
+            _this.productIntroductionList = res.data.data.CompanyWebsite.productIntroductionList
           }
         }
         _this.$http(method, param, successd);
@@ -432,6 +532,17 @@
           query: {
             companyId: this.companyId,
             WorkTeam: this.WorkTeam
+          }
+        })
+      },
+      productIntroductionDeatil(index, list){
+        console.log(index)
+        this.$router.push({
+          name: 'productIntroductionDeatil',
+          path: '/productIntroductionDeatil',
+          query: {
+            index: index,
+            productIntroductionList:JSON.stringify(list)
           }
         })
       },
@@ -778,6 +889,7 @@
       }
     },
     created(){
+      document.title="关于我们"
       this.$nextTick(() => {
         this.getCode();
         // this.getCodeUrl();
@@ -785,7 +897,7 @@
         this.getShareTitleInfo();
         this.getMainCompanyInfo();
         this.getBranchCompanyInfo();
-        if(!this.fansId){
+        if(!this.fansId && location.href.indexOf('localhost')== '-1'){
           this.userAuthUrl();
         }else{
           this.getUserInfo();
@@ -793,7 +905,7 @@
 //        this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
-        if(localStorage.resumeFrom != "19"){    
+        if(localStorage.resumeFrom != "19"){
           localStorage.resumeFrom = '19'
         }
       })
@@ -801,6 +913,21 @@
     computed: {
       bgStyle() {
         return `background-image:url(${this.preCompanyWebsite.weBannerUrl})`
+      },
+      widthauto(){
+        if(this.productIntroductionList.length&&this.productIntroductionList.length==1){
+          return '100%'
+        }else if(this.productIntroductionList.length && this.productIntroductionList.length>1){
+         return this.productIntroductionList.length * 140 + 'px'
+        }
+      },
+      preCompanyMemorabiliaImg(){
+        var bol = this.preCompanyMemorabilia.some(function(item){
+          console.log(item.imageUrl)
+            return item.imageUrl == '' || item.imageUrl == null
+        })
+        console.log(bol)
+        return bol
       }
     },
     components: {
@@ -808,7 +935,9 @@
       swiperSlide,
       footerNav,
       XDialog,
-      loading
+      loading,
+      Scroller,
+      developmentHistory
     },
     directives: {
       TransferDom
@@ -821,6 +950,95 @@
   @import "../../common/stylus/swiper.css";
   @import "../../components/css/main.css";
   @import "../../common/stylus/boder";
+
+.preCompanyMemorabiliaNum{
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  background: #D8D8D8;
+  position: absolute;
+  left: -8px;
+}
+.preCompanyMemorabiliaNum.active{
+  background: #FF9E2F;
+}
+p.companyIntroductionTextMore{
+  max-height: none;
+}
+.companyIntroductionText{
+    color: #666;
+    font-size: 13px;
+    text-indent: 20px;
+    padding: .2rem 0 .1rem .1rem;
+    line-height: .4rem;
+    overflow: hidden;
+    max-height: 1.8rem;
+}
+.arrowBtnWrap{
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.el-icon-arrow-down, .el-icon-arrow-up{
+  float: left;
+  cursor: pointer;
+  margin: 0;
+}
+.box1 {
+  position: relative;
+  width: 1490px;
+}
+.midBodde{
+  border-top: 1px solid #eee;
+  // margin: 0.2rem 0 0;
+  width: 100%;
+}
+.moreThan .productIntroductionList{
+    width: 122px;
+    height: 128px;
+     margin-left: 18px;
+    float: left;
+}
+.productIntroductionList{
+  width: 100%;
+  background: #fff;
+  display:inline-block;
+  text-align: center;
+  overflow: hidden;
+  background:rgba(255,255,255,1);
+  box-shadow: 0px 2px 15px 0px rgba(221,227,235,1) ;
+  border-radius: 8px ;
+}
+.productIntroductionList img{
+  width: 100%;
+  height: 3.3rem;
+}
+.moreThan .productIntroductionList img{
+  width: 100%;
+  max-height: 1.5rem;
+  border-radius: 0.03rem;
+  padding: .15rem;
+  font-size: 14px;
+  height: 1.5rem;
+}
+  // height: 81px;
+
+.productIntroductionList p{
+  display: inline-block;
+  margin-top: 14px;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+.box1-item:first-child {
+  margin-left: 0;
+}
+.box2-wrap {
+  height: 300px;
+  overflow: hidden;
+}
+
 
 
   .g-container {
@@ -1081,19 +1299,18 @@
     .borderBottom(1px,#e5e5e5);
   }
 
-  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR {
+ .allR {
     font-size: 0.26rem;
     color: #9a9fac;
     display: inline-block;
     float: right;
   }
 
-  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .info {
+  .allR .info {
     display: inline-block;
     vertical-align: middle;
   }
-
-  .g-container .cards .gm-card-offset .gm-card-header .gm-card-title .allR .icon {
+.allR .icon {
     display: inline-block;
     background: url(../../common/image/Backicon.png) no-repeat center;
     width: 10px;
@@ -1124,7 +1341,7 @@
     vertical-align: middle;
     width: 17px;
     height: 17px;
-    background: url(../../common/image/env_img.png) no-repeat center;
+    background: url(../../common/image/environment.png) no-repeat center;
     background-size: cover;
   }
 
@@ -1248,11 +1465,20 @@
     animation-duration: .5s;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    padding-left: 10px;
   }
 
-  .g-container .cards .vertical-list .gamma-type-0 .slide .list-item {
-    margin-bottom: 0.6rem;
+  .g-container .cards .vertical-list .gamma-type-0 .slide .list-item.active {
+    border-left: 1px solid #D8D8D8;
+
   }
+  .g-container .cards .vertical-list .gamma-type-0 .slide .list-item {
+    padding-bottom: 0.6rem;
+  }
+
+   .g-container .cards .vertical-list .gamma-type-0 .slide .list-item:nth-last-child(1){
+     border: none;
+   }
 
   .g-container .cards .vertical-list .gamma-type-0 .slide .list-item .inner {
     font-size: 14px

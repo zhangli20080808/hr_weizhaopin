@@ -7,10 +7,10 @@
 
     </div>
     <div v-if="type==2" class="results_list">
-        <icon type="success-circle" is-msg style="text-align:center;margin:0rem auto;display:block;padding-top:2rem;"></icon>
-        <p class="success_resume">投递成功</p>
+        <icon type="cancel" is-msg style="text-align:center;margin:0rem auto;display:block;padding-top:2rem;"></icon>
+        <p class="success_resume">重复投递</p>
         <p class="success_resume_two">感谢您的申请，我们将尽快给您回复</p>
-        <p class="success_resume_three">该候选人在系统中已存在相同的申请，本次投递无效</p>
+        <p class="success_resume_three">该候选人在系统中已存在相同的申请</p>
     </div>
     <div v-if="type==3" class="results_list">
         <icon type="cancel" is-msg style="text-align:center;margin:0rem auto;display:block;padding-top:2rem;"></icon>
