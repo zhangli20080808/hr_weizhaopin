@@ -6,8 +6,8 @@
       <popup-picker title="学历" :data="educationLevArr" v-model="educationLev" show-name value-text-align="left"></popup-picker>
     </group>
     <group :label-width="labelWidth">
-      <datetime v-model="education.startDateStr" title="开始时间" :min-year="1970" :max-year="2010" placeholder="请选择开始时间" format="YYYY-MM"></datetime>
-      <datetime v-model="education.endDateStr" title="结束时间" :min-year="1970" :max-year="2010" placeholder="请选择结束时间" v-if="!isReading" format="YYYY-MM"></datetime>
+      <datetime v-model="education.startDateStr" title="开始时间" :min-year="1970" :max-year="2020" placeholder="请选择开始时间" format="YYYY-MM"></datetime>
+      <datetime v-model="education.endDateStr" title="结束时间" :min-year="1970" :max-year="2020" placeholder="请选择结束时间" v-if="!isReading" format="YYYY-MM"></datetime>
       <cell title="结束时间" value-align="left" v-else is-link>至今</cell>
       <cell title="目前在读" value-align="left">
         <check-icon :value.sync="isReading">是</check-icon>

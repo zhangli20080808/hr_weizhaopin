@@ -2,7 +2,7 @@
   <div id="information" :style="{'min-height':wh+'px'}">
     <group title="让我们更好的认识你吧" :label-width="labelWidth">
       <x-input title="姓名" v-model="basic.name" placeholder="请输入您的真实姓名"></x-input>
-      <datetime v-model="basic.birthday" title="生日" :min-year="1970" :max-year="2010" placeholder="请选择出生年月"></datetime>
+      <datetime v-model="basic.birthday" title="生日" :min-year="1970" :max-year="2020" placeholder="请选择出生年月"></datetime>
       <popup-picker title="性别" :data="sexArr" v-model="sexValue" show-name value-text-align="left"></popup-picker>
       <x-input title="手机号" v-model="basic.phone"  mask="999 9999 9999" :max="13" is-type="china-mobile"></x-input>
       <x-input title="邮箱" v-model="basic.email"></x-input>
