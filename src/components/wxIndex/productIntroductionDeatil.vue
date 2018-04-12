@@ -20,7 +20,7 @@ import { Tab, TabItem, Sticky, Divider, XButton, Swiper, SwiperItem } from 'vux'
 export default {
   data(){
       return{
-        productIntroductionList: JSON.parse(this.$route.query.productIntroductionList),
+        productIntroductionList: [],
         productImageUrl: '',
         productName: '',
         productDescription: '',
@@ -36,6 +36,9 @@ export default {
       handler(e){
           this.Itemindex = e;
       }
+  },
+  created(){
+    this.productIntroductionList = JSON.parse('productIntroductionList');
   },
    components: {
     Tab,
