@@ -66,8 +66,8 @@
                         <div class="dot-success" v-if="item.status == '已同意' || item.status == '发起审核'"></div>
                         <div class="dot-refuse" v-else-if="item.status == '已拒绝'"></div>
                         <div class="dot-default" v-else></div>
-                        <div class="step-line success-line" v-if="item.status == '已同意' || item.status == '发起审核'"></div>
-                        <div class="step-line default-line" v-else></div>
+                        <div class="step-line success-line" :style="{height:item.height+'px'}" v-if="item.status == '已同意' || item.status == '发起审核'"></div>
+                        <div class="step-line default-line" :style="{height:item.height+'px'}" v-else></div>
                     </div>
                 </li>
             </ul>
@@ -88,10 +88,12 @@
     </div>
      <div>
       <confirm v-model="confirm2"
-        title="拒绝原因"
-        show-input
-        placeholder="请输入拒绝原因"
-      @on-confirm="agreeOffer(0)">
+        title="拒绝原因"  
+        @on-confirm="agreeOffer(0)">
+         <div class="textarea-wrap">
+             <textarea class="textarea" autofocus maxlength="50" v-model.trim="msgReason" placeholder="请输入拒绝原因"></textarea>
+             <span class="word-num">{{msgReason.length}}/50</span>
+         </div>
       </confirm>
     </div>
   </div>
@@ -100,15 +102,15 @@
 <script>
 import { Confirm,TransferDomDirective as TransferDom } from 'vux'
 
-
 export default {
   data(){
       document.title = "offer审批详情"
       return {
             options:null,
-            offerApprovalDetail:null,
+            offerApprovalDetail:{},
             confirm1:false,
             confirm2:false,
+            msgReason:'',
       }
   },
   components: {
@@ -189,8 +191,22 @@ export default {
                     "workYear": "一年",//工作年限
                     "age": 22 //年龄
                  }
+                 self.setLineHeight()
          };
         self.$http(method,param,successd,error);
+    },
+    /**
+     * 设置进度条高度
+    */
+    setLineHeight(){
+        this.$nextTick(function(){
+            let list = this.offerApprovalDetail.progressList
+            for(let i=0; i < list.length-1; i++){
+                let height = this.$refs['li' + i][0].offsetHeight/2 + this.$refs['li' + (i+1)][0].offsetHeight/2 + 12;
+                console.log(height)
+                this.$set(list[i],'height',height)
+            }
+        })
     },
     /**
      *  显示对话框
@@ -209,18 +225,23 @@ export default {
      * 审批操作
     */
     agreeOffer(type){
-        console.log(type)
         let self = this
+        if(type == 0 && self.msgReason == ''){
+                self.$vux.toast.text('请先填写拒绝原因哦！')
+                return;
+        }
         let method = 'iinterviewer/agreeOffer',
         param=JSON.stringify({
-            isAgree:'',
+            isAgree:type,
             offerApprovalId:self.options.id,
-            rejectReason:'',
+            rejectReason:self.msgReason,
             progressId:'',
             nextApprovalUserId:'',
         }),
         successd = function(res){
-           
+           self.$router.push({
+               path:'approvalList'
+           })
         };
         self.$http(method,param,successd);
     },
@@ -304,7 +325,7 @@ export default {
           justify-content:space-between;
           width:5.72rem;
           padding:.28rem .24rem;
-          margin-bottom:.24rem;
+          margin-bottom:12px;
           box-shadow: 0px 2px 15px 0px rgba(221,227,235,1); 
           border-radius: 8px ; 
           position: relative;
@@ -372,6 +393,7 @@ export default {
 .btn-fixed{
     position:fixed;
     bottom:0;
+    z-index: 3;
     display:flex;
     width:100%;
     .btn-item{
@@ -386,6 +408,26 @@ export default {
     }
     .btn-confirm{
        background-color:#5AA2E7;
+    }
+}
+.textarea-wrap{
+    position:relative;
+    padding:11px 15px 26px;
+    border:1px solid #e5e5e5;
+    .textarea{
+        width:100%;
+        min-height:50px;
+        color:#333;
+        border:none;
+        outline:none;
+        resize:none;
+    }
+    .word-num{
+        position: absolute;
+        right:15px;
+        bottom:11px;
+        font-size:12px;
+        color: #B2B2B2;
     }
 }
 </style>
