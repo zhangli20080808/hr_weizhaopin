@@ -19,7 +19,7 @@
                 <p class="base-info">
                   <span v-if="offerApprovalDetail.age">{{offerApprovalDetail.age}}</span>
                   <span>{{offerApprovalDetail.education || '学历不限'}}</span>
-                  <span v-if="offerApprovalDetail.workYear">{{offerApprovalDetail.workYear || '经验不限'}}</span></p>
+                  <span>{{offerApprovalDetail.workYear || '经验不限'}}</span></p>
               </div>
               <div class="bottom-box">
                 <label class="label" for="">应聘</label>
@@ -176,17 +176,27 @@ export default {
                 self.$vux.toast.text('请先填写拒绝原因哦！')
                 return;
         }
+        let progressId,nextApprovalUserId;
+        let approvalUserId = self.options.approvalUserId;
+        let progressList = self.offerApprovalDetail.progressList;
+        for(let i=0; i<progressList.length;i++){
+            if(progressList[i].userId == approvalUserId){
+                progressId = progressList[i].id;
+                nextApprovalUserId = progressList[i+1].userId;
+                return;
+            }
+        }
         let method = 'iinterviewer/agreeOffer',
         param=JSON.stringify({
             isAgree:type,
             offerApprovalId:self.options.id,
             rejectReason:self.msgReason,
-            progressId:'',
-            nextApprovalUserId:'',
+            progressId:progressId,
+            nextApprovalUserId:nextApprovalUserId,
         }),
         successd = function(res){
            self.$router.push({
-               path:'approvalList'
+               name:'approvalList'
            })
         };
         self.$http(method,param,successd);
@@ -285,7 +295,7 @@ export default {
                   border-radius:50%;
                   overflow: hidden;
                   img{
-                      width:100%; height: 100%; border-radius:50%;
+                      width:100%; height: 100%; border-radius:50%;vertical-align: top;
                   }
               }
               .person-box{flex:1;}

@@ -76,10 +76,12 @@
        * 跳转至offer审批详情
        */
       linkTo(item) {
+        let self = this
         this.$router.push({
           name: 'approvalDetail',
           query: {
-            id: item.id
+            id: item.id,
+            approvalUserId: self.options.approvalUserId
           },
           params: {
           }
