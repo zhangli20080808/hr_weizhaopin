@@ -8,8 +8,7 @@
                         <img src="../../common/image/default_avatar2.png" alt="" v-else>
                     </div>
                     <div class="content">
-                        <!-- <div class="content-name"><span>叶秋</span>offer审批</div> -->
-                        <div class="content-name">{{item.name}}</div>
+                        <div class="content-name"><span>{{item.name}}</span> offer审批</div>
                         <div class="content-status">{{item.status}}</div>
                     </div>
                     <div class="time">{{item.time}}</div>
@@ -60,35 +59,16 @@
             let method = 'iinterviewer/offerApprovalList',
             param=JSON.stringify({
                 companyId:self.options.companyId,
-                approvalUserId:'9094790',
+                approvalUserId:self.options.approvalUserId
             }),
             successd = function(res){
                 self.showLoading = false
-                // if(res.data.code == 0){
-
-                self.offerApprovalList = res.data.data
-            // }
+                if(res.data.code == 0 && res.data.data){
+                 self.offerApprovalList = res.data.data
+                }
             },
             error = function(error){
                 self.showLoading = false
-                 error.data.data = [
-                   {
-                    "headImg": "https://aijuhr.com/upload/head.png", //头像
-                    "name": "景麒 offer审批",//名称
-                    "id": 1, //审核id
-                    "time": "2018-04-11 11:05:48", //时间
-                    "status": "待审核"//状态
-                    },
-                    {
-                    "headImg": "https://aijuhr.com/upload/head.png", //头像
-                    "name": "佩奇 offer审批",//名称
-                    "id": 2, //审核id
-                    "time": "2018-04-11 11:05:48", //时间
-                    "status": "待审核"//状态
-                    },
-                   
-                ]
-                self.offerApprovalList = error.data.data
             };
             self.$http(method,param,successd,error);
         },

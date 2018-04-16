@@ -18,12 +18,12 @@
               <div class="middle-box">
                 <p class="base-info">
                   <span v-if="offerApprovalDetail.age">{{offerApprovalDetail.age}}</span>
-                  <span>{{offerApprovalDetail.education}}</span>
-                  <span v-if="offerApprovalDetail.workYear">{{offerApprovalDetail.workYear}}</span></p>
+                  <span>{{offerApprovalDetail.education || '学历不限'}}</span>
+                  <span v-if="offerApprovalDetail.workYear">{{offerApprovalDetail.workYear || '经验不限'}}</span></p>
               </div>
               <div class="bottom-box">
                 <label class="label" for="">应聘</label>
-                <span class="position-name">{{offerApprovalDetail.postPosition}}</span>
+                <span class="position-name">{{offerApprovalDetail.position}}</span>
                 <span class="date">{{$date(offerApprovalDetail.postTime)}}</span>
               </div>
            </div>
@@ -131,67 +131,13 @@ export default {
             offerApprovalId:self.options.id
         }),
         successd = function(res){
-            // if(res.data.code == 0){
-
-            self.offerApprovalDetail = res.data.data
-        // }
+            if(res.data.code == 0){
+              self.offerApprovalDetail = res.data.data
+               self.setLineHeight()
+            } 
         },
          error = function(error){
-                 self.offerApprovalDetail = {
-                     "headImg": "https://aijuhr.com/upload/head.png",
-                     "jobSalary": 8000,//正式薪资
-                    "jobSalaryPre": 6000,//试用期薪资
-                    "deptName": '研发部',//所在部门
-                    "education": "博士",//学历
-                    "postPosition": "ERP产品经理",//应聘职位
-                    "progressList": [
-                    {
-                        "headImg": "https://aijuhr.com/upload/head.png",
-                        "name": "张三",
-                        "status":"发起审核",
-                        "id": 1,
-                        "time": "2018-03-23 14:18:31",
-                        "userId":56  //当前审核人的id
-                    },
-                    {
-                        "headImg": "https://aijuhr.com/upload/head.png",
-                        "name": "李四",
-                        "status":"已同意",
-                        "id": 2,
-                        "time": "2018-03-23 14:18:31",
-                        "userId":58  //当前审核人的id
-                    },
-                    {
-                        "headImg": "https://aijuhr.com/upload/head.png",
-                        "name": "王五",
-                        "status":"已拒绝",
-                        "id": 3,
-                        "time": "2018-03-23 14:18:31",
-                        "reason":'技术和公司不匹配',
-                        "userId":59  //当前审核人的id
-                    },
-                     {
-                        "headImg": "https://aijuhr.com/upload/head.png",
-                        "name": "王五22",
-                        "status":"待审批",
-                        "id": 4,
-                        "time": "2018-03-23 14:18:31",
-                        "userId":59  //当前审核人的id
-                    }
-
-                    ],
-                    "salaryRemark": "薪资可以再谈",//薪资备注
-                    "probation": 1,//试用期
-                    "postTime": "2018-03-23 14:18:31",//应聘时间
-                    "joinDate": "2017-09-06",//到岗日期
-                    "name": "张大佩",//姓名
-                    "userDraw": "正式",
-                    "id": 56,
-                    "position": "开发工程师",//担任职位
-                    "workYear": "一年",//工作年限
-                    "age": 22 //年龄
-                 }
-                 self.setLineHeight()
+                
          };
         self.$http(method,param,successd,error);
     },
