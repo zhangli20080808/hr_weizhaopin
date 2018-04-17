@@ -549,7 +549,7 @@ html, body, #app, #h5, .wrap {
                         width : 90%;
                         // height : 100%;
                         background: #fff;
-                        max-height: 74%;
+                        height: 74%;
                         border-radius: 10px;
                         border: 2px solid #23FFC9;
                         font-size: 14px;
@@ -571,6 +571,7 @@ html, body, #app, #h5, .wrap {
                                     white-space: nowrap;
                                     overflow: hidden;
                                     text-overflow: ellipsis;
+                                    width: 75%;
                                 }
                                 .positionIntroduce{
                                     color:rgba(102,102,102,1);
