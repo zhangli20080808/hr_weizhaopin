@@ -117,7 +117,9 @@ export default {
     Confirm
   },
   created(){
+      console.log(this.$route.query)
     this.options = this.$route.query
+    
     this.getOfferApprovalDetail()
   },
   methods:{
@@ -176,14 +178,13 @@ export default {
                 self.$vux.toast.text('请先填写拒绝原因哦！')
                 return;
         }
-        let progressId,nextApprovalUserId;
+        let progressId;
         let approvalUserId = self.options.approvalUserId;
         let progressList = self.offerApprovalDetail.progressList;
         for(let i=0; i<progressList.length;i++){
             if(progressList[i].userId == approvalUserId){
                 progressId = progressList[i].id;
-                nextApprovalUserId = progressList[i+1].userId;
-                return;
+                break;
             }
         }
         let method = 'iinterviewer/agreeOffer',
@@ -194,9 +195,10 @@ export default {
             progressId:progressId,
         }),
         successd = function(res){
-           self.$router.push({
-               name:'approvalList'
-           })
+            self.$router.back()
+        //    self.$router.push({
+        //        name:'approvalList',
+        //    })
         };
         self.$http(method,param,successd);
     },
