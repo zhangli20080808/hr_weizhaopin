@@ -192,7 +192,6 @@ export default {
             offerApprovalId:self.options.id,
             rejectReason:self.msgReason,
             progressId:progressId,
-            nextApprovalUserId:nextApprovalUserId,
         }),
         successd = function(res){
            self.$router.push({
