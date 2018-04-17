@@ -37,7 +37,7 @@
                     <div class="content">
                         <scroller lock-x :scrollbar-x="false" :scrollbar-y="false" height="440px">
                              <ul>
-                                <li v-for="(item,index) in arr" :key="index" @click="toDetial(item)">
+                                <li ref="toDetialLi" v-for="(item,index) in arr" :key="index" @click="toDetial(item)">
                                     <div class="positionName">{{item.positionName}}</div>
                                     <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}{{item.showSalaryType==1? 'k': ''}} - {{item.positionSalaryHighest}}{{item.showSalaryType==1? 'k': ''}}</div>
                                     <img  class="details" src="../components/images/details.png" alt="详情">
@@ -185,11 +185,12 @@ export default {
     },
     toDetial(item){
         clearInterval(this.timer)
+        localStorage.setItem('toDetial', 20)
         this.$router.push({
             name: 'listDetail',
             query: {
                 companyId: this.companyId,
-                positionId:item.id,
+                positionId:item.id
             }
         })
     },
@@ -291,7 +292,11 @@ export default {
             self.h5.activityPhone = recruitActivity.activityPhone;
             document.title = recruitActivity.pageTitle || '微活动';
             self.getSignature();
-            self.h5.recruitingPositionList = self.split_array(self.h5.recruitingPositionList, 6)
+            var count = 6;
+            if(window.innerHeight < 667){
+              count = 5;
+            }
+            self.h5.recruitingPositionList = self.split_array(self.h5.recruitingPositionList, count)
           };
         self.$http(method,param,successd);
       },

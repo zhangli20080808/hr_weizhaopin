@@ -18,7 +18,8 @@
             <dd class="position_detail_money">
               <span>{{filterCity(fav.workCity)}}</span>
               <span>{{fav.positionType == 1 ? '全职' : fav.positionType == 2 ? '兼职' : '实习'}}</span>
-              <span>{{fav.positionSalaryLowest}}K-{{fav.positionSalaryHighest}}K</span>
+              <span v-if="fav.showSalaryType==2">{{fav.positionSalaryLowest}}-{{fav.positionSalaryHighest}}</span>
+              <span v-else>{{fav.positionSalaryLowest}}K-{{fav.positionSalaryHighest}}K</span>
               <!-- <div class="position_list_right">{{item.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
@@ -248,7 +249,6 @@
         }
         dt {
           line-height: 0.48rem;
-          height: 0.48rem;
           margin-bottom: 10px;
           font-size: 0.34rem;
           color: #222;
@@ -260,6 +260,10 @@
           .position_name {
             display: inline-block;
             vertical-align: middle;
+            width:70%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
           }
           .position_detail_right {
             float: right;

@@ -30,7 +30,7 @@
       <div v-if="headType==1" class="baseInfo">
         <group class="baseInfoTitle" gutter='0' :label-width="labelWidth" title="基本信息">
           <x-input title="姓名" v-model="interviewResumeInfo.name" class="" placeholder="请填写完整姓名"></x-input>
-          <datetime v-model="interviewResumeInfo.birthday" title="生日" :min-year="1970" :max-year="2010" placeholder="请选择出生年月"></datetime>
+          <datetime v-model="interviewResumeInfo.birthday" title="生日" :min-year="1970" :max-year="2020" placeholder="请选择出生年月"></datetime>
           <popup-picker title="性别" :data="sexArr" v-model="sexValue" show-name value-text-align="left"></popup-picker>
         </group>
         <group :label-width="labelWidth" class="baseInfoTitle before_border_none"  gutter='0'>
