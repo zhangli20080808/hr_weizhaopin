@@ -24,11 +24,13 @@ export default {
         productImageUrl: '',
         productName: '',
         productDescription: '',
-        Itemindex: this.$route.query.index || localStorage.getItem('Itemindex'),
+        Itemindex: this.$route.query.index,
       }
   },
   computed: {
       productIntroductionNow(){
+        console.log(this.productIntroductionList[this.Itemindex])
+        console.log('this.productIntroductionList[this.Itemindex]')
           return this.productIntroductionList[this.Itemindex];
       }
   },
@@ -38,7 +40,7 @@ export default {
       }
   },
   created(){
-    this.productIntroductionList = JSON.parse('productIntroductionList');
+    this.productIntroductionList = JSON.parse(localStorage.getItem('productIntroductionList'));
   },
    components: {
     Tab,
