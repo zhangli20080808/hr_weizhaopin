@@ -167,29 +167,6 @@
             </div>
           </div>
           <div class="contant-list" v-show="list">
-            <!--<li v-for="item in list" @click="selectItem(item)">-->
-              <!--<div class="job-list-item">-->
-                <!--<div class="title">-->
-                  <!--<span class="prior" v-if="item.isUrgent == 1">[急招]&nbsp;</span>-->
-                  <!--<span class="text">{{item.positionName}}</span>-->
-                <!--</div>-->
-                <!--<div class="details">-->
-              <!--<span class="misc">-->
-                <!--<span class="secondary">{{getCity(item.workCity)}}</span>-->
-                <!--<span class="secondary">{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>-->
-                <!--<span-->
-                  <!--class="secondary">{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>-->
-              <!--</span>-->
-                <!--</div>-->
-                <!--<div class="secondary-details">-->
-              <!--<span class="opened-at">-->
-                <!--<span>发布时间：</span>-->
-                <!--<span>{{filter(item.posiPublishTime)}}</span>-->
-                <!--<span style="margin-left: 10px">浏览次数: &nbsp;{{item.views}}</span>-->
-              <!--</span>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</li>-->
             <dl class="position_detail" v-for="item in list" @click="selectItem(item)">
               <dt>
                 <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
@@ -198,7 +175,8 @@
               </dt>
               <dd class="position_detail_money">
                 <span >{{getCity(item.workCity)}}</span>
-                <span >{{item.positionSalaryLowest}}k-{{item.positionSalaryHighest}}k</span>
+                <span v-if="item.showSalaryType==2">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
+                <span v-else>{{item.positionSalaryLowest}}K-{{item.positionSalaryHighest}}K</span>
                 <span >{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>
               </dd>
               <dd class="position_detail_date">
@@ -1490,6 +1468,10 @@
                 .position_name{
                   display: inline-block;
                   vertical-align: middle;
+                  width:80%;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  overflow: hidden;
                 }
                 .position_detail_right{
                   float: right; font-size: 0.18rem;font-weight: 500;color: #FDA732;

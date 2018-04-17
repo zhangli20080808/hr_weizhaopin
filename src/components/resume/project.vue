@@ -5,8 +5,8 @@
       <x-input title="所属企业" v-model="project.company" placeholder="项目是属于什么企业?"></x-input>
     </group>
     <group :label-width="labelWidth">
-      <datetime v-model="project.startDateStr" title="开始时间" :min-year="1970" :max-year="2010" placeholder="请选择开始时间" format="YYYY-MM"></datetime>
-      <datetime v-model="project.endDateStr" title="结束时间" :min-year="1970" v-if="!untilNow" :max-year="2010" placeholder="请选择结束时间" format="YYYY-MM"></datetime>
+      <datetime v-model="project.startDateStr" title="开始时间" :min-year="1970" :max-year="2020" placeholder="请选择开始时间" format="YYYY-MM"></datetime>
+      <datetime v-model="project.endDateStr" title="结束时间" :min-year="1970" v-if="!untilNow" :max-year="2020" placeholder="请选择结束时间" format="YYYY-MM"></datetime>
       <cell title="结束时间" value-align="left" v-else is-link>至今</cell>
       <cell title="进行中" value-align="left">
         <check-icon :value.sync="untilNow">是</check-icon>
@@ -84,12 +84,11 @@ export default {
         self.$vux.toast.text('请选择结束时间');
         return false
       }
-      // self.project.untilNow=self.untilNow?1:0;
       if(self.untilNow){
-         self.project.untilNow = 1
-         self.project.endDateStr = ''
+          self.project.untilNow = 1
+          self.project.endDateStr = ""
       }else{
-         self.project.untilNow = 0
+          self.project.untilNow = 0
       }
       var method="resume/updateResumeInfo",
           param=JSON.stringify({
