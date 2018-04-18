@@ -2,7 +2,7 @@
   <div class="approval-list">
        <scroller class="scroller" lock-x ref="scrollerBottom" height="-0" :scroll-bottom-offst="100" v-if="offerApprovalList && offerApprovalList.length>0">
             <ul class="approval-ul">
-                <li class="li vux-1px-b" v-for="item in offerApprovalList" :key="item.id" @click="linkTo(item)">
+                <li class="li" v-for="item in offerApprovalList" :key="item.id" @click="linkTo(item)">
                     <div class="headimg">
                         <img src="../../common/image/default_avatar2.png" alt="" v-if="item.headImg">
                         <img src="../../common/image/default_avatar2.png" alt="" v-else>
@@ -97,7 +97,7 @@
 
 <style lang="less" scoped>
 .approval-ul{margin-top:.24rem;}
-.approval-ul .li{padding:.24rem .2rem;display: flex; background-color: #fff;}
+.approval-ul .li{padding:.24rem .2rem;display: flex; background-color: #fff; border-bottom:1px solid #e5e5e5;}
 .approval-ul .li:last-child{ border-bottom:none;}
 .approval-ul .li .headimg{width:1rem;height: 1rem;overflow: hidden; border-radius: 50%;margin-right:.24rem;}
 .approval-ul .li .headimg img{width:100%;height: 100%;  border-radius: 50%;}
