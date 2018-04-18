@@ -30,10 +30,10 @@
         </div>
    <!-- offer基本信息 -->
       <div class="offer-info">
-          <div class="offer-salary">
-               <p class="pItem"><span class="key">正式薪资：</span><span class="value">{{offerApprovalDetail.jobSalary}}</span></p>
-               <p class="pItem"><span class="key">试用期薪资： </span><span class="value">{{offerApprovalDetail.jobSalaryPre}}</span></p>
-               <p class="pItem"><span class="key">薪酬备注：</span><span class="value">{{offerApprovalDetail.salaryRemark}}</span></p>
+          <div class="offer-salary" v-if="offerApprovalDetail.jobSalary || offerApprovalDetail.jobSalaryPre || offerApprovalDetail.salaryRemark">
+               <p class="pItem" v-if="offerApprovalDetail.jobSalary"><span class="key">正式薪资：</span><span class="value">{{offerApprovalDetail.jobSalary}}</span></p>
+               <p class="pItem" v-if="offerApprovalDetail.jobSalaryPre"><span class="key">试用期薪资： </span><span class="value">{{offerApprovalDetail.jobSalaryPre}}</span></p>
+               <p class="pItem" v-if="offerApprovalDetail.salaryRemark"><span class="key">薪酬备注：</span><span class="value">{{offerApprovalDetail.salaryRemark}}</span></p>
           </div>
           <div class="offer-other">
               <p class="pItem"><span class="key">到岗日期：</span><span class="value">{{offerApprovalDetail.joinDate}}</span></p>
