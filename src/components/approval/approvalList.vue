@@ -4,7 +4,7 @@
             <ul class="approval-ul">
                 <li class="li" v-for="item in offerApprovalList" :key="item.id" @click="linkTo(item)">
                     <div class="headimg">
-                        <img src="../../common/image/default_avatar2.png" alt="" v-if="item.headImg">
+                        <img :src="item.headImg" alt="" v-if="item.headImg">
                         <img src="../../common/image/default_avatar2.png" alt="" v-else>
                     </div>
                     <div class="content">
@@ -102,7 +102,7 @@
 .approval-ul .li .headimg{width:1rem;height: 1rem;overflow: hidden; border-radius: 50%;margin-right:.24rem;}
 .approval-ul .li .headimg img{width:100%;height: 100%;  border-radius: 50%;}
 .approval-ul .li .content{flex:1;}
-.approval-ul .li .content-name { font-size:.32rem; line-height: 1.5; margin-bottom:.12rem; color: #999}
+.approval-ul .li .content-name { font-size:.32rem; line-height: 1.5; color: #999}
 .approval-ul .li .content-name span{ color: #000; margin-right:.2rem;}
 .approval-ul .li .content-status {display: inline-block; padding:4px; font-size:.26rem; color: #5AA2E7; border-radius: 2px; background-color: rgba(232,241,248,1);}
 .approval-ul .li .time {width:2.4rem; font-size:.24rem; color: #B2B2B2; text-align: right; line-height: 1.5;}
