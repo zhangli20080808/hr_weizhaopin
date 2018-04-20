@@ -65,8 +65,13 @@ import authentification from 'components/personal/authentification';
 import authentification_gzh from 'components/personal/authentification_gzh';
 import authentificationResult from 'components/personal/authentificationResult';
 
+
 //创建简历
 import createResume from "components/microresume/createResume"
+
+//offer审批
+import approvalList from 'components/approval/approvalList';
+import approvalDetail from 'components/approval/approvalDetail';
 
 
 Vue.use(Router)
@@ -308,6 +313,15 @@ export default new Router({
       path:'/createResume',
       name:'createResume',
       component:createResume,
-    }
+    },{
+      path:'/approvalList',
+      name:'approvalList',
+      component:approvalList
+    },
+    {
+      path:'/approvalDetail',
+      name:'approvalDetail',
+      component:approvalDetail
+    },
   ]
 })
