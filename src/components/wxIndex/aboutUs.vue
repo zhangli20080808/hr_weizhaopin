@@ -535,7 +535,7 @@ import index from 'vue';
           path: '/teamwork',
           query: {
             companyId: this.companyId,
-            WorkTeam: this.WorkTeam
+            WorkTeam: JSON.stringify(this.preWorkTeam)
           }
         })
       },
@@ -750,7 +750,8 @@ import index from 'vue';
         this.$router.push({
           name: 'onlinePosition',
           query: {
-            companyId: this.companyId
+            companyId: this.companyId,
+            id: this.weWebsiteId
           }
         })
       },

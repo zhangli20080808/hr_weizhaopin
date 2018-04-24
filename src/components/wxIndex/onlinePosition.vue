@@ -102,7 +102,8 @@
         var method = "companyWeb/getWeWebsitePositionByCategoryId";
         var param = JSON.stringify({
           companyId: this.companyId,
-          type: 2
+          type: 2,
+          id: this.$route.query.id
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -116,7 +117,8 @@
         this.$router.push({
           name: 'about',
           query: {
-            companyId: this.companyId
+            companyId: this.companyId,
+            weWebsiteId: this.$route.query.id
           }
         })
       },
@@ -177,7 +179,7 @@
               self.tuijianObj=res.data;
               if(self.tuijianObj.headImg == ''||self.tuijianObj.headImg == null){
                     self.tuijianObj.headImg = 'https://aijuhr.com/images/yidong/head_wx.png'
-                  }              
+                  }
                 };
         self.$webHttp(method,param,successd);
       },
