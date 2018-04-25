@@ -101,7 +101,6 @@
         var _this = this;
         var method = "companyWeb/getWeWebsitePositionByCategoryId";
         var param = JSON.stringify({
-          companyId: this.companyId,
           type: 2,
           id: this.$route.query.id
         });
