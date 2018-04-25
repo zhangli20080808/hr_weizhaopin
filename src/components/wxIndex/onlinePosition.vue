@@ -77,6 +77,7 @@
     data(){
       return {
         companyId: '',
+        weWebsiteId:'',
         list: [],
         active: true,
         showMore: false,
@@ -100,7 +101,7 @@
         var _this = this;
         var method = "companyWeb/getWeWebsitePositionByCategoryId";
         var param = JSON.stringify({
-          companyId: this.companyId,
+          id: this.weWebsiteId,
           type: 2
         });
         var successd = function (res) {
@@ -200,6 +201,7 @@
     },
     created(){
       this.companyId = this.$route.query.companyId
+      this.weWebsiteId = this.$route.query.weWebsiteId
       this.$nextTick(() => {
         this.getOnlinePosition();
         if(!this.fansId){

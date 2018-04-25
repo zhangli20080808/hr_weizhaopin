@@ -318,7 +318,10 @@
           let queryParam = this.urlParse();
           return queryParam.companyId;
         })(),
-
+         weWebsiteId: (() => {
+          let queryParam = this.urlParse();
+          return queryParam.weWebsiteId;
+        })(),
         // //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
         subcribeMap: {
           subcribeStatus: ''
@@ -399,7 +402,7 @@
         var method = "companyWeb/getCompanyDetail";
         var param = JSON.stringify({
           type: 2,
-          companyId: _this.companyId
+          id: _this.weWebsiteId
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -621,7 +624,8 @@
         this.$router.push({
           name: 'onlinePosition',
           query: {
-            companyId: this.companyId
+            companyId: this.companyId,
+            weWebsiteId:this.weWebsiteId
           }
         })
       },
