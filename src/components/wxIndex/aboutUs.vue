@@ -399,7 +399,7 @@
       //查询微官网
       getCompanyDetail(){
         var _this = this;
-        var method = "companyWeb/getCompanyDetail";
+        var method = "companyWeb/getCompanyDetailForApp";
         var param = JSON.stringify({
           type: 2,
           id: _this.weWebsiteId
