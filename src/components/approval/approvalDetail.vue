@@ -24,7 +24,7 @@
               <div class="bottom-box">
                 <label class="label" for="">应聘</label>
                 <span class="position-name">{{offerApprovalDetail.position}}</span>
-                <span class="date">{{$date(offerApprovalDetail.postTime)}}</span>
+                <span class="date">{{offerApprovalDetail.postTime || ''}}</span>
               </div>
            </div>
         </div>
