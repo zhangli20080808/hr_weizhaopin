@@ -102,7 +102,8 @@
         var method = "companyWeb/getWeWebsitePositionByCategoryId";
         var param = JSON.stringify({
           type: 2,
-          id: this.$route.query.id
+          companyId:this.companyId
+          // id: this.$route.query.id
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -117,7 +118,7 @@
           name: 'about',
           query: {
             companyId: this.companyId,
-            weWebsiteId: this.$route.query.id
+            // weWebsiteId: this.$route.query.id
           }
         })
       },
