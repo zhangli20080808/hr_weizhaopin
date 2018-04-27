@@ -76,7 +76,7 @@
     <!-- 底部按钮 -->
     <div class="btn-fixed">
         <div class="btn-item btn-refuse" @click="showConfirm(0)">拒绝</div>
-        <div class="btn-item btn-confirm" @click="showConfirm(1)">确定</div>
+        <div class="btn-item btn-confirm" @click="showConfirm(1)">同意</div>
     </div>
     <!-- 对话框 -->
      <div>
