@@ -246,12 +246,13 @@ export default {
          padding-top:.24rem;
      }
       .pItem{
+          display: flex;
         line-height: 1.5;
         .key{
           display: inline-block;
           width:1.8rem;
         }
-        .value{ color:#333;}
+        .value{ color:#333; flex:1;}
       }
  }
  .approval-progress{
