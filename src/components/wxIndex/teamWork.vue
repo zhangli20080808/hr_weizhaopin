@@ -108,18 +108,18 @@
       //查询workTeam
       getWorkTeam(){
         console.log(this.$route)
-        // this.WorkTeam = JSON.parse(this.$route.query.WorkTeam)
-        var _this = this;
-        var method = "companyWeb/getWorkTeamInfo";
-        var param = JSON.stringify({
-          companyId: _this.companyId
-        });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            _this.WorkTeam = res.data.data
-          }
-        }
-        _this.$http(method, param, successd);
+        this.WorkTeam = JSON.parse(this.$route.query.WorkTeam)
+        // var _this = this;
+        // var method = "companyWeb/getWorkTeamInfo";
+        // var param = JSON.stringify({
+        //   companyId: _this.companyId
+        // });
+        // var successd = function (res) {
+        //   if (res.data.code == 0) {
+        //     _this.WorkTeam = res.data.data
+        //   }
+        // }
+        // _this.$http(method, param, successd);
       },
       back(){
         this.$router.back()

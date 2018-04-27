@@ -417,10 +417,10 @@ import index from 'vue';
           let queryParam = this.urlParse();
           return queryParam.companyId;
         })(),
-        // weWebsiteId: (() => {
-        //   let queryParam = this.urlParse();
-        //   return queryParam.weWebsiteId;
-        // })(),
+        weWebsiteId: (() => {
+          let queryParam = this.urlParse();
+          return queryParam.weWebsiteId;
+        })(),
         // //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
         subcribeMap: {
           subcribeStatus: ''
@@ -514,8 +514,7 @@ import index from 'vue';
         var method = "companyWeb/getCompanyDetail";
         var param = JSON.stringify({
           type: 2,
-          // id: _this.weWebsiteId,
-          companyId:_this.companyId
+          id: _this.weWebsiteId
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -751,7 +750,7 @@ import index from 'vue';
           name: 'onlinePosition',
           query: {
             companyId: this.companyId,
-            // id: this.weWebsiteId
+            id: this.weWebsiteId
           }
         })
       },
