@@ -5,7 +5,7 @@
     <!--<i class="icon" @click="back"></i>-->
     <!--<h2 class="title">我们的团队</h2>-->
     <!--</div>-->
-    <div class="cards" v-for="item in WorkTeam" ref="card">
+    <div class="cards" v-for="(item,index) in WorkTeam" ref="card">
       <div class="card-type-1">
         <div class="g-card">
           <div class="template-card">
@@ -93,7 +93,7 @@
     data(){
       return {
         companyId: '',
-        WorkTeam: []
+        WorkTeam: JSON.parse(localStorage.getItem("WorkTeam"))
       }
     },
     props: {
@@ -106,21 +106,21 @@
     },
     methods: {
       //查询workTeam
-      getWorkTeam(){
-        console.log(this.$route)
-        // this.WorkTeam = JSON.parse(this.$route.query.WorkTeam)
-        var _this = this;
-        var method = "companyWeb/getWorkTeamInfo";
-        var param = JSON.stringify({
-          companyId: _this.companyId
-        });
-        var successd = function (res) {
-          if (res.data.code == 0) {
-            _this.WorkTeam = res.data.data
-          }
-        }
-        _this.$http(method, param, successd);
-      },
+      // getWorkTeam(){
+      //   console.log(this.$route)
+      //   // this.WorkTeam = JSON.parse(this.$route.query.WorkTeam)
+      //   var _this = this;
+      //   var method = "companyWeb/getWorkTeamInfo";
+      //   var param = JSON.stringify({
+      //     companyId: _this.companyId
+      //   });
+      //   var successd = function (res) {
+      //     if (res.data.code == 0) {
+      //       _this.WorkTeam = res.data.data
+      //     }
+      //   }
+      //   _this.$http(method, param, successd);
+      // },
       back(){
         this.$router.back()
       }
@@ -128,7 +128,7 @@
     created(){
       this.$nextTick(() => {
         this.companyId = this.$route.query.companyId
-        this.getWorkTeam()
+        // this.getWorkTeam()
         document.title = '我们的团队'
       })
     }

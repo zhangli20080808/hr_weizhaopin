@@ -84,7 +84,7 @@
                 </div>
 
               <scroller height="128"  lock-y :scrollbar-x=false width="auto">
-                <div class="box1" ref="box1Width" :class="{moreThan: productIntroductionList.length&& productIntroductionList.length>1}" :style="{width: widthauto}">
+                <div class="box1" ref="box1Width" :class="{moreThan: productIntroductionList.length && productIntroductionList.length>1}" :style="{width: widthauto}">
                   <div class="productIntroductionList" v-for="(item, index) in productIntroductionList" :key="index" @click="productIntroductionDeatil(index, productIntroductionList)">
                     <div style="display: flex;flex-direction: column;">
                       <img :src="item.productImageUrl" alt="暂无图片">
@@ -530,12 +530,12 @@ import index from 'vue';
         _this.$http(method, param, successd);
       },
       teamworkDeatil(){
+        localStorage.setItem("WorkTeam",JSON.stringify(this.preWorkTeam))
         this.$router.push({
           name: 'teamwork',
           path: '/teamwork',
           query: {
-            companyId: this.companyId,
-            WorkTeam: JSON.stringify(this.preWorkTeam)
+            companyId: this.companyId
           }
         })
       },
@@ -994,6 +994,8 @@ p.companyIntroductionTextMore{
 .box1 {
   position: relative;
   width: 1490px;
+  padding-bottom: 15px;
+  overflow: hidden;
 }
 .midBodde{
   border-top: 1px solid #eee;
