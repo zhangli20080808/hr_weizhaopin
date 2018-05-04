@@ -571,15 +571,17 @@ import index from 'vue';
         })
       },
       productIntroductionDeatil(index, list){
-        console.log(index)
-        localStorage.setItem('productIntroductionList',JSON.stringify(list))
-        this.$router.push({
-          name: 'productIntroductionDeatil',
-          path: '/productIntroductionDeatil',
-          query: {
-            index: index
-          }
-        })
+        // console.log(list)
+        localStorage.setItem('productIntroductionList',JSON.stringify(list));
+        if(list[index].productDescription!=""){
+          this.$router.push({
+            name: 'productIntroductionDeatil',
+            path: '/productIntroductionDeatil',
+            query: {
+              index: index
+            }
+          })          
+        }
       },
       //获取分享标题
       getShareTitleInfo(){
