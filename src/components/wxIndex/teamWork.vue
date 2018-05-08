@@ -214,12 +214,12 @@ import { join } from 'path';
   }
 
   .teamwork .cards .gm-card-offset .gm-card-header .gm-card-title {
-    font-size: 0.32rem;
+    font-size: .32rem;
     font-weight: 400;
     color: #000;
     position: relative;
-    height: 49px;
     line-height: 49px;
+    width: 200%;
   }
 
   .teamwork .cards .member-list .gm-card-header .gm-card-title {
