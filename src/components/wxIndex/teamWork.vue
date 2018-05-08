@@ -52,8 +52,7 @@
               </h2>
             </div>
           </div>
-          <div class="member-list" v-for="list in item.memberList">
-
+          <div class="member-list" v-for="(list,index) in item.memberList" v-if="list.isshow">
             <div class="member">
               <div class="member-header">
                 <div class="ref-image">
@@ -88,6 +87,7 @@
 
 <script>
   import footerNav from '../../components/base/foot'
+import { join } from 'path';
 
   export default {
     data(){
@@ -123,9 +123,21 @@
       // },
       back(){
         this.$router.back()
+      },
+      WorkTeam_member_isnull(){
+        for (var i=0;i<this.WorkTeam.length;i++){
+            for(var j=0;j<this.WorkTeam[i].memberList.length;j++){
+              this.WorkTeam[i].memberList[j].isshow=1; //单独员工默认展示
+              if(this.WorkTeam[i].memberList[j].description=="" && this.WorkTeam[i].memberList[j].name=="" && this.WorkTeam[i].memberList[j].positionName=="" && this.WorkTeam[i].memberList[j].photoUrl==null){
+                this.WorkTeam[i].memberList[j].isshow=0;
+              }
+            }
+        }
+        console.log(this.WorkTeam);         
       }
     },
     created(){
+      this.WorkTeam_member_isnull();
       this.$nextTick(() => {
         this.companyId = this.$route.query.companyId
         // this.getWorkTeam()
