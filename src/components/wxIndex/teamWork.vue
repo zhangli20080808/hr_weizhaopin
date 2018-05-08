@@ -44,7 +44,8 @@
           </div>
           <div class="split"></div>
           <!--团队成员-->
-          <div class="member-title" v-show="item.memberList.length>0">
+          <section v-show="item.workteam_isshow">
+          <div class="member-title" >
             <div class="gm-card-header">
               <h2 class="gm-card-title vux-1px-b">
                 <span class="member_us"></span>
@@ -69,6 +70,7 @@
 
             </div>
           </div>
+          </section>
           <div class="split" v-show="item.memberList.length>0"></div>
         </div>
       </div>
@@ -126,10 +128,12 @@ import { join } from 'path';
       },
       WorkTeam_member_isnull(){
         for (var i=0;i<this.WorkTeam.length;i++){
+            this.WorkTeam[i].workteam_isshow=1; //团队是否展示
             for(var j=0;j<this.WorkTeam[i].memberList.length;j++){
               this.WorkTeam[i].memberList[j].isshow=1; //单独员工默认展示
               if(this.WorkTeam[i].memberList[j].description=="" && this.WorkTeam[i].memberList[j].name=="" && this.WorkTeam[i].memberList[j].positionName=="" && this.WorkTeam[i].memberList[j].photoUrl==null){
                 this.WorkTeam[i].memberList[j].isshow=0;
+                this.WorkTeam[i].workteam_isshow=0; //团队是否展示
               }
             }
         }
@@ -143,6 +147,9 @@ import { join } from 'path';
         // this.getWorkTeam()
         document.title = '我们的团队'
       })
+    },
+    mounted(){
+      this.WorkTeam_member_isnull();
     }
   }
 

@@ -40,11 +40,6 @@
         </div>
       </div>
     </div>
-
-
-
-
-
     <!--公司介绍-->
     <div class="cards" v-show="preCompanyMemorabilia.length">
       <div class="card-type-1" v-show="companyIntroduction">
@@ -358,7 +353,7 @@ import index from 'vue';
           // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，<br>　　　　　　　　假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
           notNextTick: true,
           // swiper configs 所有的配置同swiper官方api配置
-          autoplay: true,
+          autoplay: 2000,
           direction: 'horizontal',
           grabCursor: false,
           setWrapperSize: true,
@@ -795,7 +790,7 @@ import index from 'vue';
         var param = JSON.stringify({
           type: 2,
           companyId: _this.companyId,
-          redirectUri: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + _this.companyId + '',
+          redirectUri: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + _this.companyId + '&weWebsiteId='+_this.companyId+'&type=2',
           code: _this.code
         });
         var successd = function (res) {
