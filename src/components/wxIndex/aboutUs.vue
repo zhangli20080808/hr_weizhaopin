@@ -396,10 +396,12 @@ import index from 'vue';
         },
         companyId: (() => {
           let queryParam = this.urlParse();
+          localStorage.setItem("companyId",queryParam.companyId);
           return queryParam.companyId;
         })(),
         weWebsiteId: (() => {
           let queryParam = this.urlParse();
+          localStorage.setItem("weWebsiteId",queryParam.weWebsiteId);
           return queryParam.weWebsiteId;
         })(),
         // //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
@@ -499,8 +501,8 @@ import index from 'vue';
         var method = "companyWeb/getCompanyDetailForApp";
         var param = JSON.stringify({
           type: 2,
-          id: _this.weWebsiteId,
-          companyId:_this.companyId
+          id: localStorage.getItem("weWebsiteId"),
+          companyId:localStorage.getItem("companyId")
         });
         var successd = function (res) {
           if (res.data.code == 0) {

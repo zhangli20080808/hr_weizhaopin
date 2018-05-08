@@ -14,7 +14,7 @@
                 <div class="gm-card-header">
                   <h2 class="gm-card-title vux-1px-b">
                     <span class="teamwork_us"></span>
-                    <span class="text">{{item.name}}</span>
+                    <div class="text">{{item.name}}</div>
                   </h2>
                 </div>
                 <!--slide-->
@@ -178,9 +178,7 @@ import { join } from 'path';
   }
 
   .g-oneline-text {
-    white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
     width: 94%;
   }
 
@@ -192,8 +190,6 @@ import { join } from 'path';
     overflow: hidden;
     width: 100%;
     background-color: #fff;
-    /*border: 1px solid #e8f0f8;*/
-    /*border-width: 1px 0;*/
   }
 
   .teamwork .cards .g-card .split {
@@ -227,12 +223,11 @@ import { join } from 'path';
   }
 
   .teamwork .cards .member-list .gm-card-header .gm-card-title {
-    font-size: 0.32rem;
+    font-size: .32rem;
     font-weight: 400;
     color: #000;
     position: relative;
-    height: 49px;
-    line-height: 49px;
+    width: 200%;
   }
 
   .teamwork .cards .gm-card-offset .gm-card-header .gm-card-title .teamwork_us {
@@ -242,6 +237,10 @@ import { join } from 'path';
     height: 15px;
     background: url(../../common/image/team_icon.png) no-repeat center;
     background-size: cover;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
   }
 
   .teamwork .cards .member-title .gm-card-title {
@@ -264,10 +263,12 @@ import { join } from 'path';
 
   .teamwork .cards .gm-card-offset .gm-card-header .gm-card-title .text, .teamwork .cards .member-title .gm-card-title .text {
     display: inline-block;
-    vertical-align: middle;
-    height: 24px;
     line-height: 24px;
     margin-left: 3px;
+    width: 45%;
+    padding-bottom: 7.5px;
+    padding-top: 7.5px;
+    padding-left: 32px;
   }
 
   .teamwork .cards .template-card {
@@ -386,31 +387,28 @@ import { join } from 'path';
 
   .teamwork .cards .member-list .member .member-header .member-name {
     margin-bottom: 4px;
-    height: 0.45rem;
+    overflow: hidden;
   }
 
   .teamwork .cards .member-list .member .member-header .member-name .name {
-    padding: 2px 4px ;
+    padding: 2px 4px;
     display: inline-block;
     border-radius: 5px;
-    text-align: center;
-    height :0.45rem;
-    line-height :0.4rem;
-    background: #5AA2E7;
+    text-align: justify;
+    background: #5aa2e7;
     color: #fff;
-    font-size: 0.26rem;
+    font-size: .26rem;
     vertical-align: middle;
+    margin-top: 5px;
   }
 
   .teamwork .cards .member-list .member .member-header .member-name .positionName {
-    display: inline-block;
     vertical-align: middle;
-    padding-top:1px;
+    padding-top: 1px;
     color: #222;
-    height :0.45rem;
-    line-height :0.45rem;
-    font-size: 0.34rem;
-    margin-left :6px;
+    font-size: .34rem;
+    float: left;
+    margin-top: 5px;
   }
 
   .teamwork .cards .member-list .member .member-main {
