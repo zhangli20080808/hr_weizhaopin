@@ -49,7 +49,7 @@
             <div class="gm-card-header">
               <h2 class="gm-card-title vux-1px-b">
                 <span class="member_us"></span>
-                <span class="text">团队成员</span>
+                <span class="text" style="padding-left:0;">团队成员</span>
               </h2>
             </div>
           </div>

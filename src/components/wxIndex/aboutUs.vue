@@ -792,7 +792,7 @@ import index from 'vue';
         var param = JSON.stringify({
           type: 2,
           companyId: _this.companyId,
-          redirectUri: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + _this.companyId + '&weWebsiteId='+_this.companyId+'&type=2',
+          redirectUri: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + _this.companyId,
           code: _this.code
         });
         var successd = function (res) {
@@ -905,7 +905,8 @@ import index from 'vue';
             param={
               scope:'snsapi_userinfo',
               pageFrom:4,
-              companyId:self.companyId
+              companyId:self.companyId,
+              id:self.weWebsiteId,
             },
             successd=function(res){
               if(res.data.userSession==0){
