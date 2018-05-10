@@ -40,12 +40,7 @@
         </div>
       </div>
     </div>
-
-
-
-
-
-    <!--办公环境-->
+    <!--公司介绍-->
     <div class="cards" v-show="preCompanyMemorabilia.length">
       <div class="card-type-1" v-show="companyIntroduction">
         <div class="g-card">
@@ -71,86 +66,91 @@
           </div>
         </div>
       </div>
-       <div class="card-type-2" v-show="productIntroductionList.length && productIntroductionList[0]['productName'] !=null">
-        <div class="g-card">
-          <div class="template-card">
-            <div class="template-complex">
-              <div class="gm-card-offset">
-                <div class="gm-card-header">
-                  <h2 class="gm-card-title">
-                    <span class="env_img"></span>
-                    <span class="text">产品介绍</span>
-                  </h2>
-                </div>
+      <!-- 产品介绍 -->
+      <section v-if="Product_introduction_isshow">
+        <div class="card-type-2" v-show="productIntroductionList.length && productIntroductionList[0]['productName'] !=null">
+          <div class="g-card">
+            <div class="template-card">
+              <div class="template-complex">
+                <div class="gm-card-offset">
+                  <div class="gm-card-header">
+                    <h2 class="gm-card-title">
+                      <span class="env_img"></span>
+                      <span class="text">产品介绍</span>
+                    </h2>
+                  </div>
 
-              <scroller height="128"  lock-y :scrollbar-x=false width="auto">
-                <div class="box1" ref="box1Width" :class="{moreThan: productIntroductionList.length&& productIntroductionList.length>1}" :style="{width: widthauto}">
-                  <div class="productIntroductionList" v-for="(item, index) in productIntroductionList" :key="index" @click="productIntroductionDeatil(index, productIntroductionList)">
-                    <div style="display: flex;flex-direction: column;">
-                      <img :src="item.productImageUrl" alt="暂无图片">
-                      <div class="midBodde"></div>
-                      <p>{{ item.productName }}</p>
+                <scroller height="128"  lock-y :scrollbar-x=false width="auto">
+                  <div class="box1" ref="box1Width" :class="{moreThan: productIntroductionList.length && productIntroductionList.length>1}" :style="{width: widthauto}">
+                    <div class="productIntroductionList" v-for="(item, index) in productIntroductionList" :key="index" @click="productIntroductionDeatil(index, productIntroductionList)">
+                      <div style="display: flex;flex-direction: column;">
+                        <img :src="item.productImageUrl" alt="">
+                        <div class="midBodde"></div>
+                        <p>{{ item.productName }}</p>
+                      </div>
                     </div>
                   </div>
+                </scroller>
+
+                  <!-- <div class="slides" style="height: 239px">
+                    <swiper :options="swiperOption2" ref="mySwiper" style="background:#fff;">
+                      <swiper-slide style="cursor: pointer;" v-for="(item,index) in productIntroductionList" :key="item.productName">
+                        <div @click="productIntroductionDeatil(item)">
+                          <div class="media" style="height: 180px">
+                            <img :src="item.productImageUrl" alt="" width="100%" height="100%">
+                          </div>
+                          <div class="title g-oneline-text">
+                            {{item.productName}}
+                          </div>
+                        </div>
+                      </swiper-slide>
+                      <div class="swiper-pagination" slot="pagination"></div>
+                    </swiper>
+                  </div> -->
+
                 </div>
-              </scroller>
-
-                <!-- <div class="slides" style="height: 239px">
-                  <swiper :options="swiperOption2" ref="mySwiper" style="background:#fff;">
-                    <swiper-slide style="cursor: pointer;" v-for="(item,index) in productIntroductionList" :key="item.productName">
-                      <div @click="productIntroductionDeatil(item)">
-                        <div class="media" style="height: 180px">
-                          <img :src="item.productImageUrl" alt="" width="100%" height="100%">
-                        </div>
-                        <div class="title g-oneline-text">
-                          {{item.productName}}
-                        </div>
-                      </div>
-                    </swiper-slide>
-                    <div class="swiper-pagination" slot="pagination"></div>
-                  </swiper>
-                </div> -->
-
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="card-type-1">
-        <div class="g-card">
-          <div class="template-card">
-            <div class="template-complex">
-              <div class="gm-card-offset">
-                <div class="gm-card-header">
-                  <h2 class="gm-card-title">
-                    <span class="pos_ware"></span>
-                    <span class="text">发展历程</span>
-                    <div class="allR" v-if="preCompanyMemorabilia && preCompanyMemorabilia.length>4">
-                      <span class="info" @click="CompanyMemorabiliaDeatil">查看更多信息</span>
-                      <span class="icon"></span>
-                    </div>
-                  </h2>
-                </div>
-                <!--slide-->
-                <!-- <div class="vertical-list">
-                  <div class="gamma-type-0">
-                    <div style="overflow: hidden; display: block; position: relative;">
-                      <div class="slide">
-                        <div class="list-item" :class="{'active': preCompanyMemorabiliaImg}" v-for="(item, index) in preCompanyMemorabilia">
-                          <div class="inner">
-                            <div class="g-flex">
-                              <div class="gamma-left">
-                                <img v-show="!preCompanyMemorabiliaImg" class="link-image" :src="item.imageUrl">
-                                <span v-show="preCompanyMemorabiliaImg"  :class="{'active': index ==0 }" class="preCompanyMemorabiliaNum"></span>
-                              </div>
-                              <div class="g-column gamma-right">
-                                <div class="gamma-right-height">
-                                  <span>{{filterTime(item.date)}}</span>
-                                  <div class="gamma-description">
-                                    {{item.description}}
+      </section>
+      <!-- 发展历程 -->
+      <section v-if="development_history_isshow">
+        <div class="card-type-1">
+          <div class="g-card">
+            <div class="template-card">
+              <div class="template-complex">
+                <div class="gm-card-offset">
+                  <div class="gm-card-header">
+                    <h2 class="gm-card-title">
+                      <span class="pos_ware"></span>
+                      <span class="text">发展历程</span>
+                      <div class="allR" v-if="preCompanyMemorabilia && preCompanyMemorabilia.length>4">
+                        <span class="info" @click="CompanyMemorabiliaDeatil">查看更多信息</span>
+                        <span class="icon"></span>
+                      </div>
+                    </h2>
+                  </div>
+                  <!--slide-->
+                  <!-- <div class="vertical-list">
+                    <div class="gamma-type-0">
+                      <div style="overflow: hidden; display: block; position: relative;">
+                        <div class="slide">
+                          <div class="list-item" :class="{'active': preCompanyMemorabiliaImg}" v-for="(item, index) in preCompanyMemorabilia">
+                            <div class="inner">
+                              <div class="g-flex">
+                                <div class="gamma-left">
+                                  <img v-show="!preCompanyMemorabiliaImg" class="link-image" :src="item.imageUrl">
+                                  <span v-show="preCompanyMemorabiliaImg"  :class="{'active': index ==0 }" class="preCompanyMemorabiliaNum"></span>
+                                </div>
+                                <div class="g-column gamma-right">
+                                  <div class="gamma-right-height">
+                                    <span>{{filterTime(item.date)}}</span>
+                                    <div class="gamma-description">
+                                      {{item.description}}
+                                    </div>
+                                    <div class="gamma-text-cover"></div>
                                   </div>
-                                  <div class="gamma-text-cover"></div>
                                 </div>
                               </div>
                             </div>
@@ -158,86 +158,92 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div> -->
-                <development-history :max-lenth="4" :historyList="preCompanyMemorabilia"/>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-type-2" v-show="WorkEnvironment.length">
-        <div class="g-card">
-          <div class="template-card">
-            <div class="template-complex">
-              <div class="gm-card-offset">
-                <div class="gm-card-header">
-                  <h2 class="gm-card-title">
-                    <span class="env_img"></span>
-                    <span class="text">办公环境</span>
-                  </h2>
-                </div>
-                <!--slide-->
-                <div class="slides" style="height: 239px">
-                  <swiper :options="swiperOption2" ref="mySwiper">
-                    <!-- slides -->
-                    <swiper-slide v-for="(item,index) in WorkEnvironment" :key="item.id" @click.native="app(index)">
-                      <div class="media" style="height: 180px">
-                        <img :src="item.imageUrl" alt="" width="100%" height="100%">
-                      </div>
-                      <div class="title g-oneline-text">
-                        {{item.description}}
-                      </div>
-                    </swiper-slide>
-                    <!-- Optional controls -->
-                    <div class="swiper-pagination" slot="pagination"></div>
-                    <!--<div class="swiper-button-prev" slot="button-prev"></div>-->
-                    <!--<div class="swiper-button-next" slot="button-next"></div>-->
-                  </swiper>
+                  </div> -->
+                  <development-history :max-lenth="4" :historyList="preCompanyMemorabilia"/>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="card-type-3" v-show="preWorkTeam.length&&preWorkTeam.length!=0">
-        <div class="g-card" style="margin-bottom: 0">
-          <div class="template-card">
-            <div class="template-complex">
-              <div class="gm-card-offset">
-                <div class="gm-card-header">
-                  <h2 class="gm-card-title">
-                    <span class="team_icon"></span>
-                    <span class="text">我们的团队</span>
-                    <div class="allR">
-                      <span class="info" @click="teamworkDeatil">查看更多信息</span>
-                      <span class="icon"></span>
+      </section>
+      <!-- 办公环境 -->
+      <section v-if="work_enivorment_isshow">
+          <div class="card-type-2" v-show="WorkEnvironment.length">
+            <div class="g-card">
+              <div class="template-card">
+                <div class="template-complex">
+                  <div class="gm-card-offset">
+                    <div class="gm-card-header">
+                      <h2 class="gm-card-title">
+                        <span class="env_img"></span>
+                        <span class="text">办公环境</span>
+                      </h2>
                     </div>
-                  </h2>
+                    <!--slide-->
+                    <div class="slides" style="height: 239px">
+                      <swiper :options="swiperOption2" ref="mySwiper">
+                        <!-- slides -->
+                        <swiper-slide v-for="(item,index) in WorkEnvironment" :key="item.id" @click.native="app(index)">
+                          <div class="media" style="height: 180px">
+                            <img :src="item.imageUrl" alt="" width="100%" height="100%">
+                          </div>
+                          <div class="title g-oneline-text">
+                            {{item.description}}
+                          </div>
+                        </swiper-slide>
+                        <!-- Optional controls -->
+                        <div class="swiper-pagination" slot="pagination"></div>
+                        <!--<div class="swiper-button-prev" slot="button-prev"></div>-->
+                        <!--<div class="swiper-button-next" slot="button-next"></div>-->
+                      </swiper>
+                    </div>
+                  </div>
                 </div>
-                <!--slide-->
-                <div class="slides" style="height: 239px" @click="teamworkDeatil">
-                  <swiper :options="swiperOption" ref="mySwiper">
-                    <!-- slides -->
-                    <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id" class="swiper_slide">
-                      <div class="media" style="height: 180px">
-                        <img :src="item.imageUrl" alt="" style="width: 100%;height: 100%">
+              </div>
+            </div>
+          </div>        
+      </section>
+      <!-- 我们的团队 -->
+      <section v-if="our_team_isshow">
+        <div class="card-type-3" v-show="preWorkTeam.length&&preWorkTeam.length!=0">
+          <div class="g-card" style="margin-bottom: 0">
+            <div class="template-card">
+              <div class="template-complex">
+                <div class="gm-card-offset">
+                  <div class="gm-card-header">
+                    <h2 class="gm-card-title">
+                      <span class="team_icon"></span>
+                      <span class="text">我们的团队</span>
+                      <div class="allR">
+                        <span class="info" @click="teamworkDeatil">查看更多信息</span>
+                        <span class="icon"></span>
                       </div>
-                      <div class="title g-oneline-text">
-                        {{item.description}}
-                      </div>
-                    </swiper-slide>
-                    <!-- Optional controls -->
-                    <div class="swiper-pagination" slot="pagination"></div>
-                    <!--<div class="swiper-button-prev" slot="button-prev"></div>-->
-                    <!--<div class="swiper-button-next" slot="button-next"></div>-->
-                  </swiper>
+                    </h2>
+                  </div>
+                  <!--slide-->
+                  <div class="slides" style="height: 239px" @click="teamworkDeatil">
+                    <swiper :options="swiperOption" ref="mySwiper">
+                      <!-- slides -->
+                      <swiper-slide v-for="(item,index) in preWorkTeam" :key="item.id" class="swiper_slide">
+                        <div class="media" style="height: 180px">
+                          <img :src="item.imageUrl" alt="" style="width: 100%;height: 100%">
+                        </div>
+                        <div class="title g-oneline-text">
+                          {{item.description}}
+                        </div>
+                      </swiper-slide>
+                      <!-- Optional controls -->
+                      <div class="swiper-pagination" slot="pagination"></div>
+                      <!--<div class="swiper-button-prev" slot="button-prev"></div>-->
+                      <!--<div class="swiper-button-next" slot="button-next"></div>-->
+                    </swiper>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
       <div class="card-type-1">
         <div class="g-card">
           <div class="template-card">
@@ -335,32 +341,7 @@ import index from 'vue';
   export default {
     data(){
       return {
-         productIntroductionList:[
-            // {
-            //     productName:"爱聚微招聘",
-            //     productDescription:"招聘用爱聚",
-            //     productImageId:4252,
-            //     productImageUrl:"https://diycode.b0.upaiyun.com/photo/2017/fc7727985fd40e43f6b5bd6192dc23b7.jpeg",
-            // },
-            //  {
-            //     productName:"爱聚微招聘",
-            //     productDescription:"招聘用爱聚",
-            //     productImageId:4252,
-            //     productImageUrl:"https://diycode.b0.upaiyun.com/photo/2017/fc7727985fd40e43f6b5bd6192dc23b7.jpeg",
-            // },
-            //  {
-            //     productName:"爱聚微招聘",
-            //     productDescription:"招聘用爱聚",
-            //     productImageId:4252,
-            //     productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
-            // },
-            //  {
-            //     productName:"爱聚微招聘",
-            //     productDescription:"招聘用爱聚",
-            //     productImageId:4252,
-            //     productImageUrl:"https://aijuhr.com/upload/Upload1520575721706.jpg",
-            // }
-        ],
+        productIntroductionList:[],
         companyIntroduction: '',
         companyIntroductionTextShow: false,
         //预览
@@ -372,7 +353,7 @@ import index from 'vue';
           // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，<br>　　　　　　　　假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
           notNextTick: true,
           // swiper configs 所有的配置同swiper官方api配置
-          autoplay: true,
+          autoplay: 2000,
           direction: 'horizontal',
           grabCursor: false,
           setWrapperSize: true,
@@ -415,10 +396,12 @@ import index from 'vue';
         },
         companyId: (() => {
           let queryParam = this.urlParse();
+          localStorage.setItem("companyId",queryParam.companyId);
           return queryParam.companyId;
         })(),
         weWebsiteId: (() => {
           let queryParam = this.urlParse();
+          localStorage.setItem("weWebsiteId",queryParam.weWebsiteId);
           return queryParam.weWebsiteId;
         })(),
         // //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
@@ -463,6 +446,10 @@ import index from 'vue';
         detailAddress: '',
         address: '',
         showTuijianDialog:false,
+        Product_introduction_isshow:false,
+        development_history_isshow:false,
+        work_enivorment_isshow:false,
+        our_team_isshow:false
       }
     },
     methods: {
@@ -511,43 +498,91 @@ import index from 'vue';
       //查询微官网
       getCompanyDetail(){
         var _this = this;
-        var method = "companyWeb/getCompanyDetail";
+        var method = "companyWeb/getCompanyDetailForApp";
         var param = JSON.stringify({
           type: 2,
+<<<<<<< HEAD
           id: _this.weWebsiteId
+=======
+          id: localStorage.getItem("weWebsiteId"),
+          companyId:localStorage.getItem("companyId")
+>>>>>>> 01d3b0106fe5b0977befaff69dadb85d51b3bd4a
         });
         var successd = function (res) {
           if (res.data.code == 0) {
             _this.preCompanyWebsite = res.data.data.CompanyWebsite;
             _this.preWorkTeam = res.data.data.WorkTeam;
             _this.WorkEnvironment = res.data.data.WorkEnvironment;
-            _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia
-            _this.companyIntroduction = res.data.data.CompanyWebsite.companyIntroduction
-            _this.productIntroductionList = res.data.data.CompanyWebsite.productIntroductionList
+            _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia;
+            _this.companyIntroduction = res.data.data.CompanyWebsite.companyIntroduction;
+            _this.productIntroductionList = res.data.data.CompanyWebsite.productIntroductionList;
+
+            if(_this.productIntroductionList.length==1){   //产品介绍是否显示
+              if(_this.productIntroductionList[0].productDescription==""&&_this.productIntroductionList[0].productName==""&&_this.productIntroductionList[0].productImageUrl==null){
+                _this.Product_introduction_isshow=false;
+              }else{
+                _this.Product_introduction_isshow=true;
+              }
+            }else{
+               _this.Product_introduction_isshow=true;
+            }
+
+            if(_this.preCompanyMemorabilia.length == 1){   //发展历程是否显示
+              if(_this.preCompanyMemorabilia[0].date==""&&_this.preCompanyMemorabilia[0].description==""&&_this.preCompanyMemorabilia[0].imageUrl==null){
+                _this.development_history_isshow=false;
+              }else{
+                _this.development_history_isshow=true;
+              }
+            }else{
+               _this.development_history_isshow=true;
+            }
+
+            if(_this.WorkEnvironment.length == 1){   //办公环境是否显示
+              if(_this.WorkEnvironment[0].description==""&&_this.WorkEnvironment[0].imageUrl==null){
+                _this.work_enivorment_isshow=false;
+              }else{
+                _this.work_enivorment_isshow=true;
+              }
+            }else{
+               _this.work_enivorment_isshow=true;
+            }
+
+            if(_this.preWorkTeam.length == 1){   //我们的团队是否显示
+              if(_this.preWorkTeam[0].description==""&&_this.preWorkTeam[0].imageUrl==null){
+                _this.our_team_isshow=false;
+              }else{
+                _this.our_team_isshow=true;
+              }
+            }else{
+               _this.our_team_isshow=true;
+            }
+
           }
         }
         _this.$http(method, param, successd);
       },
       teamworkDeatil(){
+        localStorage.setItem("WorkTeam",JSON.stringify(this.preWorkTeam))
         this.$router.push({
           name: 'teamwork',
           path: '/teamwork',
           query: {
-            companyId: this.companyId,
-            WorkTeam: JSON.stringify(this.preWorkTeam)
+            companyId: this.companyId
           }
         })
       },
       productIntroductionDeatil(index, list){
-        console.log(index)
-        localStorage.setItem('productIntroductionList',JSON.stringify(list))
-        this.$router.push({
-          name: 'productIntroductionDeatil',
-          path: '/productIntroductionDeatil',
-          query: {
-            index: index
-          }
-        })
+        // console.log(list)
+        localStorage.setItem('productIntroductionList',JSON.stringify(list));
+        if(list[index].productDescription!=""){
+          this.$router.push({
+            name: 'productIntroductionDeatil',
+            path: '/productIntroductionDeatil',
+            query: {
+              index: index
+            }
+          })          
+        }
       },
       //获取分享标题
       getShareTitleInfo(){
@@ -618,7 +653,7 @@ import index from 'vue';
               self.$wechat.onMenuShareAppMessage({
                 title: self.title,
                 desc: self.desc,
-                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId,//分享链接
+                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId +'&weWebsiteId=' + self.weWebsiteId ,//分享链接
                 imgUrl: self.imgUrl,//分享图标
                 type: '',
                 dataUrl: '',
@@ -633,7 +668,7 @@ import index from 'vue';
               self.$wechat.onMenuShareTimeline({
                 title: self.title,
                 desc: self.desc,
-                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId,//分享链接
+                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId +'&weWebsiteId=' + self.weWebsiteId, //分享链接
                 imgUrl: self.imgUrl,//分享图标
                 success: function () {
                   console.log('分享成功2');
@@ -761,7 +796,7 @@ import index from 'vue';
         var param = JSON.stringify({
           type: 2,
           companyId: _this.companyId,
-          redirectUri: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + _this.companyId + '',
+          redirectUri: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + _this.companyId,
           code: _this.code
         });
         var successd = function (res) {
@@ -774,7 +809,6 @@ import index from 'vue';
         _this.$http(method, param, successd);
       },
       toCare(){
-
         var _this = this;
         var method = "subscribeWeChat/subscribeCompanyWeChat";
         var param = JSON.stringify({
@@ -831,7 +865,6 @@ import index from 'vue';
       },
       toMainMap(){
         this.getMainCompanyInfo()
-
         this.getSignature2()
       },
       toMap(item){
@@ -875,7 +908,8 @@ import index from 'vue';
             param={
               scope:'snsapi_userinfo',
               pageFrom:4,
-              companyId:self.companyId
+              companyId:self.companyId,
+              weWebsiteId:self.weWebsiteId
             },
             successd=function(res){
               if(res.data.userSession==0){
@@ -896,7 +930,7 @@ import index from 'vue';
       document.title="关于我们"
       this.$nextTick(() => {
         this.getCode();
-        // this.getCodeUrl();
+        this.getCodeUrl();
         this.toCare();
         this.getShareTitleInfo();
         this.getMainCompanyInfo();
@@ -906,7 +940,7 @@ import index from 'vue';
         }else{
           this.getUserInfo();
         }
-//        this.getWeWebsitePosition();
+//      this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
         if(localStorage.resumeFrom != "19"){
@@ -993,6 +1027,8 @@ p.companyIntroductionTextMore{
 .box1 {
   position: relative;
   width: 1490px;
+  padding-bottom: 15px;
+  overflow: hidden;
 }
 .midBodde{
   border-top: 1px solid #eee;
