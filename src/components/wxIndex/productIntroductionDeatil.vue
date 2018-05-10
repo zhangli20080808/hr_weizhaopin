@@ -4,9 +4,9 @@
         <tab-item v-for="(item,index) in productIntroductionList" :selected="index == Itemindex" @on-item-click="handler" :key="item.productImageId ">{{item.productName }}</tab-item>
         </tab>
       <!-- <h3>{{productIntroductionNow.productName}}</h3> -->
-      <div class="hr"></div>
+      <!-- <div class="hr"></div> -->
       <img :src="productIntroductionNow.productImageUrl" alt="暂无图片">
-      <div class="hr"></div>
+      <!-- <div class="hr"></div> -->
       <div class="textWrap">
         <b class="title">
           产品描述

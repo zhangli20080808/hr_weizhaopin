@@ -424,8 +424,8 @@ export default {
   .authentification_qz {
     .check_code {
       .codePhone {
-        background: #fff;
-        color: #5aa2e7;
+        // background: #fff;
+        color: #fff;
       }
       .btn_content {
         padding: 10px 15px;

@@ -649,7 +649,7 @@ import index from 'vue';
               self.$wechat.onMenuShareAppMessage({
                 title: self.title,
                 desc: self.desc,
-                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId,//分享链接
+                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId +'&weWebsiteId=' + self.weWebsiteId ,//分享链接
                 imgUrl: self.imgUrl,//分享图标
                 type: '',
                 dataUrl: '',
@@ -664,7 +664,7 @@ import index from 'vue';
               self.$wechat.onMenuShareTimeline({
                 title: self.title,
                 desc: self.desc,
-                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId,//分享链接
+                link: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + self.companyId +'&weWebsiteId=' + self.weWebsiteId, //分享链接
                 imgUrl: self.imgUrl,//分享图标
                 success: function () {
                   console.log('分享成功2');
@@ -805,7 +805,6 @@ import index from 'vue';
         _this.$http(method, param, successd);
       },
       toCare(){
-
         var _this = this;
         var method = "subscribeWeChat/subscribeCompanyWeChat";
         var param = JSON.stringify({
@@ -906,7 +905,7 @@ import index from 'vue';
               scope:'snsapi_userinfo',
               pageFrom:4,
               companyId:self.companyId,
-              id:self.weWebsiteId,
+              weWebsiteId:self.weWebsiteId
             },
             successd=function(res){
               if(res.data.userSession==0){
@@ -927,7 +926,7 @@ import index from 'vue';
       document.title="关于我们"
       this.$nextTick(() => {
         this.getCode();
-        // this.getCodeUrl();
+        this.getCodeUrl();
         this.toCare();
         this.getShareTitleInfo();
         this.getMainCompanyInfo();
@@ -937,7 +936,7 @@ import index from 'vue';
         }else{
           this.getUserInfo();
         }
-//        this.getWeWebsitePosition();
+//      this.getWeWebsitePosition();
         window.scrollTo(0, 1);
         window.scrollTo(0, 0);
         if(localStorage.resumeFrom != "19"){

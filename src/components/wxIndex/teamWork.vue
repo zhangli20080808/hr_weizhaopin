@@ -391,24 +391,26 @@ import { join } from 'path';
   }
 
   .teamwork .cards .member-list .member .member-header .member-name .name {
-    padding: 2px 4px;
+    padding: 3px 4px;
     display: inline-block;
     border-radius: 5px;
     text-align: justify;
     background: #5aa2e7;
     color: #fff;
-    font-size: .26rem;
+    font-size: .28rem;
     vertical-align: middle;
     margin-top: 5px;
+    line-height :normal;
+    float :left;
   }
 
   .teamwork .cards .member-list .member .member-header .member-name .positionName {
     vertical-align: middle;
-    padding-top: 1px;
     color: #222;
     font-size: .34rem;
     float: left;
-    margin-top: 5px;
+    margin-top: 10px;
+    margin-left: 12px;
   }
 
   .teamwork .cards .member-list .member .member-main {
