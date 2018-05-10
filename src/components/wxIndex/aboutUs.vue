@@ -501,12 +501,8 @@ import index from 'vue';
         var method = "companyWeb/getCompanyDetailForApp";
         var param = JSON.stringify({
           type: 2,
-<<<<<<< HEAD
-          id: _this.weWebsiteId
-=======
           id: localStorage.getItem("weWebsiteId"),
           companyId:localStorage.getItem("companyId")
->>>>>>> 01d3b0106fe5b0977befaff69dadb85d51b3bd4a
         });
         var successd = function (res) {
           if (res.data.code == 0) {
