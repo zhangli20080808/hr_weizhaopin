@@ -257,7 +257,7 @@ export default {
     min-height:100%; 
     padding-bottom: 48px;
   }
-.vux-tab {
+.offer-wrap .vux-tab {
   justify-content: space-around;
   border-bottom:1px solid #e5e5e5;
   .vux-tab-item{
@@ -286,10 +286,12 @@ export default {
         height:1.28rem;
         overflow: hidden;
         margin-right:.25rem;
+         border-radius: 50%;
         img{
           width:100%;
           height:100%;
           vertical-align: top;
+          border-radius: 50%;
         }
       }
       .content{
