@@ -396,12 +396,20 @@ import index from 'vue';
         },
         companyId: (() => {
           let queryParam = this.urlParse();
-          localStorage.companyId && localStorage.setItem("companyId",queryParam.companyId);
+          if (queryParam.companyId) {
+            localStorage.setItem("companyId",queryParam.companyId);
+          } else {
+            queryParam.companyId=localStorage.companyId;
+          }
           return queryParam.companyId;
         })(),
         weWebsiteId: (() => {
           let queryParam = this.urlParse();
-          localStorage.weWebsiteId && localStorage.setItem("weWebsiteId",queryParam.weWebsiteId);
+          if (queryParam.weWebsiteId) {
+            localStorage.setItem("weWebsiteId",queryParam.weWebsiteId);
+          } else {
+            queryParam.weWebsiteId=localStorage.weWebsiteId;
+          }
           return queryParam.weWebsiteId;
         })(),
         // //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
