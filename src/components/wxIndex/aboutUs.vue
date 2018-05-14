@@ -405,10 +405,9 @@ import index from 'vue';
         })(),
         weWebsiteId: (() => {
           let queryParam = this.urlParse();
-          if (queryParam.weWebsiteId) {
+          
+          if (queryParam.weWebsiteId && queryParam.weWebsiteId != 'null' && queryParam.weWebsiteId != 'undefined') {
             localStorage.setItem("weWebsiteId",queryParam.weWebsiteId);
-          } else {
-            queryParam.weWebsiteId=localStorage.weWebsiteId;
           }
           return queryParam.weWebsiteId;
         })(),
@@ -508,7 +507,7 @@ import index from 'vue';
         var _this = this;
         var method = "companyWeb/getCompanyDetailForApp";
         var id;
-        if(_this.weWebsiteId=='undefined'){
+        if(_this.weWebsiteId=='undefined' || !_this.weWebsiteId){
           id = ''
         } else {
           id = _this.weWebsiteId
