@@ -501,7 +501,7 @@ import index from 'vue';
         var method = "companyWeb/getCompanyDetailForApp";
         var param = JSON.stringify({
           type: 2,
-          id: _this.weWebsiteId,
+          id: _this.weWebsiteId || "",
           companyId:_this.companyId
         });
         var successd = function (res) {
