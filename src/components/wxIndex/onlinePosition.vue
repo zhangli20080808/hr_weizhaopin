@@ -108,7 +108,7 @@
         }
         var param = JSON.stringify({
           type: 2,
-          // companyId:this.companyId
+          companyId:this.companyId,
           id :id
         });
         var successd = function (res) {
