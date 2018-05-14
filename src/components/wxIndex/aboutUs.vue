@@ -507,9 +507,15 @@ import index from 'vue';
       getCompanyDetail(){
         var _this = this;
         var method = "companyWeb/getCompanyDetailForApp";
+        var id;
+        if(_this.weWebsiteId=='undefined'){
+          id = ''
+        } else {
+          id = _this.weWebsiteId
+        }
         var param = JSON.stringify({
           type: 2,
-          id: _this.weWebsiteId || "",
+          id: id,
           companyId:_this.companyId
         });
         var successd = function (res) {
