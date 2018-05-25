@@ -396,12 +396,20 @@ import index from 'vue';
         },
         companyId: (() => {
           let queryParam = this.urlParse();
-          localStorage.setItem("companyId",queryParam.companyId);
+          if (queryParam.companyId) {
+            localStorage.setItem("companyId",queryParam.companyId);
+          } else {
+            queryParam.companyId=localStorage.companyId;
+          }
           return queryParam.companyId;
         })(),
         weWebsiteId: (() => {
           let queryParam = this.urlParse();
-          localStorage.setItem("weWebsiteId",queryParam.weWebsiteId);
+          if (queryParam.weWebsiteId) {
+            localStorage.setItem("weWebsiteId",queryParam.weWebsiteId);
+          } else {
+            queryParam.weWebsiteId=localStorage.weWebsiteId;
+          }
           return queryParam.weWebsiteId;
         })(),
         // //关注状态：0：未授权第三方开发平台，不显示按钮；1：已关注；2：未关注
@@ -499,10 +507,16 @@ import index from 'vue';
       getCompanyDetail(){
         var _this = this;
         var method = "companyWeb/getCompanyDetailForApp";
+        var id;
+        if(_this.weWebsiteId=='undefined'){
+          id = ''
+        } else {
+          id = _this.weWebsiteId
+        }
         var param = JSON.stringify({
           type: 2,
-          id: localStorage.getItem("weWebsiteId"),
-          companyId:localStorage.getItem("companyId")
+          id: id,
+          companyId:_this.companyId
         });
         var successd = function (res) {
           if (res.data.code == 0) {
@@ -792,7 +806,7 @@ import index from 'vue';
         var param = JSON.stringify({
           type: 2,
           companyId: _this.companyId,
-          redirectUri: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + _this.companyId,
+          redirectUri: 'https://aijuhr.com/miniRecruit/#/about?companyId=' + _this.companyId+'&weWebsiteId=' + _this.weWebsiteId,
           code: _this.code
         });
         var successd = function (res) {
@@ -924,7 +938,7 @@ import index from 'vue';
     },
     created(){
       document.title="关于我们"
-      this.$nextTick(() => {
+      setTimeout(() => {
         this.getCode();
         this.getCodeUrl();
         this.toCare();
@@ -942,7 +956,7 @@ import index from 'vue';
         if(localStorage.resumeFrom != "19"){
           localStorage.resumeFrom = '19'
         }
-      })
+      },50)
     },
     computed: {
       bgStyle() {

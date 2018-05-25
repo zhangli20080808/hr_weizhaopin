@@ -100,10 +100,16 @@
       getOnlinePosition() {
         var _this = this;
         var method = "companyWeb/getWeWebsitePositionByCategoryId";
+        var id;
+        if( _this.$route.query.id == 'undefined' ){
+          id = ''
+        } else {
+          id = this.$route.query.id
+        }
         var param = JSON.stringify({
           type: 2,
           companyId:this.companyId,
-          id: this.$route.query.id
+          id :id
         });
         var successd = function (res) {
           if (res.data.code == 0) {

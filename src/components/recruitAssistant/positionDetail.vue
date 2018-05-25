@@ -280,7 +280,6 @@
         }
         dt {
           line-height: 0.4rem;
-          height: 0.4rem;
           margin-bottom: 10px;
           font-size: 0.34rem;
           color: #222;

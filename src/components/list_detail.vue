@@ -497,7 +497,7 @@
         return this.fansId;
       },
       toCompany(){
-        location.href = "https://aijuhr.com/miniRecruit/#/about?companyId=" + this.companyId;
+        // location.href = "https://aijuhr.com/miniRecruit/#/about?companyId=" + this.companyId;
       },
       join(){
         // self.$router.push({path:'/addResume',query:{id:this.positionId,shareFansId:self.shareFansId}})
