@@ -88,7 +88,7 @@
               fansId:self.fansId
             }),
             successd=function (res) {
-                localStorage.removeItem('resumeFrom')
+                // localStorage.removeItem('resumeFrom')
                 self.$router.push({path:'/results',query:{type:res.data.data,companyId:self.companyId,fansId:self.fansId,recomType:self.recomType}});
             },
             c=function(res){
