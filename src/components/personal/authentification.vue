@@ -20,7 +20,7 @@
           <div class="img"></div>
           <div class="text">员工认证后即可以以公司推荐人身份分享职位给好友，获得相应奖励！</div>
         </div>
-        <x-input name="username" placeholder="输入企业邮箱（绑定后不可修改）" is-type="email" :border-intent="false"
+        <x-input name="username" placeholder="请输入您在公司的邮箱（绑定后不可修改）" is-type="email" :border-intent="false"
                  v-model="email"></x-input>
         <x-input name="password" placeholder="您的姓名" v-model="name" style="margin-top:0.3rem;"></x-input>
         <div style="padding:10px 30px;margin-top:0.6rem;" class="yzInfo">

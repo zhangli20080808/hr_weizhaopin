@@ -245,7 +245,7 @@ export default {
     padding-bottom: 48px;
   }
  
-.vux-tab {
+.candidate-wrap .vux-tab {
   justify-content: space-around;
   border-bottom:1px solid #e5e5e5;
   // overflow-x:scroll;
@@ -280,10 +280,12 @@ export default {
         height:1.28rem;
         overflow: hidden;
         margin-right:.25rem;
+        border-radius: 50%;
         img{
           width:100%;
           height:100%;
           vertical-align: top;
+          border-radius: 50%;
         }
       }
       .content{
