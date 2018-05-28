@@ -242,7 +242,7 @@ export default {
             activityId:self.activityId
           }),
           successd=function (res) {
-              localStorage.removeItem('resumeFrom')
+              // localStorage.removeItem('resumeFrom')
               self.$router.push({
                 path:'/results',
                 query:{
