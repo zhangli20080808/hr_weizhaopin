@@ -148,7 +148,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
               companyId:self.companyId,
               phone:self.phone,
               email:self.email,
-              posiitonId:self.posiitonId
+              positionId:self.positionId
             }),
             successd=function(res){
               if(type==1&&res.data.data.code==0){
