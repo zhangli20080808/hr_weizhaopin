@@ -280,7 +280,7 @@
         this.type = type;
       },
       changeHeadType(type){
-        var interviewResumeInfo = JSON.parse(JSON.stringify(this.interviewResumeInfo));
+        var interviewResumeInfo = this.interviewResumeInfo;
         interviewResumeInfo.sex = this.sexValue[0];
         interviewResumeInfo.positionId = this.$route.query.id;
         localStorage.interviewResumeInfo = JSON.stringify(interviewResumeInfo);
@@ -499,7 +499,7 @@
         let method="resume/updateSimpleResume",
             param=JSON.stringify({
               fansId:self.fansId,
-              step:step+1,
+              step:step,
               simpleResumeInfo:self.interviewResumeInfo
             }),
             successd=function(res){

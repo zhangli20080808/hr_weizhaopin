@@ -147,7 +147,8 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
               businessId:'14',
               companyId:self.companyId,
               phone:self.phone,
-              email:self.email
+              email:self.email,
+              posiitonId:self.posiitonId
             }),
             successd=function(res){
               var educationHistoryList=res.data.data.EducationHistory;
