@@ -187,7 +187,7 @@
         name: '王若云',
         showPopup: false,
         value2: '',
-        sexValue: [1],
+        sexValue: ['1'],
         value4: null,
         value3: null,
         graduateSchool: null,
@@ -197,8 +197,8 @@
         workCompany: null,
         position: null,
         sexArr: [[
-          {name: '男', value: 1},
-          {name: '女', value: 2},
+          {name: '男', value: '1'},
+          {name: '女', value: '2'},
         ]],
         email: '',
         phone: '',
@@ -280,7 +280,7 @@
         this.type = type;
       },
       changeHeadType(type){
-        var interviewResumeInfo = JSON.parse(JSON.stringify(this.interviewResumeInfo));
+        var interviewResumeInfo = this.interviewResumeInfo;
         interviewResumeInfo.sex = this.sexValue[0];
         interviewResumeInfo.positionId = this.$route.query.id;
         localStorage.interviewResumeInfo = JSON.stringify(interviewResumeInfo);
@@ -445,7 +445,7 @@
                     self.interviewResumeInfo.phone=res.data.data.phone;
                     self.interviewResumeInfo.email=res.data.data.email;
                     var arr=[];
-                    arr[0]=res.data.data.sex?res.data.data.sex-0:1;
+                    arr[0]=res.data.data.sex?res.data.data.sex+'':'1';
                     self.sexValue[0]=arr;
                     self.interviewResumeInfo.birthday=res.data.data.birthday;
                     self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList?res.data.data.educationHistoryList:[];
@@ -468,7 +468,7 @@
                 self.interviewResumeInfo.phone=res.data.data.phone;
                 self.interviewResumeInfo.email=res.data.data.email;
                 var arr=[];
-                arr[0]=res.data.data.sex?res.data.data.sex-0:1;
+                arr[0]=res.data.data.sex?res.data.data.sex+'':'1';
                 self.sexValue[0]=arr;
                 self.interviewResumeInfo.birthday=res.data.data.birthday;
                 self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList;
@@ -499,7 +499,7 @@
         let method="resume/updateSimpleResume",
             param=JSON.stringify({
               fansId:self.fansId,
-              step:step+1,
+              step:step,
               simpleResumeInfo:self.interviewResumeInfo
             }),
             successd=function(res){
