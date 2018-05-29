@@ -151,9 +151,9 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
               positionId:self.positionId
             }),
             successd=function(res){
-              if(type==1&&res.data.data.code==0){
+              if(type==1 && res.data.code==0){
                 self.$router.push({path:"/results",query:{type:1,companyId:self.companyId}});
-                return
+                return 
               }
               var educationHistoryList=res.data.data.EducationHistory;
               var workHistoryList=res.data.data.WorkHistory;
