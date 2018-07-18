@@ -135,6 +135,14 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         if(type!=-1){
           self.vcode='';
         }
+        if(self.account-0===0){
+          self.loginMsg="请输入账号";
+          self.show10=true;
+        }
+        if(self.pwd-0===0){
+          self.loginMsg="请输密码";
+          self.show10=true;
+        }
         self.showScrollBox=false;
         // var url="https://aijuhr.com/hrm/account/climbingResume.do",
         // var url="http://192.168.4.87:8080/hrm/account/climbingResume.do",
