@@ -601,6 +601,7 @@
         padding: 0.32rem 0.32rem 0.32rem 0.3rem;
         position: relative;
         border-t-1px(#E5E5E5)
+        border-bottom: 1px solid #E5E5E5;
         .second_icon {
           width: 0.72rem;
           height: 0.72rem;
