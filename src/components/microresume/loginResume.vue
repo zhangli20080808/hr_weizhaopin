@@ -2,7 +2,7 @@
   <div id="loginResume" class="loginResume" :style="{'height':wh+'px'}">
 
     <!-- 智联 -->
-    <div class="login_zhilian" v-if="type==20">  <!-- 智联登录改了抓取失败，先隐藏 -->
+    <div class="login_zhilian" v-if="type==2">  
       <div class="login_icon"></div>
       <div class="login_con">
         <group>

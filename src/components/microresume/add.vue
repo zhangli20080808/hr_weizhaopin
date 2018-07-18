@@ -161,11 +161,11 @@
         <div class="second_text">前程无忧（51job)</div>
         <div class="second_join"><span class="text">导入</span></div>
       </div>
-      <div class="second_2" @click="jobsLogin(2)">
+      <!-- <div class="second_2" @click="jobsLogin(2)">
         <div class="second_icon"></div>
         <div class="second_text">智联招聘</div>
         <div class="second_join"><span class="text">导入</span></div>
-      </div>
+      </div> -->
       <div class="second_3" @click="jobsLogin(6)">
         <div class="second_icon"></div>
         <div class="second_text">拉勾网</div>
