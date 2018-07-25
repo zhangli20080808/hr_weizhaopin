@@ -63,6 +63,31 @@
           </div>
       </div>
     </div>
+    
+    <!-- boss -->
+    <div class="login_boss" v-if="type==7">  
+      <div class="login_icon"></div>
+      <div class="login_con">
+        <group>      
+          <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"   v-model="phone"></x-input>
+          <x-input placeholder="输入验证码" class="weui-vcode-img" v-model="vcode">
+            <img slot="right" class="vcode-img" :src="captchaCode" @click="getCaptchaCode" />
+            <!-- <img slot="right" class="vcode-img" src="https://ws1.sinaimg.cn/large/663d3650gy1fq684go3glj203m01hmwy.jpg" /> -->
+          </x-input>
+          <x-input placeholder="短信验证码" class="weui-vcode" v-model="phoneCode">
+            <span slot="right" class="btn-vcode" :class="daojishi ? 'disabled' : ''" @click="getSmsCode">{{verificationCode}}</span>
+          </x-input>
+        </group>
+          <div style="padding:30px 15px 0;">
+            <x-button type="primary" @click.native="login(7)" class="hrm_primary_btn">确认登录并投递</x-button>
+          </div>
+          <div style="padding:15px;" class="login_remake">
+            <p><i></i>您的账号和密码不会被保存</p>
+            <p><i></i>您的简历将仅用于应聘</p>
+            <p><i></i>我们会对您的简历保密</p>
+          </div>
+      </div>
+    </div>
 
     <x-dialog v-model="showScrollBox" class="dialog-demo">
       <p class="dialog-title">请输入验证码</p>
@@ -93,15 +118,18 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
       console.log(window.innerHeight);
       let wh=window.innerHeight;
       return{
-        type:1,//登录来源 1,前程无忧;2,智联招聘;6.拉钩
+        type:1,//登录来源 1,前程无忧;2,智联招聘;6.拉钩;7,boos
         account:'',
         pwd:'',
         vcode:'',
         businessId:'14',
         fId:'-1',
-        companyId:'169359',
+        companyId:'',
         phone:'',
         email:'',
+        phoneCode:'',
+        captchaCode:'',
+        randomKey:'',
         showScrollBox:false,
         positionId:this.$route.query.positionId,
         src:'https://o5omsejde.qnssl.com/demo/test1.jpg',
@@ -112,7 +140,9 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         fansId:this.$route.query.fansId,
         recomType:this.$route.query.recomType,
         activityId:this.$route.query.activityId,
-        wh:wh
+        wh:wh,
+        verificationCode:'发送验证码',
+        daojishi:false
       }
     },
     mounted(){
@@ -122,30 +152,94 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
       index(){
         if(this.$route.query.type){
           this.type=this.$route.query.type;
+          if(this.$route.query.type == '7'){
+            this.getCaptchaCode();
+          }
         }
-        if(localStorage.companyId){
-          this.companyId=localStorage.companyId;
+        if(this.$route.query.companyId){
+          this.companyId = this.$route.query.companyId
         }
-        if(localStorage.positionId){
-          this.positionId=localStorage.positionId;
+        // if(localStorage.companyId){
+        //   this.companyId=localStorage.companyId;
+        // }
+        if(this.$route.query.positionId){
+          this.companyId = this.$route.query.positionId
         }
+        // if(localStorage.positionId){
+        //   this.positionId=localStorage.positionId;
+        // }
+      },
+      /**
+       * boss 获取图片验证码
+       */
+      getCaptchaCode(){
+          this.$webHttp('account/boss/getCaptchaCode',{},(res) => {
+                let _res = res.data;
+                if(_res.code == 0){
+                   this.captchaCode = _res.captchaCode;
+                   this.randomKey = _res.randomKey;
+                }
+          })
+      },
+      /**
+       *  发送短信有验证码
+       */
+      getSmsCode(){
+          let self = this;
+          if (self.daojishi) {
+            return false;
+          }
+          if(!self.phone.trim()){
+            self.loginMsg="请输入手机号";
+            self.show10=true;
+            return false;
+          }
+           if(!self.vcode.trim()){
+            self.loginMsg="请输入图片验证码";
+            self.show10=true;
+            return false;
+          }
+          this.$webHttp('account/boss/getSmsCode',{
+              phone:this.phone,
+              captcha:this.vcode,
+              randomKey:this.randomKey,
+          },(res) => {
+              if (res.data.code == 0) {
+                self.daojishi = true;
+                var t = 60;
+                var timer = setInterval(() => {
+                  if (t <= 0) {
+                    self.verificationCode = "发送验证码";
+                    self.daojishi = false;
+                    clearInterval(timer);
+                    return false;
+                  }
+                  self.verificationCode = "已发送（" + t + "s）";
+                  t--;
+                }, 1000);
+              }else{
+                self.loginMsg = res.data.message;
+                self.show10=true;
+              }
+          })
       },
       login(type){
         var self=this;
-        if(type!=-1){
+        if(type != -1 && type != 7){
           self.vcode='';
         }
-        if(self.account-0===0){
+        if(self.account-0===0 && type != 7){
           self.loginMsg="请输入账号";
           self.show10=true;
         }
-        if(self.pwd-0===0){
+        if(self.pwd-0===0 && type != 7){
           self.loginMsg="请输密码";
           self.show10=true;
         }
         self.showScrollBox=false;
         // var url="https://aijuhr.com/hrm/account/climbingResume.do",
         // var url="http://192.168.4.87:8080/hrm/account/climbingResume.do",
+        console.log('-----self',self)
         var param=JSON.stringify({
               fId:'-1',
               type:self.type,
@@ -156,7 +250,9 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
               companyId:self.companyId,
               phone:self.phone,
               email:self.email,
-              positionId:self.positionId
+              positionId:self.positionId,
+              randomKey:self.randomKey,
+              phoneCode:self.phoneCode
             }),
             successd=function(res){
               if(type==1 && res.data.code==0){
@@ -296,12 +392,16 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
 
 .login_jobs .login_icon{background: url(../../common/image/micresume/jobs_icon.png) no-repeat center center;}
 .login_lagou .login_icon{background: url(../../common/image/micresume/lagou_icon.png) no-repeat center center;}
+.login_boss .login_icon{background: url(../../common/image/micresume/boss_icon.png) no-repeat center center; background-size: 64px;}
+.login_boss .btn-vcode { font-size: .28rem; line-height: .4rem; color: #5CB3FF; padding-left:.2rem; border-left:1px solid rgba(204,204,204,1); display: inline-block;}
+.login_boss .btn-vcode.disabled { color: #999;}
+.login_boss  .vcode-img { position: absolute; right: 15px; top:0px; width:84px; height: 44px; }
 .hrm_primary_btn{background-color: #5aa2e7;}
 .hrm_primary_btn:active{background-color: #5aa2e7;}
 .code_btn{font-size: 0.36rem;line-height: 50px;color: #5aa2e7;}
 </style>
 <style>
 .loginResume .weui-label{color:#000;}
-
+.login_boss .weui-vcode-img .weui-icon-clear { padding-right: 90px;}
 </style>
 

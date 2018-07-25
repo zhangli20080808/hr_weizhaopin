@@ -171,6 +171,11 @@
         <div class="second_text">拉勾网</div>
         <div class="second_join"><span class="text">导入</span></div>
       </div>
+      <div class="second_4" @click="jobsLogin(7)">
+        <div class="second_icon"></div>
+        <div class="second_text">BOSS直聘</div>
+        <div class="second_join"><span class="text">导入</span></div>
+      </div>
     </div>
   </div>
 </template>
@@ -678,6 +683,40 @@
           margin-right: 20px;
           color: #000;
           background: url(../images/resum_4.png) no-repeat center;
+          background-size: cover
+        }
+        .second_text {
+          font-size: 0.32rem;
+        }
+        .second_join {
+          flex: 1;
+          .text {
+            display: block;
+            float: right;
+            width: 1.49rem;
+            height: 0.64rem;
+            border: 1px solid #5AA2E7;
+            font-size: 0.32rem;
+            color: #5AA2E7;
+            text-align: center;
+            line-height: 0.64rem;
+            border-radius:3px;
+          }
+        }
+
+      }
+      .second_4 {
+        display: flex;
+        align-items: center
+        padding: 0.32rem 0.32rem 0.32rem 0.3rem;
+        position: relative;
+        border-b-1px(#E5E5E5)
+        .second_icon {
+          width: 0.72rem;
+          height: 0.72rem;
+          margin-right: 20px;
+          color: #000;
+          background: url(../images/resum_6.png) no-repeat center;
           background-size: cover
         }
         .second_text {
