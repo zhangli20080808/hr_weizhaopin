@@ -12,7 +12,7 @@
           <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone" title="手机号"></x-input>
         </group>
           <div style="padding:30px 15px 0;">
-            <x-button type="primary" @click.native="login(2)" class="hrm_primary_btn">确认登录并投递</x-button>
+            <x-button type="primary" @click.native="login(2)" class="hrm_primary_btn" :show-loading="showLoading">确认登录并投递</x-button>
           </div>
           <div style="padding:15px;" class="login_remake">
             <p><i></i>您的账号和密码不会被保存</p>
@@ -33,7 +33,7 @@
               <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone"></x-input> -->
             </group>
               <div style="padding:15px;">
-                <x-button type="primary" @click.native="login(1)" class="hrm_primary_btn">确认登录并投递</x-button>
+                <x-button type="primary" @click.native="login(1)" class="hrm_primary_btn" :show-loading="showLoading">确认登录并投递</x-button>
               </div>
               <div style="padding:15px;" class="login_remake">
                 <p><i type="success"></i>您的账号和密码不会被保存</p>
@@ -54,7 +54,7 @@
           <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone"></x-input> -->
         </group>
           <div style="padding:30px 15px 0;">
-            <x-button type="primary" @click.native="login(6)" class="hrm_primary_btn" >确认登录并投递</x-button>
+            <x-button type="primary" @click.native="login(6)" class="hrm_primary_btn" :show-loading="showLoading">确认登录并投递</x-button>
           </div>
           <div style="padding:15px;" class="login_remake">
             <p><i type="success"></i>您的账号和密码不会被保存</p>
@@ -79,7 +79,7 @@
           </x-input>
         </group>
           <div style="padding:30px 15px 0;">
-            <x-button type="primary" @click.native="login(7)" class="hrm_primary_btn">确认登录并投递</x-button>
+            <x-button type="primary" @click.native="login(7)" class="hrm_primary_btn" :show-loading="showLoading">确认登录并投递</x-button>
           </div>
           <div style="padding:15px;" class="login_remake">
             <p><i></i>您的账号和密码不会被保存</p>
@@ -100,6 +100,7 @@
       <div @click="login(-1)" class="code_btn">
         <span class="">确定</span>
       </div>
+      <span class="vux-close" @click="showScrollBox=false"></span>
     </x-dialog>
 
     <div v-transfer-dom>
@@ -142,7 +143,8 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         activityId:this.$route.query.activityId,
         wh:wh,
         verificationCode:'发送验证码',
-        daojishi:false
+        daojishi:false,
+        showLoading:false
       }
     },
     mounted(){
@@ -150,24 +152,19 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
     },
     methods:{
       index(){
-        if(this.$route.query.type){
-          this.type=this.$route.query.type;
-          if(this.$route.query.type == '7'){
-            this.getCaptchaCode();
-          }
+        let { type , companyId , positionId } = this.$route.query;
+        if(type == '7'){
+          this.getCaptchaCode();
         }
-        if(this.$route.query.companyId){
-          this.companyId = this.$route.query.companyId
+        if(type){
+          this.type = type;
         }
-        // if(localStorage.companyId){
-        //   this.companyId=localStorage.companyId;
-        // }
-        if(this.$route.query.positionId){
-          this.companyId = this.$route.query.positionId
+        if(companyId){
+          this.companyId = companyId;
         }
-        // if(localStorage.positionId){
-        //   this.positionId=localStorage.positionId;
-        // }
+        if(positionId){
+          this.positionId = positionId;
+        }
       },
       /**
        * boss 获取图片验证码
@@ -214,7 +211,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
                     clearInterval(timer);
                     return false;
                   }
-                  self.verificationCode = "已发送（" + t + "s）";
+                  self.verificationCode = "已发送(" + t + "s)";
                   t--;
                 }, 1000);
               }else{
@@ -231,15 +228,32 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         if(self.account-0===0 && type != 7){
           self.loginMsg="请输入账号";
           self.show10=true;
+          return false;
         }
         if(self.pwd-0===0 && type != 7){
-          self.loginMsg="请输密码";
+          self.loginMsg="请输入密码";
           self.show10=true;
+          return false;
         }
+        if(!self.phone.trim() && type == 7){
+          self.loginMsg="请输入手机号";
+          self.show10=true;
+          return false;
+        }
+        if(!self.vcode.trim() && type == 7){
+          self.loginMsg="请输入图片验证码";
+          self.show10=true;
+          return false;
+        }
+        if(!self.phoneCode.trim() && type == 7){
+          self.loginMsg="请输入短信验证码";
+          self.show10=true;
+          return false;
+        }
+
         self.showScrollBox=false;
         // var url="https://aijuhr.com/hrm/account/climbingResume.do",
         // var url="http://192.168.4.87:8080/hrm/account/climbingResume.do",
-        console.log('-----self',self)
         var param=JSON.stringify({
               fId:'-1',
               type:self.type,
@@ -255,9 +269,14 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
               phoneCode:self.phoneCode
             }),
             successd=function(res){
+              self.showLoading = false;
               if(type==1 && res.data.code==0){
                 self.$router.push({path:"/results",query:{type:1,companyId:self.companyId}});
                 return 
+              }else if(type != 1 && res.data.data.ids === null){
+                self.loginMsg="没有附件简历可供导入，请先去平台上传";
+                self.show10=true;
+                return;
               }
               var educationHistoryList=res.data.data.EducationHistory;
               var workHistoryList=res.data.data.WorkHistory;
@@ -316,20 +335,22 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
               self.$http(method2,param2,successd2);
             },
             errord=function(res){
+              self.showLoading = false;
               if(res.data.code==1){
                 //密码错误
                 self.loginMsg='账号密码错误';
                 self.show10=true;
-              }else if(res.data.code==2||res.data.code==4){
+              }else if((res.data.code==2||res.data.code==4) && self.type == 1){
                 //需要验证码
                 self.src=res.data.data;
                 self.showScrollBox=true;
-              }else if(res.data.code==3){
+              }else{
                 //弹提示
                 self.loginMsg=res.data.message;
                 self.show10=true;
               }
             };
+        self.showLoading = true;
         self.$resumeHttp(param,successd,errord);
       }
     },
@@ -361,8 +382,6 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
     line-height: 30px;
     color: #666;
     font-size: 0.32rem;
-  }
-  .img-box {
   }
   .vux-close {
     margin-top: 8px;
@@ -403,5 +422,6 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
 <style>
 .loginResume .weui-label{color:#000;}
 .login_boss .weui-vcode-img .weui-icon-clear { padding-right: 90px;}
+.loginResume .dialog-demo .vux-close { position: absolute; top:0; right: 0; margin-top:0; }
 </style>
 
