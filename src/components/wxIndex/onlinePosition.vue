@@ -101,7 +101,7 @@
         var _this = this;
         var method = "companyWeb/getWeWebsitePositionByCategoryId";
         var id;
-        if( _this.$route.query.id == 'undefined' ){
+        if( _this.$route.query.id == 'undefined' || !_this.$route.query.id){
           id = ''
         } else {
           id = this.$route.query.id

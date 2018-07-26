@@ -161,14 +161,19 @@
         <div class="second_text">前程无忧（51job)</div>
         <div class="second_join"><span class="text">导入</span></div>
       </div>
-      <div class="second_2" @click="jobsLogin(2)">
+      <!-- <div class="second_2" @click="jobsLogin(2)">
         <div class="second_icon"></div>
         <div class="second_text">智联招聘</div>
         <div class="second_join"><span class="text">导入</span></div>
-      </div>
+      </div> -->
       <div class="second_3" @click="jobsLogin(6)">
         <div class="second_icon"></div>
         <div class="second_text">拉勾网</div>
+        <div class="second_join"><span class="text">导入</span></div>
+      </div>
+      <div class="second_4" @click="jobsLogin(7)">
+        <div class="second_icon"></div>
+        <div class="second_text">BOSS直聘</div>
         <div class="second_join"><span class="text">导入</span></div>
       </div>
     </div>
@@ -187,7 +192,7 @@
         name: '王若云',
         showPopup: false,
         value2: '',
-        sexValue: [1],
+        sexValue: ['1'],
         value4: null,
         value3: null,
         graduateSchool: null,
@@ -197,8 +202,8 @@
         workCompany: null,
         position: null,
         sexArr: [[
-          {name: '男', value: 1},
-          {name: '女', value: 2},
+          {name: '男', value: '1'},
+          {name: '女', value: '2'},
         ]],
         email: '',
         phone: '',
@@ -280,7 +285,7 @@
         this.type = type;
       },
       changeHeadType(type){
-        var interviewResumeInfo = JSON.parse(JSON.stringify(this.interviewResumeInfo));
+        var interviewResumeInfo = this.interviewResumeInfo;
         interviewResumeInfo.sex = this.sexValue[0];
         interviewResumeInfo.positionId = this.$route.query.id;
         localStorage.interviewResumeInfo = JSON.stringify(interviewResumeInfo);
@@ -445,7 +450,7 @@
                     self.interviewResumeInfo.phone=res.data.data.phone;
                     self.interviewResumeInfo.email=res.data.data.email;
                     var arr=[];
-                    arr[0]=res.data.data.sex?res.data.data.sex-0:1;
+                    arr[0]=res.data.data.sex?res.data.data.sex+'':'1';
                     self.sexValue[0]=arr;
                     self.interviewResumeInfo.birthday=res.data.data.birthday;
                     self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList?res.data.data.educationHistoryList:[];
@@ -468,7 +473,7 @@
                 self.interviewResumeInfo.phone=res.data.data.phone;
                 self.interviewResumeInfo.email=res.data.data.email;
                 var arr=[];
-                arr[0]=res.data.data.sex?res.data.data.sex-0:1;
+                arr[0]=res.data.data.sex?res.data.data.sex+'':'1';
                 self.sexValue[0]=arr;
                 self.interviewResumeInfo.birthday=res.data.data.birthday;
                 self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList;
@@ -499,7 +504,7 @@
         let method="resume/updateSimpleResume",
             param=JSON.stringify({
               fansId:self.fansId,
-              step:step+1,
+              step:step,
               simpleResumeInfo:self.interviewResumeInfo
             }),
             successd=function(res){
@@ -601,6 +606,7 @@
         padding: 0.32rem 0.32rem 0.32rem 0.3rem;
         position: relative;
         border-t-1px(#E5E5E5)
+        border-bottom: 1px solid #E5E5E5;
         .second_icon {
           width: 0.72rem;
           height: 0.72rem;
@@ -677,6 +683,40 @@
           margin-right: 20px;
           color: #000;
           background: url(../images/resum_4.png) no-repeat center;
+          background-size: cover
+        }
+        .second_text {
+          font-size: 0.32rem;
+        }
+        .second_join {
+          flex: 1;
+          .text {
+            display: block;
+            float: right;
+            width: 1.49rem;
+            height: 0.64rem;
+            border: 1px solid #5AA2E7;
+            font-size: 0.32rem;
+            color: #5AA2E7;
+            text-align: center;
+            line-height: 0.64rem;
+            border-radius:3px;
+          }
+        }
+
+      }
+      .second_4 {
+        display: flex;
+        align-items: center
+        padding: 0.32rem 0.32rem 0.32rem 0.3rem;
+        position: relative;
+        border-b-1px(#E5E5E5)
+        .second_icon {
+          width: 0.72rem;
+          height: 0.72rem;
+          margin-right: 20px;
+          color: #000;
+          background: url(../images/resum_6.png) no-repeat center;
           background-size: cover
         }
         .second_text {
