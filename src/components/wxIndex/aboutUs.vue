@@ -54,7 +54,7 @@
                   </h2>
                 </div>
                 <!--slide-->
-                <p class="companyIntroductionText" :class="[{companyIntroductionTextMore: companyIntroductionTextShow}]">{{ companyIntroduction }}</p>
+                <p class="companyIntroductionText" :class="[{companyIntroductionTextMore: companyIntroductionTextShow}]" v-html="companyIntroduction"></p>
                <!-- <p class="companyIntroductionText" v-show="!companyIntroductionText">{{ companyIntroduction }}</p>
                <p class="companyIntroductionTextMore" v-show="companyIntroductionText">{{ companyIntroduction }}</p> -->
                <div class="arrowBtnWrap">
@@ -523,7 +523,7 @@ import index from 'vue';
             _this.preWorkTeam = res.data.data.WorkTeam;
             _this.WorkEnvironment = res.data.data.WorkEnvironment;
             _this.preCompanyMemorabilia = res.data.data.CompanyMemorabilia;
-            _this.companyIntroduction = res.data.data.CompanyWebsite.companyIntroduction;
+            _this.companyIntroduction = res.data.data.CompanyWebsite.companyIntroduction.replace(/\n/g, '<br/>');
             _this.productIntroductionList = res.data.data.CompanyWebsite.productIntroductionList;
 
             if(_this.productIntroductionList.length==1){   //产品介绍是否显示
