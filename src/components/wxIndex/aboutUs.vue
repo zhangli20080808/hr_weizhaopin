@@ -54,7 +54,7 @@
                   </h2>
                 </div>
                 <!--slide-->
-                <p class="companyIntroductionText" :class="[{companyIntroductionTextMore: companyIntroductionTextShow}]">{{ companyIntroduction }}</p>
+                <p class="companyIntroductionText" :class="[{companyIntroductionTextMore: companyIntroductionTextShow}]" v-html="companyIntroduction"></p>
                <!-- <p class="companyIntroductionText" v-show="!companyIntroductionText">{{ companyIntroduction }}</p>
                <p class="companyIntroductionTextMore" v-show="companyIntroductionText">{{ companyIntroduction }}</p> -->
                <div class="arrowBtnWrap">
