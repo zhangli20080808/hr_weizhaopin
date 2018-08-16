@@ -11,7 +11,7 @@
         <b class="title">
           产品描述
       </b>
-      <p>{{productIntroductionNow.productDescription}}</p>
+      <p class="descript">{{productIntroductionNow.productDescription}}</p>
       </div>
   </div>
 </template>
@@ -86,6 +86,9 @@ img{
     background-color: #fff;
     width: 100%;
     padding: 20px 5%;
+}
+.textWrap .descript{
+   line-height: 1.5;
 }
 p{
     margin-top: 20px;
