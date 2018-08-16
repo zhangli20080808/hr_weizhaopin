@@ -11,7 +11,7 @@
         <b class="title">
           产品描述
       </b>
-      <p class="descript">{{productIntroductionNow.productDescription}}</p>
+      <p class="descript" v-html="productIntroductionNow.productDescription"></p>
       </div>
   </div>
 </template>
@@ -29,9 +29,9 @@ export default {
   },
   computed: {
       productIntroductionNow(){
-        console.log(this.productIntroductionList[this.Itemindex])
-        console.log('this.productIntroductionList[this.Itemindex]')
-          return this.productIntroductionList[this.Itemindex];
+          var activeProduct = this.productIntroductionList[this.Itemindex];
+          activeProduct.productDescription = activeProduct.productDescription.replace(/\n/g,'<br/>');
+          return activeProduct;
       }
   },
   methods: {
