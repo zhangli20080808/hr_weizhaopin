@@ -1015,7 +1015,6 @@
         }
         .item-desc {
           margin-left: 70px;
-          height: 1.07rem;
           position: relative
           .care {
             display: inline-block
@@ -1054,6 +1053,7 @@
           }
           .item-time {
             font-size: 0.24rem;
+            line-height:1.4;
             color: #999
           }
         }

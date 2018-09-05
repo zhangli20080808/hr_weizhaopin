@@ -1,5 +1,5 @@
 <template>
-
+  
   <!--模板-->
   <div class="g-container" id="aboutUs">
     <div class="personal_header">
