@@ -13,12 +13,13 @@
     <div>
       <scroller lock-x ref="scrollerBottom" height="-95">
         <div class="list_content">
-          <img src="../../common/image/banner_online.png" alt="" width="100%" height="100%">
+          <img src="../../common/image/hcgd_banner.jpg" alt="" width="100%" height="100%" v-if="companyId == 9170853">
+          <img src="../../common/image/banner_online.png" alt="" width="100%" height="100%" v-else>
           <div class="no_result" v-show="!list.length">
             <div class="img"></div>
             <div class="text">暂无在招职位</div>
           </div>
-          <dl class="position_detail" v-for="item in list" @click="selectItem(item)">
+          <dl class="position_detail" v-for="item in list" @click="selectItem(item)" :key="item.id">
             <dt>
               <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
               <img src="../../components/images/urgent2.png" alt="" width="35px" class="img" v-if="item.isUrgent==1">
