@@ -10,8 +10,8 @@
         <div class="resume_icon"></div>
         <div class="resume_text">一分钟创建微简历</div>
       </div>
-      <!-- 快速投递====针对青岛的需求 -->
-      <div class="first" @click="qingdaoResume" v-if="companyId==9169858">
+      <!-- 快速投递====针对青岛和华灿光电的需求 -->
+      <div class="first" :class="{'first2': companyId == 9170853}"  @click="qingdaoResume" v-if="companyId==9169858 || companyId == 9170853">
         <div class="resume_icon"></div>
         <div class="resume_text">快速投递</div>
       </div>
