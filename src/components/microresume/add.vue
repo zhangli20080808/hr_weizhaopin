@@ -2,7 +2,7 @@
   <div id="add_resume" class="add_resume" :style="{'height':wh+'px'}">
     <div v-show="type==1">
       <div class="createText"><span class="text">{{step==3?'个人档案':'创建个人简历'}}</span></div>
-      <div class="first" @click="previewResume" v-if="step==3&&companyId!=9169858">
+      <div class="first" @click="previewResume" v-if="step==3 && companyId!=9169858 && companyId != 9171198">   <!-- 含客户中国电建9171198需求 -->
         <div class="resume_icon"></div>
         <div class="resume_text">个人档案</div>
       </div>
@@ -422,67 +422,82 @@
       },
       getSimpleResume(){
         let self=this;
-        let method="resume/getSimpleResume",
-            param=JSON.stringify({
-              fansId:self.fansId,
-              companyId:self.companyId
-            }),
-            successd=function(res){
-              self.type=2;
-              if(res.data.data.step==1||res.data.data.step==2){
-                self.$vux.confirm.show({
-                  title: '微简历',
-                  content: '您上次没有成功保存,需要导入导入上次的的数据吗?',
-                  confirmText:'确定导入',
-                  cancelText:'不了,取消',
-                  onCancel () {
-                    self.interviewResumeInfo.name='';
-                    self.interviewResumeInfo.phone='';
-                    self.interviewResumeInfo.email='';
-                    self.interviewResumeInfo.birthday="";
-                    self.interviewResumeInfo.educationHistoryList=[];
-                    self.interviewResumeInfo.workHistoryList=[];
-                    self.addEducation = true;
-                    self.addExperience = true;
-                  },
-                  onConfirm () {
-                    self.interviewResumeInfo.name=res.data.data.name;
-                    self.interviewResumeInfo.phone=res.data.data.phone;
-                    self.interviewResumeInfo.email=res.data.data.email;
-                    var arr=[];
-                    arr[0]=res.data.data.sex?res.data.data.sex+'':'1';
-                    self.sexValue[0]=arr;
-                    self.interviewResumeInfo.birthday=res.data.data.birthday;
-                    self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList?res.data.data.educationHistoryList:[];
-                    self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList?res.data.data.workHistoryList:[];
-                    self.headType=res.data.data.step||1;
-                    if (!(self.interviewResumeInfo && self.interviewResumeInfo.educationHistoryList.length > 0)) {
-                      self.addEducation = true;
-                    }else{
-                      self.addEducation = false;
-                    }
-                    if (!(self.interviewResumeInfo && self.interviewResumeInfo.workHistoryList.length > 0)) {
-                      self.addExperience = true;
-                    }else{
-                      self.addExperience = false;
-                    }
-                  }
-                })
-              }else if(res.data.data.step==3){
-                self.interviewResumeInfo.name=res.data.data.name;
-                self.interviewResumeInfo.phone=res.data.data.phone;
-                self.interviewResumeInfo.email=res.data.data.email;
-                var arr=[];
-                arr[0]=res.data.data.sex?res.data.data.sex+'':'1';
-                self.sexValue[0]=arr;
-                self.interviewResumeInfo.birthday=res.data.data.birthday;
-                self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList;
-                self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList;
-                self.headType=res.data.data.step;
-                self.type=3;
+        if(this.companyId == 9171198){
+            //客户中国电建需求
+            self.$router.push({
+              path: '/customResume',
+              query: {
+                id: self.positionId, 
+                shareFansId: self.shareFansId, 
+                recomType: self.recomType,
+                fansId:self.fansId,
+                companyId:self.companyId,
+                activityId:self.activityId
               }
-            };
-        self.$http(method,param,successd);
+            })
+        }else{     
+          let method="resume/getSimpleResume",
+              param=JSON.stringify({
+                fansId:self.fansId,
+                companyId:self.companyId
+              }),
+              successd=function(res){
+                self.type=2;
+                if(res.data.data.step==1||res.data.data.step==2){
+                  self.$vux.confirm.show({
+                    title: '微简历',
+                    content: '您上次没有成功保存,需要导入导入上次的的数据吗?',
+                    confirmText:'确定导入',
+                    cancelText:'不了,取消',
+                    onCancel () {
+                      self.interviewResumeInfo.name='';
+                      self.interviewResumeInfo.phone='';
+                      self.interviewResumeInfo.email='';
+                      self.interviewResumeInfo.birthday="";
+                      self.interviewResumeInfo.educationHistoryList=[];
+                      self.interviewResumeInfo.workHistoryList=[];
+                      self.addEducation = true;
+                      self.addExperience = true;
+                    },
+                    onConfirm () {
+                      self.interviewResumeInfo.name=res.data.data.name;
+                      self.interviewResumeInfo.phone=res.data.data.phone;
+                      self.interviewResumeInfo.email=res.data.data.email;
+                      var arr=[];
+                      arr[0]=res.data.data.sex?res.data.data.sex+'':'1';
+                      self.sexValue[0]=arr;
+                      self.interviewResumeInfo.birthday=res.data.data.birthday;
+                      self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList?res.data.data.educationHistoryList:[];
+                      self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList?res.data.data.workHistoryList:[];
+                      self.headType=res.data.data.step||1;
+                      if (!(self.interviewResumeInfo && self.interviewResumeInfo.educationHistoryList.length > 0)) {
+                        self.addEducation = true;
+                      }else{
+                        self.addEducation = false;
+                      }
+                      if (!(self.interviewResumeInfo && self.interviewResumeInfo.workHistoryList.length > 0)) {
+                        self.addExperience = true;
+                      }else{
+                        self.addExperience = false;
+                      }
+                    }
+                  })
+                }else if(res.data.data.step==3){
+                  self.interviewResumeInfo.name=res.data.data.name;
+                  self.interviewResumeInfo.phone=res.data.data.phone;
+                  self.interviewResumeInfo.email=res.data.data.email;
+                  var arr=[];
+                  arr[0]=res.data.data.sex?res.data.data.sex+'':'1';
+                  self.sexValue[0]=arr;
+                  self.interviewResumeInfo.birthday=res.data.data.birthday;
+                  self.interviewResumeInfo.educationHistoryList=res.data.data.educationHistoryList;
+                  self.interviewResumeInfo.workHistoryList=res.data.data.workHistoryList;
+                  self.headType=res.data.data.step;
+                  self.type=3;
+                }
+              };
+          self.$http(method,param,successd);
+        }
       },
       getSimpleResume2(){
         let self=this;

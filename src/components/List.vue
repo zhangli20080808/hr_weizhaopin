@@ -167,7 +167,7 @@
             </div>
           </div>
           <div class="contant-list" v-show="list">
-            <dl class="position_detail" v-for="item in list" @click="selectItem(item)">
+            <dl class="position_detail" v-for="item in list" @click="selectItem(item)" :key="item.positionName">
               <dt>
                 <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
                 <img src="../components/images/urgent2.png" alt="" width="35px" class="img">
@@ -175,9 +175,11 @@
               </dt>
               <dd class="position_detail_money">
                 <span >{{getCity(item.workCity)}}</span>
-                <span v-if="item.showSalaryType==2">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
+                <span v-if="item.salaryIsMianYi == 1">面议</span>
+                <span v-else-if="item.showSalaryType==2">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
                 <span v-else>{{item.positionSalaryLowest}}K-{{item.positionSalaryHighest}}K</span>
                 <span >{{item.positionType === 1 ? '全职' : item.positionType === 2 ? '兼职' : '实习'}}</span>
+                <span>{{item.sex == 1?'男':item.sex == 2 ? '女' : '性别不限'}}</span>
               </dd>
               <dd class="position_detail_date">
                 <span>发布时间：</span>
@@ -407,7 +409,13 @@
         this.positionList()
       },
       getCity(item){
-        return item.split(',')[1]
+        if(item){
+          if(item == '全国'){
+            return '全国';
+          }else{
+            return item.split(',')[1];
+          }
+        }
       },
       //职位列表页
       positionList() {

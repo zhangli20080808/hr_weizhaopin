@@ -28,8 +28,10 @@
             <dd class="position_detail_money">
               <span>{{filter(item.workCity)}}</span>
               <span>{{item.positionType == 1 ? '全职' : item.positionType == 2 ? '兼职' : '实习'}}</span>
-              <span v-if="item.showSalaryType==2">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
+              <span v-if="item.salaryIsMianYi == 1">面议</span>
+              <span v-else-if="item.showSalaryType==2">{{item.positionSalaryLowest}}-{{item.positionSalaryHighest}}</span>
               <span v-else>{{item.positionSalaryLowest}}K-{{item.positionSalaryHighest}}K</span>
+              <span>{{item.sex == 1?'男':item.sex == 2 ? '女' : '性别不限'}}</span>
               <!-- <div class="position_list_right">{{item.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
@@ -143,7 +145,13 @@
         })
       },
       filter(item){
-        return item.split(',')[1]
+        if(item){
+          if(item == '全国'){
+            return '全国';
+          }else{
+            return item.split(',')[1];
+          }
+        }
       },
       onScrollBottom () {
         if (this.onFetching) {

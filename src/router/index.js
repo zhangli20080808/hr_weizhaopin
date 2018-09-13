@@ -16,6 +16,7 @@ import interpolate from 'components/interpolate'
 import sceneh5 from 'components/sceneh5';
 
 import addResume from 'components/microresume/add.vue'
+import customResume from 'components/microresume/customResume.vue'
 import preview from 'components/microresume/preview.vue'
 import results from 'components/microresume/results.vue'
 import loginResume from 'components/microresume/loginResume.vue'
@@ -111,6 +112,11 @@ export default new Router({
       path: '/addResume',
       name: 'addResume',
       component: addResume
+    },
+    {
+      path: '/customResume',
+      name: 'customResume',
+      component: customResume
     },
     {
       path: "/preview",

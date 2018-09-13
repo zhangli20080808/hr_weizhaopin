@@ -114,10 +114,12 @@
             </div>
             </dt>
             <dd class="position_detail_money" v-show="positionInfo.workCitySpilt">
-              <span>{{positionInfo.workCitySpilt}}</span>
+              <span>{{filter(positionInfo.workCitySpilt)}}</span>
               <span>{{positionInfo.positionType == 1 ? '全职' : positionInfo.positionType == 2 ? '兼职' : '实习'}}</span>
-              <span v-if="positionInfo.showSalaryType==2">{{positionInfo.positionSalaryLowest}}-{{positionInfo.positionSalaryHighest}}</span>
+              <span v-if="positionInfo.salaryIsMianYi == 1">面议</span>
+              <span v-else-if="positionInfo.showSalaryType==2">{{positionInfo.positionSalaryLowest}}-{{positionInfo.positionSalaryHighest}}</span>
               <span v-else>{{positionInfo.positionSalaryLowest}}K-{{positionInfo.positionSalaryHighest}}K</span>
+              <span>{{positionInfo.sex == 1?'男':positionInfo.sex == 2 ? '女' : '性别不限'}}</span>
               <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
             </dd>
             <dd class="position_detail_date">
@@ -174,7 +176,7 @@
             </h2>
             <div class="software">
               <ul>
-                <li v-for="item in positionInfo.positionTagList">{{item.name}}</li>
+                <li v-for="item in positionInfo.positionTagList" :key="item.name">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -185,7 +187,7 @@
               <span class="recommend"></span>
               <span class="text">相关职位推荐</span>
             </h2>
-            <dl class="recommendList vux-1px-tb" v-for="list in positionInfo.similarPositions"
+            <dl class="recommendList vux-1px-tb" v-for="list in positionInfo.similarPositions" :key="list.id"
                 @click="goDetail(list.id)">
               <dt>
                 <!-- <span class="urgent" v-if="list.isUrgent==1">急招</span> -->
@@ -197,8 +199,10 @@
               <dd class="position_detail_money">
                 <span>{{filter(list.workCity)}}</span>
                 <span>{{list.positionType == 1 ? '全职' : list.positionType == 2 ? '兼职' : '实习'}}</span>
-                <span v-if="list.showSalaryType==2">{{list.positionSalaryLowest}}-{{list.positionSalaryHighest}}</span>
+                <span v-if="list.salaryIsMianYi == 1">面议</span>
+                <span v-else-if="list.showSalaryType==2">{{list.positionSalaryLowest}}-{{list.positionSalaryHighest}}</span>
                 <span v-else>{{list.positionSalaryLowest}}K-{{list.positionSalaryHighest}}K</span>
+                <span>{{list.sex == 1?'男':list.sex == 2 ? '女' : '性别不限'}}</span>
                 <!-- <div class="position_list_right">{{positionInfo.views}}人看过</div> -->
               </dd>
               <dd class="position_detail_date">
@@ -419,8 +423,9 @@
     },
     mounted(){
       document.title = "职位详情";
-      document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
-
+      this.$nextTick(()=>{
+        document.getElementById("interpolateDetail").style.minHeight = window.innerHeight - 60 + 'px';
+      })
       this.getFansId();
       var ua = navigator.userAgent.toLowerCase();
       var isWeixin = ua.indexOf('micromessenger') != -1;
@@ -571,7 +576,13 @@
         this.arrow_tip = false
       },
       filter(item){
-        return item.split(',')[1]
+        if(item){
+          if(item == '全国'){
+            return '全国';
+          }else{
+            return item.split(',')[1];
+          }
+        }
       },
       //获取分享标题
       getShareTitleInfo(){

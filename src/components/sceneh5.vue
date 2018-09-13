@@ -39,7 +39,7 @@
                              <ul>
                                 <li ref="toDetialLi" v-for="(item,index) in arr" :key="index" @click="toDetial(item)">
                                     <div class="positionName">{{item.positionName}}</div>
-                                    <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / {{item.positionSalaryLowest }}{{item.showSalaryType==1? 'k': ''}} - {{item.positionSalaryHighest}}{{item.showSalaryType==1? 'k': ''}}</div>
+                                    <div class="positionIntroduce">{{ item.workCity  | workCityFilter }} / {{ item.positionType | positionTypeFilter}} / <sapn v-if="item.salaryIsMianYi">面议</sapn><span v-else>{{item.positionSalaryLowest }}{{item.showSalaryType==1? 'k': ''}} - {{item.positionSalaryHighest}}{{item.showSalaryType==1? 'k': ''}}</span> / {{item.sex == 1?'男':item.sex == 2 ? '女' : '性别不限'}}</div>
                                     <img  class="details" src="../components/images/details.png" alt="详情">
                                 </li>
                              </ul>
