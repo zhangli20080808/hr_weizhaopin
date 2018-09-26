@@ -6,10 +6,13 @@
       <div class="login_icon"></div>
       <div class="login_con">
         <group>
-          <x-input name="username" placeholder="请输入账号" :border-intent="false" v-model="account" title="账 号"></x-input>
+          <!-- <x-input name="username" placeholder="请输入账号" :border-intent="false" v-model="account" title="账 号"></x-input>
           <x-input name="password" placeholder="请输入密码" type="password"  v-model="pwd" title="密 码"></x-input>
-          <x-input name="emial" placeholder="请输入邮箱" type="email" is-type='email'  v-model="email" title="邮 箱"></x-input>
-          <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :max="11"  class="vux-1px-b" v-model="phone" title="手机号"></x-input>
+          <x-input name="emial" placeholder="请输入邮箱" type="email" is-type='email'  v-model="email" title="邮 箱"></x-input> -->
+          <x-input name="phone" placeholder="请输入手机号" is-type="china-mobile" :border-intent="false" :max="11"  class="vux-1px-b" v-model="phone"></x-input>
+          <x-input placeholder="请输入短信验证码" class="weui-vcode" v-model="phoneCode">
+            <span slot="right" class="btn-vcode" :class="daojishi ? 'disabled' : ''" @click="getSmsCode(2)">{{verificationCode}}</span>
+          </x-input>
         </group>
           <div style="padding:30px 15px 0;">
             <x-button type="primary" @click.native="login(2)" class="hrm_primary_btn" :show-loading="showLoading">确认登录并投递</x-button>
@@ -74,8 +77,8 @@
             <img slot="right" class="vcode-img" :src="captchaCode" @click="getCaptchaCode" />
             <!-- <img slot="right" class="vcode-img" src="https://ws1.sinaimg.cn/large/663d3650gy1fq684go3glj203m01hmwy.jpg" /> -->
           </x-input>
-          <x-input placeholder="短信验证码" class="weui-vcode" v-model="phoneCode">
-            <span slot="right" class="btn-vcode" :class="daojishi ? 'disabled' : ''" @click="getSmsCode">{{verificationCode}}</span>
+          <x-input placeholder="请输入短信验证码" class="weui-vcode" v-model="phoneCode">
+            <span slot="right" class="btn-vcode" :class="daojishi ? 'disabled' : ''" @click="getSmsCode(7)">{{verificationCode}}</span>
           </x-input>
         </group>
           <div style="padding:30px 15px 0;">
@@ -182,7 +185,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
        *  发送短信有验证码
        */
       getSmsCode(){
-          let self = this;
+          let self = this, param = {type:this.type};
           if (self.daojishi) {
             return false;
           }
@@ -191,16 +194,19 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
             self.show10=true;
             return false;
           }
+          param.phone = self.phone;
+         if(self.type == 7){
+            //boss
            if(!self.vcode.trim()){
-            self.loginMsg="请输入图片验证码";
-            self.show10=true;
-            return false;
+              self.loginMsg="请输入图片验证码";
+              self.show10=true;
+              return false;
+            }
+            param.captcha = self.vcode;
+            param.randomKey = self.randomKey;
           }
-          this.$webHttp('account/boss/getSmsCode',{
-              phone:this.phone,
-              captcha:this.vcode,
-              randomKey:this.randomKey,
-          },(res) => {
+
+          this.$webHttp('account/getSmsCode', param, (res) => {
               if (res.data.code == 0) {
                 self.daojishi = true;
                 var t = 60;
@@ -225,17 +231,17 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
         if(type != -1 && type != 7){
           self.vcode='';
         }
-        if(self.account-0===0 && type != 7){
+        if(self.account-0===0 && type != 7 && type != 2){
           self.loginMsg="请输入账号";
           self.show10=true;
           return false;
         }
-        if(self.pwd-0===0 && type != 7){
+        if(self.pwd-0===0 && type != 7  && type != 2){
           self.loginMsg="请输入密码";
           self.show10=true;
           return false;
         }
-        if(!self.phone.trim() && type == 7){
+        if(!self.phone.trim() && (type == 7 || type == 2)){
           self.loginMsg="请输入手机号";
           self.show10=true;
           return false;
@@ -245,7 +251,7 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
           self.show10=true;
           return false;
         }
-        if(!self.phoneCode.trim() && type == 7){
+        if(!self.phoneCode.trim() && (type == 7 || type == 2)){
           self.loginMsg="请输入短信验证码";
           self.show10=true;
           return false;
@@ -278,6 +284,10 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
                 self.show10=true;
                 return;
               }
+              if(type == 2 && typeof res.data.data == 'string'){
+                  res.data.data = self.parseData(JSON.parse(res.data.data));
+              }
+              console.log('res.data.data',res.data.data)
               var educationHistoryList=res.data.data.EducationHistory;
               var workHistoryList=res.data.data.WorkHistory;
               educationHistoryList.forEach(function(item) {
@@ -352,7 +362,21 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
             };
         self.showLoading = true;
         self.$resumeHttp(param,successd,errord);
-      }
+      },
+      parseData:function(data){ 
+        data.EducationHistory.forEach((item,index)=>{
+          item.startDate = item.startDate.time;
+          item.endDate = item.endDate.time;
+        })
+        data.WorkHistory.forEach((item, index) => {
+          item.startDate = item.startDate.time;
+          item.endDate = item.endDate.time;
+        })
+        data.InterviewerInfo.phone = data.InterviewerInfo.phoneStr;
+        data.InterviewerInfo.birthday = data.InterviewerInfo.birthday.time;
+        data.InterviewerInfo.createTime = data.InterviewerInfo.createTime.time;
+        return data;
+      },
     },
     components:{XInput, Group, XButton, Cell,XDialog,XImg,Popup,WechatPlugin,Icon},
     directives: {
@@ -412,8 +436,8 @@ import { XInput, Group, XButton, Cell,XDialog,XImg,TransferDom,Popup,WechatPlugi
 .login_jobs .login_icon{background: url(../../common/image/micresume/jobs_icon.png) no-repeat center center;}
 .login_lagou .login_icon{background: url(../../common/image/micresume/lagou_icon.png) no-repeat center center;}
 .login_boss .login_icon{background: url(../../common/image/micresume/boss_icon.png) no-repeat center center; background-size: 64px;}
-.login_boss .btn-vcode { font-size: .28rem; line-height: .4rem; color: #5CB3FF; padding-left:.2rem; border-left:1px solid rgba(204,204,204,1); display: inline-block;}
-.login_boss .btn-vcode.disabled { color: #999;}
+.btn-vcode { font-size: .28rem; line-height: .4rem; color: #5CB3FF; padding-left:.2rem; border-left:1px solid rgba(204,204,204,1); display: inline-block;}
+.btn-vcode.disabled { color: #999;}
 .login_boss  .vcode-img { position: absolute; right: 15px; top:0px; width:84px; height: 44px; }
 .hrm_primary_btn{background-color: #5aa2e7;}
 .hrm_primary_btn:active{background-color: #5aa2e7;}
